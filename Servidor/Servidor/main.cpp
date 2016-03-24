@@ -19,10 +19,14 @@ SOCKET obtenerSocketInicializado(sockaddr_in &local){
 		printf("error en el bind\n");
 	}
 	//ponemos el socket a la escucha
+	
+	return sock;
+}
+
+void ponerAEscuchar(SOCKET sock){
 	if (listen(sock,1)==-1){
 		printf("error en el listen\n");
 	}
-	return sock;
 }
 
 int main(){
@@ -36,6 +40,7 @@ int main(){
 	len=sizeof(struct sockaddr); //Si no pongo esto no funciona, queda para futuras generaciones descubrir porque.
 
 	socketDeEscucha = obtenerSocketInicializado(local);
+	ponerAEscuchar(socketDeEscucha);
 	//Un thread tiene que quedarse en un loop aceptando
 	socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
 	//Cuando agarra un socketConexion, lo manda a hacer lo que sigue en un thread nuevo.
