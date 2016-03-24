@@ -14,12 +14,19 @@ using std::ofstream;
 class Common_Socket
 {
 public:
-	Common_Socket(SOCKET* socket);
+	Common_Socket(SOCKET& socket);
 	Common_Socket(string ip,string port);
-	Common_Socket(string puerto);
+	Common_Socket(string port);
 	int enviar(const string& datos);
-	int recibir(string& datos);
-	int cerrar();
+	int recibir(string& datos);	
+int cerrar();
 	virtual ~Common_Socket(void);
+protected:
+	
+	    WSADATA wsa;
+		SOCKET sock;
+struct sockaddr_in local;
+int len;
+	char Buffer[1024];
 };
 

@@ -74,7 +74,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Common\Common_Socket.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Servidor_Socket.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Common\Common_Socket.h" />
+    <ClInclude Include="Servidor_Socket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
