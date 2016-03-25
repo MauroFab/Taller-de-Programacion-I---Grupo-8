@@ -2,6 +2,11 @@
 #include <string>
 #include "Servidor_Socket.h"
 #include <WinSock2.h>
+#include <SDL.h>
+#include <SDL_thread.h>
+#undef main
+
+int cantidadDeClientes = 0;
 
 SOCKET obtenerSocketInicializado(sockaddr_in &local){
 	WSADATA wsa;
@@ -24,35 +29,55 @@ SOCKET obtenerSocketInicializado(sockaddr_in &local){
 }
 
 void ponerAEscuchar(SOCKET sock){
-	if (listen(sock,1)==-1){
+	if (listen(sock,2)==-1){
 		printf("error en el listen\n");
 	}
 }
 
-int main(){
-
-	struct sockaddr_in local;
-	int len=1;
+static int atenderCliente(void* punteroAlSocketRecibido)
+{
+	int len;
+	SOCKET socket;
 	char Buffer[1024];
-	SOCKET socketDeEscucha;
-	SOCKET socketConexion;
-
-	len=sizeof(struct sockaddr); //Si no pongo esto no funciona, queda para futuras generaciones descubrir porque.
-
-	socketDeEscucha = obtenerSocketInicializado(local);
-	ponerAEscuchar(socketDeEscucha);
-	//Un thread tiene que quedarse en un loop aceptando
-	socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
-	//Cuando agarra un socketConexion, lo manda a hacer lo que sigue en un thread nuevo.
-	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
-	while (len!=0){ //mientras estemos conectados con el otro pc
-		len=recv(socketConexion,Buffer,1023,0); //recibimos los datos que envie
+	SOCKET* punteroAlSocket = (SOCKET*)punteroAlSocketRecibido;
+	len=sizeof(struct sockaddr);
+   	while (len!=0){ //mientras estemos conectados con el otro pc
+		len=recv(*punteroAlSocket,Buffer,1023,0); //recibimos los datos que envie
 		if (len>0){
 		 //si seguimos conectados
 			Buffer[len]=0; //le ponemos el final de cadena
-			printf("Texto recibido:%s",Buffer); //imprimimos la cadena recibida
+			printf("Texto recibido:%s\n",Buffer); //imprimimos la cadena recibida
 		}
 	}
+	cantidadDeClientes--;
+    return 0;
+}
+
+
+
+
+int main(){
+
+	struct sockaddr_in local;
+
+	SOCKET socketDeEscucha;
+	SOCKET socketConexion;
+	int len;
+	len=sizeof(struct sockaddr);//Si no pongo esto no funciona, queda para futuras generaciones descubrir porque.
+
+	socketDeEscucha = obtenerSocketInicializado(local);
+	ponerAEscuchar(socketDeEscucha);
+
+	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
+	//Un thread tiene que quedarse en un loop aceptando
+	do{
+		socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
+		cantidadDeClientes++;
+		void* punteroAlSocket = &socketConexion;
+		SDL_CreateThread(atenderCliente, "atenderAlCliente", punteroAlSocket);
+	}while(true);
+	//Cuando agarra un socketConexion, lo manda a hacer lo que sigue en un thread nuevo.
+
 return 0;
 }
 
