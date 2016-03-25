@@ -8,7 +8,7 @@
 
 int cantidadDeClientes = 0;
 static int cantidadDeClientesMaxima = 3;
-
+bool seDebeCerrarElServidor = false;
 SOCKET obtenerSocketInicializado(sockaddr_in &local){
 	WSADATA wsa;
 	SOCKET sock;
@@ -40,7 +40,7 @@ static int atenderCliente(void* punteroAlSocketRecibido)
 	char Buffer[1024];
 	SOCKET* punteroAlSocket = (SOCKET*)punteroAlSocketRecibido;
 	len=sizeof(struct sockaddr);
-   	while (len!=0 && len < 10000){ //mientras estemos conectados con el otro pc
+   	while (len!=0 && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
 		len=recv(*punteroAlSocket,Buffer,1023,0); //recibimos los datos que envie
 		if (len>0){
 		 //si seguimos conectados
@@ -48,19 +48,16 @@ static int atenderCliente(void* punteroAlSocketRecibido)
 			printf("Texto recibido:%s\n",Buffer); //imprimimos la cadena recibida
 		}
 	}
+	if(seDebeCerrarElServidor){
+		closesocket(*punteroAlSocket);
+	    WSACleanup();
+	}
 	cantidadDeClientes--;
 	printf("La cantidad de clientes conectados es: %i\n", cantidadDeClientes); 
     return 0;
 }
 
 static int recibirConexiones(void*){
-
-
-}
-
-
-int main(){
-
 	struct sockaddr_in local;
 
 	SOCKET socketDeEscucha;
@@ -72,7 +69,6 @@ int main(){
 	ponerAEscuchar(socketDeEscucha);
 
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
-	//Un thread tiene que quedarse en un loop aceptando
 	do{
 		if(cantidadDeClientes < cantidadDeClientesMaxima){ 
 			socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
@@ -82,8 +78,19 @@ int main(){
 			SDL_CreateThread(atenderCliente, "atenderAlCliente", punteroAlSocket);
 		}
 	}while(true);
+}
 
-return 0;
+
+int main(){
+	char entradaTeclado[20];
+	printf("Escriba terminar si desea cerrar el servidor\n", cantidadDeClientes); 
+	SDL_CreateThread(recibirConexiones, "recibirConexiones", NULL);
+	do{
+		scanf("%s", entradaTeclado);
+	}while(strcmp(entradaTeclado,"terminar"));
+	seDebeCerrarElServidor = true;
+	SDL_Delay(1000); // Doy un segundo para que todos los threads lleguen a cerrarse
+    return 0;
 }
 
 /*{
