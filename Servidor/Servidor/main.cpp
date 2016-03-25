@@ -80,15 +80,22 @@ static int recibirConexiones(void*){
 	}while(true);
 }
 
-
-int main(){
+static int consolaDelServidor(void*){
 	char entradaTeclado[20];
-	printf("Escriba terminar si desea cerrar el servidor\n", cantidadDeClientes); 
-	SDL_CreateThread(recibirConexiones, "recibirConexiones", NULL);
 	do{
 		scanf("%s", entradaTeclado);
 	}while(strcmp(entradaTeclado,"terminar"));
 	seDebeCerrarElServidor = true;
+	return 0;
+}
+int main(){
+
+	printf("Escriba terminar si desea cerrar el servidor\n", cantidadDeClientes); 
+	SDL_CreateThread(recibirConexiones, "recibirConexiones", NULL);
+	SDL_CreateThread(consolaDelServidor, "recibirConexiones", NULL);
+	while(!seDebeCerrarElServidor){
+		SDL_Delay(100); //Acá va la lógica principal del programa 
+	}
 	SDL_Delay(1000); // Doy un segundo para que todos los threads lleguen a cerrarse
     return 0;
 }
