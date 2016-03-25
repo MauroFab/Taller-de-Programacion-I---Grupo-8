@@ -7,7 +7,7 @@
 #undef main
 
 int cantidadDeClientes = 0;
-
+static int cantidadDeClientesMaxima = 3;
 
 SOCKET obtenerSocketInicializado(sockaddr_in &local){
 	WSADATA wsa;
@@ -53,7 +53,10 @@ static int atenderCliente(void* punteroAlSocketRecibido)
     return 0;
 }
 
+static int recibirConexiones(void*){
 
+
+}
 
 
 int main(){
@@ -71,11 +74,13 @@ int main(){
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
 	//Un thread tiene que quedarse en un loop aceptando
 	do{
-		socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
-		cantidadDeClientes++;
-		printf("La cantidad de clientes conectados es: %i\n", cantidadDeClientes); 
-		void* punteroAlSocket = &socketConexion;
-		SDL_CreateThread(atenderCliente, "atenderAlCliente", punteroAlSocket);
+		if(cantidadDeClientes < cantidadDeClientesMaxima){ 
+			socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
+			cantidadDeClientes++;
+			printf("La cantidad de clientes conectados es: %i\n", cantidadDeClientes); 
+			void* punteroAlSocket = &socketConexion;
+			SDL_CreateThread(atenderCliente, "atenderAlCliente", punteroAlSocket);
+		}
 	}while(true);
 
 return 0;
