@@ -24,8 +24,6 @@ SOCKET obtenerSocketInicializado(sockaddr_in &local){
 	if (bind(sock, (SOCKADDR*) &local, sizeof(local))==-1){
 		printf("error en el bind\n");
 	}
-	//ponemos el socket a la escucha
-	
 	return sock;
 }
 
