@@ -50,9 +50,9 @@ int main()
 		//está el puerto abierto
 	{
 		printf("No se ha podido conectar\n");
+		printf("%i", conex);
 		return -1;
 	}
-	printf("[MiniXat para tutorial de sockets MazarDZone Foro]\n");
 	printf("[escribe el texto a enviar o 'salir' para salir ]\n");
 	while (len!=-1 && (strcmp(Buffer,"salir")!=0)) //mientras el socket no se haya desconectado
 		//y no se escriba salir
@@ -61,5 +61,7 @@ int main()
 		scanf("%s",Buffer); //pedir texto a enviar por pantalla
 		len=send(sock,Buffer,strlen(Buffer),0); //enviar el texto que se ha introducido
 	}
+	  closesocket(sock);
+	  WSACleanup();
 	return 0;
 }
