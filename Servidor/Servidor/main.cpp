@@ -4,11 +4,15 @@
 #include <WinSock2.h>
 #include <SDL.h>
 #include <SDL_thread.h>
+#include <queue>     
+#include <iostream>
 #undef main
 
 int cantidadDeClientes = 0;
 static int cantidadDeClientesMaxima = 3;
 bool seDebeCerrarElServidor = false;
+std::queue<char*> colaDeMensaje;
+
 SOCKET obtenerSocketInicializado(sockaddr_in &local){
 	WSADATA wsa;
 	SOCKET sock;
@@ -38,6 +42,8 @@ static int atenderCliente(void* punteroAlSocketRecibido)
 	int len;
 	SOCKET socket;
 	char Buffer[1024];
+	SDL_mutex *mut;
+
 	SOCKET* punteroAlSocket = (SOCKET*)punteroAlSocketRecibido;
 	len=sizeof(struct sockaddr);
    	while (len!=0 && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
@@ -45,7 +51,10 @@ static int atenderCliente(void* punteroAlSocketRecibido)
 		if (len>0){
 		 //si seguimos conectados
 			Buffer[len]=0; //le ponemos el final de cadena
+			mut=SDL_CreateMutex();
+			colaDeMensaje.push(Buffer);
 			printf("Texto recibido:%s\n",Buffer); //imprimimos la cadena recibida
+			SDL_DestroyMutex(mut);
 		}
 	}
 	if(seDebeCerrarElServidor){
@@ -89,12 +98,20 @@ static int consolaDelServidor(void*){
 	return 0;
 }
 int main(){
-
+	SDL_mutex *mut;
+	char* mensaje;
 	printf("Escriba terminar si desea cerrar el servidor\n", cantidadDeClientes); 
 	SDL_CreateThread(recibirConexiones, "recibirConexiones", NULL);
 	SDL_CreateThread(consolaDelServidor, "recibirConexiones", NULL);
+
 	while(!seDebeCerrarElServidor){
-		SDL_Delay(100); //Acá va la lógica principal del programa 
+		mut=SDL_CreateMutex();
+		if(!colaDeMensaje.empty()){
+			mensaje = colaDeMensaje.front();
+			colaDeMensaje.pop();
+		}
+		SDL_DestroyMutex(mut);
+		SDL_Delay(100);//No quiero tener permanentemente bloqueada la cola para revisar si llego algo.
 	}
 	SDL_Delay(1000); // Doy un segundo para que todos los threads lleguen a cerrarse
     return 0;
