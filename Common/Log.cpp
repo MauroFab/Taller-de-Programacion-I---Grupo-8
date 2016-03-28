@@ -1,7 +1,6 @@
 #include "Log.h"
 #include "StringUtil.h"
 
-#include <time.h>
 #include <sstream>
 
 
@@ -12,11 +11,9 @@ const char* Log::tipos[] = { "ERROR", "INFORMACION", "DEBUG" };
 
 Log::Log(){
 
-	time_t segundos = time(NULL);
-    tm* d = localtime(&segundos);
-
 	ostringstream os;
-	os << "Logs/"<< (d->tm_year + 1900) << (d->tm_mon + 1) << (d->tm_mday) << "_Log.log";
+
+	os << "Logs/"<< StringUtil::obtenerFechaAAAAMMDD(NULL) << "_TP1.log";
 
 	this->archivoLog.open(os.str().c_str(), std::ofstream::out | std::ofstream::app);
 }
@@ -41,12 +38,7 @@ Log* Log::getInstance(){
 
 void Log:: escribirFecha(){
 
-	time_t segundos = time(NULL);
-    tm* d = localtime(&segundos);
-
-	this->archivoLog << "[" << d->tm_mday << "/" << (d->tm_mon + 1) << "/" << (1900 + d->tm_year);
-	this->archivoLog << "-" << d->tm_hour << ":" << d->tm_min << ":" << d->tm_sec << "]";
-
+	this->archivoLog << "[" << StringUtil::obtenerFechaDDMMAAAAmmss() << "]";
 }
 
 void Log::escribirMensaje(string mensaje){
