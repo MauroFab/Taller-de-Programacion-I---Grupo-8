@@ -14,14 +14,14 @@ MainServidor::~MainServidor(){
 }
 
 MainServidor* MainServidor::getInstance(){
-    if(! instanceFlag){
-        single = new MainServidor();
-        instanceFlag = true;
-        return single;
-    }
-    else{
-        return single;
-    }
+	if(! instanceFlag){
+		single = new MainServidor();
+		instanceFlag = true;
+		return single;
+	}
+	else{
+		return single;
+	}
 }
 
 SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
@@ -67,40 +67,39 @@ int MainServidor::fun_consolaDelServidor(void* punteroAlSocketRecibido){
 int MainServidor::atenderCliente(void* punteroAlSocketRecibido)
 {
 	int len;
-//	SOCKET socket;
+	//	SOCKET socket;
 	char Buffer[1024];
-	SDL_mutex *mut;
+
 
 	SOCKET* punteroAlSocket = (SOCKET*)punteroAlSocketRecibido;
 	len=sizeof(struct sockaddr);
-   	while (len!=0 && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
+	while (len!=0 && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
 		len=recv(*punteroAlSocket,Buffer,1023,0); //recibimos los datos que envie
 		//printf("BUG-000");
 		if (len>0){
-		 //si seguimos conectados
+			//si seguimos conectados
 			Buffer[len]=0; //le ponemos el final de cadena
-			mut=SDL_CreateMutex();
+			SDL_mutexP(mut);
 			//productor
 			colaDeMensaje.push(Buffer);
 			printf("Texto recibido:%s\n",Buffer); //imprimimos la cadena recibida
-			SDL_DestroyMutex(mut);
+			SDL_mutexV(mut);
 		}
 	}
 	if(seDebeCerrarElServidor){
 		closesocket(*punteroAlSocket);
-	    WSACleanup();
+		WSACleanup();
 	}
 	cantidadDeClientes--;
 	printf("La cantidad de clientes conectados es: %i\n", cantidadDeClientes); 
-    return 0;
+	return 0;
 }
 
 
 int MainServidor::recibirConexiones(void*){
 	struct sockaddr_in local;
 
-	SOCKET socketDeEscucha;
-	SOCKET socketConexion;
+	SOCKET* socketConexion;
 	int len;
 	len=sizeof(struct sockaddr);//Si no pongo esto no funciona, queda para futuras generaciones descubrir porque.
 
@@ -109,13 +108,19 @@ int MainServidor::recibirConexiones(void*){
 
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
 	do{
-		printf("BUG-001");
+		//printf("BUG-001\n");
 		if(cantidadDeClientes < cantidadDeClientesMaxima){ 
-			socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
+			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
+			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
 			cantidadDeClientes++;
 			printf("La cantidad de clientes conectados es: %i\n", cantidadDeClientes); 
-			void* punteroAlSocket = &socketConexion;
+			void* punteroAlSocket = socketConexion;
 			SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", punteroAlSocket);
+			// colaSockets.push(socketConexion);
+			// algun contendor para los hilos que se crean			
+		}
+		if(seDebeCerrarElServidor==true){		
+			break;
 		}
 	}while(true);
 	return 0;
@@ -127,30 +132,32 @@ int MainServidor::consolaDelServidor(void*){
 		scanf("%s", entradaTeclado);
 	}while(strcmp(entradaTeclado,"terminar"));
 	seDebeCerrarElServidor = true;
+	//cuando cierro la conexion del socketDeEscucha, se crea igual un hilo, no controlo eso.
+	closesocket(socketDeEscucha);
 	return 0;
 }
 
 int MainServidor::mainPrincipal(){
-	
-	SDL_mutex *mut;
+	mut=SDL_CreateMutex();
 	char* mensaje;
-	printf("Escriba terminar si desea cerrar el servidor %d\n", cantidadDeClientes); 
-	
-	SDL_CreateThread(MainServidor::fun_recibirConexiones, "recibirConexiones", NULL);
-	SDL_CreateThread(MainServidor::fun_consolaDelServidor, "recibirConexiones", NULL);
-	
+	printf("Escriba terminar si desea cerrar el servidor\n", cantidadDeClientes); 
+
+	SDL_Thread* receptor=SDL_CreateThread(MainServidor::fun_recibirConexiones, "recibirConexiones", NULL);
+	SDL_Thread* consola=SDL_CreateThread(MainServidor::fun_consolaDelServidor, "recibirConexiones", NULL);
+
 	while(!seDebeCerrarElServidor){
 		//printf("BUG-002");
-		mut=SDL_CreateMutex();
+		SDL_mutexP(mut);
 		if(!colaDeMensaje.empty()){
 			//consumidor
 			mensaje = colaDeMensaje.front();
 			colaDeMensaje.pop();
 		}
-		SDL_DestroyMutex(mut);
+		SDL_mutexV(mut);
 		SDL_Delay(100);//No quiero tener permanentemente bloqueada la cola para revisar si llego algo.
 	}
-	SDL_Delay(1000); // Doy un segundo para que todos los threads lleguen a cerrarse
-	
-    return 0;
+	SDL_WaitThread(receptor, NULL);
+	SDL_WaitThread(consola, NULL);
+	SDL_DestroyMutex(mut);
+	return 0;
 }
