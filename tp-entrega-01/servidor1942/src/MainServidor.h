@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <queue>     
+#include <vector>
+#include <algorithm>
 #include <WinSock2.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_thread.h>
@@ -19,6 +21,9 @@ public:
 	int cantidadDeClientesMaxima;
 	bool seDebeCerrarElServidor;
 	std::queue<char*> colaDeMensaje;
+	std::vector<SDL_Thread*> vectorHilos;
+	std::vector<SOCKET*> vectorSockets;
+	
 		SOCKET socketDeEscucha;
 		SDL_mutex *mut; // el mutex para proteger la cola de mensajes
 public:

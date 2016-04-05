@@ -95,6 +95,15 @@ int MainServidor::atenderCliente(void* punteroAlSocketRecibido)
 	return 0;
 }
 
+//----------------------------------------------------------------------------
+void freeSockets (SOCKET* s) {  // libero la memoria de los sockets
+  free(s);
+}
+void waitThread (SDL_Thread* h) {  // wait para todos los threadsockets
+	printf("wait al Thread \n");
+  SDL_WaitThread(h, NULL);
+}
+//----------------------------------------------------------------------------
 
 int MainServidor::recibirConexiones(void*){
 	struct sockaddr_in local;
@@ -112,10 +121,12 @@ int MainServidor::recibirConexiones(void*){
 		if(cantidadDeClientes < cantidadDeClientesMaxima){ 
 			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
 			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
+			//Problema hace un ingreso innecesario.
 			cantidadDeClientes++;
 			printf("La cantidad de clientes conectados es: %i\n", cantidadDeClientes); 
 			void* punteroAlSocket = socketConexion;
-			SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", punteroAlSocket);
+			vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", punteroAlSocket));
+			vectorSockets.push_back(socketConexion);
 			// colaSockets.push(socketConexion);
 			// algun contendor para los hilos que se crean			
 		}
@@ -123,8 +134,12 @@ int MainServidor::recibirConexiones(void*){
 			break;
 		}
 	}while(true);
+	for_each (vectorHilos.begin(), vectorHilos.end(), waitThread);
+	//liberar memoria de los sockets
+	for_each (vectorSockets.begin(), vectorSockets.end(), freeSockets);
 	return 0;
 }
+
 
 int MainServidor::consolaDelServidor(void*){
 	char entradaTeclado[20];
@@ -159,5 +174,6 @@ int MainServidor::mainPrincipal(){
 	SDL_WaitThread(receptor, NULL);
 	SDL_WaitThread(consola, NULL);
 	SDL_DestroyMutex(mut);
+	SDL_Delay(20000);
 	return 0;
 }
