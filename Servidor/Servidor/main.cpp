@@ -91,12 +91,8 @@ static int recibirConexiones(void*){
 			SDL_CreateThread(atenderCliente, "atenderAlCliente", punteroAlSocket);
 			colaSockets.push(socketConexion);
 			// algun contendor para los hilos que se crean
-			if(seDebeCerrarElServidor==true){
-				
-				break;
-			}
 		}
-	}while(true);
+	}while(!seDebeCerrarElServidor);
 	//aca tendria que ir, liberar memoria de los sockets, esperar terminar los hilos
 	return 0;
 }
