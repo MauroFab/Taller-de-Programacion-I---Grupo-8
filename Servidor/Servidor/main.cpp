@@ -6,6 +6,7 @@
 #include <SDL_thread.h>
 #include <queue>     
 #include <iostream>
+#include "asignadorDeUsuarios.h"
 #undef main
 
 int cantidadDeClientes = 0;
