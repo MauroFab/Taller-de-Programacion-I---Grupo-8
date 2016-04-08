@@ -12,6 +12,7 @@ public:
 	bool puedoTenerMasUsuarios();
 	int crearUsuarioYObtenerId();
 	void eliminarUsuario(int idUsuario);
+	int cantidadDeUsuarios();
 	//No tratar de liberar la memoria de la cola pedida, simplemente llamar a eliminarUsuario(int idUsuario) al final
 	std::queue<char*>* obtenerColaDeUsuario(int idUsuario);
 private:

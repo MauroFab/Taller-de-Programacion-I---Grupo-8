@@ -25,9 +25,10 @@ bool AsignadorDeUsuarios::puedoTenerMasUsuarios(void)
 }
 
 int AsignadorDeUsuarios::obtenerUnaIdLibre(){
-	int i = 0;
+	int i = -1;
 	bool encontreUnaIdLibre = false;
 	while(!encontreUnaIdLibre && i < cantidadMaximaDeUsuarios){
+		i++;
 		if(!estaTomadaLaId[i]){
 			encontreUnaIdLibre = true;
 		}
@@ -41,7 +42,6 @@ int AsignadorDeUsuarios::crearUsuarioYObtenerId(){
 		idNuevoUsuario = obtenerUnaIdLibre();
 		estaTomadaLaId[idNuevoUsuario] = true;
 		cantidadDeUsuariosActuales++;
-		
 	}
 	return idNuevoUsuario;
 }
@@ -55,4 +55,8 @@ void AsignadorDeUsuarios::eliminarUsuario(int idUsuario){
 
 std::queue<char*>* AsignadorDeUsuarios::obtenerColaDeUsuario(int idUsuario){
 	return &colaDeMensajesDeUsuario[idUsuario];
+}
+
+int AsignadorDeUsuarios::cantidadDeUsuarios(){
+	return cantidadDeUsuariosActuales;
 }

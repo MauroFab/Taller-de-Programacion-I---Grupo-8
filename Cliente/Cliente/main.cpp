@@ -54,11 +54,13 @@ int main()
 		return -1;
 	}
 	printf("[escribe el texto a enviar o 'salir' para salir ]\n");
+	printf("Texto a enviar:");
+	scanf("%s",Buffer); //pedir texto a enviar por pantalla
 	while (len!=-1 && (strcmp(Buffer,"salir")!=0)){ //mientras el socket no se haya desconectado
 		//y no se escriba salir
+		len=send(sock,Buffer,strlen(Buffer),0); //enviar el texto que se ha introducido
 		printf("Texto a enviar:");
 		scanf("%s",Buffer); //pedir texto a enviar por pantalla
-		len=send(sock,Buffer,strlen(Buffer),0); //enviar el texto que se ha introducido
 	}
 	if(strcmp(Buffer,"salir") != 0){ //si no se escribio salir
 		printf("El mensaje no se pudo enviar porque el servidor termino la conexion\n");

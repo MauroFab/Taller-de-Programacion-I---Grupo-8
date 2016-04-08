@@ -11,10 +11,18 @@
 
 int cantidadDeClientes = 0;
 static int cantidadDeClientesMaxima = 3;
+AsignadorDeUsuarios usuarios(cantidadDeClientesMaxima);
 bool seDebeCerrarElServidor = false;
 std::queue<char*> colaDeMensaje;
 std::queue<SOCKET*> colaSockets;
+
+struct IdYPunteroAlSocket {
+  int id;
+  SOCKET* punteroAlSocket;
+};
+
 SOCKET socketDeEscucha;
+
 SOCKET obtenerSocketInicializado(sockaddr_in &local){
 	WSADATA wsa;
 	SOCKET sock;
@@ -39,32 +47,55 @@ void ponerAEscuchar(SOCKET sock){
 	}
 }
 
-static int atenderCliente(void* punteroAlSocketRecibido)
+static int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido)
+{
+	IdYPunteroAlSocket idYPunteroAlSocket = *((IdYPunteroAlSocket*) idYPunteroAlSocketRecibido);
+	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
+	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
+	//el socket es igual a la direccion apuntada por el punteroAlSocket
+	int id = idYPunteroAlSocket.id;
+	std::queue<char*> colaDeMensajesParaEnviar;
+	char* mensaje;
+
+	colaDeMensajesParaEnviar = *usuarios.obtenerColaDeUsuario(id);
+	while(true){
+		if(!colaDeMensajesParaEnviar.empty()){
+			mensaje =colaDeMensajesParaEnviar.front();
+			colaDeMensajesParaEnviar.pop();
+			send(socket, mensaje, strlen(mensaje), 0 );
+		}
+	}
+    return 0;
+}
+
+static int atenderCliente(void* idYPunteroAlSocketRecibido)
 {
 	int len;
-	SOCKET socket;
 	char Buffer[1024];
 	SDL_mutex *mut;
 	mut=SDL_CreateMutex();
-	SOCKET* punteroAlSocket = (SOCKET*)punteroAlSocketRecibido;
+	IdYPunteroAlSocket idYPunteroAlSocket = *((IdYPunteroAlSocket*) idYPunteroAlSocketRecibido);
+	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
+	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
+	//el socket es igual a la direccion apuntada por el punteroAlSocket
+	int id = idYPunteroAlSocket.id;
 	len=sizeof(struct sockaddr);
    	while (len!=0 && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
-		len=recv(*punteroAlSocket,Buffer,1023,0); //recibimos los datos que envie
+		len=recv(socket,Buffer,1023,0); //recibimos los datos que envie
 		if (len>0){
 		 //si seguimos conectados
 			Buffer[len]=0; //le ponemos el final de cadena
 			SDL_mutexP(mut);
 			colaDeMensaje.push(Buffer);
-			printf("Texto recibido:%s\n",Buffer); //imprimimos la cadena recibida
 			SDL_mutexV(mut);
 		}
 	}
 	if(seDebeCerrarElServidor){
-		closesocket(*punteroAlSocket);
+		closesocket(socket);
 	    WSACleanup();
 	}
-	cantidadDeClientes--;
-	printf("La cantidad de clientes conectados es: %i\n", cantidadDeClientes); 
+	usuarios.eliminarUsuario(id);
+	printf("La cantidad de clientes conectados es: %i\n",usuarios.cantidadDeUsuarios()); 
     return 0;
 }
 
@@ -79,17 +110,25 @@ static int recibirConexiones(void*){
 
 	socketDeEscucha = obtenerSocketInicializado(local);
 	ponerAEscuchar(socketDeEscucha);
-
+	IdYPunteroAlSocket idYPunteroAlSocket;
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
 	do{
-		if(cantidadDeClientes < cantidadDeClientesMaxima){ 
+		if(usuarios.puedoTenerMasUsuarios()){ 
 			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
+			printf("En espera de conexiones\n"); 
 			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
+			printf("Nueva conexion aceptada\n"); 
 			// aca chequear los errores por si desconectamos el servidor, cerrando su conexion
-			cantidadDeClientes++;
-			printf("La cantidad de clientes conectados es: %i\n", cantidadDeClientes); 
-			void* punteroAlSocket = socketConexion; // no lo quite pero esta demas
-			SDL_CreateThread(atenderCliente, "atenderAlCliente", punteroAlSocket);
+			idYPunteroAlSocket.id = usuarios.crearUsuarioYObtenerId();
+			printf("La cantidad de clientes conectados es: %i\n",usuarios.cantidadDeUsuarios()); 
+			printf("La id del nuevo usuario es: %i\n",idYPunteroAlSocket.id); 
+			if(usuarios.puedoTenerMasUsuarios()){
+				printf("Todavia se pueden tener mas usuarios\n");
+			}else{
+				printf("Se ha alcanzado el limite de usuarios");
+			}
+			idYPunteroAlSocket.punteroAlSocket = socketConexion;
+			SDL_CreateThread(atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket);
 			colaSockets.push(socketConexion);
 			// algun contendor para los hilos que se crean
 		}
@@ -121,6 +160,7 @@ int main(){
 		if(!colaDeMensaje.empty()){
 			mensaje = colaDeMensaje.front();
 			colaDeMensaje.pop();
+			printf("Texto recibido:%s\n",mensaje); //imprimimos la cadena recibida
 		}
 		SDL_mutexV(mut);
 		SDL_Delay(100);//No quiero tener permanentemente bloqueada la cola para revisar si llego algo.
