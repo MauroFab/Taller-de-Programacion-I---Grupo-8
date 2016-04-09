@@ -1,12 +1,15 @@
 #include "MainServidor.h"
-
+#include "asignadorDeUsuarios.h"
 bool MainServidor::instanceFlag = false;
 MainServidor* MainServidor::single = NULL;
+
+
 
 MainServidor::MainServidor(){
 	cantidadDeClientes = 0;
 	cantidadDeClientesMaxima = 3;
 	seDebeCerrarElServidor = false;
+	int cantidadDeClientes = 0;
 }
 
 MainServidor::~MainServidor(){
@@ -130,10 +133,7 @@ int MainServidor::recibirConexiones(void*){
 			// colaSockets.push(socketConexion);
 			// algun contendor para los hilos que se crean			
 		}
-		if(seDebeCerrarElServidor==true){		
-			break;
-		}
-	}while(true);
+	}while(!seDebeCerrarElServidor);
 	for_each (vectorHilos.begin(), vectorHilos.end(), waitThread);
 	//liberar memoria de los sockets
 	for_each (vectorSockets.begin(), vectorSockets.end(), freeSockets);

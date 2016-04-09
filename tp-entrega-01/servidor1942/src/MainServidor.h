@@ -23,9 +23,8 @@ public:
 	std::queue<char*> colaDeMensaje;
 	std::vector<SDL_Thread*> vectorHilos;
 	std::vector<SOCKET*> vectorSockets;
-	
-		SOCKET socketDeEscucha;
-		SDL_mutex *mut; // el mutex para proteger la cola de mensajes
+	SOCKET socketDeEscucha;
+	SDL_mutex *mut; // el mutex para proteger la cola de mensajes
 public:
 
 	virtual ~MainServidor();
@@ -41,7 +40,6 @@ public:
 	int recibirConexiones(void*);
 	int consolaDelServidor(void*);
 	int mainPrincipal();
-
 };
 
 #endif //_MAINSERVIDOR_H_
