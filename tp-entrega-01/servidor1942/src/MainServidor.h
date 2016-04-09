@@ -17,17 +17,17 @@ class MainServidor
 private:
     static bool instanceFlag;
     static MainServidor *single;
-	AsignadorDeUsuarios *asignador;
+	AsignadorDeUsuarios *usuarios;
     MainServidor();
+
 public:
-	int cantidadDeClientes;
-	int cantidadDeClientesMaxima;
 	bool seDebeCerrarElServidor;
 	std::queue<char*> colaDeMensaje;
 	std::vector<SDL_Thread*> vectorHilos;
 	std::vector<SOCKET*> vectorSockets;
 	SOCKET socketDeEscucha;
 	SDL_mutex *mut; // el mutex para proteger la cola de mensajes
+
 public:
 
 	virtual ~MainServidor();

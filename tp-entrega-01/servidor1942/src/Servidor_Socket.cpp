@@ -25,7 +25,6 @@ int Servidor_Socket::escuchar(){
 
 	//hay una conexión entrante y la aceptamos
 	sock=accept(sock,(sockaddr*)&local,&len);
-	printf("[SERVIDOR MiniXat para tutorial de sockets MazarDZone Foro]\n");
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla ]\n");
 		
 	return 0;

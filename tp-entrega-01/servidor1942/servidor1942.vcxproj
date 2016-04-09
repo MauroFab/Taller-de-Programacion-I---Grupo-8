@@ -85,12 +85,14 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
     <ClCompile Include="src\Common_Socket.cpp" />
     <ClCompile Include="src\MainServidor.cpp" />
     <ClCompile Include="src\Servidor_Socket.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AsignadorDeUsuarios.h" />
     <ClInclude Include="src\MainServidor.h" />
     <ClInclude Include="src\Servidor_Socket.h" />
     <ClInclude Include="src\Common_Socket.h" />
