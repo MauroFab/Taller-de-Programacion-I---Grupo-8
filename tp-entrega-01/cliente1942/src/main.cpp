@@ -6,7 +6,8 @@
 
 int main(int argc, char* argv[]){
 	MainCliente mainCliente;
-//	mainCliente.menu();
-	mainCliente.principal();
+    // mainCliente.menu();
+	 mainCliente.principal();
+	
 	return 0;
 }

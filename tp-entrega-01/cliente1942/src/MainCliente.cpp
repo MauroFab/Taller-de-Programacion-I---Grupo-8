@@ -9,7 +9,7 @@ MainCliente::~MainCliente()
 }
 int MainCliente::principal(){
 	WSADATA wsa;
-//	SOCKET sock;
+	//	SOCKET sock;
 	struct hostent *host;
 	struct sockaddr_in direc;
 	int conex=0;
@@ -46,7 +46,7 @@ int MainCliente::principal(){
 		printf("%i", conex);
 		return -1;
 	}
-	
+
 	printf("[escribe el texto a enviar o 'salir' para salir ]\n");
 	while (len!=-1 && (strcmp(Buffer,"salir")!=0)){ //mientras el socket no se haya desconectado
 		//y no se escriba salir
@@ -65,9 +65,9 @@ int MainCliente::principal(){
 }
 int MainCliente::optConectar(){
 	printf("\n OPT_CONECTAR\n ");
-/*	
+	/*	
 	WSADATA wsa;
-//	SOCKET sock;
+	//	SOCKET sock;
 	struct hostent *host;
 	struct sockaddr_in direc;
 	int conex=0;
@@ -84,8 +84,8 @@ int MainCliente::optConectar(){
 	sock=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 	if (sock==-1)
 	{
-		printf("Error al crear el socket");
-		return -1;
+	printf("Error al crear el socket");
+	return -1;
 	}
 
 	//Definimos la dirección a conectar que hemos recibido desde el gethostbyname
@@ -98,42 +98,83 @@ int MainCliente::optConectar(){
 	//Intentamos establecer la conexión
 	conex=connect(sock,(sockaddr *)&direc, sizeof(sockaddr));
 	if (conex==-1) //si no se ha podido conectar porque no se ha encontrado el host o no
-		//está el puerto abierto
+	//está el puerto abierto
 	{
-		printf("No se ha podido conectar\n");
-		printf("%i", conex);
-		return -1;
+	printf("No se ha podido conectar\n");
+	printf("%i", conex);
+	return -1;
 	}	
-*/	
+	*/	
 	return 0;
 }
 int MainCliente::optDesconectar(){
 	printf("\n OPT_DESCONECTAR\n ");
-/*	
+	/*	
 	closesocket(sock);
 	WSACleanup();
-*/	
+	*/	
 	return 0;
 }
 int MainCliente::optSalir(){
 	printf("\n OPT_SALIR\n ");
 	return 0;
 }
+// auxiliar de carga de mensajes que deberia hacerse desde el xml
+int MainCliente::cargarIDMensajes(){
+
+	for(int i=0;i<20;i++){
+		std::stringstream ss;
+		ss << "mensaje";
+		ss << i+1;
+
+		mapMensajes.insert ( std::pair<int,string>(i+1,ss.str()));
+	}
+	std::map<int,string>::iterator it = mapMensajes.begin();
+	for (it=mapMensajes.begin(); it!=mapMensajes.end(); ++it)
+		std::cout<< "ID:" << it->first << " => " << it->second << std::endl;
+	return 0;
+}
 int MainCliente::optEnviar(){
-	printf("\n OPT_ENVIAR\n ");
+	int id=-1,enc=0;
+	printf("Para salir escriba 0 \n");
+	cargarIDMensajes();
+	while(enc!=1){
+		printf("Ingrese el ID del mensaje: ");
+		scanf("%d",&id);
+		if(id==0)
+			return 0;
+		std::map<int,string>::iterator it;
+		it=mapMensajes.find(id);
+		if(it==mapMensajes.end()){
+			printf("Mensaje no encontrado\n");
+			enc=0;
+		}else{
+			printf(" Enviando el mensaje: %s Falta terminar\n",it->second.c_str() );
+			enc=1;
+			// usar el socket y enviar el mensaje
+		}
+	}
+	system("PAUSE");
 	return 0;
 }
 int MainCliente::optCiclar(){
 	printf("\n OPT_CICLAR");
 	return 0;
 }
+
+int MainCliente::optErronea(){
+	printf("\n No existe la opcion marcada, vuelva a escribirla");
+	return 0;
+}
+
 /**
- * muestra el menu y direcciona a las opciones
- * 
- */
+* muestra el menu y direcciona a las opciones
+* 
+*/
 int MainCliente::menu(){
 	int opt = 0;
 	while (opt != OPT_SALIR){
+		system("CLS");
 		printf("\n<1> CONECTAR");
 		printf("\n<2> DESCONECTAR");
 		printf("\n<3> SALIR");
@@ -143,29 +184,29 @@ int MainCliente::menu(){
 		scanf("%d",&opt);
 		switch (opt)
 		{
-			case OPT_CONECTAR:{
-				optConectar();
-			}
+		case OPT_CONECTAR:{
+			optConectar();
+						  }
+						  break;
+		case OPT_DESCONECTAR:{
+			optDesconectar();
+							 }
+							 break;
+		case OPT_SALIR:{
+			optSalir();
+					   }
+					   break;
+		case OPT_ENVIAR:{
+			optEnviar();
+						}
+						break;
+		case OPT_CICLAR:{
+			optCiclar();
+						}
+						break;
+		default:
 			break;
-			case OPT_DESCONECTAR:{
-				optDesconectar();
-			}
-			break;
-			case OPT_SALIR:{
-				optSalir();
-			}
-			break;
-			case OPT_ENVIAR:{
-				optEnviar();
-			}
-			break;
-			case OPT_CICLAR:{
-				optCiclar();
-			}
-			break;
-			default:
-			break;
-		}	
+		}
 	}
 	return 0;
 }
