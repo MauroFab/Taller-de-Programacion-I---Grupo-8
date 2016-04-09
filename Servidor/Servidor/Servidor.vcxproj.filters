@@ -24,12 +24,18 @@
     <ClCompile Include="Servidor_Socket.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="AsignadorDeUsuarios.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\Common_Socket.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Servidor_Socket.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="AsignadorDeUsuarios.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
