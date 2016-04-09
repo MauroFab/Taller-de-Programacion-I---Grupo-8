@@ -10,11 +10,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_thread.h>
 
+#include "asignadorDeUsuarios.h"
+
 class MainServidor
 {
 private:
     static bool instanceFlag;
     static MainServidor *single;
+	AsignadorDeUsuarios *asignador;
     MainServidor();
 public:
 	int cantidadDeClientes;
