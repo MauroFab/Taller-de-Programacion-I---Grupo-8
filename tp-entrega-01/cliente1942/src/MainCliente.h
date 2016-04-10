@@ -10,6 +10,9 @@
 #include <string>
 #include <sstream>
 #include <cstdlib> 
+#include <SDL2\SDL_thread.h>
+#include <SDL2\SDL.h>
+
 #pragma comment(lib,"ws2_32.lib")
 
 #define OPT_CONECTAR	1
@@ -29,19 +32,23 @@ private:
 	map<int,string> mapMensajes;
 	string dirXML;
 	string ip,port;
-		WSADATA wsa;
+	WSADATA wsa;
 	struct hostent *host;
 	struct sockaddr_in direc;
-	int conex;
-	int len;
+	int conex,c,len;
 	bool conectado;
+	typedef struct ciclar{
+		bool terminarCiclar;
+		int tiempo;
+	}ciclar_t;
+
 
 public:
 	MainCliente(string dirXml);
 	virtual ~MainCliente();
 	int principal();
 	int menu();
-	
+	static int contarCiclo(void* time);
 	int optConectar();
 	int optDesconectar();
 	int optSalir();

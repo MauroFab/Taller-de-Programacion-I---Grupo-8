@@ -2,11 +2,12 @@
 
 MainCliente::MainCliente(string dirXml):dirXML(dirXml),conex(0),len(0),conectado(false)
 {
+
 	// aca deberia de obtener el ip, port y cargar los mensajes en el map
 	ip="localhost";
 	port="9999";
 	// si usan el principal comentar inicializar()
-	// inicializar();
+
 }
 
 
@@ -21,7 +22,6 @@ int MainCliente::principal(){
 	int conex=0;
 	char Buffer[1024]="";
 	int len=0;
-
 	//Inicializamos
 	WSAStartup(MAKEWORD(2,2),&wsa);
 
@@ -35,7 +35,7 @@ int MainCliente::principal(){
 		printf("Error al crear el socket");
 		return -1;
 	}
-
+	setsockopt (sock, IPPROTO_TCP, SO_REUSEADDR | SOCK_STREAM, (char*)&c, sizeof(int));
 	//Definimos la dirección a conectar que hemos recibido desde el gethostbyname
 	//y decimos que el puerto al que deberá conectar es el 9999 con el protocolo ipv4
 	direc.sin_family=AF_INET;
@@ -87,7 +87,7 @@ int MainCliente::inicializar(){
 		printf("Error al crear el socket");
 		return -1;
 	}
-
+	setsockopt (sock, IPPROTO_TCP, SO_REUSEADDR | SOCK_STREAM, (char*)&c, sizeof(int));
 	//Definimos la dirección a conectar que hemos recibido desde el gethostbyname
 	//y decimos que el puerto al que deberá conectar es el 9999 con el protocolo ipv4
 	direc.sin_family=AF_INET;
@@ -99,26 +99,27 @@ int MainCliente::inicializar(){
 }
 int MainCliente::optConectar(){
 	printf("\n OPT_CONECTAR\n ");
-
+	inicializar();
 	if(conectado==true){
-	printf("ya se encuentra conectado \n"); //WARN?
+		printf("ya se encuentra conectado \n"); //WARN?
 	}
 	else{
-	//Intentamos establecer la conexión
-	conex=connect(sock,(sockaddr *)&direc, sizeof(sockaddr));
-	if (conex==-1) //si no se ha podido conectar porque no se ha encontrado el host o no
-		//está el puerto abierto
-	{
-		printf("No se ha podido conectar\n");
-		printf("%i", conex);
-		return -1;
-	}	
-	conectado=true;
+		//Intentamos establecer la conexión
+		conex=connect(sock,(sockaddr *)&direc, sizeof(sockaddr));
+		if (conex==-1) //si no se ha podido conectar porque no se ha encontrado el host o no
+			//está el puerto abierto
+		{
+			printf("No se ha podido conectar\n");
+			printf("%i", conex);
+			return -1;
+		}	
+		conectado=true;
 	}
 	return 0;
 }
 int MainCliente::optDesconectar(){
 	printf("\n OPT_DESCONECTAR\n ");
+	shutdown(sock,2);
 	closesocket(sock);
 	conectado=false;
 	// WSACleanup();
@@ -126,9 +127,9 @@ int MainCliente::optDesconectar(){
 }
 int MainCliente::optSalir(){
 	printf("\n OPT_SALIR\n ");
-	// cerrar el socket
+	mapMensajes.clear(); // chequear si se liberan los string
 	// liberar la memoria de los mensajes
-
+	optDesconectar();
 	return 0;
 }
 // auxiliar de carga de mensajes que deberia hacerse desde el xml
@@ -149,8 +150,14 @@ int MainCliente::cargarIDMensajes(){
 	return 0;
 }
 int MainCliente::optEnviar(){
+	if(conectado==false){ //!conectado
+		printf("Tiene que estar conectado para que puedas enviar/recibir \n");
+		return -1;
+	}
+
 	int id=-1,enc=0;
 	printf("Para salir escriba 0 \n");
+	// se deberian de cargar los mensajes desde el XML 
 	cargarIDMensajes();
 	while(enc!=1){
 		printf("Ingrese el ID del mensaje: ");
@@ -163,6 +170,7 @@ int MainCliente::optEnviar(){
 			printf("Mensaje no encontrado\n");
 			enc=0;
 		}else{
+			len=send(sock,it->second.c_str(),strlen(it->second.c_str()),0); //enviar el texto que se ha introducido
 			printf(" Enviando el mensaje: %s Falta terminar\n",it->second.c_str() );
 			enc=1;
 			// usar el socket y enviar el mensaje
@@ -171,7 +179,30 @@ int MainCliente::optEnviar(){
 	system("PAUSE");
 	return 0;
 }
+int MainCliente::contarCiclo(void* sciclo){
+	ciclar_t* ciclos=(ciclar_t*)sciclo;
+	SDL_Delay(ciclos->tiempo);
+	ciclos->terminarCiclar=true;
+	return 0;
+}
 int MainCliente::optCiclar(){
+	if(conectado==false){ //!conectado
+		printf("Tiene que estar conectado para que puedas enviar/recibir \n");
+		return -1;
+	}
+	int tiempo=0;
+	char mensaje[]="FALTA HACER LA LISTA CIRCULAR Y ENVIAR";
+	ciclar_t ciclos;
+	ciclos.terminarCiclar=false;
+	printf("por cuanto tiempo desea ciclar(ms):");
+	scanf("%d",&(ciclos.tiempo));
+	SDL_Thread* hiloCiclar=SDL_CreateThread(MainCliente::contarCiclo, "contarCiclo", (void*)&ciclos);
+	while(ciclos.terminarCiclar==false){
+		printf("FALTA HACER la lista circular y enviar ......\n");
+		len=send(sock,mensaje,strlen(mensaje),0);
+	}
+
+	SDL_WaitThread(hiloCiclar, NULL);
 	printf("\n OPT_CICLAR");
 	return 0;
 }
@@ -188,7 +219,7 @@ int MainCliente::optErronea(){
 int MainCliente::menu(){
 	int opt = 0;
 	while (opt != OPT_SALIR){
-		system("CLS");
+		// system("CLS");
 		printf("\n<1> CONECTAR");
 		printf("\n<2> DESCONECTAR");
 		printf("\n<3> SALIR");
