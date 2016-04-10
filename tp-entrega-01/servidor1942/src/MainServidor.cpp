@@ -64,12 +64,35 @@ int MainServidor::fun_recibirConexiones(void* punteroAlSocketRecibido){
 	return instan->recibirConexiones(punteroAlSocketRecibido);	
 }
 
+int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido)
+{
+	IdYPunteroAlSocket idYPunteroAlSocket = *((IdYPunteroAlSocket*) idYPunteroAlSocketRecibido);
+	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
+	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
+	//el socket es igual a la direccion apuntada por el punteroAlSocket
+	int id = idYPunteroAlSocket.id;
+	std::queue<char*> colaDeMensajesParaEnviar;
+	char* mensaje;
+	colaDeMensajesParaEnviar = *usuarios->obtenerColaDeUsuario(id);
+	while(true){
+		if(!colaDeMensajesParaEnviar.empty()){
+			mensaje =colaDeMensajesParaEnviar.front();
+			colaDeMensajesParaEnviar.pop();
+			send(socket, mensaje, strlen(mensaje), 0 );
+		}
+	}
+    return 0;
+}
+
+int MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido){
+	MainServidor * instan = MainServidor::getInstance();
+	return instan->revisarSiHayMensajesParaElClienteYEnviarlos(idYPunteroAlSocketRecibido);	
+}
 
 int MainServidor::fun_consolaDelServidor(void* punteroAlSocketRecibido){
 	MainServidor * instan = MainServidor::getInstance();
 	return instan->consolaDelServidor(punteroAlSocketRecibido);	
 }
-
 /*
 int MainServidor::atenderCliente(void* punteroAlSocketRecibido)
 {
@@ -249,3 +272,4 @@ int MainServidor::mainPrincipal(){
 	SDL_Delay(20000);
 	return 0;
 }
+

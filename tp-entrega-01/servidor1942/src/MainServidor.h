@@ -38,7 +38,9 @@ public:
 	static int fun_atenderCliente(void* punteroAlSocketRecibido);
 	static int fun_recibirConexiones(void*);
 	static int fun_consolaDelServidor(void*);
+	static int fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
 
+	int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
 	int atenderCliente(void* punteroAlSocketRecibido);
 	int recibirConexiones(void*);
 	int consolaDelServidor(void*);
