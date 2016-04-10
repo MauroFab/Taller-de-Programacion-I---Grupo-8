@@ -18,7 +18,6 @@ AsignadorDeUsuarios::~AsignadorDeUsuarios(void)
 	delete [] estaTomadaLaId;
 }
 
-
 bool AsignadorDeUsuarios::puedoTenerMasUsuarios(void)
 {
 	return (cantidadDeUsuariosActuales < cantidadMaximaDeUsuarios);

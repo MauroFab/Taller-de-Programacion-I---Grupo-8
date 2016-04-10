@@ -15,6 +15,10 @@
 class MainServidor
 {
 private:
+	struct MensajeConId {
+	     int id;
+		 char* mensaje;
+	};
     static bool instanceFlag;
     static MainServidor *single;
 	AsignadorDeUsuarios *usuarios;
@@ -22,7 +26,7 @@ private:
 
 public:
 	bool seDebeCerrarElServidor;
-	std::queue<char*> colaDeMensaje;
+	std::queue<MensajeConId*> colaDeMensaje;
 	std::vector<SDL_Thread*> vectorHilos;
 	std::vector<SOCKET*> vectorSockets;
 	SOCKET socketDeEscucha;

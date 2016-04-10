@@ -6,7 +6,6 @@ MainServidor* MainServidor::single = NULL;
 struct IdYPunteroAlSocket {
   int id;
   SOCKET* punteroAlSocket;
-
 };
 
 MainServidor::MainServidor(){
@@ -142,7 +141,10 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 		 //si seguimos conectados
 			Buffer[len]=0; //le ponemos el final de cadena
 			SDL_mutexP(mut);
-			colaDeMensaje.push(Buffer);
+			MensajeConId* mensajeConId = new MensajeConId;
+			mensajeConId->id = id;
+			mensajeConId->mensaje = Buffer;
+			colaDeMensaje.push(mensajeConId);
 			SDL_mutexV(mut);
 		}
 	}
@@ -248,7 +250,7 @@ int MainServidor::consolaDelServidor(void*){
 
 int MainServidor::mainPrincipal(){
 	mut=SDL_CreateMutex();
-	char* mensaje;
+	MensajeConId* mensajeConId;
 	printf("Escriba terminar si desea cerrar el servidor\n", usuarios->cantidadDeUsuarios()); 
 
 	SDL_Thread* receptor=SDL_CreateThread(MainServidor::fun_recibirConexiones, "recibirConexiones", NULL);
@@ -259,9 +261,10 @@ int MainServidor::mainPrincipal(){
 		SDL_mutexP(mut);
 		if(!colaDeMensaje.empty()){
 			//consumidor
-			mensaje = colaDeMensaje.front();
+			mensajeConId = colaDeMensaje.front();
 			colaDeMensaje.pop();
-			printf("Texto recibido:%s\n",mensaje);
+			printf("Texto recibido:%s\n",mensajeConId->mensaje);
+			delete mensajeConId;
 		}
 		SDL_mutexV(mut);
 		SDL_Delay(100);//No quiero tener permanentemente bloqueada la cola para revisar si llego algo.
