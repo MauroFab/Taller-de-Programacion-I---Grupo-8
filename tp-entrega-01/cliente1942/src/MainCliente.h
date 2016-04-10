@@ -27,8 +27,17 @@ class MainCliente
 private:
 	SOCKET sock;	
 	map<int,string> mapMensajes;
+	string dirXML;
+	string ip,port;
+		WSADATA wsa;
+	struct hostent *host;
+	struct sockaddr_in direc;
+	int conex;
+	int len;
+	bool conectado;
+
 public:
-	MainCliente();
+	MainCliente(string dirXml);
 	virtual ~MainCliente();
 	int principal();
 	int menu();
@@ -40,7 +49,8 @@ public:
 	int optCiclar();
 	int optErronea();
 	int cargarIDMensajes();
-	
+private:
+	int inicializar();
 };
 
 #endif //_MAINCLIENTE_H_

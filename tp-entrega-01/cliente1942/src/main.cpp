@@ -5,9 +5,10 @@
 #include "MainCliente.h"
 
 int main(int argc, char* argv[]){
-	MainCliente mainCliente;
+	MainCliente mainCliente("cliente.xml");
     // mainCliente.menu();
 	 mainCliente.principal();
+
 	
 	return 0;
 }
