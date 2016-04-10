@@ -23,7 +23,7 @@ private:
     static MainServidor *single;
 	AsignadorDeUsuarios *usuarios;
     MainServidor();
-
+	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id);
 public:
 	bool seDebeCerrarElServidor;
 	std::queue<MensajeConId*> colaDeMensaje;

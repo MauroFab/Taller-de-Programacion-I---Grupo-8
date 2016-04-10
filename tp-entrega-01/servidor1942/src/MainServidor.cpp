@@ -8,8 +8,13 @@ struct IdYPunteroAlSocket {
   SOCKET* punteroAlSocket;
 };
 
+struct StructDelEnviadorDeMensajes {
+  IdYPunteroAlSocket idYPunteroAlSocket;
+  bool* seCerroLaConexion;
+};
+
 MainServidor::MainServidor(){
-	static int cantidadDeClientesMaxima = 3;
+	static int cantidadDeClientesMaxima = 2;
 	usuarios = new AsignadorDeUsuarios(cantidadDeClientesMaxima);
 	seDebeCerrarElServidor = false;
 	int cantidadDeClientes = 0;
@@ -63,21 +68,29 @@ int MainServidor::fun_recibirConexiones(void* punteroAlSocketRecibido){
 	return instan->recibirConexiones(punteroAlSocketRecibido);	
 }
 
-int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido)
+int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointer)
 {
-	IdYPunteroAlSocket idYPunteroAlSocket = *((IdYPunteroAlSocket*) idYPunteroAlSocketRecibido);
+	StructDelEnviadorDeMensajes structRecibido = *((StructDelEnviadorDeMensajes*) structPointer);
+	IdYPunteroAlSocket idYPunteroAlSocket = structRecibido.idYPunteroAlSocket;
 	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
 	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
 	//el socket es igual a la direccion apuntada por el punteroAlSocket
 	int id = idYPunteroAlSocket.id;
-	std::queue<char*> colaDeMensajesParaEnviar;
+	std::queue<char*>* colaDeMensajesParaEnviar;
 	char* mensaje;
-	colaDeMensajesParaEnviar = *usuarios->obtenerColaDeUsuario(id);
-	while(true){
-		if(!colaDeMensajesParaEnviar.empty()){
-			mensaje =colaDeMensajesParaEnviar.front();
-			colaDeMensajesParaEnviar.pop();
+	bool* seCerroLaConexionPointer = structRecibido.seCerroLaConexion;
+	colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
+	printf("Se esta preparado para enviar mensajes al usuario: %i\n",id); 
+	while(!(*seCerroLaConexionPointer)){
+		if(!colaDeMensajesParaEnviar->empty()){
+			mensaje = colaDeMensajesParaEnviar->front();
+			SDL_mutexP(mut);
+			colaDeMensajesParaEnviar->pop();
+			SDL_mutexV(mut);
 			send(socket, mensaje, strlen(mensaje), 0 );
+			//Aca debería liberar la memoria del mensaje, pero si lo hago estalla.
+			//Y efectivamente si mando muchos mensajes (Con un solo cliente abierto), la memoria aumenta, asi que 
+			// la estamos perdiendo con los mensajes
 		}
 	}
     return 0;
@@ -123,35 +136,55 @@ int MainServidor::atenderCliente(void* punteroAlSocketRecibido)
 	printf("La cantidad de clientes conectados es: %i\n", cantidadDeClientes); 
 	return 0;
 }*/
+
+void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id){
+
+	SDL_mutexP(mut);
+	MensajeConId* mensajeConId = new MensajeConId;
+	mensajeConId->id = id;	
+	mensajeConId->mensaje = buffer;
+	colaDeMensaje.push(mensajeConId);
+	SDL_mutexV(mut);
+}
+
 int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 {
 	int len;
 	char Buffer[1024];
 	SDL_mutex *mut;
+	SDL_Thread* threadDeEnvioDeMensajes;
 	mut=SDL_CreateMutex();
-	IdYPunteroAlSocket idYPunteroAlSocket = *((IdYPunteroAlSocket*) idYPunteroAlSocketRecibido);
+	StructDelEnviadorDeMensajes* structParaEnviar = new StructDelEnviadorDeMensajes;
+	bool* seCerroLaConexion = new bool;
+	//Si bien seCerroLaConexion es algo que se accede de dos threads y puede ser bloqueado con un semaforo
+	//No es relevante, una desincronizacion lleva a que se cicle un par de veces demás en el otro thread
+	//se perdera mas tiempo bloqueandolo.
+	*seCerroLaConexion = false;
 	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
+	IdYPunteroAlSocket idYPunteroAlSocket = *((IdYPunteroAlSocket*) idYPunteroAlSocketRecibido);
 	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
-	//el socket es igual a la direccion apuntada por el punteroAlSocket
 	int id = idYPunteroAlSocket.id;
 	len=sizeof(struct sockaddr);
-   	while (len!=0 && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
+	structParaEnviar->idYPunteroAlSocket = idYPunteroAlSocket;
+	structParaEnviar->seCerroLaConexion = seCerroLaConexion;
+	threadDeEnvioDeMensajes =
+		SDL_CreateThread(MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos, "mensajesParaElCliente", (void*) structParaEnviar);
+   	while (len != 0 && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
 		len=recv(socket,Buffer,1023,0); //recibimos los datos que envie
 		if (len>0){
 		 //si seguimos conectados
-			Buffer[len]=0; //le ponemos el final de cadena
-			SDL_mutexP(mut);
-			MensajeConId* mensajeConId = new MensajeConId;
-			mensajeConId->id = id;
-			mensajeConId->mensaje = Buffer;
-			colaDeMensaje.push(mensajeConId);
-			SDL_mutexV(mut);
+			Buffer[len]=0; //Ponemos el fin de cadena 
+			guardarElMensajeEnLaColaPrincipal(Buffer, id);
 		}
+
 	}
+	*seCerroLaConexion = true;
 	if(seDebeCerrarElServidor){
 		closesocket(socket);
 	    WSACleanup();
 	}
+	SDL_WaitThread(threadDeEnvioDeMensajes, NULL);
+	delete seCerroLaConexion;
 	usuarios->eliminarUsuario(id);
 	printf("La cantidad de clientes conectados es: %i\n",usuarios->cantidadDeUsuarios()); 
     return 0;
@@ -261,9 +294,17 @@ int MainServidor::mainPrincipal(){
 		SDL_mutexP(mut);
 		if(!colaDeMensaje.empty()){
 			//consumidor
+			std::queue<char*>* colaDeMensajesDelUsuario;
 			mensajeConId = colaDeMensaje.front();
 			colaDeMensaje.pop();
-			printf("Texto recibido:%s\n",mensajeConId->mensaje);
+			printf("Recibido del usuario:%i", mensajeConId->id);
+			printf(" el mensaje:%s\n",mensajeConId->mensaje);
+			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(mensajeConId->id);
+			char* mensajeDeRespuesta = new char;
+			mensajeDeRespuesta = "Llego todo bien";
+			SDL_mutexP(mut);
+			colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
+			SDL_mutexV(mut);
 			delete mensajeConId;
 		}
 		SDL_mutexV(mut);
