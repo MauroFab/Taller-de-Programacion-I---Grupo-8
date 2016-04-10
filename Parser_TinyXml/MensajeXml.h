@@ -19,17 +19,19 @@ protected:
 	int sizeBytes;
 	int id;
 	int tipo;
-	void * valor;
+	char * valor;
 public:
 	MensajeXml();
-	MensajeXml(int id,int tipo,void * valor);
+	MensajeXml(int id,int tipo,char * valor);
 	virtual ~MensajeXml();
 	int getSizeBytes();
+	void calculateSizeBytes();
 	void setId(int id);
 	int getId();
 	void setTipo(int tipo);
 	int getTipo();
-	void * getValor();
+	char * getValor();
+	void setValor(char * valor,int lenValor);
 };
 
 #endif //_MENSAJEXML_H_

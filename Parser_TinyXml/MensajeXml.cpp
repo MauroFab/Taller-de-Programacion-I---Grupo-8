@@ -7,9 +7,18 @@ MensajeXml::MensajeXml()
 	this->tipo = -1;
 	this->valor = NULL;
 }
-MensajeXml::MensajeXml(int id,int tipo,void * valor){
+MensajeXml::MensajeXml(int id,int tipo,char * valor){
 	this->id = id;
 	this->tipo = tipo;
+	int len = strlen(valor);
+	this->valor = new char[len + 1];
+	strcpy(this->valor,valor);
+	//sizeBytes + id  + tipo + valor[char] * (len + 1)
+	//   int	+ int + int  + char * (len + 1)
+	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(char)*(len + 1);	
+
+	//esta validacion esta deprecada
+	/*
 	switch (tipo)
 	{
 		case TIPO_CHAR:{
@@ -49,10 +58,13 @@ MensajeXml::MensajeXml(int id,int tipo,void * valor){
 		default:
 		break;
 	}
+	*/
 
 }
 MensajeXml::~MensajeXml()
 {
+	delete [] this->valor;
+/*	
 	switch (tipo)
 	{
 		case TIPO_CHAR:{
@@ -78,9 +90,20 @@ MensajeXml::~MensajeXml()
 		default:
 		break;
 	}
+*/	
 }
+
 int MensajeXml::getSizeBytes(){
 	return this->sizeBytes;
+}
+/**
+ * como precondicion el VALOR debe estar cargado, de lo contrario No se calcula
+ * correctamente el sizeBytes
+ * como NO exite un setSizeBytes() este lo reemplaza
+ */
+void MensajeXml::calculateSizeBytes(){
+	int len = strlen(this->valor);
+	this->sizeBytes =  sizeof(int) + sizeof(int) + sizeof(int) + sizeof(char)*(len + 1);	
 }
 void MensajeXml::setId(int id){
 	this->id = id;
@@ -95,7 +118,12 @@ int MensajeXml::getTipo(){
 	return this->tipo;
 }
 
-void * MensajeXml::getValor(){
+char * MensajeXml::getValor(){
 	return this->valor;
+}
+
+void MensajeXml::setValor(char * valor,int lenValor){
+	this->valor = new char[lenValor];
+	memcpy(this->valor,valor,lenValor);
 }
 

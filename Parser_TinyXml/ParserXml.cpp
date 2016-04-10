@@ -562,22 +562,22 @@ MensajeXml * ParserXml::createMensajeXml(int id, int tipo,char * valor){
 	{
 		case TIPO_CHAR:{
 			char car = valor[0];
-			men = new MensajeXml(id,tipo,&car);
+			men = new MensajeXml(id,tipo,valor/*&car*/);
 		}
 		break;
 		case TIPO_DOUBLE:{
 			double numD = atof(valor);
-			men = new MensajeXml(id,tipo,&numD);
+			men = new MensajeXml(id,tipo,valor/*&numD*/);
 		}
 		break;
 		case TIPO_INT:{
 			int numI = atoi(valor);
-			men = new MensajeXml(id,tipo,&numI);
+			men = new MensajeXml(id,tipo,valor/*&numI*/);
 		}
 		break;
 		case TIPO_STRING:{
 			char * cadena = valor;
-			men = new MensajeXml(id,tipo,cadena);
+			men = new MensajeXml(id,tipo,valor/*cadena*/);
 		}
 		break;
 		default:
@@ -685,7 +685,10 @@ int ParserXml::validarMensajeXml(XMLElement* elemMensaje){
 		return -1;
 	char * valor = (char*)elemVALOR->GetText();
 	int nTipo = convertTipoToInt(tipo);
+	//no se valida el valor
+	/*
 	if (isValidValor(valor,nTipo) < 0)
 		return -1;
+	*/
 	return 0;
 }
