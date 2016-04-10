@@ -154,8 +154,9 @@ int MainCliente::optEnviar(){
 		printf("Tiene que estar conectado para que puedas enviar/recibir \n");
 		return -1;
 	}
-
-	int id=-1,enc=0;
+	char bufferEntrada[1024];
+	int id=-1,enc=0, len2 =2;
+	int encRecibido = 0;
 	printf("Para salir escriba 0 \n");
 	// se deberian de cargar los mensajes desde el XML 
 	cargarIDMensajes();
@@ -171,10 +172,15 @@ int MainCliente::optEnviar(){
 			enc=0;
 		}else{
 			len=send(sock,it->second.c_str(),strlen(it->second.c_str()),0); //enviar el texto que se ha introducido
-			printf(" Enviando el mensaje: %s Falta terminar\n",it->second.c_str() );
+			printf("Enviando el mensaje: %s Falta terminar\n",it->second.c_str());
 			enc=1;
 			// usar el socket y enviar el mensaje
+			//recibir un mensaje
+			len2 = recv(sock,bufferEntrada,1023,0);
+			bufferEntrada[len2] =0;
+			printf("Recibida respuesta: %s\n",bufferEntrada);
 		}
+
 	}
 	system("PAUSE");
 	return 0;
@@ -191,6 +197,8 @@ int MainCliente::optCiclar(){
 		return -1;
 	}
 	int tiempo=0;
+	char bufferEntrada[1024];
+	int len2 = -1;
 	char mensaje[]="FALTA HACER LA LISTA CIRCULAR Y ENVIAR";
 	ciclar_t ciclos;
 	ciclos.terminarCiclar=false;
@@ -200,6 +208,9 @@ int MainCliente::optCiclar(){
 	while(ciclos.terminarCiclar==false){
 		printf("FALTA HACER la lista circular y enviar ......\n");
 		len=send(sock,mensaje,strlen(mensaje),0);
+		len2 = recv(sock,bufferEntrada,1023,0);
+		bufferEntrada[len2] =0;
+		printf("Recibida respuesta: %s\n",bufferEntrada);
 	}
 
 	SDL_WaitThread(hiloCiclar, NULL);
