@@ -44,7 +44,7 @@ string StringUtil::obtenerFechaDDMMAAAAmmss(char separadorFecha, char separadorT
 	tm* d = localtime(&segundos);
 
 	os << d->tm_mday << separadorFecha << (d->tm_mon + 1) << separadorFecha << (1900 + d->tm_year);
-	os << separadorTiempo << d->tm_hour << ":" << d->tm_min << ":" << d->tm_sec ;
+	os << separadorTiempo << d->tm_hour << ":" << d->tm_min << ":" << ((d->tm_sec < 10)? "0" : "") << d->tm_sec ;
 
 	return os.str();
 }
@@ -56,4 +56,17 @@ string StringUtil::intToString(int value){
 	valueString << value;
 
 	return valueString.str();
+}
+
+string StringUtil::reemplazarString(string str, string strOriginal, string strNuevo){
+
+    if(str.empty())
+        return str;
+
+	// Mientras existe el valor a reemplazar
+	while(str.find(strOriginal) != std::string::npos) {
+		str.replace(str.find(strOriginal), strOriginal.size(), strNuevo);
+    }
+
+	return str; 
 }
