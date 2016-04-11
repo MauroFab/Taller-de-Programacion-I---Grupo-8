@@ -66,6 +66,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MensajeXml.cpp" />
     <ClCompile Include="ParserXml.cpp" />
+    <ClCompile Include="ServidorXml.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +74,7 @@
     <ClInclude Include="ConexionXml.h" />
     <ClInclude Include="MensajeXml.h" />
     <ClInclude Include="ParserXml.h" />
+    <ClInclude Include="ServidorXml.h" />
     <ClInclude Include="tinyxml2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

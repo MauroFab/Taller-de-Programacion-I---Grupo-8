@@ -8,7 +8,7 @@ ParserXml::~ParserXml()
 {
 }
 
-
+//-------------CLIENTE
 int ParserXml::levantarXMLCliente(char * ruta)
 {
 //-----------------------------------------------------------------------------
@@ -69,24 +69,24 @@ int ParserXml::levantarXMLCliente(char * ruta)
 */
 	return codErr;
 }
-
+/*
 int ParserXml::readMensaje( XMLElement* elemMensaje){
 	//obtiene el ID
 	XMLElement* elemID = (XMLElement*)elemMensaje->FirstChild();
-	printf("\ntag <%s>",elemID->Name());
-	printf("\nvalue [%s]",elemID->GetText());
+//	printf("\ntag <%s>",elemID->Name());
+//	printf("\nvalue [%s]",elemID->GetText());
 	//obtiene el TIPO
 	XMLElement* elemTIPO = (XMLElement*)elemID->NextSibling();
-	printf("\ntag <%s>",elemTIPO->Name());
-	printf("\nvalue [%s]",elemTIPO->GetText());
+//	printf("\ntag <%s>",elemTIPO->Name());
+//	printf("\nvalue [%s]",elemTIPO->GetText());
 	//obtiene el TIPO
 	XMLElement* elemVALOR = (XMLElement*)elemTIPO->NextSibling();
-	printf("\ntag <%s>",elemVALOR->Name());
-	printf("\nvalue [%s]",elemVALOR->GetText());
+//	printf("\ntag <%s>",elemVALOR->Name());
+//	printf("\nvalue [%s]",elemVALOR->GetText());
 	return 0;
 }
 
-
+*/
 int ParserXml::crearXmlCliente()
 {
 
@@ -123,12 +123,12 @@ int ParserXml::crearXmlCliente()
 
 	XMLElement * pID1 = xmlDoc.NewElement("id");
 	pMsj1->InsertEndChild(pID1);
-	XMLText * textoID1 = xmlDoc.NewText("mensaje1");
+	XMLText * textoID1 = xmlDoc.NewText("101");
 	pID1->InsertEndChild(textoID1);
 
 	XMLElement * pTipo1 = xmlDoc.NewElement("tipo");
 	pMsj1->InsertEndChild(pTipo1);
-	XMLText * textoTipo1 = xmlDoc.NewText("int");
+	XMLText * textoTipo1 = xmlDoc.NewText("INT");
 	pTipo1->InsertEndChild(textoTipo1);
 
 	XMLElement * pValor1 = xmlDoc.NewElement("valor");
@@ -142,12 +142,12 @@ int ParserXml::crearXmlCliente()
 
 	XMLElement * pID2 = xmlDoc.NewElement("id");
 	pMsj2->InsertEndChild(pID2);
-	XMLText * textoID2 = xmlDoc.NewText("mensaje2");
+	XMLText * textoID2 = xmlDoc.NewText("102");
 	pID2->InsertEndChild(textoID2);
 
 	XMLElement * pTipo2 = xmlDoc.NewElement("tipo");
 	pMsj2->InsertEndChild(pTipo2);
-	XMLText * textoTipo2 = xmlDoc.NewText("string");
+	XMLText * textoTipo2 = xmlDoc.NewText("STRING");
 	pTipo2->InsertEndChild(textoTipo2);
 
 	XMLElement * pValor2 = xmlDoc.NewElement("valor");
@@ -161,12 +161,12 @@ int ParserXml::crearXmlCliente()
 
 	XMLElement * pID3 = xmlDoc.NewElement("id");
 	pMsj3->InsertEndChild(pID3);
-	XMLText * textoID3 = xmlDoc.NewText("mensaje3");
+	XMLText * textoID3 = xmlDoc.NewText("103");
 	pID3->InsertEndChild(textoID3);
 
 	XMLElement * pTipo3 = xmlDoc.NewElement("tipo");
 	pMsj3->InsertEndChild(pTipo3);
-	XMLText * textoTipo3 = xmlDoc.NewText("double");
+	XMLText * textoTipo3 = xmlDoc.NewText("DOUBLE");
 	pTipo3->InsertEndChild(textoTipo3);
 
 	XMLElement * pValor3 = xmlDoc.NewElement("valor");
@@ -180,12 +180,12 @@ int ParserXml::crearXmlCliente()
 
 	XMLElement * pID4 = xmlDoc.NewElement("id");
 	pMsj4->InsertEndChild(pID4);
-	XMLText * textoID4 = xmlDoc.NewText("mensaje4");
+	XMLText * textoID4 = xmlDoc.NewText("104");
 	pID4->InsertEndChild(textoID4);
 
 	XMLElement * pTipo4 = xmlDoc.NewElement("tipo");
 	pMsj4->InsertEndChild(pTipo4);
-	XMLText * textoTipo4 = xmlDoc.NewText("char");
+	XMLText * textoTipo4 = xmlDoc.NewText("CHAR");
 	pTipo4->InsertEndChild(textoTipo4);
 
 	XMLElement * pValor4 = xmlDoc.NewElement("valor");
@@ -198,8 +198,7 @@ int ParserXml::crearXmlCliente()
 	//FILE * archivo = fopen("miarchi.xml","w");
 	//XMLError eResult = xmlDoc.SaveFile(archivo);
 
-
-	XMLError eResult = xmlDoc.SaveFile("xmlDefaultCliente.xml");
+	XMLError eResult = xmlDoc.SaveFile(XML_DEF_CLIENTE);
 
 	printf("\ncod ERR= %d\n",eResult);
 
@@ -208,6 +207,112 @@ int ParserXml::crearXmlCliente()
    return 0;
 }
 
+void ParserXml::cargarXmlCliente(int argc, char* argv[]){
+//	levantarXMLCliente();
+//	levantarXMLServidor();
+//    crearXmlServidor();
+	int cantargs=argc;
+	char ruta[MAX_RUTA];
+
+	if (cantargs == 2){
+		strcpy(ruta, argv[1]);
+	}
+	else{
+		printf("error, no ruta valida, ingrese ruta\n");
+		scanf("%s",ruta);
+	}
+	printf("\n argumento %s\n", ruta);
+
+	int codErr = this->levantarXMLCliente(ruta);
+	//si hubo error al leer, llama al xml por defecto
+	if (codErr != XML_SUCCESS){
+		printf("\n ERROR:el xml cliente NO fue encontrado o hubo error al intentar abrir");
+		if (codErr == XML_ERROR_MISMATCHED_ELEMENT)
+			printf("\nERROR: Error de sintaxis en xml, xml invalido");
+
+		this->crearXmlCliente();
+		printf("\n INFO:ese cargo xml por defecto del cliente");
+		char * rutaDefecto = XML_DEF_CLIENTE;
+		codErr = this->levantarXMLCliente(rutaDefecto);
+	}
+	else{
+		printf("\n INFO:xml cliente procesado con exito");
+	}
+}
+//------------SERVIDOR
+int ParserXml::levantarXMLServidor(char * ruta){
+	xmlDoc.LoadFile(ruta);
+
+	/*
+	FILE* fp = fopen( ruta, "rb" );
+	xmlDoc.LoadFile(fp);
+	*/
+
+	int codErr = xmlDoc.ErrorID();
+	printf("\ncodigo %d\n",xmlDoc.ErrorID());
+	return codErr;
+
+}
+
+int ParserXml::crearXmlServidor(){
+//-----------------------------------------------------------------------------
+// Crea un archivo xml por defecto para el servidor
+//-----------------------------------------------------------------------------
+
+	XMLDocument xmlDoc;
+	XMLNode * pRaiz = xmlDoc.NewElement("servidor");
+	xmlDoc.InsertFirstChild(pRaiz);
+
+	XMLElement * pMaxCli = xmlDoc.NewElement("cantidadMaximaClientes");
+	pRaiz->InsertEndChild(pMaxCli);
+	XMLText * textoMaxCli = xmlDoc.NewText("7");
+	pMaxCli->InsertEndChild(textoMaxCli);
+
+
+	XMLElement * pPuerto = xmlDoc.NewElement("puerto");
+	pRaiz->InsertEndChild(pPuerto);
+	XMLText * textoPuerto = xmlDoc.NewText("15636");
+	pPuerto->InsertEndChild(textoPuerto);
+
+
+	XMLError eResult = xmlDoc.SaveFile(XML_DEF_SERVIDOR);
+	printf("\ncod ERR= %d\n",eResult);
+
+//	system("pause");
+	return 0;
+}
+
+void ParserXml::cargarXmlServidor(int argc, char* argv[]){
+	int cantargs=argc;
+	char ruta[MAX_RUTA];
+
+	if (cantargs == 2){
+		strcpy(ruta, argv[1]);
+	}
+	else{
+		printf("error, no ruta valida, ingrese ruta\n");
+		scanf("%s",ruta);
+	}
+	printf("\n argumento %s\n", ruta);
+
+	int codErr = this->levantarXMLServidor(ruta);
+	//si hubo error al leer, llama al xml por defecto
+	if (codErr != XML_SUCCESS){
+		printf("\n ERROR:el xml servidor NO fue encontrado o hubo error al intentar abrir");
+		if (codErr == XML_ERROR_MISMATCHED_ELEMENT)
+			printf("\nERROR: Error de sintaxis en xml, xml invalido");
+
+		this->crearXmlServidor();
+		printf("\n INFO:ese cargo xml por defecto del servidor");
+		char * rutaDefecto = XML_DEF_SERVIDOR;
+		codErr = this->levantarXMLServidor(rutaDefecto);
+	}
+	else{
+		printf("\n INFO:xml servidor procesado con exito");
+	}
+}
+
+/*
 int ParserXml::levantarXMLServidor()
 {
 //-----------------------------------------------------------------------------
@@ -234,36 +339,7 @@ int ParserXml::levantarXMLServidor()
 
    return 0;
 }
-
-int ParserXml::crearXmlServidor(){
-//-----------------------------------------------------------------------------
-// Crea un archivo xml por defecto para el servidor
-//-----------------------------------------------------------------------------
-
-	XMLDocument xmlDoc;
-	XMLNode * pRaiz = xmlDoc.NewElement("servidor");
-	xmlDoc.InsertFirstChild(pRaiz);
-
-	XMLElement * pMaxCli = xmlDoc.NewElement("cantidadMaximaClientes");
-	pRaiz->InsertEndChild(pMaxCli);
-	XMLText * textoMaxCli = xmlDoc.NewText("7");
-	pMaxCli->InsertEndChild(textoMaxCli);
-
-
-	XMLElement * pPuerto = xmlDoc.NewElement("puerto");
-	pRaiz->InsertEndChild(pPuerto);
-	XMLText * textoPuerto = xmlDoc.NewText("15636");
-	pPuerto->InsertEndChild(textoPuerto);
-
-
-	XMLError eResult = xmlDoc.SaveFile("xmlDefaultServidor.xml");
-	printf("\ncod ERR= %d\n",eResult);
-
-
-//	system("pause");
-	return 0;
-}
-
+*/
 
 
 /**
@@ -312,11 +388,13 @@ int ParserXml::isValidIp(char * strIp){
 	//4 enteros
 	char listNum[4] = {0,0,0,0};
 
-	char * pFind = strtok(strIp,".");
+	char cadena[20];
+	strcpy(cadena,strIp);
+	char * pFind = strtok(cadena,".");
 	idx = 0;
 	int canNum = 0;
 	while (pFind != NULL){
-		printf ("%s\n",pFind);
+		//printf ("%s\n",pFind);
 		strcpy(cadenaNum,pFind);
 		listNum[idx++] = atoi(cadenaNum);
 		canNum++;
@@ -431,12 +509,12 @@ int ParserXml::isValidValor(char * valor,int tipo){
 		break;
 		case TIPO_DOUBLE:{
 			if (isValidDouble(valor) < 0)
-				return -1;		
+				return -1;
 		}
 		break;
 		case TIPO_INT:{
 			if (isValidInt(valor) < 0)
-				return -1;		
+				return -1;
 		}
 		break;
 		case TIPO_STRING:{
@@ -488,8 +566,8 @@ ClienteXml * ParserXml::createDataClienteXml(){
  */
 void ParserXml::createDataConexionXml(ClienteXml * clienteXml,XMLElement* elemConex){
 	XMLElement* elemIp = (XMLElement*)elemConex->FirstChild();
-	XMLElement* elemPuerto = (XMLElement*)elemConex->LastChild();
 	char *ip = (char*)elemIp->GetText();
+	XMLElement* elemPuerto = (XMLElement*)elemConex->LastChild();	
 	char *puerto = (char*)elemPuerto->GetText();
 	ConexionXml * pConexionXml = clienteXml->getConexionXmlCopy();
 	pConexionXml->setIp(ip);
@@ -503,7 +581,7 @@ void ParserXml::createDataConexionXml(ClienteXml * clienteXml,XMLElement* elemCo
 void ParserXml::createDataListMensajeXml(ClienteXml * clienteXml,XMLElement* listMensajes){
 	XMLNode * elemMensaje = NULL;
 	int idxMjes = 0;
-	char * texto;
+//	char * texto;
 	if (!listMensajes->NoChildren()){	//si tiene al menos un hijo
 		//se obtiene el 1er mensaje <mensaje>
 		XMLNode * data1ErMensaje = listMensajes->FirstChild();
@@ -511,8 +589,8 @@ void ParserXml::createDataListMensajeXml(ClienteXml * clienteXml,XMLElement* lis
 		elemMensaje = data1ErMensaje;
 		while (elemMensaje != listMensajes->LastChild()){
 			//se procesa el mensaje
-			texto = (char*) ((XMLElement*)elemMensaje)->Name();
-			printf("\nMENSAJE= <%s>\n",texto);
+//			texto = (char*) ((XMLElement*)elemMensaje)->Name();
+			//printf("\nMENSAJE= <%s>\n",texto);
 			MensajeXml * mensa = createDataMensajeXml((XMLElement*)elemMensaje);
 			clienteXml->addMensaje(mensa,idxMjes);
 			//leo siguiente mensaje
@@ -520,8 +598,8 @@ void ParserXml::createDataListMensajeXml(ClienteXml * clienteXml,XMLElement* lis
 			idxMjes++; // contador de mensajes del cliente
 		}
 		//leo el ultimo mensaje dado que elemMensaje es el lastchild
-		texto = (char*) ((XMLElement*)elemMensaje)->Name();
-		printf("\nMENSAJE= <%s>",texto);
+//		texto = (char*) ((XMLElement*)elemMensaje)->Name();
+		//printf("\nMENSAJE= <%s>",texto);
 		MensajeXml * mensa = createDataMensajeXml((XMLElement*)elemMensaje);
 		clienteXml->addMensaje(mensa,idxMjes);
 	}
@@ -533,19 +611,19 @@ void ParserXml::createDataListMensajeXml(ClienteXml * clienteXml,XMLElement* lis
 MensajeXml * ParserXml::createDataMensajeXml(XMLElement* elemMensaje){
 	//obtiene el ID
 	XMLElement* elemID = (XMLElement*)elemMensaje->FirstChild();
-	printf("\ntag <%s>",elemID->Name());
-	printf("\nvalue [%s]",elemID->GetText());
+//	printf("\ntag <%s>",elemID->Name());
+//	printf("\nvalue [%s]",elemID->GetText());
 	int id = atoi(elemID->GetText());
 	//obtiene el TIPO
 	XMLElement* elemTIPO = (XMLElement*)elemID->NextSibling();
-	printf("\ntag <%s>",elemTIPO->Name());
-	printf("\nvalue [%s]",elemTIPO->GetText());
+//	printf("\ntag <%s>",elemTIPO->Name());
+//	printf("\nvalue [%s]",elemTIPO->GetText());
 	char * strTipo = (char *)elemTIPO->GetText();
 	int tipo = convertTipoToInt(strTipo);
 	//obtiene el TIPO
 	XMLElement* elemVALOR = (XMLElement*)elemTIPO->NextSibling();
-	printf("\ntag <%s>",elemVALOR->Name());
-	printf("\nvalue [%s]",elemVALOR->GetText());
+//	printf("\ntag <%s>",elemVALOR->Name());
+//	printf("\nvalue [%s]",elemVALOR->GetText());
 	char * valor = (char *)elemVALOR->GetText();
 	return createMensajeXml(id,tipo,valor);
 }
@@ -557,37 +635,52 @@ MensajeXml * ParserXml::createDataMensajeXml(XMLElement* elemMensaje){
  * @return crea y retorna un objeto mensaje cargado segun el tipo que recibe
  */
 MensajeXml * ParserXml::createMensajeXml(int id, int tipo,char * valor){
-	MensajeXml * men = NULL;
+	MensajeXml * men = new MensajeXml(id,tipo,valor);
+	/*
 	switch (tipo)
 	{
 		case TIPO_CHAR:{
 			char car = valor[0];
-			men = new MensajeXml(id,tipo,valor/*&car*/);
+			men = new MensajeXml(id,tipo,valor);
 		}
 		break;
 		case TIPO_DOUBLE:{
 			double numD = atof(valor);
-			men = new MensajeXml(id,tipo,valor/*&numD*/);
+			men = new MensajeXml(id,tipo,valor);
 		}
 		break;
 		case TIPO_INT:{
 			int numI = atoi(valor);
-			men = new MensajeXml(id,tipo,valor/*&numI*/);
+			men = new MensajeXml(id,tipo,valor);
 		}
 		break;
 		case TIPO_STRING:{
 			char * cadena = valor;
-			men = new MensajeXml(id,tipo,valor/*cadena*/);
+			men = new MensajeXml(id,tipo,valor);
 		}
 		break;
 		default:
 			men = NULL;
 		break;
-	}
+	}*/
 	return men;
-
 }
-int ParserXml::validarXml(){
+
+ServidorXml * ParserXml::createDataServidorXml(){
+	ServidorXml * servidorXml = new ServidorXml();
+	XMLNode * raiz = (XMLNode*)&xmlDoc;
+	XMLElement* elemServidor = (XMLElement*)raiz->FirstChild();
+	XMLElement* elemCantidad = (XMLElement*)elemServidor->FirstChild();
+	char *cantidad = (char*)elemCantidad->GetText();
+	servidorXml->setCantidadMaximaClientes(atoi(cantidad));
+	XMLElement* elemPuerto = (XMLElement*)elemCantidad->NextSibling();
+	char *puerto = (char*)elemPuerto->GetText();
+	servidorXml->setPuerto(atoi(puerto));
+
+	return servidorXml;
+}
+
+int ParserXml::validarXmlArchivoCliente(){
 	XMLNode * raiz = (XMLNode*)&xmlDoc;
 	if (raiz->NoChildren())
 		return -1;
@@ -597,24 +690,31 @@ int ParserXml::validarXml(){
 	if (validarClienteXml(elemCliente) < 0)
 		return -1;
 	XMLElement* elemConex = (XMLElement*)elemCliente->FirstChild();
-
 	if (validarConexionXml(elemConex) < 0)
 		return -1;
-	XMLElement* listMensajes = (XMLElement*)elemCliente->LastChild();
+	XMLElement* listMensajes = (XMLElement*)elemConex->NextSibling();
 	if (validarListaMensajesXml(listMensajes) < 0)
+		return -1;
+	if (listMensajes != elemCliente->LastChild())
+		return -1;
+	if (raiz->FirstChild() != raiz->LastChild())
 		return -1;
 	return 0;
 }
 int ParserXml::validarClienteXml(XMLElement* elemCliente){
+	if (elemCliente == NULL)
+		return -1;
 	//error en tag de cliente
 	if (strcmp(elemCliente->Name(),"cliente") != 0)
 		return -1;
 	if (elemCliente->NoChildren())
 		return -1;
-
 	return 0;
 }
+
 int ParserXml::validarConexionXml(XMLElement* elemConex){
+	if (elemConex == NULL)
+		return -1;
 	//error en tag de conexion
 	if (strcmp(elemConex->Name(),"conexion") != 0)
 		return -1;
@@ -627,16 +727,20 @@ int ParserXml::validarConexionXml(XMLElement* elemConex){
 	char *ip = (char*)elemIp->GetText();
 	if (isValidIp(ip) < 0)
 		return -1;
-	XMLElement* elemPuerto = (XMLElement*)elemConex->LastChild();
+	XMLElement* elemPuerto = (XMLElement*)elemIp->NextSibling();
 	//error en tag de puerto
 	if (strcmp(elemPuerto->Name(),"puerto") != 0)
 		return -1;
 	char *puerto = (char*)elemPuerto->GetText();
 	if (isValidPuerto(puerto) < 0)
 		return -1;
+	if (elemConex->LastChild() != elemPuerto)
+		return -1;
 	return 0;
 }
 int ParserXml::validarListaMensajesXml(XMLElement* listMensajes){
+	if (listMensajes == NULL)
+		return -1;
 	//error en tag de listMensajes
 	if (strcmp(listMensajes->Name(),"mensajes") != 0)
 		return -1;
@@ -661,6 +765,8 @@ int ParserXml::validarListaMensajesXml(XMLElement* listMensajes){
 	return 0;
 }
 int ParserXml::validarMensajeXml(XMLElement* elemMensaje){
+	if (elemMensaje == NULL)
+		return -1;
 	//error en tag de elemMensaje
 	if (strcmp(elemMensaje->Name(),"mensaje") != 0)
 		return -1;
@@ -683,6 +789,8 @@ int ParserXml::validarMensajeXml(XMLElement* elemMensaje){
 	XMLElement* elemVALOR = (XMLElement*)elemTIPO->NextSibling();
 	if (strcmp(elemVALOR->Name(),"valor") != 0)
 		return -1;
+	if (elemMensaje->LastChild() != elemVALOR)
+		return -1;
 	char * valor = (char*)elemVALOR->GetText();
 	int nTipo = convertTipoToInt(tipo);
 	//no se valida el valor
@@ -690,5 +798,50 @@ int ParserXml::validarMensajeXml(XMLElement* elemMensaje){
 	if (isValidValor(valor,nTipo) < 0)
 		return -1;
 	*/
+	return 0;
+}
+
+int ParserXml::validarXmlArchivoServidor(){
+	XMLNode * raiz = (XMLNode*)&xmlDoc;
+	if (raiz->NoChildren())
+		return -1;
+	XMLElement* elemServidor = (XMLElement*)raiz->FirstChild();
+	if (elemServidor->NoChildren())
+		return -1;
+	if (validarServidorXml(elemServidor) < 0)
+		return -1;
+	XMLElement* elemCantidad = (XMLElement*)elemServidor->FirstChild();
+	//error en tag de cantidad
+	if (strcmp(elemCantidad->Name(),"cantidadMaximaClientes") != 0)
+		return -1;
+	char *cantidad = (char*)elemCantidad->GetText();
+	if (isValidInt(cantidad) < 0)
+		return -1;
+	XMLElement* elemPuerto = (XMLElement*)elemCantidad->NextSibling();
+	//error en tag de puerto
+	if (strcmp(elemPuerto->Name(),"puerto") != 0)
+		return -1;
+	char *puerto = (char*)elemPuerto->GetText();
+	if (isValidPuerto(puerto) < 0)
+		return -1;
+
+	//repetidos
+	if (elemPuerto != elemServidor->LastChild())
+		return -1;
+	//
+	if (raiz->FirstChild() != raiz->LastChild())
+		return -1;
+	return 0;
+}
+
+
+int ParserXml::validarServidorXml(XMLElement* elemServidor){
+	if (elemServidor == NULL)
+		return -1;
+	//error en tag de cliente
+	if (strcmp(elemServidor->Name(),"servidor") != 0)
+		return -1;
+	if (elemServidor->NoChildren())
+		return -1;
 	return 0;
 }

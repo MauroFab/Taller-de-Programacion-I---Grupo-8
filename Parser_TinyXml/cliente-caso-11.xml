@@ -8,7 +8,6 @@
             <id>111</id>
             <tipo>INT</tipo>
             <valor>xxxxx</valor>
-            <valor>xxxxx</valor>
         </mensaje>
         <mensaje>
             <id>102</id>
@@ -24,6 +23,6 @@
             <id>104</id>
             <tipo>CHAR</tipo>
             <valor>xxxxxx</valor>
-        </mensaje>
+
     </mensajes>
 </cliente>

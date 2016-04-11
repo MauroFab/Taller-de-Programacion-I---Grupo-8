@@ -4,12 +4,11 @@
         <puerto>2020</puerto>
     </conexion>
     <mensajes>
-        <mensaje>
+        <MENSAJE>
             <id>111</id>
             <tipo>INT</tipo>
             <valor>xxxxx</valor>
-            <valor>xxxxx</valor>
-        </mensaje>
+        </MENSAJE>
         <mensaje>
             <id>102</id>
             <tipo>STRING</tipo>

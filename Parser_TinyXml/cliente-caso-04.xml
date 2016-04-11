@@ -2,12 +2,12 @@
     <conexion>
         <ip>127.0.0.1</ip>
         <puerto>2020</puerto>
+        <puerto>2020</puerto>
     </conexion>
     <mensajes>
         <mensaje>
             <id>111</id>
             <tipo>INT</tipo>
-            <valor>xxxxx</valor>
             <valor>xxxxx</valor>
         </mensaje>
         <mensaje>

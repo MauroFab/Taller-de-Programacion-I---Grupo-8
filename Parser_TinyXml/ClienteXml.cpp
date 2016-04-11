@@ -2,10 +2,18 @@
 
 ClienteXml::ClienteXml()
 {
+	for (int i = 0; i < MAX_MENSAJES; i++){
+		this->lista[i] = NULL;
+	}
 }
 
 ClienteXml::~ClienteXml()
 {
+	for (int i = 0; i < MAX_MENSAJES; i++){
+		if (this->lista[i] != NULL)
+			delete this->lista[i];
+	}
+
 }
 void ClienteXml::setConexionXmlCopy(const ConexionXml &conexionXml){
 	this->conexionXml = conexionXml;

@@ -4,11 +4,14 @@
 #include "ConexionXml.h"
 #include "MensajeXml.h"
 
+#define MAX_MENSAJES	100
+
 class ClienteXml
 {
 private:
 	ConexionXml conexionXml;
-	MensajeXml * lista[10];
+	//BUG-001 cambiar la lista de mensajes
+	MensajeXml * lista[MAX_MENSAJES];
 public:
 	ClienteXml();
 	virtual ~ClienteXml();

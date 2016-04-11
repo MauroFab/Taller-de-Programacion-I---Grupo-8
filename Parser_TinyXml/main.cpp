@@ -3,8 +3,8 @@
 #include "ParserXml.h"
 using namespace tinyxml2;
 
-//esta funcion realiza la carga del xml del cliente
-void cargarXmlCliente(ParserXml &parserx,int argc, char* argv[]);
+#define IS_CLIENTE 0
+//#define IS_SERVIDOR 0
 
 /**
  * @param mensajeXml mensaje que contiene los datos a convertir en tira de bytes
@@ -28,63 +28,50 @@ void ejemplo_varios_mensajes();
 //CLIENTE
 int main(int argc, char* argv[])
 {
+#ifdef 	IS_CLIENTE
 	printf("\nCLIENTE");
 	ParserXml parserx;
-//	crearXmlCliente();
-	cargarXmlCliente(parserx,argc,argv);
-	int res = parserx.validarXml();
+	parserx.cargarXmlCliente(argc,argv);
+	int res = parserx.validarXmlArchivoCliente();
 	if (res < 0){
-		printf("\nERROR\n");
+		printf("\nERROR: Error semantico\n");
 	}
 	else{
+		//luego de la carga crea los datos a partir del XML
+		ClienteXml * clienteXml = parserx.createDataClienteXml();
 		printf("\nOK\n");
+		// luego de usarlo se debe borrar
+		delete clienteXml;
 	}
-
-	//luego de la carga crea los datos a partir del XML
-	ClienteXml * clienteXml = parserx.createDataClienteXml();
-	
 	//---------------------------------
-	//PATRICIO fijate ACA
+//	ejemplo_varios_mensajes();
 	//---------------------------------
-	ejemplo_varios_mensajes();
-	//---------------------------------
-	//PATRICIO fijate ACA
-	//---------------------------------
-
-	
 	system("pause");
 	return 0;
-}
+#endif
 
-void cargarXmlCliente(ParserXml &parserx,int argc, char* argv[]){
-//	levantarXMLCliente();
-//	levantarXMLServidor();
-//    crearXmlServidor();
-	int cantargs=argc;
-	char ruta[200];
-	
-	if (cantargs == 2){
-		strcpy(ruta, argv[1]);
+
+#ifdef 	IS_SERVIDOR
+	printf("\nSERVIDOR");
+	ParserXml parserx;
+	parserx.cargarXmlServidor(argc,argv);
+	int res = parserx.validarXmlArchivoServidor();
+	if (res < 0){
+		printf("\nERROR: Error semantico\n");
 	}
 	else{
-		printf("error, no ruta valida, ingrese ruta\n");
-		scanf("%s",ruta);
+		//luego de la carga crea los datos a partir del XML
+		ServidorXml * servidorXml = parserx.createDataServidorXml();
+		printf("\nOK\n");
+		// luego de usarlo se debe borrar
+		delete servidorXml;
 	}
-	printf("\n argumento %s\n", ruta);
-	
-	int codErr = parserx.levantarXMLCliente(ruta);
-	//si hubo error al leer, llama al xml por defecto
-	if (codErr != XML_SUCCESS){
-		printf("\n ERROR:el xml cliente NO fue encontrado o hubo error al intentar abrir");
-		parserx.crearXmlCliente();
-		printf("\n INFO:ese cargo xml por defecto del cliente");
-		char * rutaDefecto = "xmlDefaultCliente.xml";
-		codErr = parserx.levantarXMLCliente(rutaDefecto);
-	}
-	else{
-		printf("\n INFO:xml cliente procesado con exito");
-	}
-	
+	//---------------------------------
+//	ejemplo_varios_mensajes();
+	//---------------------------------
+	system("pause");
+	return 0;
+#endif	
 }
 
 int ejemplo_MensajeXml_TO_Buffer(MensajeXml &mensajeXml,char * buffer){

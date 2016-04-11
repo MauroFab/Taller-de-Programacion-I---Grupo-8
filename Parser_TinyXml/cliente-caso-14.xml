@@ -5,23 +5,23 @@
     </conexion>
     <mensajes>
         <mensaje>
-            <id>101</id>
-            <tipo>INT</tipo>
+            <id>mensaje1</id>
+            <tipo>int</tipo>
             <valor>i1</valor>
         </mensaje>
         <mensaje>
-            <id>102</id>
-            <tipo>STRING</tipo>
+            <id>mensaje2</id>
+            <tipo>string</tipo>
             <valor>hola mundo</valor>
         </mensaje>
         <mensaje>
-            <id>103</id>
-            <tipo>DOUBLE</tipo>
+            <id>mensaje3</id>
+            <tipo>double</tipo>
             <valor>21.00</valor>
         </mensaje>
         <mensaje>
-            <id>104</id>
-            <tipo>CHAR</tipo>
+            <id>mensaje4</id>
+            <tipo>char</tipo>
             <valor>a</valor>
         </mensaje>
     </mensajes>
