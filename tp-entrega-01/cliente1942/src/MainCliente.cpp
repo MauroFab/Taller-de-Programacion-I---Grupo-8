@@ -1,20 +1,52 @@
 #include "MainCliente.h"
-#include "../../common/Log.h"
 
-MainCliente::MainCliente(string dirXml):dirXML(dirXml),conex(0),len(0),conectado(false)
-{
 
+MainCliente::MainCliente(){
+	dirXML.assign("");
+	conex = 0;
+	len = 0;
+	conectado = false;
 	// aca deberia de obtener el ip, port y cargar los mensajes en el map
-	ip="localhost";
-	port="9999";
+	ip = "";
+	port = -1;
 	// si usan el principal comentar inicializar()
+	parserx = new ParserXml();
 
 }
 
-MainCliente::~MainCliente()
-{
+MainCliente::~MainCliente(){
+	delete this->parserx;
 }
 
+void MainCliente::parsearArchivoXml(int argc, char* argv[]){
+	getParserXml()->cargarXmlCliente(argc,argv);
+	int res = getParserXml()->validarXmlArchivoCliente();
+	if (res < 0){
+		printf("\nERROR: Error semantico\n");
+	}
+	else{
+		//luego de la carga crea los datos a partir del XML
+		ClienteXml * clienteXml = getParserXml()->createDataClienteXml();
+		printf("\nOK\n");
+		//se cargan los datos desde el cliente
+		//copia la ip
+		this->ip.assign(clienteXml->getConexionXmlCopy()->getIp());
+		//copia el puerto
+		int puerto = clienteXml->getConexionXmlCopy()->getPuerto();
+		char cadena[10];
+		sprintf(cadena,"%d",puerto);
+		this->port.assign(cadena);
+
+		// luego de usarlo se debe borrar
+		delete clienteXml;
+	}
+
+}
+
+ParserXml * MainCliente::getParserXml(){
+	return this->parserx;
+}
+/*
 int MainCliente::principal(){
 	WSADATA wsa;
 	//	SOCKET sock;
@@ -79,6 +111,7 @@ int MainCliente::principal(){
 	WSACleanup();
 	return 0;
 }
+*/
 
 int MainCliente::inicializar(){
 

@@ -9,12 +9,14 @@
 #include <list>
 #include <string>
 #include <sstream>
-#include <cstdlib> 
+#include <cstdlib>
 #include <SDL2\SDL_thread.h>
 #include <SDL2\SDL.h>
 
 #pragma comment(lib,"ws2_32.lib")
 
+#include "../../common/Log.h"
+#include "ParserXml.h"
 #define OPT_CONECTAR	1
 #define OPT_DESCONECTAR 2
 #define OPT_SALIR		3
@@ -28,7 +30,7 @@ using std::pair;
 class MainCliente
 {
 private:
-	SOCKET sock;	
+	SOCKET sock;
 	map<int,string> mapMensajes;
 	string dirXML;
 	string ip,port;
@@ -42,11 +44,15 @@ private:
 		int tiempo;
 	}ciclar_t;
 
+	//contiene al parser, lo crea y lo borra
+	ParserXml * parserx;
 
 public:
-	MainCliente(string dirXml);
+	MainCliente();
 	virtual ~MainCliente();
-	int principal();
+	void parsearArchivoXml(int argc, char* argv[]);
+	ParserXml * getParserXml();
+//	int principal();
 	int menu();
 	static int contarCiclo(void* time);
 	int optConectar();
