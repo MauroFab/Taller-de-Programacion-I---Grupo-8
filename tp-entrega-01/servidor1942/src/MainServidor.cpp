@@ -1,5 +1,9 @@
 #include "MainServidor.h"
 #include "asignadorDeUsuarios.h"
+#include "../../common/Log.h"
+
+#include <sstream>
+
 bool MainServidor::instanceFlag = false;
 MainServidor* MainServidor::single = NULL;
 
@@ -49,6 +53,7 @@ SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
 	//asociamos el socket al puerto
 	if (bind(sock, (SOCKADDR*) &local, sizeof(local))==-1){
 		printf("error en el bind\n");
+		Log::getInstance()->error(" asociando el socket al puerto.");
 	}
 	return sock;
 }
@@ -56,6 +61,7 @@ SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
 void MainServidor::ponerAEscuchar(SOCKET sock){
 	if (listen(sock,2)==-1){
 		printf("error en el listen\n");
+		Log::getInstance()->error(" al iniciar el listen.");
 	}
 }
 int MainServidor::fun_atenderCliente(void* punteroAlSocketRecibido){
@@ -72,28 +78,36 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 {
 	StructDelEnviadorDeMensajes structRecibido = *((StructDelEnviadorDeMensajes*) structPointer);
 	IdYPunteroAlSocket idYPunteroAlSocket = structRecibido.idYPunteroAlSocket;
+
 	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
 	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
+	
 	//el socket es igual a la direccion apuntada por el punteroAlSocket
 	int id = idYPunteroAlSocket.id;
 	std::queue<char*>* colaDeMensajesParaEnviar;
 	char* mensaje;
 	bool* seCerroLaConexionPointer = structRecibido.seCerroLaConexion;
 	colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
+	
 	printf("Se esta preparado para enviar mensajes al usuario: %i\n",id); 
+	
 	while(!(*seCerroLaConexionPointer)){
+
 		if(!colaDeMensajesParaEnviar->empty()){
+			
 			mensaje = colaDeMensajesParaEnviar->front();
 			SDL_mutexP(mut);
 			colaDeMensajesParaEnviar->pop();
 			SDL_mutexV(mut);
 			send(socket, mensaje, strlen(mensaje), 0 );
+
 			//Aca debería liberar la memoria del mensaje, pero si lo hago estalla.
 			//Y efectivamente si mando muchos mensajes (Con un solo cliente abierto), la memoria aumenta, asi que 
 			// la estamos perdiendo con los mensajes
 		}
 	}
-    return 0;
+    
+	return 0;
 }
 
 int MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido){
@@ -156,6 +170,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 	mut=SDL_CreateMutex();
 	StructDelEnviadorDeMensajes* structParaEnviar = new StructDelEnviadorDeMensajes;
 	bool* seCerroLaConexion = new bool;
+
 	//Si bien seCerroLaConexion es algo que se accede de dos threads y puede ser bloqueado con un semaforo
 	//No es relevante, una desincronizacion lleva a que se cicle un par de veces demás en el otro thread
 	//se perdera mas tiempo bloqueandolo.
@@ -169,33 +184,65 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 	structParaEnviar->seCerroLaConexion = seCerroLaConexion;
 	threadDeEnvioDeMensajes =
 		SDL_CreateThread(MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos, "mensajesParaElCliente", (void*) structParaEnviar);
-   	while (len != 0 && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
+
+	while (len > 0 && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
+		
 		len=recv(socket,Buffer,1023,0); //recibimos los datos que envie
+		
 		if (len>0){
-		 //si seguimos conectados
+			//si seguimos conectados
 			Buffer[len]=0; //Ponemos el fin de cadena 
 			guardarElMensajeEnLaColaPrincipal(Buffer, id);
 		}
+		else if (len == 0){
+			// VER: Mauro *seCerroLaConexion deberia ir aca o es lo mismo que este afuera?
+			Log::getInstance()->info( "Se ha desconectado correctamente el usuario " + id);
+		}
+		else if (len < 0){
 
+			// VER: Mauro *seCerroLaConexion deberia ir aca o es lo mismo que este afuera?
+			// Si es -1 hay un error en la conexion
+			int error = WSAGetLastError();
+
+			if(error == WSAENOTCONN || error == WSAECONNRESET)
+				Log::getInstance()->error( "Se ha desconectado inesperadamente el usuario " + id);
+			else if (error == WSAENETDOWN)
+				Log::getInstance()->error( "Red caida");
+			else
+				Log::getInstance()->error( "Error de conexion usuario " + id);
+		}
 	}
+	
 	*seCerroLaConexion = true;
+	
+	// IMPORTANTE: el socket solo se libera cuando se detiene el server, sino no pueden reutilizarse. 
 	if(seDebeCerrarElServidor){
-		closesocket(socket);
+		int result = closesocket(socket);
 	    WSACleanup();
 	}
+	
 	SDL_WaitThread(threadDeEnvioDeMensajes, NULL);
 	delete seCerroLaConexion;
 	usuarios->eliminarUsuario(id);
+
 	printf("La cantidad de clientes conectados es: %i\n",usuarios->cantidadDeUsuarios()); 
-    return 0;
+	Log::getInstance()->info("La cantidad de clientes conectados es: " + usuarios->cantidadDeUsuarios());
+
+	return 0;
 }
 //----------------------------------------------------------------------------
 void freeSockets (SOCKET* s) {  // libero la memoria de los sockets
-  free(s);
+
+	Log::getInstance()->debug("Liberando recursos del socket.");
+	
+	free(s);
 }
 void waitThread (SDL_Thread* h) {  // wait para todos los threadsockets
+
 	printf("wait al Thread \n");
-  SDL_WaitThread(h, NULL);
+	Log::getInstance()->debug("Esperando que el thread finalice.");
+
+	SDL_WaitThread(h, NULL);
 }
 //----------------------------------------------------------------------------
 /*
@@ -231,11 +278,11 @@ int MainServidor::recibirConexiones(void*){
 	return 0;
 }*/
 int MainServidor::recibirConexiones(void*){
+	
 	struct sockaddr_in local;
 
 	SOCKET* socketConexion;
-	int len;
-	len=sizeof(struct sockaddr);//Si no pongo esto no funciona, queda para futuras generaciones descubrir porque.
+	int len = sizeof(struct sockaddr);//Si no pongo esto no funciona, queda para futuras generaciones descubrir porque.
 
 	IdYPunteroAlSocket idYPunteroAlSocket;
 	socketDeEscucha = obtenerSocketInicializado(local);
@@ -244,29 +291,53 @@ int MainServidor::recibirConexiones(void*){
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
 	do{
 		if(usuarios->puedoTenerMasUsuarios()){ 
+			
 			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
+	
+			Log::getInstance()->debug("En espera de conexiones"); 
 			printf("En espera de conexiones\n"); 
+
 			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
-			printf("Nueva conexion aceptada\n"); 
-			// aca chequear los errores por si desconectamos el servidor, cerrando su conexion
-			idYPunteroAlSocket.id = usuarios->crearUsuarioYObtenerId();
-			printf("La cantidad de clientes conectados es: %i\n",usuarios->cantidadDeUsuarios()); 
-			printf("La id del nuevo usuario es: %i\n",idYPunteroAlSocket.id); 
-			if(usuarios->puedoTenerMasUsuarios()){
-				printf("Todavia se pueden tener mas usuarios\n");
-			}else{
-				printf("Se ha alcanzado el limite de usuarios");
+
+			// VER: agrego esta validacion porque sino puede agrega "sockets invalidos" y en la primer vuelta agrega el usuario
+			// sin tener aun conexiones invocadas
+
+			if (*socketConexion != INVALID_SOCKET) {
+			
+				printf("Nueva conexion aceptada\n"); 
+				Log::getInstance()->info("Nueva conexion acceptada");
+			
+				// aca chequear los errores por si desconectamos el servidor, cerrando su conexion
+				idYPunteroAlSocket.id = usuarios->crearUsuarioYObtenerId();
+				printf("La cantidad de clientes conectados es: %i\n",usuarios->cantidadDeUsuarios()); 
+				printf("La id del nuevo usuario es: %i\n",idYPunteroAlSocket.id); 
+			
+				if(usuarios->puedoTenerMasUsuarios()){
+					printf("Todavia se pueden tener mas usuarios\n");
+				}else{
+					printf("Se ha alcanzado el limite de usuarios");
+					Log::getInstance()->info("Se ha alcanzado el limite de usuarios.");
+				}
+			
+				idYPunteroAlSocket.punteroAlSocket = socketConexion;
+				vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
+				vectorSockets.push_back(socketConexion);
+				// colaSockets.push(socketConexion);
+				// algun contendor para los hilos que se crean		
 			}
-			idYPunteroAlSocket.punteroAlSocket = socketConexion;
-			vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
-			vectorSockets.push_back(socketConexion);
-			// colaSockets.push(socketConexion);
-			// algun contendor para los hilos que se crean			
+			else{
+				//VER: revisar si es necesario
+				free(socketConexion);
+			}
+
 		}
+
 	}while(!seDebeCerrarElServidor);
+
 	for_each (vectorHilos.begin(), vectorHilos.end(), waitThread);
 	//liberar memoria de los sockets
 	for_each (vectorSockets.begin(), vectorSockets.end(), freeSockets);
+
 	return 0;
 }
 
@@ -282,38 +353,65 @@ int MainServidor::consolaDelServidor(void*){
 }
 
 int MainServidor::mainPrincipal(){
+
+	Log::getInstance()->debug("Servidor - Main Principal");
+
 	mut=SDL_CreateMutex();
 	MensajeConId* mensajeConId;
+	
 	printf("Escriba terminar si desea cerrar el servidor\n", usuarios->cantidadDeUsuarios()); 
 
 	SDL_Thread* receptor=SDL_CreateThread(MainServidor::fun_recibirConexiones, "recibirConexiones", NULL);
 	SDL_Thread* consola=SDL_CreateThread(MainServidor::fun_consolaDelServidor, "recibirConexiones", NULL);
 
+	Log::getInstance()->debug("Servidor - Main Principal: se inician los thread recibirConexiones");
+
 	while(!seDebeCerrarElServidor){
-		//printf("BUG-002");
+
 		SDL_mutexP(mut);
+
 		if(!colaDeMensaje.empty()){
+
 			//consumidor
 			std::queue<char*>* colaDeMensajesDelUsuario;
 			mensajeConId = colaDeMensaje.front();
 			colaDeMensaje.pop();
+
 			printf("Recibido del usuario:%i", mensajeConId->id);
 			printf(" el mensaje:%s\n",mensajeConId->mensaje);
+
+			// Log info
+			stringstream mensajeLog; 
+			mensajeLog << "Usuario " << mensajeConId->id << " Mensaje: " << mensajeConId->mensaje;
+			Log::getInstance()->info(mensajeLog.str());
+
 			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(mensajeConId->id);
 			char* mensajeDeRespuesta = new char;
+
 			mensajeDeRespuesta = "Llego todo bien";
+
 			SDL_mutexP(mut);
 			colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
 			SDL_mutexV(mut);
 			delete mensajeConId;
 		}
+
 		SDL_mutexV(mut);
 		SDL_Delay(100);//No quiero tener permanentemente bloqueada la cola para revisar si llego algo.
 	}
+
+	Log::getInstance()->info("Se solicito la detención del Server.");
+
 	SDL_WaitThread(receptor, NULL);
 	SDL_WaitThread(consola, NULL);
+
+	Log::getInstance()->debug("Servidor - Main Principal: esperando que los threads finalicen.");
+
 	SDL_DestroyMutex(mut);
 	SDL_Delay(20000);
+
+	Log::getInstance()->debug("Servidor - Main Principal: se liberaron los recursos.");
+
 	return 0;
 }
 

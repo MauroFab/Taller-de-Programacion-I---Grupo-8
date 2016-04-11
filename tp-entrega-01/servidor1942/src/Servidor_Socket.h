@@ -1,7 +1,6 @@
 #include "Common_Socket.h"
-//#include "../../Common/Common_Socket.h"
-class Servidor_Socket :
-	public Common_Socket
+
+class Servidor_Socket : public Common_Socket
 {
 public:
 	Servidor_Socket(SOCKET& socket);

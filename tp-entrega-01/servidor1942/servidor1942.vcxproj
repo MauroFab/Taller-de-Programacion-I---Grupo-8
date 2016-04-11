@@ -85,6 +85,8 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\Log.cpp" />
+    <ClCompile Include="..\common\StringUtil.cpp" />
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
     <ClCompile Include="src\Common_Socket.cpp" />
     <ClCompile Include="src\MainServidor.cpp" />
@@ -92,6 +94,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\Log.h" />
+    <ClInclude Include="..\common\StringUtil.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />
     <ClInclude Include="src\MainServidor.h" />
     <ClInclude Include="src\Servidor_Socket.h" />

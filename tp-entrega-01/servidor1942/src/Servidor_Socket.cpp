@@ -1,4 +1,5 @@
 #include "Servidor_Socket.h"
+#include "../../common/Log.h"
 
 Servidor_Socket::Servidor_Socket(SOCKET& socket):Common_Socket(socket){}
 Servidor_Socket::Servidor_Socket(string ip,string port):Common_Socket(ip,port){}
@@ -10,6 +11,7 @@ int Servidor_Socket::escuchar(){
 	if (bind(sock, (SOCKADDR*) &local, sizeof(local))==-1)
 	{
 		printf("error en el bind\n");
+		Log::getInstance()->error(" asociando el socket al puerto.");
 		return -1;
 	}
 	
@@ -17,6 +19,7 @@ int Servidor_Socket::escuchar(){
 	if (listen(sock,1)==-1)
 	{
 		printf("error en el listen\n");
+		Log::getInstance()->error(" al iniciar el listen del socket.");
 		return -1;
 	}
 

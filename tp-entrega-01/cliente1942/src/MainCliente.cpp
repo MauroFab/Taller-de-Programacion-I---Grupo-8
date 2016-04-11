@@ -1,4 +1,5 @@
 #include "MainCliente.h"
+#include "../../common/Log.h"
 
 MainCliente::MainCliente(string dirXml):dirXML(dirXml),conex(0),len(0),conectado(false)
 {
@@ -10,10 +11,10 @@ MainCliente::MainCliente(string dirXml):dirXML(dirXml),conex(0),len(0),conectado
 
 }
 
-
 MainCliente::~MainCliente()
 {
 }
+
 int MainCliente::principal(){
 	WSADATA wsa;
 	//	SOCKET sock;
@@ -33,6 +34,8 @@ int MainCliente::principal(){
 	if (sock==-1)
 	{
 		printf("Error al crear el socket");
+		Log::getInstance()->error(" al crear el socket.");
+
 		return -1;
 	}
 	setsockopt (sock, IPPROTO_TCP, SO_REUSEADDR | SOCK_STREAM, (char*)&c, sizeof(int));
@@ -48,8 +51,10 @@ int MainCliente::principal(){
 	if (conex==-1) //si no se ha podido conectar porque no se ha encontrado el host o no
 		//está el puerto abierto
 	{
+		Log::getInstance()->info("No se ha podido conectar al server.");
 		printf("No se ha podido conectar\n");
 		printf("%i", conex);
+
 		return -1;
 	}
 
@@ -62,7 +67,10 @@ int MainCliente::principal(){
 		printf("Texto a enviar:");
 		scanf("%s",Buffer); //pedir texto a enviar por pantalla
 	}
+
 	if(strcmp(Buffer,"salir") != 0){ //si no se escribio salir
+
+		Log::getInstance()->error("El mensaje no se pudo enviar porque el servidor termino la conexion.");
 		printf("El mensaje no se pudo enviar porque el servidor termino la conexion\n");
 		printf("Introduzca cualquier tecla para salir\n");
 		scanf("%s",Buffer);
@@ -84,6 +92,7 @@ int MainCliente::inicializar(){
 	sock=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 	if (sock==-1)
 	{
+		Log::getInstance()->error(" al crear el socket.");
 		printf("Error al crear el socket");
 		return -1;
 	}
@@ -101,14 +110,15 @@ int MainCliente::optConectar(){
 	printf("\n OPT_CONECTAR\n ");
 	inicializar();
 	if(conectado==true){
+		Log::getInstance()->warn(" el cliente ya se encuentra conectado.");
 		printf("ya se encuentra conectado \n"); //WARN?
 	}
 	else{
 		//Intentamos establecer la conexión
 		conex=connect(sock,(sockaddr *)&direc, sizeof(sockaddr));
-		if (conex==-1) //si no se ha podido conectar porque no se ha encontrado el host o no
-			//está el puerto abierto
+		if (conex==-1) //si no se ha podido conectar porque no se ha encontrado el host o no está el puerto abierto
 		{
+			Log::getInstance()->error(" no se ha podido conectar.");
 			printf("No se ha podido conectar\n");
 			printf("%i", conex);
 			return -1;
@@ -151,7 +161,10 @@ int MainCliente::cargarIDMensajes(){
 }
 int MainCliente::optEnviar(){
 	if(conectado==false){ //!conectado
+
+		Log::getInstance()->info(" debe conectarse para enviar/recibir mensajes.");
 		printf("Tiene que estar conectado para que puedas enviar/recibir \n");
+
 		return -1;
 	}
 	char bufferEntrada[1024];
@@ -171,13 +184,19 @@ int MainCliente::optEnviar(){
 			printf("Mensaje no encontrado\n");
 			enc=0;
 		}else{
+
 			len=send(sock,it->second.c_str(),strlen(it->second.c_str()),0); //enviar el texto que se ha introducido
+			
+			Log::getInstance()->debug(it->second.c_str());
 			printf("Enviando el mensaje: %s Falta terminar\n",it->second.c_str());
 			enc=1;
+			
 			// usar el socket y enviar el mensaje
 			//recibir un mensaje
 			len2 = recv(sock,bufferEntrada,1023,0);
 			bufferEntrada[len2] =0;
+
+			Log::getInstance()->debug(bufferEntrada);
 			printf("Recibida respuesta: %s\n",bufferEntrada);
 		}
 
@@ -193,6 +212,8 @@ int MainCliente::contarCiclo(void* sciclo){
 }
 int MainCliente::optCiclar(){
 	if(conectado==false){ //!conectado
+
+		Log::getInstance()->info(" debe conectarse para enviar/recibir mensajes.");
 		printf("Tiene que estar conectado para que puedas enviar/recibir \n");
 		return -1;
 	}

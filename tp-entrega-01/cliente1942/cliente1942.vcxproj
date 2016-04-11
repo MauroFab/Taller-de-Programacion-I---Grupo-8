@@ -85,10 +85,14 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\Log.cpp" />
+    <ClCompile Include="..\common\StringUtil.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainCliente.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\Log.h" />
+    <ClInclude Include="..\common\StringUtil.h" />
     <ClInclude Include="src\MainCliente.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
