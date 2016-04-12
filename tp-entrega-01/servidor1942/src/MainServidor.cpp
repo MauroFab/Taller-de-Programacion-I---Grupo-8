@@ -1,8 +1,4 @@
 #include "MainServidor.h"
-#include "asignadorDeUsuarios.h"
-#include "../../common/Log.h"
-
-#include <sstream>
 
 bool MainServidor::instanceFlag = false;
 MainServidor* MainServidor::single = NULL;
@@ -18,10 +14,10 @@ struct StructDelEnviadorDeMensajes {
 };
 
 MainServidor::MainServidor(){
-	static int cantidadDeClientesMaxima = 2;
-	usuarios = new AsignadorDeUsuarios(cantidadDeClientesMaxima);
-	seDebeCerrarElServidor = false;
-	int cantidadDeClientes = 0;
+	//se realiza una inicializacion parcial
+	this->usuarios = NULL;
+	this->seDebeCerrarElServidor = true;
+	this->puerto = -1;
 }
 
 MainServidor::~MainServidor(){
@@ -37,6 +33,27 @@ MainServidor* MainServidor::getInstance(){
 	else{
 		return single;
 	}
+}
+void MainServidor::parsearArchivoXml(int argc, char* argv[]){
+	ParserXml parserx;
+	parserx.cargarXmlServidor(argc,argv);
+	int res = parserx.validarXmlArchivoServidor();
+	if (res < 0){
+		printf("\nERROR: Error semantico\n");
+	}
+	else{
+		//luego de la carga crea los datos a partir del XML
+		ServidorXml * servidorXml = parserx.createDataServidorXml();
+		printf("\nOK\n");
+		static int cantidadDeClientesMaxima = servidorXml->getCantidadMaximaClientes();
+		this->puerto = servidorXml->getPuerto();
+		this->usuarios = new AsignadorDeUsuarios(cantidadDeClientesMaxima);
+		this->seDebeCerrarElServidor = false;
+		
+		// luego de usarlo se debe borrar
+		delete servidorXml;
+	}
+
 }
 
 SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
