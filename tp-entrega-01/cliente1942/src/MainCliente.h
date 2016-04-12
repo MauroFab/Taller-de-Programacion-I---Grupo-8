@@ -65,6 +65,7 @@ public:
 	int optCiclar();
 	int optErronea();
 	int cargarIDMensajes(ClienteXml * clienteXml);
+	int cargarMenuMsj();
 private:
 	int inicializar();
 };

@@ -144,7 +144,6 @@ int MainCliente::inicializar(){
 	return 0;
 }
 int MainCliente::optConectar(){
-	printf("\n OPT_CONECTAR\n ");
 	inicializar();
 	if(conectado==true){
 		Log::getInstance()->warn(" el cliente ya se encuentra conectado.");
@@ -165,7 +164,6 @@ int MainCliente::optConectar(){
 	return 0;
 }
 int MainCliente::optDesconectar(){
-	printf("\n OPT_DESCONECTAR\n ");
 	shutdown(sock,2);
 	closesocket(sock);
 	conectado=false;
@@ -173,10 +171,10 @@ int MainCliente::optDesconectar(){
 	return 0;
 }
 int MainCliente::optSalir(){
-	printf("\n OPT_SALIR\n ");
 	mapMensajes.clear(); // chequear si se liberan los string
 	// liberar la memoria de los mensajes
 	optDesconectar();
+
 	return 0;
 }
 // auxiliar de carga de mensajes que deberia hacerse desde el xml
@@ -201,17 +199,14 @@ int MainCliente::cargarIDMensajes(ClienteXml * clienteXml){
 	}
 	*/
 	//hasta aca
-	std::map<int,string>::iterator it = mapMensajes.begin();
-	for (it=mapMensajes.begin(); it!=mapMensajes.end(); ++it)
-		std::cout<< "ID:" << it->first << " => " << it->second << std::endl;
 	return 0;
 }
 int MainCliente::optEnviar(){
 	if(conectado==false){ //!conectado
 
 		Log::getInstance()->info(" debe conectarse para enviar/recibir mensajes.");
-		printf("Tiene que estar conectado para que puedas enviar/recibir \n");
-
+		printf("debe conectarse para enviar/recibir mensajes. \n");
+		system("PAUSE");
 		return -1;
 	}
 	char bufferEntrada[1024];
@@ -237,7 +232,7 @@ int MainCliente::optEnviar(){
 			len=send(sock,it->second.c_str(),strlen(it->second.c_str()),0); //enviar el texto que se ha introducido
 			
 			Log::getInstance()->debug(it->second.c_str());
-			printf("Enviando el mensaje: %s Falta terminar\n",it->second.c_str());
+			std::cout<< "Enviando:> ID:" << it->first << " => " << it->second;
 			enc=1;
 			
 			// usar el socket y enviar el mensaje
@@ -246,7 +241,7 @@ int MainCliente::optEnviar(){
 			bufferEntrada[len2] =0;
 
 			Log::getInstance()->debug(bufferEntrada);
-			printf("Recibida respuesta: %s\n",bufferEntrada);
+		printf(" || respuesta servidor:> %s\n",bufferEntrada);
 		}
 
 	}
@@ -263,33 +258,39 @@ int MainCliente::optCiclar(){
 	if(conectado==false){ //!conectado
 
 		Log::getInstance()->info(" debe conectarse para enviar/recibir mensajes.");
-		printf("Tiene que estar conectado para que puedas enviar/recibir \n");
+		printf(" debe conectarse para enviar/recibir mensajes.\n");
+		system("PAUSE");
 		return -1;
 	}
 	int tiempo=0;
 	char bufferEntrada[1024];
 	int len2 = -1;
-	char mensaje[]="FALTA HACER LA LISTA CIRCULAR Y ENVIAR";
 	ciclar_t ciclos;
 	ciclos.terminarCiclar=false;
 	printf("por cuanto tiempo desea ciclar(ms):");
 	scanf("%d",&(ciclos.tiempo));
 	SDL_Thread* hiloCiclar=SDL_CreateThread(MainCliente::contarCiclo, "contarCiclo", (void*)&ciclos);
+	std::map<int,string>::iterator it = mapMensajes.begin();
 	while(ciclos.terminarCiclar==false){
-		printf("FALTA HACER la lista circular y enviar ......\n");
-		len=send(sock,mensaje,strlen(mensaje),0);
+
+		if(it==mapMensajes.end())
+			it=mapMensajes.begin();
+		std::cout<< "Enviando:> ID:" << it->first << " => " << it->second;
+		len=send(sock,it->second.c_str(),strlen(it->second.c_str()),0);
 		len2 = recv(sock,bufferEntrada,1023,0);
 		bufferEntrada[len2] =0;
-		printf("Recibida respuesta: %s\n",bufferEntrada);
+		printf(" || respuesta servidor:> %s\n",bufferEntrada);
+		it++;
 	}
 
 	SDL_WaitThread(hiloCiclar, NULL);
-	printf("\n OPT_CICLAR");
+	system("PAUSE");
 	return 0;
 }
 
 int MainCliente::optErronea(){
-	printf("\n No existe la opcion marcada, vuelva a escribirla");
+	printf("\n No existe la opcion marcada");
+	system("PAUSE");
 	return 0;
 }
 
@@ -297,14 +298,27 @@ int MainCliente::optErronea(){
 * muestra el menu y direcciona a las opciones
 * 
 */
+
+int MainCliente::cargarMenuMsj(){
+	std::map<int,string>::iterator it = mapMensajes.begin();
+	std::cout<<""<<std::endl;
+	for (it=mapMensajes.begin(); it!=mapMensajes.end(); ++it)
+		std::cout<< "\t ID:" << it->first << " => " << it->second << std::endl;
+return 0;
+}
 int MainCliente::menu(){
 	int opt = 0;
 	while (opt != OPT_SALIR){
-		// system("CLS");
+		system("CLS");
+		if(conectado)
+			std::cout<<"\t se encuentra: CONECTADO" <<std::endl;
+		else
+			std::cout<<"\t se encuentra: DESCONECTADO" <<std::endl;
 		printf("\n<1> CONECTAR");
 		printf("\n<2> DESCONECTAR");
 		printf("\n<3> SALIR");
 		printf("\n<4> ENVIAR");
+		cargarMenuMsj();
 		printf("\n<5> CICLAR");
 		printf("\n");					
 		scanf("%d",&opt);
