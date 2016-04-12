@@ -306,7 +306,7 @@ int MainServidor::recibirConexiones(void*){
 	ponerAEscuchar(socketDeEscucha);
 
 	Log::getInstance()->debug("En espera de conexiones"); 
-			printf("En espera de conexiones\n"); 
+	printf("En espera de conexiones\n"); 
 
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
 	do{
@@ -405,8 +405,11 @@ int MainServidor::mainPrincipal(){
 			Log::getInstance()->info(mensajeLog.str());
 
 			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(mensajeConId->id);
-			char* mensajeDeRespuesta;
-			mensajeDeRespuesta = "Llego todo bien";
+			//TODO OJO aca deberia hacerse el delete sino perdera memoria
+			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
+			char* mensajeDeRespuesta = new char[100];
+
+			strcpy(mensajeDeRespuesta,"Llego todo bien");
 
 			SDL_mutexP(mut);
 			colaDeMensajesDelUsuario->push(mensajeDeRespuesta);

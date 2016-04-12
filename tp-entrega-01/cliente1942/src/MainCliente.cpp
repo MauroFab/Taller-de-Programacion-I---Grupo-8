@@ -36,6 +36,10 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 		char cadena[10];
 		sprintf(cadena,"%d",puerto);
 		this->port.assign(cadena);
+		//carga un listado, 
+		//que luego viajara al cliente
+		//aca ya se puede cargar el mapa
+		cargarIDMensajes(clienteXml);
 
 		// luego de usarlo se debe borrar
 		delete clienteXml;
@@ -176,9 +180,18 @@ int MainCliente::optSalir(){
 	return 0;
 }
 // auxiliar de carga de mensajes que deberia hacerse desde el xml
-int MainCliente::cargarIDMensajes(){
-
-	//Esto desapareceria
+int MainCliente::cargarIDMensajes(ClienteXml * clienteXml){
+	int idx = 0;
+	MensajeXml ** listaMsjs = clienteXml->getListaMensajes();
+	int totMsjs = clienteXml->getCanMsjs();
+	while (idx < totMsjs){
+		MensajeXml * pMensj = listaMsjs[idx];
+		string valStr(pMensj->getValor());
+		mapMensajes.insert ( std::pair<int,string>(pMensj->getId(),valStr.c_str()));
+		idx++;
+	}
+	//Esto desapareceria ==>desaparecio
+	/*
 	for(int i=0;i<20;i++){
 		std::stringstream ss;
 		ss << "mensaje";
@@ -186,6 +199,7 @@ int MainCliente::cargarIDMensajes(){
 
 		mapMensajes.insert ( std::pair<int,string>(i+1,ss.str()));
 	}
+	*/
 	//hasta aca
 	std::map<int,string>::iterator it = mapMensajes.begin();
 	for (it=mapMensajes.begin(); it!=mapMensajes.end(); ++it)
@@ -205,7 +219,9 @@ int MainCliente::optEnviar(){
 	int encRecibido = 0;
 	printf("Para salir escriba 0 \n");
 	// se deberian de cargar los mensajes desde el XML 
-	cargarIDMensajes();
+	//TODO se cambia esto y se realiza en forma temprana, es decir a penas parsea
+	//pues esto se realiza luego de parsear que carga la lista de mensajes del cliente
+	//cargarIDMensajes();
 	while(enc!=1){
 		printf("Ingrese el ID del mensaje: ");
 		scanf("%d",&id);

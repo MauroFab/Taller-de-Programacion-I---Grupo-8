@@ -3,7 +3,6 @@
 #pragma comment(lib,"ws2_32.lib")
 
 #include "MainCliente.h"
-#include "ClienteXml.h"
 
 int main(int argc, char* argv[]){
 	MainCliente mainCliente;

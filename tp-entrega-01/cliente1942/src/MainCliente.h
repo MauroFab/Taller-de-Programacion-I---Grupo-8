@@ -17,6 +17,7 @@
 
 #include "../../common/Log.h"
 #include "ParserXml.h"
+#include "MensajeXml.h"
 #define OPT_CONECTAR	1
 #define OPT_DESCONECTAR 2
 #define OPT_SALIR		3
@@ -31,6 +32,8 @@ class MainCliente
 {
 private:
 	SOCKET sock;
+	
+	//este atributo contiene los mensajes a enviar al servidor
 	map<int,string> mapMensajes;
 	string dirXML;
 	string ip,port;
@@ -61,7 +64,7 @@ public:
 	int optEnviar();
 	int optCiclar();
 	int optErronea();
-	int cargarIDMensajes();
+	int cargarIDMensajes(ClienteXml * clienteXml);
 private:
 	int inicializar();
 };
