@@ -6,11 +6,14 @@
 #include <queue>     
 #include <vector>
 #include <algorithm>
+#include <sstream>
 #include <WinSock2.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_thread.h>
 
+#include "../../common/Log.h"
 #include "asignadorDeUsuarios.h"
+#include "ParserXml.h"
 
 class MainServidor
 {
@@ -22,6 +25,7 @@ private:
     static bool instanceFlag;
     static MainServidor *single;
 	AsignadorDeUsuarios *usuarios;
+	int puerto;
     MainServidor();
 	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id);
 public:
@@ -36,6 +40,7 @@ public:
 
 	virtual ~MainServidor();
 	static MainServidor* getInstance();
+	void parsearArchivoXml(int argc, char* argv[]);
 public:
 	SOCKET obtenerSocketInicializado(sockaddr_in &local);
 	void ponerAEscuchar(SOCKET sock);
