@@ -288,14 +288,16 @@ int MainServidor::recibirConexiones(void*){
 	socketDeEscucha = obtenerSocketInicializado(local);
 	ponerAEscuchar(socketDeEscucha);
 
+	Log::getInstance()->debug("En espera de conexiones"); 
+			printf("En espera de conexiones\n"); 
+
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
 	do{
 		if(usuarios->puedoTenerMasUsuarios()){ 
 			
 			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
 	
-			Log::getInstance()->debug("En espera de conexiones"); 
-			printf("En espera de conexiones\n"); 
+			
 
 			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
 
@@ -386,8 +388,7 @@ int MainServidor::mainPrincipal(){
 			Log::getInstance()->info(mensajeLog.str());
 
 			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(mensajeConId->id);
-			char* mensajeDeRespuesta = new char;
-
+			char* mensajeDeRespuesta;
 			mensajeDeRespuesta = "Llego todo bien";
 
 			SDL_mutexP(mut);
