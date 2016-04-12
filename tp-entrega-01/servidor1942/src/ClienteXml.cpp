@@ -5,6 +5,7 @@ ClienteXml::ClienteXml()
 	for (int i = 0; i < MAX_MENSAJES; i++){
 		this->lista[i] = NULL;
 	}
+	this->canMsjs = 0;
 }
 
 ClienteXml::~ClienteXml()
@@ -23,6 +24,13 @@ ConexionXml * ClienteXml::getConexionXmlCopy(){
 }
 
 void ClienteXml::addMensaje(MensajeXml * mensaje,int pos){
+	this->canMsjs++;
 	this->lista[pos] = mensaje;
 }
 
+MensajeXml * * ClienteXml::getListaMensajes(){
+	return this->lista;
+}
+int ClienteXml::getCanMsjs(){
+	return this->canMsjs;
+}
