@@ -52,71 +52,95 @@ ParserXml * MainCliente::getParserXml(){
 }
 /*
 int MainCliente::principal(){
-	WSADATA wsa;
-	//	SOCKET sock;
-	struct hostent *host;
-	struct sockaddr_in direc;
-	int conex=0;
-	char Buffer[1024]="";
-	int len=0;
-	//Inicializamos
-	WSAStartup(MAKEWORD(2,2),&wsa);
+WSADATA wsa;
+//	SOCKET sock;
+struct hostent *host;
+struct sockaddr_in direc;
+int conex=0;
+char Buffer[1024]="";
+int len=0;
+//Inicializamos
+WSAStartup(MAKEWORD(2,2),&wsa);
 
-	//resolvemos el nombre de dominio localhost, esto se resolverá a 127.0.0.1
-	host=gethostbyname("localhost");
+//resolvemos el nombre de dominio localhost, esto se resolverá a 127.0.0.1
+host=gethostbyname("localhost");
 
-	//creamos el socket
-	sock=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
-	if (sock==-1)
-	{
-		printf("Error al crear el socket");
-		Log::getInstance()->error(" al crear el socket.");
+//creamos el socket
+sock=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+if (sock==-1)
+{
+printf("Error al crear el socket");
+Log::getInstance()->error(" al crear el socket.");
 
-		return -1;
-	}
-	setsockopt (sock, IPPROTO_TCP, SO_REUSEADDR | SOCK_STREAM, (char*)&c, sizeof(int));
-	//Definimos la dirección a conectar que hemos recibido desde el gethostbyname
-	//y decimos que el puerto al que deberá conectar es el 9999 con el protocolo ipv4
-	direc.sin_family=AF_INET;
-	direc.sin_port=htons(9999);
-	direc.sin_addr = *((struct in_addr *)host->h_addr);
-	memset(direc.sin_zero,0,8);
+return -1;
+}
+setsockopt (sock, IPPROTO_TCP, SO_REUSEADDR | SOCK_STREAM, (char*)&c, sizeof(int));
+//Definimos la dirección a conectar que hemos recibido desde el gethostbyname
+//y decimos que el puerto al que deberá conectar es el 9999 con el protocolo ipv4
+direc.sin_family=AF_INET;
+direc.sin_port=htons(9999);
+direc.sin_addr = *((struct in_addr *)host->h_addr);
+memset(direc.sin_zero,0,8);
 
-	//Intentamos establecer la conexión
-	conex=connect(sock,(sockaddr *)&direc, sizeof(sockaddr));
-	if (conex==-1) //si no se ha podido conectar porque no se ha encontrado el host o no
-		//está el puerto abierto
-	{
-		Log::getInstance()->info("No se ha podido conectar al server.");
-		printf("No se ha podido conectar\n");
-		printf("%i", conex);
+//Intentamos establecer la conexión
+conex=connect(sock,(sockaddr *)&direc, sizeof(sockaddr));
+if (conex==-1) //si no se ha podido conectar porque no se ha encontrado el host o no
+//está el puerto abierto
+{
+Log::getInstance()->info("No se ha podido conectar al server.");
+printf("No se ha podido conectar\n");
+printf("%i", conex);
 
-		return -1;
-	}
+return -1;
+}
 
-	printf("[escribe el texto a enviar o 'salir' para salir ]\n");
-	printf("Texto a enviar:");
-	scanf("%s",Buffer); //pedir texto a enviar por pantalla
-	while (len!=-1 && (strcmp(Buffer,"salir")!=0)){ //mientras el socket no se haya desconectado
-		//y no se escriba salir
-		len=send(sock,Buffer,strlen(Buffer),0); //enviar el texto que se ha introducido
-		printf("Texto a enviar:");
-		scanf("%s",Buffer); //pedir texto a enviar por pantalla
-	}
+printf("[escribe el texto a enviar o 'salir' para salir ]\n");
+printf("Texto a enviar:");
+scanf("%s",Buffer); //pedir texto a enviar por pantalla
+while (len!=-1 && (strcmp(Buffer,"salir")!=0)){ //mientras el socket no se haya desconectado
+//y no se escriba salir
+len=send(sock,Buffer,strlen(Buffer),0); //enviar el texto que se ha introducido
+printf("Texto a enviar:");
+scanf("%s",Buffer); //pedir texto a enviar por pantalla
+}
 
-	if(strcmp(Buffer,"salir") != 0){ //si no se escribio salir
+if(strcmp(Buffer,"salir") != 0){ //si no se escribio salir
 
-		Log::getInstance()->error("El mensaje no se pudo enviar porque el servidor termino la conexion.");
-		printf("El mensaje no se pudo enviar porque el servidor termino la conexion\n");
-		printf("Introduzca cualquier tecla para salir\n");
-		scanf("%s",Buffer);
-	}
-	closesocket(sock);
-	WSACleanup();
-	return 0;
+Log::getInstance()->error("El mensaje no se pudo enviar porque el servidor termino la conexion.");
+printf("El mensaje no se pudo enviar porque el servidor termino la conexion\n");
+printf("Introduzca cualquier tecla para salir\n");
+scanf("%s",Buffer);
+}
+closesocket(sock);
+WSACleanup();
+return 0;
 }
 */
 
+int MainCliente::chequearConexion(int len){
+
+	if (len == 0){
+		printf("\n No llego el mensaje, se desconecto el servidor\n");
+		conectado=false;
+		system("PAUSE");
+		return -1;
+	}
+	else if (len < 0){
+		conectado=false;
+		int error = WSAGetLastError();
+
+		if(error == WSAENOTCONN || error == WSAECONNRESET)
+			printf("\n Se a desconectado inesperadamente el servidor\n");
+		else if (error == WSAENETDOWN)
+			printf("\nRed caida\n");
+		else
+			printf("\nError en conexion con el servidor\n");
+		system("PAUSE");
+		return -1;
+	}
+
+	return 0;
+}
 int MainCliente::inicializar(){
 
 	//Inicializamos
@@ -191,11 +215,11 @@ int MainCliente::cargarIDMensajes(ClienteXml * clienteXml){
 	//Esto desapareceria ==>desaparecio
 	/*
 	for(int i=0;i<20;i++){
-		std::stringstream ss;
-		ss << "mensaje";
-		ss << i+1;
+	std::stringstream ss;
+	ss << "mensaje";
+	ss << i+1;
 
-		mapMensajes.insert ( std::pair<int,string>(i+1,ss.str()));
+	mapMensajes.insert ( std::pair<int,string>(i+1,ss.str()));
 	}
 	*/
 	//hasta aca
@@ -229,19 +253,21 @@ int MainCliente::optEnviar(){
 			enc=0;
 		}else{
 
-			len=send(sock,it->second.c_str(),strlen(it->second.c_str()),0); //enviar el texto que se ha introducido
-			
+			if(chequearConexion(send(sock,it->second.c_str(),strlen(it->second.c_str()),0))<0) //enviar el texto que se ha introducido
+				return -1;
 			Log::getInstance()->debug(it->second.c_str());
 			std::cout<< "Enviando:> ID:" << it->first << " => " << it->second;
 			enc=1;
-			
+
+
 			// usar el socket y enviar el mensaje
 			//recibir un mensaje
-			len2 = recv(sock,bufferEntrada,1023,0);
+			if(chequearConexion(len2=recv(sock,bufferEntrada,1023,0))<0)
+				return -1;
 			bufferEntrada[len2] =0;
 
 			Log::getInstance()->debug(bufferEntrada);
-		printf(" || respuesta servidor:> %s\n",bufferEntrada);
+			printf(" || respuesta servidor:> %s\n",bufferEntrada);
 		}
 
 	}
@@ -276,8 +302,10 @@ int MainCliente::optCiclar(){
 		if(it==mapMensajes.end())
 			it=mapMensajes.begin();
 		std::cout<< "Enviando:> ID:" << it->first << " => " << it->second;
-		len=send(sock,it->second.c_str(),strlen(it->second.c_str()),0);
-		len2 = recv(sock,bufferEntrada,1023,0);
+		if(chequearConexion(send(sock,it->second.c_str(),strlen(it->second.c_str()),0))<0)
+			return -1;
+		if(chequearConexion(len2=recv(sock,bufferEntrada,1023,0))<0)
+			return -1;
 		bufferEntrada[len2] =0;
 		printf(" || respuesta servidor:> %s\n",bufferEntrada);
 		it++;
@@ -304,12 +332,12 @@ int MainCliente::cargarMenuMsj(){
 	std::cout<<""<<std::endl;
 	for (it=mapMensajes.begin(); it!=mapMensajes.end(); ++it)
 		std::cout<< "\t ID:" << it->first << " => " << it->second << std::endl;
-return 0;
+	return 0;
 }
 int MainCliente::menu(){
 	int opt = 0;
 	while (opt != OPT_SALIR){
-		system("CLS");
+		// system("CLS");
 		if(conectado)
 			std::cout<<"\t se encuentra: CONECTADO" <<std::endl;
 		else

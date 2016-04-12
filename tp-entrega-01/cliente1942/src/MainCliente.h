@@ -56,6 +56,7 @@ public:
 	void parsearArchivoXml(int argc, char* argv[]);
 	ParserXml * getParserXml();
 //	int principal();
+	int chequearConexion(int len);
 	int menu();
 	static int contarCiclo(void* time);
 	int optConectar();
