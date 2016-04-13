@@ -4,6 +4,14 @@ Trabajo Practico Nro. 1
 
 Alumnos:
 
+
+Sabrina  Scarpato            78299
+Alberto  Rodrigo        87095
+Analía Cuenca                83006
+Cristian  Benitez             78783
+Mauro  Toscano         96890
+Patricio  Catella            96619
+
 Sistema operativo: 
 - Windows XP
 - Windows 7
