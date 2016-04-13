@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "MensajeXml.h"
+#include "../../common/MensajeXml.h"
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
