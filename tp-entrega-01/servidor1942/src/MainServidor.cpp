@@ -57,21 +57,27 @@ void MainServidor::parsearArchivoXml(int argc, char* argv[]){
 }
 
 SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
+	
 	WSADATA wsa;
 	SOCKET sock;
+	
 	//Inicializamos
 	WSAStartup(MAKEWORD(2,0),&wsa);
+	
 	//Creamos el socket
 	sock=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+
 	//defnimos dirección por defecto, ipv4 y el puerto 9999
 	local.sin_family = AF_INET;
 	local.sin_addr.s_addr = INADDR_ANY;
-	local.sin_port = htons(9999);
+	local.sin_port = htons(this->puerto); // htons(9999);
+	
 	//asociamos el socket al puerto
 	if (bind(sock, (SOCKADDR*) &local, sizeof(local))==-1){
 		printf("error en el bind\n");
 		Log::getInstance()->error(" asociando el socket al puerto.");
 	}
+
 	return sock;
 }
 
@@ -313,8 +319,6 @@ int MainServidor::recibirConexiones(void*){
 		if(usuarios->puedoTenerMasUsuarios()){ 
 			
 			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
-	
-			
 
 			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
 
