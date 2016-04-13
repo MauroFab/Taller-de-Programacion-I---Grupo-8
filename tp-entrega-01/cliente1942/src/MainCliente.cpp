@@ -36,6 +36,7 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 		char cadena[10];
 		sprintf(cadena,"%d",puerto);
 		this->port.assign(cadena);
+		std::cout<< port<<std::endl;
 		//carga un listado, 
 		//que luego viajara al cliente
 		//aca ya se puede cargar el mapa
@@ -117,6 +118,12 @@ return 0;
 }
 */
 
+bool MainCliente::esUnNumero(string s){
+	for(int i=0;i<s.length();i++)
+		if(!isdigit(s[i]))
+			return false;
+	return true;
+}
 int MainCliente::chequearConexion(int len){
 
 	if (len == 0){
@@ -243,7 +250,15 @@ int MainCliente::optEnviar(){
 	//cargarIDMensajes();
 	while(enc!=1){
 		printf("Ingrese el ID del mensaje: ");
-		scanf("%d",&id);
+		string numstring;
+		cin>>numstring;
+		// scanf("%d",&id);
+		if(!esUnNumero(numstring)){
+			cout<<"recuerde los valores tienen que ser numericos"<<endl;
+			system("PAUSE");
+			return -1;
+		}
+		id=atoi(numstring.c_str());
 		if(id==0)
 			return 0;
 		std::map<int,string>::iterator it;
@@ -294,7 +309,17 @@ int MainCliente::optCiclar(){
 	ciclar_t ciclos;
 	ciclos.terminarCiclar=false;
 	printf("por cuanto tiempo desea ciclar(ms):");
-	scanf("%d",&(ciclos.tiempo));
+	string numstring;
+	cin>>numstring;
+	// scanf("%d",&id);
+	if(!esUnNumero(numstring)){
+		cout<<"recuerde los valores tienen que ser numericos"<<endl;
+		system("PAUSE");
+		return -1;
+	}
+	ciclos.tiempo=atoi(numstring.c_str());
+
+	//scanf("%d",&(ciclos.tiempo));
 	SDL_Thread* hiloCiclar=SDL_CreateThread(MainCliente::contarCiclo, "contarCiclo", (void*)&ciclos);
 	std::map<int,string>::iterator it = mapMensajes.begin();
 	while(ciclos.terminarCiclar==false){
@@ -317,7 +342,7 @@ int MainCliente::optCiclar(){
 }
 
 int MainCliente::optErronea(){
-	printf("\n No existe la opcion marcada");
+	printf("\n No existe la opcion marcada\n");
 	system("PAUSE");
 	return 0;
 }
@@ -337,7 +362,7 @@ int MainCliente::cargarMenuMsj(){
 int MainCliente::menu(){
 	int opt = 0;
 	while (opt != OPT_SALIR){
-		// system("CLS");
+		system("CLS");
 		if(conectado)
 			std::cout<<"\t se encuentra: CONECTADO" <<std::endl;
 		else
@@ -348,32 +373,42 @@ int MainCliente::menu(){
 		printf("\n<4> ENVIAR");
 		cargarMenuMsj();
 		printf("\n<5> CICLAR");
-		printf("\n");					
-		scanf("%d",&opt);
-		switch (opt)
-		{
-		case OPT_CONECTAR:{
-			optConectar();
-						  }
-						  break;
-		case OPT_DESCONECTAR:{
-			optDesconectar();
-							 }
-							 break;
-		case OPT_SALIR:{
-			optSalir();
-					   }
-					   break;
-		case OPT_ENVIAR:{
-			optEnviar();
-						}
-						break;
-		case OPT_CICLAR:{
-			optCiclar();
-						}
-						break;
-		default:
-			break;
+		printf("\n");
+		string numstring;
+		cin>>numstring;
+		// scanf("%d",&id);
+		if(!esUnNumero(numstring)){
+			cout<<"recuerde los valores tienen que ser numericos"<<endl;
+			system("PAUSE");
+		}else{
+			opt=atoi(numstring.c_str());
+			//scanf("%d",&opt);
+			switch (opt)
+			{
+			case OPT_CONECTAR:{
+				optConectar();
+							  }
+							  break;
+			case OPT_DESCONECTAR:{
+				optDesconectar();
+								 }
+								 break;
+			case OPT_SALIR:{
+				optSalir();
+						   }
+						   break;
+			case OPT_ENVIAR:{
+				optEnviar();
+							}
+							break;
+			case OPT_CICLAR:{
+				optCiclar();
+							}
+							break;
+			default:
+				optErronea();
+				break;
+			}
 		}
 	}
 	return 0;
