@@ -150,16 +150,19 @@ void ParserXml::cargarXmlCliente(int argc, char* argv[]){
 	int cantargs=argc;
 	char ruta[MAX_RUTA];
 
+	int codErr = XML_ERROR_FILE_NOT_FOUND;
+	//solo si es 2 intenta levantar sino asumo error
 	if (cantargs == 2){
 		strcpy(ruta, argv[1]);
+		printf("\n argumento %s\n", ruta);
+		codErr = this->levantarXMLCliente(ruta);
 	}
 	else{
-		printf("error, no ruta valida, ingrese ruta\n");
+		Log::getInstance()->error("La cantidad de argumentos es incorrecta, se usa archivo por default");
+/*		printf("error, no ruta valida, ingrese ruta\n");
 		scanf("%s",ruta);
+*/
 	}
-	printf("\n argumento %s\n", ruta);
-
-	int codErr = this->levantarXMLCliente(ruta);
 	//si hubo error al leer, llama al xml por defecto
 	if (codErr != XML_SUCCESS){
 		//printf("\n ERROR:el xml cliente NO fue encontrado o hubo error al intentar abrir");
@@ -218,16 +221,19 @@ void ParserXml::cargarXmlServidor(int argc, char* argv[]){
 	int cantargs=argc;
 	char ruta[MAX_RUTA];
 
+	int codErr = XML_ERROR_FILE_NOT_FOUND;
 	if (cantargs == 2){
 		strcpy(ruta, argv[1]);
+		printf("\n argumento %s\n", ruta);
+		codErr = this->levantarXMLServidor(ruta);
 	}
 	else{
-		printf("error, no ruta valida, ingrese ruta\n");
+		Log::getInstance()->error("La cantidad de argumentos es incorrecta, se usa archivo por default");
+/*		printf("error, no ruta valida, ingrese ruta\n");
 		scanf("%s",ruta);
+*/
 	}
-	printf("\n argumento %s\n", ruta);
 
-	int codErr = this->levantarXMLServidor(ruta);
 	//si hubo error al leer, llama al xml por defecto
 	if (codErr != XML_SUCCESS){
 		printf("\n ERROR:el xml servidor NO fue encontrado o hubo error al intentar abrir");
@@ -382,7 +388,7 @@ int ParserXml::isValidDouble(char * strValor){
 				canPoints++;
 			}
 			else //si no es un digito ni un punto, es un caracter no admitido
-				return -1;			
+				return -1;
 		}
 		idx++;
 	}
@@ -504,7 +510,7 @@ ClienteXml * ParserXml::createDataClienteXml(){
 void ParserXml::createDataConexionXml(ClienteXml * clienteXml,XMLElement* elemConex){
 	XMLElement* elemIp = (XMLElement*)elemConex->FirstChild();
 	char *ip = (char*)elemIp->GetText();
-	XMLElement* elemPuerto = (XMLElement*)elemConex->LastChild();	
+	XMLElement* elemPuerto = (XMLElement*)elemConex->LastChild();
 	char *puerto = (char*)elemPuerto->GetText();
 	ConexionXml * pConexionXml = clienteXml->getConexionXmlCopy();
 	pConexionXml->setIp(ip);
@@ -624,7 +630,7 @@ int ParserXml::validarXmlArchivoCliente(){
 		Log::getInstance()->error("no existe tag raiz");
 		return -1;
 	}
-		
+
 	XMLElement* elemCliente = (XMLElement*)raiz->FirstChild();
 	if (validarClienteXml(elemCliente) < 0)
 		return -1;
@@ -691,7 +697,7 @@ int ParserXml::validarListaMensajesXml(XMLElement* listMensajes){
 		return -1;
 	if (listMensajes->NoChildren())
 		return -1;
-		
+
 	//set de claves para controlar unicidad
 	set<int> setClaves;
 	XMLNode * elemMensaje = NULL;
