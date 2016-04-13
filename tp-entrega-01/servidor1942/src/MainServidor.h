@@ -30,7 +30,8 @@ private:
 	AsignadorDeUsuarios *usuarios;
 	int puerto;
     MainServidor();
-	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id);
+	//pMsj mensaje desde el cual se realiza la copia de datos
+	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,MensajeXml* pMsj);
 public:
 	bool seDebeCerrarElServidor;
 	std::queue<MensajeConId*> colaDeMensaje;

@@ -174,14 +174,15 @@ int MainServidor::atenderCliente(void* punteroAlSocketRecibido)
 	return 0;
 }*/
 
-void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id){
+void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id,MensajeXml* pMsj){
 
 	SDL_mutexP(mut);
 	MensajeConId* mensajeConId = new MensajeConId;
 	mensajeConId->id = id;	
 	mensajeConId->mensaje = buffer;
 	//-------------
-	mensajeConId->mensajeXml.setValor(buffer,strlen(buffer)+1);
+	//ojo que aquie se llama al operador (=) no es copia de punteros
+	mensajeConId->mensajeXml = *pMsj;
 	//-------------
 	colaDeMensaje.push(mensajeConId);
 	SDL_mutexV(mut);
@@ -219,14 +220,12 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 			//si seguimos conectados
 			//--------------------------------
 			MensajeXml * pMensj = new MensajeXml();
-			/*
-			 BUG-009
 			Protocolo::decodificar(Buffer,pMensj);
-			*/
 			
 			//--------------------------------
 			Buffer[len]=0; //Ponemos el fin de cadena 
-			guardarElMensajeEnLaColaPrincipal(Buffer, id);
+			guardarElMensajeEnLaColaPrincipal(Buffer, id,pMensj);
+			delete pMensj;
 		}
 		else if (len == 0){
 			// VER: Mauro *seCerroLaConexion deberia ir aca o es lo mismo que este afuera?
@@ -439,11 +438,12 @@ int MainServidor::mainPrincipal(){
 			colaDeMensaje.pop();
 
 			printf("Recibido del usuario:%i", mensajeConId->id);
-			printf(" el mensaje:%s\n",mensajeConId->mensaje);
+//			printf(" el mensaje:%s\n",mensajeConId->mensaje);
+			printf(" el mensaje:%s\n",mensajeConId->mensajeXml.getValor());
 
 			// Log info
 			stringstream mensajeLog; 
-			mensajeLog << "Usuario " << mensajeConId->id << " Mensaje: " << mensajeConId->mensaje;
+			mensajeLog << "Usuario " << mensajeConId->id << " Mensaje: " << mensajeConId->mensajeXml.getValor();
 			mensajeConId->mensajeXml.getSizeBytes();
 			mensajeConId->mensajeXml.getId();
 			mensajeConId->mensajeXml.getTipo();
