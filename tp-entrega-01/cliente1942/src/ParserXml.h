@@ -7,6 +7,7 @@ using namespace tinyxml2;
 #include "MensajeXml.h"
 #include "ClienteXml.h"
 #include "ServidorXml.h"
+#include "../../common/Log.h"
 
 #define MAX_PUERTO 65535
 #define MIN_PUERTO 1024
