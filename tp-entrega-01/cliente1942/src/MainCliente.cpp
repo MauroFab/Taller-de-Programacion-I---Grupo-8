@@ -241,21 +241,12 @@ int MainCliente::cargarIDMensajes(ClienteXml * clienteXml){
 	MensajeXml ** listaMsjs = clienteXml->getListaMensajes();
 	int totMsjs = clienteXml->getCanMsjs();
 	while (idx < totMsjs){
-		MensajeXml * pMensj = listaMsjs[idx];
+	//se crea una copia
+		MensajeXml * pMensj = new MensajeXml(*listaMsjs[idx]);
 		string valStr(pMensj->getValor());
-		mapMensajes.insert ( std::pair<int,string>(pMensj->getId(),valStr.c_str()));
+		mapMensajes.insert ( std::pair<int,MensajeXml*>(pMensj->getId(),pMensj));
 		idx++;
 	}
-	//Esto desapareceria ==>desaparecio
-	/*
-	for(int i=0;i<20;i++){
-	std::stringstream ss;
-	ss << "mensaje";
-	ss << i+1;
-
-	mapMensajes.insert ( std::pair<int,string>(i+1,ss.str()));
-	}
-	*/
 	//hasta aca
 	return 0;
 }
@@ -278,7 +269,6 @@ int MainCliente::optEnviar(){
 	//TODO se cambia esto y se realiza en forma temprana, es decir a penas parsea
 	//pues esto se realiza luego de parsear que carga la lista de mensajes del cliente
 	//cargarIDMensajes();
-	
 	while(enc!=1){
 		printf("Ingrese el ID del mensaje: ");
 		string numstring;
@@ -292,17 +282,20 @@ int MainCliente::optEnviar(){
 		id=atoi(numstring.c_str());
 		if(id==0)
 			return 0;
-		std::map<int,string>::iterator it;
+		std::map<int,MensajeXml*>::iterator it;
 		it=mapMensajes.find(id);
 		if(it==mapMensajes.end()){
 			printf("Mensaje no encontrado\n");
 			enc=0;
 		}else{
-
-			if(chequearConexion(send(sock,it->second.c_str(),strlen(it->second.c_str()),0))<0) //enviar el texto que se ha introducido
+		//----------------
+			char * buff = it->second->getValor();
+			int sizeBytesTotalLista = it->second->getSizeBytes();
+		//----------------
+			if(chequearConexion(send(sock,buff,sizeBytesTotalLista,0))<0) //enviar el texto que se ha introducido
 				return -1;
-			Log::getInstance()->debug(it->second.c_str());
-			std::cout<< "Enviando:> ID:" << it->first << " => " << it->second;
+			Log::getInstance()->debug(it->second->getValor());
+			std::cout<< "Enviando:> ID:" << it->first << " => " << it->second->getValor();
 			enc=1;
 			// usar el socket y enviar el mensaje
 			//recibir un mensaje
@@ -350,13 +343,17 @@ int MainCliente::optCiclar(){
 
 	//scanf("%d",&(ciclos.tiempo));
 	SDL_Thread* hiloCiclar=SDL_CreateThread(MainCliente::contarCiclo, "contarCiclo", (void*)&ciclos);
-	std::map<int,string>::iterator it = mapMensajes.begin();
+	std::map<int,MensajeXml*>::iterator it = mapMensajes.begin();
 	while(ciclos.terminarCiclar==false){
 
 		if(it==mapMensajes.end())
 			it=mapMensajes.begin();
 		std::cout<< "Enviando:> ID:" << it->first << " => " << it->second;
-		if(chequearConexion(send(sock,it->second.c_str(),strlen(it->second.c_str()),0))<0)
+		//-----------------
+		char * buff = it->second->getValor();
+		int sizeBytesTotalLista = it->second->getSizeBytes();
+		//-----------------	
+		if(chequearConexion(send(sock,buff,sizeBytesTotalLista,0))<0)
 			return -1;
 		if(chequearConexion(len2=recv(sock,bufferEntrada,1023,0))<0)
 			return -1;
@@ -382,10 +379,10 @@ int MainCliente::optErronea(){
 */
 
 int MainCliente::cargarMenuMsj(){
-	std::map<int,string>::iterator it = mapMensajes.begin();
+	std::map<int,MensajeXml*>::iterator it = mapMensajes.begin();
 	std::cout<<""<<std::endl;
 	for (it=mapMensajes.begin(); it!=mapMensajes.end(); ++it)
-		std::cout<< "\t ID:" << it->first << " => " << it->second << std::endl;
+		std::cout<< "\t ID:" << it->first << " => " << it->second->getValor() << std::endl;
 	return 0;
 }
 int MainCliente::menu(){
