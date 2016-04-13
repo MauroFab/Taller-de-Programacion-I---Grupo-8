@@ -691,6 +691,9 @@ int ParserXml::validarListaMensajesXml(XMLElement* listMensajes){
 		return -1;
 	if (listMensajes->NoChildren())
 		return -1;
+		
+	//set de claves para controlar unicidad
+	set<int> setClaves;
 	XMLNode * elemMensaje = NULL;
 	//se obtiene el 1er mensaje <mensaje>
 	XMLNode * data1ErMensaje = listMensajes->FirstChild();
@@ -698,18 +701,18 @@ int ParserXml::validarListaMensajesXml(XMLElement* listMensajes){
 	elemMensaje = data1ErMensaje;
 	while (elemMensaje != listMensajes->LastChild()){
 		//se valida el mensaje
-		if ( validarMensajeXml((XMLElement*)elemMensaje) < 0)
+		if ( validarMensajeXml((XMLElement*)elemMensaje,setClaves) < 0)
 			return -1;
 		//leo siguiente mensaje
 		elemMensaje = elemMensaje->NextSibling();
 	}
 	//leo el ultimo mensaje dado que elemMensaje es el lastchild
 	//se valida el mensaje
-	if ( validarMensajeXml((XMLElement*)elemMensaje) < 0)
+	if ( validarMensajeXml((XMLElement*)elemMensaje,setClaves) < 0)
 		return -1;
 	return 0;
 }
-int ParserXml::validarMensajeXml(XMLElement* elemMensaje){
+int ParserXml::validarMensajeXml(XMLElement* elemMensaje,set<int> &setClaves){
 	if (elemMensaje == NULL)
 		return -1;
 	//error en tag de elemMensaje
@@ -724,6 +727,19 @@ int ParserXml::validarMensajeXml(XMLElement* elemMensaje){
 	char * id = (char*)elemID->GetText();
 	if (isValidInt(id) < 0)
 		return -1;
+	//como es un int valido, ahora se controla si ya existe
+	int idNum = atoi(elemID->GetText());
+	set<int>::iterator it;
+	it = setClaves.find(idNum);
+	if (it == setClaves.end()){
+		//no lo encontro por lo tanto se puede agregar
+		setClaves.insert(idNum);
+	}
+	else{
+		//ya existe por tanto no se agrega y tira error
+		Log::getInstance()->error("el mensaje tiene un id duplicado");
+		return -1;
+	}
 	XMLElement* elemTIPO = (XMLElement*)elemID->NextSibling();
 	if (strcmp(elemTIPO->Name(),"tipo") != 0)
 		return -1;

@@ -1,6 +1,11 @@
 #ifndef _PARSERXML_H_
 #define _PARSERXML_H_
+
 #include <stdio.h>
+#include <algorithm>
+#include <iterator>
+#include <set>
+using namespace std;
 #include "tinyxml2.h"
 using namespace tinyxml2;
 
@@ -61,7 +66,7 @@ public:
 	int validarClienteXml(XMLElement* elemCliente);
 	int validarConexionXml(XMLElement* elemConex);
 	int validarListaMensajesXml(XMLElement* listMensajes);
-	int validarMensajeXml(XMLElement* elemMensaje);
+	int validarMensajeXml(XMLElement* elemMensaje,set<int> &setClaves);
 	
 	//SERVIDOR
 	int validarXmlArchivoServidor();
