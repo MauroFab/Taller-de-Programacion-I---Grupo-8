@@ -10,6 +10,7 @@
 #include <string>
 #include <sstream>
 #include <cstdlib>
+#include <cctype>
 #include <SDL2\SDL_thread.h>
 #include <SDL2\SDL.h>
 
@@ -56,6 +57,7 @@ public:
 	void parsearArchivoXml(int argc, char* argv[]);
 	ParserXml * getParserXml();
 //	int principal();
+	bool esUnNumero(string s);
 	int chequearConexion(int len);
 	int menu();
 	static int contarCiclo(void* time);
