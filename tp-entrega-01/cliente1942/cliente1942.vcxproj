@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -85,27 +85,27 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ClienteXml.cpp" />
-    <ClCompile Include="src\ConexionXml.cpp" />
+    <ClCompile Include="..\common\ClienteXml.cpp" />
+    <ClCompile Include="..\common\ConexionXml.cpp" />
     <ClCompile Include="..\common\Log.cpp" />
     <ClCompile Include="..\common\StringUtil.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainCliente.cpp" />
-    <ClCompile Include="src\MensajeXml.cpp" />
-    <ClCompile Include="src\ParserXml.cpp" />
-    <ClCompile Include="src\ServidorXml.cpp" />
-    <ClCompile Include="src\tinyxml2.cpp" />
+    <ClCompile Include="..\common\MensajeXml.cpp" />
+    <ClCompile Include="..\common\ParserXml.cpp" />
+    <ClCompile Include="..\common\ServidorXml.cpp" />
+    <ClCompile Include="..\common\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ClienteXml.h" />
-    <ClInclude Include="src\ConexionXml.h" />
+    <ClInclude Include="..\common\ClienteXml.h" />
+    <ClInclude Include="..\common\ConexionXml.h" />
     <ClInclude Include="..\common\Log.h" />
     <ClInclude Include="..\common\StringUtil.h" />
     <ClInclude Include="src\MainCliente.h" />
-    <ClInclude Include="src\MensajeXml.h" />
-    <ClInclude Include="src\ParserXml.h" />
-    <ClInclude Include="src\ServidorXml.h" />
-    <ClInclude Include="src\tinyxml2.h" />
+    <ClInclude Include="..\common\MensajeXml.h" />
+    <ClInclude Include="..\common\ParserXml.h" />
+    <ClInclude Include="..\common\ServidorXml.h" />
+    <ClInclude Include="..\common\tinyxml2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
