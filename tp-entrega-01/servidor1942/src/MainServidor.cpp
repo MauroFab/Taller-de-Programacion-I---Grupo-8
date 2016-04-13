@@ -322,9 +322,6 @@ int MainServidor::recibirConexiones(void*){
 
 			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
 
-			// VER: agrego esta validacion porque sino puede agrega "sockets invalidos" y en la primer vuelta agrega el usuario
-			// sin tener aun conexiones invocadas
-
 			if (*socketConexion != INVALID_SOCKET) {
 			
 				printf("Nueva conexion aceptada\n"); 
@@ -343,6 +340,11 @@ int MainServidor::recibirConexiones(void*){
 				}
 			
 				idYPunteroAlSocket.punteroAlSocket = socketConexion;
+
+				//VER: Mensaje conexion aceptada
+				char* mensaje = "Conexion aceptada.";
+				send(*socketConexion, mensaje, strlen(mensaje), 0 );
+
 				vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 				vectorSockets.push_back(socketConexion);
 				// colaSockets.push(socketConexion);
@@ -354,6 +356,30 @@ int MainServidor::recibirConexiones(void*){
 			}
 
 		}
+		else {
+			// VER: Revisar esta logica
+			// Si se supero la cantidad maxima de usuarios enviamos un mensaje al cliente informado que ha sido rechazado
+
+			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
+
+			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
+
+			if (*socketConexion != INVALID_SOCKET) {
+
+				//VER: Mensaje conexion rechazada
+				char* mensaje = "Conexion rechazada. Se ha superado la cantidad maxima de conexiones. Vuelva a intentar mas tarde.";
+				send(*socketConexion, mensaje, strlen(mensaje), 0 );
+
+				Log::getInstance()->info("Se informa al cliente que se rechaza la conexion ya que se ha alcanzado el limite de usuarios.");
+
+				vectorSockets.push_back(socketConexion);
+			}
+			else{
+				free(socketConexion);
+			}
+
+		}
+
 
 	}while(!seDebeCerrarElServidor);
 
@@ -370,6 +396,7 @@ int MainServidor::consolaDelServidor(void*){
 		scanf("%s", entradaTeclado);
 	}while(strcmp(entradaTeclado,"terminar"));
 	seDebeCerrarElServidor = true;
+
 	//cuando cierro la conexion del socketDeEscucha, se crea igual un hilo, no controlo eso.
 	closesocket(socketDeEscucha);
 	return 0;
@@ -433,7 +460,7 @@ int MainServidor::mainPrincipal(){
 	Log::getInstance()->debug("Servidor - Main Principal: esperando que los threads finalicen.");
 
 	SDL_DestroyMutex(mut);
-	SDL_Delay(20000);
+	SDL_Delay(5000);
 
 	Log::getInstance()->debug("Servidor - Main Principal: se liberaron los recursos.");
 

@@ -141,6 +141,7 @@ int MainCliente::chequearConexion(int len){
 
 	return 0;
 }
+
 int MainCliente::inicializar(){
 
 	//Inicializamos
@@ -182,8 +183,34 @@ int MainCliente::optConectar(){
 			printf("No se ha podido conectar\n");
 			printf("%i", conex);
 			return -1;
-		}	
-		conectado=true;
+		}
+		else{
+
+			int len2 =2;
+			char bufferEntrada[1024];
+
+			len2=recv(sock,bufferEntrada,1023,0);
+
+			if(len2 == 18){
+				// Si el server no envia respuesta es que la conexion ha sido satisfactoria
+				Log::getInstance()->info("El cliente se ha conectado correctamente.");
+				conectado = true;
+			}
+			else if (len2 > 0){
+				// El server envia un mensaje al superar la cantidad de clientes
+				bufferEntrada[len2] =0;
+
+				Log::getInstance()->error(bufferEntrada);
+				printf("Respuesta servidor:> %s\n",bufferEntrada);
+
+				shutdown(sock,2);
+				closesocket(sock);
+			}
+			else{
+				// Es un error
+				chequearConexion(len2);
+			}
+		}
 	}
 	return 0;
 }
@@ -226,6 +253,7 @@ int MainCliente::cargarIDMensajes(ClienteXml * clienteXml){
 	return 0;
 }
 int MainCliente::optEnviar(){
+
 	if(conectado==false){ //!conectado
 
 		Log::getInstance()->info(" debe conectarse para enviar/recibir mensajes.");
@@ -233,14 +261,17 @@ int MainCliente::optEnviar(){
 		system("PAUSE");
 		return -1;
 	}
+	
 	char bufferEntrada[1024];
 	int id=-1,enc=0, len2 =2;
 	int encRecibido = 0;
 	printf("Para salir escriba 0 \n");
+	
 	// se deberian de cargar los mensajes desde el XML 
 	//TODO se cambia esto y se realiza en forma temprana, es decir a penas parsea
 	//pues esto se realiza luego de parsear que carga la lista de mensajes del cliente
 	//cargarIDMensajes();
+	
 	while(enc!=1){
 		printf("Ingrese el ID del mensaje: ");
 		scanf("%d",&id);
@@ -258,8 +289,6 @@ int MainCliente::optEnviar(){
 			Log::getInstance()->debug(it->second.c_str());
 			std::cout<< "Enviando:> ID:" << it->first << " => " << it->second;
 			enc=1;
-
-
 			// usar el socket y enviar el mensaje
 			//recibir un mensaje
 			if(chequearConexion(len2=recv(sock,bufferEntrada,1023,0))<0)
