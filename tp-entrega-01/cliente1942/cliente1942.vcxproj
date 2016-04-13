@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -88,6 +88,7 @@
     <ClCompile Include="..\common\ClienteXml.cpp" />
     <ClCompile Include="..\common\ConexionXml.cpp" />
     <ClCompile Include="..\common\Log.cpp" />
+    <ClCompile Include="..\common\Protocolo.cpp" />
     <ClCompile Include="..\common\StringUtil.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainCliente.cpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="..\common\ClienteXml.h" />
     <ClInclude Include="..\common\ConexionXml.h" />
     <ClInclude Include="..\common\Log.h" />
+    <ClInclude Include="..\common\Protocolo.h" />
     <ClInclude Include="..\common\StringUtil.h" />
     <ClInclude Include="src\MainCliente.h" />
     <ClInclude Include="..\common\MensajeXml.h" />

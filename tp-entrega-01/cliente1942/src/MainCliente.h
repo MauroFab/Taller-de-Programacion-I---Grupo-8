@@ -19,6 +19,7 @@
 #include "../../common/Log.h"
 #include "../../common/ParserXml.h"
 #include "../../common/MensajeXml.h"
+#include "../../common/Protocolo.h"
 #define OPT_CONECTAR	1
 #define OPT_DESCONECTAR 2
 #define OPT_SALIR		3

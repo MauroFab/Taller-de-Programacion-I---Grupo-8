@@ -37,7 +37,7 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 		sprintf(cadena,"%d",puerto);
 		this->port.assign(cadena);
 		std::cout<< port<<std::endl;
-		//carga un listado, 
+		//carga un listado,
 		//que luego viajara al cliente
 		//aca ya se puede cargar el mapa
 		cargarIDMensajes(clienteXml);
@@ -51,72 +51,6 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 ParserXml * MainCliente::getParserXml(){
 	return this->parserx;
 }
-/*
-int MainCliente::principal(){
-WSADATA wsa;
-//	SOCKET sock;
-struct hostent *host;
-struct sockaddr_in direc;
-int conex=0;
-char Buffer[1024]="";
-int len=0;
-//Inicializamos
-WSAStartup(MAKEWORD(2,2),&wsa);
-
-//resolvemos el nombre de dominio localhost, esto se resolverá a 127.0.0.1
-host=gethostbyname("localhost");
-
-//creamos el socket
-sock=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
-if (sock==-1)
-{
-printf("Error al crear el socket");
-Log::getInstance()->error(" al crear el socket.");
-
-return -1;
-}
-setsockopt (sock, IPPROTO_TCP, SO_REUSEADDR | SOCK_STREAM, (char*)&c, sizeof(int));
-//Definimos la dirección a conectar que hemos recibido desde el gethostbyname
-//y decimos que el puerto al que deberá conectar es el 9999 con el protocolo ipv4
-direc.sin_family=AF_INET;
-direc.sin_port=htons(9999);
-direc.sin_addr = *((struct in_addr *)host->h_addr);
-memset(direc.sin_zero,0,8);
-
-//Intentamos establecer la conexión
-conex=connect(sock,(sockaddr *)&direc, sizeof(sockaddr));
-if (conex==-1) //si no se ha podido conectar porque no se ha encontrado el host o no
-//está el puerto abierto
-{
-Log::getInstance()->info("No se ha podido conectar al server.");
-printf("No se ha podido conectar\n");
-printf("%i", conex);
-
-return -1;
-}
-
-printf("[escribe el texto a enviar o 'salir' para salir ]\n");
-printf("Texto a enviar:");
-scanf("%s",Buffer); //pedir texto a enviar por pantalla
-while (len!=-1 && (strcmp(Buffer,"salir")!=0)){ //mientras el socket no se haya desconectado
-//y no se escriba salir
-len=send(sock,Buffer,strlen(Buffer),0); //enviar el texto que se ha introducido
-printf("Texto a enviar:");
-scanf("%s",Buffer); //pedir texto a enviar por pantalla
-}
-
-if(strcmp(Buffer,"salir") != 0){ //si no se escribio salir
-
-Log::getInstance()->error("El mensaje no se pudo enviar porque el servidor termino la conexion.");
-printf("El mensaje no se pudo enviar porque el servidor termino la conexion\n");
-printf("Introduzca cualquier tecla para salir\n");
-scanf("%s",Buffer);
-}
-closesocket(sock);
-WSACleanup();
-return 0;
-}
-*/
 
 bool MainCliente::esUnNumero(string s){
 	for(int i=0;i<s.length();i++)
@@ -243,7 +177,6 @@ int MainCliente::cargarIDMensajes(ClienteXml * clienteXml){
 	while (idx < totMsjs){
 	//se crea una copia
 		MensajeXml * pMensj = new MensajeXml(*listaMsjs[idx]);
-		string valStr(pMensj->getValor());
 		mapMensajes.insert ( std::pair<int,MensajeXml*>(pMensj->getId(),pMensj));
 		idx++;
 	}
@@ -259,13 +192,13 @@ int MainCliente::optEnviar(){
 		system("PAUSE");
 		return -1;
 	}
-	
+
 	char bufferEntrada[1024];
 	int id=-1,enc=0, len2 =2;
 	int encRecibido = 0;
 	printf("Para salir escriba 0 \n");
-	
-	// se deberian de cargar los mensajes desde el XML 
+
+	// se deberian de cargar los mensajes desde el XML
 	//TODO se cambia esto y se realiza en forma temprana, es decir a penas parsea
 	//pues esto se realiza luego de parsear que carga la lista de mensajes del cliente
 	//cargarIDMensajes();
@@ -289,10 +222,14 @@ int MainCliente::optEnviar(){
 			enc=0;
 		}else{
 		//----------------
-			char * buff = it->second->getValor();
-			int sizeBytesTotalLista = it->second->getSizeBytes();
+		//se envia de a uno los mensajes, por eso no hace falta un dato para la cantidad
+		//total de mensajes (ahora trivila canMjs=1)
+			MensajeXml* pMsj = it->second;
+			char * buffEnvio = new char[pMsj->getSizeBytes()];
+			Protocolo::codificar(*pMsj,buffEnvio);
+			int sizeBytesTotalLista = pMsj->getSizeBytes();
 		//----------------
-			if(chequearConexion(send(sock,buff,sizeBytesTotalLista,0))<0) //enviar el texto que se ha introducido
+			if(chequearConexion(send(sock,buffEnvio,sizeBytesTotalLista,0))<0) //enviar el texto que se ha introducido
 				return -1;
 			Log::getInstance()->debug(it->second->getValor());
 			std::cout<< "Enviando:> ID:" << it->first << " => " << it->second->getValor();
@@ -350,10 +287,14 @@ int MainCliente::optCiclar(){
 			it=mapMensajes.begin();
 		std::cout<< "Enviando:> ID:" << it->first << " => " << it->second;
 		//-----------------
-		char * buff = it->second->getValor();
+		//se envia de a uno los mensajes, por eso no hace falta un dato para la cantidad
+		//total de mensajes (ahora trivila canMjs=1)
+		MensajeXml* pMsj = it->second;
+		char * buffEnvio = new char[pMsj->getSizeBytes()];
+		Protocolo::codificar(*pMsj,buffEnvio);
 		int sizeBytesTotalLista = it->second->getSizeBytes();
-		//-----------------	
-		if(chequearConexion(send(sock,buff,sizeBytesTotalLista,0))<0)
+		//-----------------
+		if(chequearConexion(send(sock,buffEnvio,sizeBytesTotalLista,0))<0)
 			return -1;
 		if(chequearConexion(len2=recv(sock,bufferEntrada,1023,0))<0)
 			return -1;
@@ -375,7 +316,7 @@ int MainCliente::optErronea(){
 
 /**
 * muestra el menu y direcciona a las opciones
-* 
+*
 */
 
 int MainCliente::cargarMenuMsj(){
