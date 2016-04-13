@@ -180,6 +180,9 @@ void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id){
 	MensajeConId* mensajeConId = new MensajeConId;
 	mensajeConId->id = id;	
 	mensajeConId->mensaje = buffer;
+	//-------------
+	mensajeConId->mensajeXml.setValor(buffer,strlen(buffer)+1);
+	//-------------
 	colaDeMensaje.push(mensajeConId);
 	SDL_mutexV(mut);
 }
@@ -214,6 +217,14 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 		
 		if (len>0){
 			//si seguimos conectados
+			//--------------------------------
+			MensajeXml * pMensj = new MensajeXml();
+			/*
+			 BUG-009
+			Protocolo::decodificar(Buffer,pMensj);
+			*/
+			
+			//--------------------------------
 			Buffer[len]=0; //Ponemos el fin de cadena 
 			guardarElMensajeEnLaColaPrincipal(Buffer, id);
 		}
@@ -433,6 +444,10 @@ int MainServidor::mainPrincipal(){
 			// Log info
 			stringstream mensajeLog; 
 			mensajeLog << "Usuario " << mensajeConId->id << " Mensaje: " << mensajeConId->mensaje;
+			mensajeConId->mensajeXml.getSizeBytes();
+			mensajeConId->mensajeXml.getId();
+			mensajeConId->mensajeXml.getTipo();
+			mensajeConId->mensajeXml.getValor();
 			Log::getInstance()->info(mensajeLog.str());
 
 			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(mensajeConId->id);

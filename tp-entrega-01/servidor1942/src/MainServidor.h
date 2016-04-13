@@ -13,7 +13,9 @@
 
 #include "../../common/Log.h"
 #include "asignadorDeUsuarios.h"
-#include "ParserXml.h"
+#include "../../common/ParserXml.h"
+#include "../../common/MensajeXml.h"
+#include "../../common/Protocolo.h"
 
 class MainServidor
 {
@@ -21,6 +23,7 @@ private:
 	struct MensajeConId {
 	     int id;
 		 char* mensaje;
+		 MensajeXml mensajeXml;
 	};
     static bool instanceFlag;
     static MainServidor *single;

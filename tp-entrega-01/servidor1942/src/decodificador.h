@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "MensajeXml.h"
-#include "ParserXml.h"
+#include "../../common/MensajeXml.h"
+#include "../../common/ParserXml.h"
 #include <string.h>
 #include <stdio.h>
 #include <tchar.h>
