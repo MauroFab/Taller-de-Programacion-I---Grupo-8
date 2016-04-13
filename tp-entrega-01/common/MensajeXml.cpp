@@ -100,6 +100,18 @@ MensajeXml::~MensajeXml()
 */	
 }
 
+MensajeXml & MensajeXml::operator = (const MensajeXml & source)
+{
+	this->sizeBytes = source.sizeBytes;
+	this->id = source.id;
+	this->tipo = source.tipo;
+	this->id = source.id;
+	int lenValor = strlen(source.valor);
+	this->valor = new char[lenValor +1];
+	memcpy(this->valor,source.valor,lenValor +1);	
+    return *this;
+};
+
 int MensajeXml::getSizeBytes(){
 	return this->sizeBytes;
 }
