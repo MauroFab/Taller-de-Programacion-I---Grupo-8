@@ -18,7 +18,7 @@
 
 #include "../../common/Log.h"
 #include "../../common/ParserXml.h"
-#include "MensajeXml.h"
+#include "../../common/MensajeXml.h"
 #define OPT_CONECTAR	1
 #define OPT_DESCONECTAR 2
 #define OPT_SALIR		3
@@ -35,7 +35,7 @@ private:
 	SOCKET sock;
 	
 	//este atributo contiene los mensajes a enviar al servidor
-	map<int,string> mapMensajes;
+	map<int,MensajeXml*> mapMensajes;
 	string dirXML;
 	string ip,port;
 	WSADATA wsa;
