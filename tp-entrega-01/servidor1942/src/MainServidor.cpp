@@ -444,7 +444,7 @@ int MainServidor::mainPrincipal(){
 			// Log info
 			stringstream mensajeLog; 
 			mensajeLog << "Usuario " << mensajeConId->id << " Mensaje: " << mensajeConId->mensajeXml.getValor();
-			mensajeConId->mensajeXml.getSizeBytes();
+			mensajeLog << " SizeBytes:" << mensajeConId->mensajeXml.getSizeBytes();
 			mensajeConId->mensajeXml.getId();
 			mensajeConId->mensajeXml.getTipo();
 			mensajeConId->mensajeXml.getValor();
@@ -454,8 +454,16 @@ int MainServidor::mainPrincipal(){
 			//TODO OJO aca deberia hacerse el delete sino perdera memoria
 			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
 			char* mensajeDeRespuesta = new char[100];
+			//VALIDAR mensaje
 
-			strcpy(mensajeDeRespuesta,"Llego todo bien");
+			
+			int res = Protocolo::validarMensaje(mensajeConId->mensajeXml);
+			if (res < 0){
+				sprintf(mensajeDeRespuesta,"mensaje con id <%d> es Invalido",mensajeConId->mensajeXml.getId());
+			}
+			else{
+				sprintf(mensajeDeRespuesta,"mensaje con id <%d> procesado OK",mensajeConId->mensajeXml.getId());
+			}
 
 			SDL_mutexP(mut);
 			colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
