@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "MensajeXml.h"
+#include "ParserXml.h"
 
 class Protocolo
 {
@@ -24,7 +25,10 @@ public:
 	 * Por las dudas que sea requerido para el metodo que lo llama para sumar al puntero
 	 * y moverse al size del siguiente mensaje
 	 */
-	static int decodificar(char * buffer,MensajeXml *mensajeXml);	
+	static int decodificar(char * buffer,MensajeXml *mensajeXml);
+	
+	// Devuelve el código de error correspondiente o 0 en caso de que el mensaje sea válido
+	static int validarMensaje(MensajeXml &mensaje);	
 };
 
 #endif //_PROTOCOLO_H_

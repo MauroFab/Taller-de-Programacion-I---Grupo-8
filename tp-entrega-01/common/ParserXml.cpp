@@ -381,6 +381,8 @@ int ParserXml::isValidDouble(char * strValor){
 				}
 				canPoints++;
 			}
+			else //si no es un digito ni un punto, es un caracter no admitido
+				return -1;			
 		}
 		idx++;
 	}
