@@ -59,7 +59,14 @@ MensajeXml::MensajeXml(int id,int tipo,char * valor){
 		break;
 	}
 	*/
-
+}
+MensajeXml::MensajeXml(const MensajeXml&mensaje){
+	this->sizeBytes = mensaje.sizeBytes;
+	this->id = mensaje.id;
+	this->tipo = mensaje.tipo;
+	int lenValor = strlen(mensaje.valor);
+	this->valor = new char[lenValor +1];
+	memcpy(this->valor,mensaje.valor,lenValor +1);	
 }
 MensajeXml::~MensajeXml()
 {
@@ -92,6 +99,18 @@ MensajeXml::~MensajeXml()
 	}
 */	
 }
+
+MensajeXml & MensajeXml::operator = (const MensajeXml & source)
+{
+	this->sizeBytes = source.sizeBytes;
+	this->id = source.id;
+	this->tipo = source.tipo;
+	this->id = source.id;
+	int lenValor = strlen(source.valor);
+	this->valor = new char[lenValor +1];
+	memcpy(this->valor,source.valor,lenValor +1);	
+    return *this;
+};
 
 int MensajeXml::getSizeBytes(){
 	return this->sizeBytes;
@@ -126,4 +145,3 @@ void MensajeXml::setValor(char * valor,int lenValor){
 	this->valor = new char[lenValor];
 	memcpy(this->valor,valor,lenValor);
 }
-

@@ -4,7 +4,7 @@
 #include "ConexionXml.h"
 #include "MensajeXml.h"
 
-#define MAX_MENSAJES	100
+#define MAX_MENSAJES	300
 
 class ClienteXml
 {
@@ -12,6 +12,7 @@ private:
 	ConexionXml conexionXml;
 	//BUG-001 cambiar la lista de mensajes
 	MensajeXml * lista[MAX_MENSAJES];
+	int canMsjs;
 public:
 	ClienteXml();
 	virtual ~ClienteXml();
@@ -19,6 +20,9 @@ public:
 	void setConexionXmlCopy(const ConexionXml &conexionXml);
 	ConexionXml * getConexionXmlCopy();
 	void addMensaje(MensajeXml * mensaje,int pos);
+	//listado de punteros
+	MensajeXml * * getListaMensajes();
+	int getCanMsjs();
 };
 
 #endif //_CLIENTEXML_H_

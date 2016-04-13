@@ -23,7 +23,11 @@ protected:
 public:
 	MensajeXml();
 	MensajeXml(int id,int tipo,char * valor);
+	MensajeXml(const MensajeXml&mensaje);
 	virtual ~MensajeXml();
+	//para la misma clase
+    MensajeXml & operator = (const MensajeXml & source);
+    
 	int getSizeBytes();
 	void calculateSizeBytes();
 	void setId(int id);

@@ -1,12 +1,18 @@
 #ifndef _PARSERXML_H_
 #define _PARSERXML_H_
+
 #include <stdio.h>
+#include <algorithm>
+#include <iterator>
+#include <set>
+using namespace std;
 #include "tinyxml2.h"
 using namespace tinyxml2;
 
 #include "MensajeXml.h"
 #include "ClienteXml.h"
 #include "ServidorXml.h"
+#include "Log.h"
 
 #define MAX_PUERTO 65535
 #define MIN_PUERTO 1024
@@ -60,7 +66,7 @@ public:
 	int validarClienteXml(XMLElement* elemCliente);
 	int validarConexionXml(XMLElement* elemConex);
 	int validarListaMensajesXml(XMLElement* listMensajes);
-	int validarMensajeXml(XMLElement* elemMensaje);
+	int validarMensajeXml(XMLElement* elemMensaje,set<int> &setClaves);
 	
 	//SERVIDOR
 	int validarXmlArchivoServidor();

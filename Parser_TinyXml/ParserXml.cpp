@@ -15,78 +15,14 @@ int ParserXml::levantarXMLCliente(char * ruta)
 // Lee un archivo xml del cliente
 //-----------------------------------------------------------------------------
 
-//	XMLDocument doc;
 	xmlDoc.LoadFile(ruta);
+
 	int codErr = xmlDoc.ErrorID();
 	printf("\ncodigo %d\n",xmlDoc.ErrorID());
-/*
-	if (xmlDoc.ErrorID() == XML_SUCCESS){
-		//luego de la carga del documento
-		//se obtiene el primer elemento
-		XMLNode * primero = xmlDoc.FirstChild();
-		//<cliente> y sobre este se obtiene el primer elemento
-		//<conexion>
-		XMLNode * dataConexion = primero->FirstChild();
 
-		char * textoIP;
-		XMLNode * dataIP= dataConexion->FirstChild();
-		textoIP = (char*) ((XMLElement*)dataIP)->GetText();
-		printf("\nla ip es= <%s>\n",textoIP);
-
-		char * textoPuerto;
-		XMLNode * dataPuerto = dataConexion->LastChild();
-		textoPuerto =(char*) ((XMLElement*)dataPuerto)->GetText();
-		printf("\nel puerto es= <%s>\n",textoPuerto);
-
-		int canMjes=0;
-		char * texto;
-		XMLNode * elemMensaje = NULL;
-		//el listado de mensajes <mensajes>
-		XMLNode * listMensajes = dataConexion->NextSibling();
-
-		//se obtiene el 1er mensaje <mensaje>
-		XMLNode * data1ErMensaje = listMensajes->FirstChild();
-		//se copia el ptr del 1er mensaje a un puntero a nodo para leer luego los sgtes mjs
-		elemMensaje = data1ErMensaje;
-		while (elemMensaje != listMensajes->LastChild()){
-			//se procesa el mensaje
-			canMjes++; // contador de mensajes del cliente
-			texto = (char*) ((XMLElement*)elemMensaje)->Name();
-			printf("\nMENSAJE= <%s>\n",texto);
-			readMensaje(((XMLElement*)elemMensaje));
-			//leo siguiente mensaje
-			elemMensaje = elemMensaje->NextSibling();
-		}
-		//leo el ultimo mensaje dado que elemMensaje es el lastchild
-		canMjes++;
-		texto = (char*) ((XMLElement*)elemMensaje)->Name();
-		printf("\nMENSAJE= <%s>",texto);
-//		printf("\nMENSAJE2= <%s>",((XMLElement*)elemMensaje)->GetText());
-		readMensaje(((XMLElement*)elemMensaje));
-		printf("\n#msjes leidos del cliente %d\n",canMjes);
-	}
-
-*/
 	return codErr;
 }
-/*
-int ParserXml::readMensaje( XMLElement* elemMensaje){
-	//obtiene el ID
-	XMLElement* elemID = (XMLElement*)elemMensaje->FirstChild();
-//	printf("\ntag <%s>",elemID->Name());
-//	printf("\nvalue [%s]",elemID->GetText());
-	//obtiene el TIPO
-	XMLElement* elemTIPO = (XMLElement*)elemID->NextSibling();
-//	printf("\ntag <%s>",elemTIPO->Name());
-//	printf("\nvalue [%s]",elemTIPO->GetText());
-	//obtiene el TIPO
-	XMLElement* elemVALOR = (XMLElement*)elemTIPO->NextSibling();
-//	printf("\ntag <%s>",elemVALOR->Name());
-//	printf("\nvalue [%s]",elemVALOR->GetText());
-	return 0;
-}
 
-*/
 int ParserXml::crearXmlCliente()
 {
 
@@ -105,7 +41,7 @@ int ParserXml::crearXmlCliente()
 
 	XMLElement * pIP = xmlDoc.NewElement("ip");
 	pConexion->InsertEndChild(pIP);
-	XMLText * textoIP = xmlDoc.NewText("192.168.0.1");
+	XMLText * textoIP = xmlDoc.NewText("127.0.0.1");
 	pIP->InsertEndChild(textoIP);
 
 	XMLElement * pPuerto = xmlDoc.NewElement("puerto");
@@ -214,21 +150,25 @@ void ParserXml::cargarXmlCliente(int argc, char* argv[]){
 	int cantargs=argc;
 	char ruta[MAX_RUTA];
 
+	int codErr = XML_ERROR_FILE_NOT_FOUND;
+	//solo si es 2 intenta levantar sino asumo error
 	if (cantargs == 2){
 		strcpy(ruta, argv[1]);
+		printf("\n argumento %s\n", ruta);
+		codErr = this->levantarXMLCliente(ruta);
 	}
 	else{
-		printf("error, no ruta valida, ingrese ruta\n");
+		Log::getInstance()->error("La cantidad de argumentos es incorrecta, se usa archivo por default");
+/*		printf("error, no ruta valida, ingrese ruta\n");
 		scanf("%s",ruta);
+*/
 	}
-	printf("\n argumento %s\n", ruta);
-
-	int codErr = this->levantarXMLCliente(ruta);
 	//si hubo error al leer, llama al xml por defecto
 	if (codErr != XML_SUCCESS){
-		printf("\n ERROR:el xml cliente NO fue encontrado o hubo error al intentar abrir");
+		//printf("\n ERROR:el xml cliente NO fue encontrado o hubo error al intentar abrir");
+		Log::getInstance()->error("el xml cliente NO fue encontrado o hubo error al intentar abrir");
 		if (codErr == XML_ERROR_MISMATCHED_ELEMENT)
-			printf("\nERROR: Error de sintaxis en xml, xml invalido");
+			Log::getInstance()->error("Error de sintaxis en xml, elemento no encontrado XML_ERROR_MISMATCHED_ELEMENT");
 
 		this->crearXmlCliente();
 		printf("\n INFO:ese cargo xml por defecto del cliente");
@@ -242,11 +182,6 @@ void ParserXml::cargarXmlCliente(int argc, char* argv[]){
 //------------SERVIDOR
 int ParserXml::levantarXMLServidor(char * ruta){
 	xmlDoc.LoadFile(ruta);
-
-	/*
-	FILE* fp = fopen( ruta, "rb" );
-	xmlDoc.LoadFile(fp);
-	*/
 
 	int codErr = xmlDoc.ErrorID();
 	printf("\ncodigo %d\n",xmlDoc.ErrorID());
@@ -286,16 +221,19 @@ void ParserXml::cargarXmlServidor(int argc, char* argv[]){
 	int cantargs=argc;
 	char ruta[MAX_RUTA];
 
+	int codErr = XML_ERROR_FILE_NOT_FOUND;
 	if (cantargs == 2){
 		strcpy(ruta, argv[1]);
+		printf("\n argumento %s\n", ruta);
+		codErr = this->levantarXMLServidor(ruta);
 	}
 	else{
-		printf("error, no ruta valida, ingrese ruta\n");
+		Log::getInstance()->error("La cantidad de argumentos es incorrecta, se usa archivo por default");
+/*		printf("error, no ruta valida, ingrese ruta\n");
 		scanf("%s",ruta);
+*/
 	}
-	printf("\n argumento %s\n", ruta);
 
-	int codErr = this->levantarXMLServidor(ruta);
 	//si hubo error al leer, llama al xml por defecto
 	if (codErr != XML_SUCCESS){
 		printf("\n ERROR:el xml servidor NO fue encontrado o hubo error al intentar abrir");
@@ -449,6 +387,8 @@ int ParserXml::isValidDouble(char * strValor){
 				}
 				canPoints++;
 			}
+			else //si no es un digito ni un punto, es un caracter no admitido
+				return -1;
 		}
 		idx++;
 	}
@@ -503,18 +443,21 @@ int ParserXml::isValidValor(char * valor,int tipo){
 	switch (tipo)
 	{
 		case TIPO_CHAR:{
-			if (isValidChar(valor) < 0)
-				return -1;
+			/*if (isValidChar(valor) < 0)
+				return -1;*/
+			return isValidChar(valor);
 		}
 		break;
 		case TIPO_DOUBLE:{
-			if (isValidDouble(valor) < 0)
-				return -1;
+			/*if (isValidDouble(valor) < 0)
+				return -1;*/
+			return isValidDouble(valor);
 		}
 		break;
 		case TIPO_INT:{
-			if (isValidInt(valor) < 0)
-				return -1;
+			/*if (isValidInt(valor) < 0)
+				return -1;*/
+			return isValidInt(valor);
 		}
 		break;
 		case TIPO_STRING:{
@@ -526,7 +469,7 @@ int ParserXml::isValidValor(char * valor,int tipo){
 			return -1;
 		break;
 	}
-	return -1;
+	return 0;
 }
 /**
  * @param strTipo tipo de dato a convertir en int
@@ -567,7 +510,7 @@ ClienteXml * ParserXml::createDataClienteXml(){
 void ParserXml::createDataConexionXml(ClienteXml * clienteXml,XMLElement* elemConex){
 	XMLElement* elemIp = (XMLElement*)elemConex->FirstChild();
 	char *ip = (char*)elemIp->GetText();
-	XMLElement* elemPuerto = (XMLElement*)elemConex->LastChild();	
+	XMLElement* elemPuerto = (XMLElement*)elemConex->LastChild();
 	char *puerto = (char*)elemPuerto->GetText();
 	ConexionXml * pConexionXml = clienteXml->getConexionXmlCopy();
 	pConexionXml->setIp(ip);
@@ -682,13 +625,21 @@ ServidorXml * ParserXml::createDataServidorXml(){
 
 int ParserXml::validarXmlArchivoCliente(){
 	XMLNode * raiz = (XMLNode*)&xmlDoc;
-	if (raiz->NoChildren())
+	if (raiz->NoChildren()){
+	//no existe tags
+		Log::getInstance()->error("no existe tag raiz");
 		return -1;
+	}
+
 	XMLElement* elemCliente = (XMLElement*)raiz->FirstChild();
-	if (elemCliente->NoChildren())
-		return -1;
 	if (validarClienteXml(elemCliente) < 0)
 		return -1;
+	if (elemCliente->NoChildren()){
+		//cliente sin hijos
+		Log::getInstance()->error("existe un cliente pero no tiene tags hijos");
+		return -1;
+	}
+
 	XMLElement* elemConex = (XMLElement*)elemCliente->FirstChild();
 	if (validarConexionXml(elemConex) < 0)
 		return -1;
@@ -746,6 +697,9 @@ int ParserXml::validarListaMensajesXml(XMLElement* listMensajes){
 		return -1;
 	if (listMensajes->NoChildren())
 		return -1;
+
+	//set de claves para controlar unicidad
+	set<int> setClaves;
 	XMLNode * elemMensaje = NULL;
 	//se obtiene el 1er mensaje <mensaje>
 	XMLNode * data1ErMensaje = listMensajes->FirstChild();
@@ -753,18 +707,18 @@ int ParserXml::validarListaMensajesXml(XMLElement* listMensajes){
 	elemMensaje = data1ErMensaje;
 	while (elemMensaje != listMensajes->LastChild()){
 		//se valida el mensaje
-		if ( validarMensajeXml((XMLElement*)elemMensaje) < 0)
+		if ( validarMensajeXml((XMLElement*)elemMensaje,setClaves) < 0)
 			return -1;
 		//leo siguiente mensaje
 		elemMensaje = elemMensaje->NextSibling();
 	}
 	//leo el ultimo mensaje dado que elemMensaje es el lastchild
 	//se valida el mensaje
-	if ( validarMensajeXml((XMLElement*)elemMensaje) < 0)
+	if ( validarMensajeXml((XMLElement*)elemMensaje,setClaves) < 0)
 		return -1;
 	return 0;
 }
-int ParserXml::validarMensajeXml(XMLElement* elemMensaje){
+int ParserXml::validarMensajeXml(XMLElement* elemMensaje,set<int> &setClaves){
 	if (elemMensaje == NULL)
 		return -1;
 	//error en tag de elemMensaje
@@ -779,6 +733,19 @@ int ParserXml::validarMensajeXml(XMLElement* elemMensaje){
 	char * id = (char*)elemID->GetText();
 	if (isValidInt(id) < 0)
 		return -1;
+	//como es un int valido, ahora se controla si ya existe
+	int idNum = atoi(elemID->GetText());
+	set<int>::iterator it;
+	it = setClaves.find(idNum);
+	if (it == setClaves.end()){
+		//no lo encontro por lo tanto se puede agregar
+		setClaves.insert(idNum);
+	}
+	else{
+		//ya existe por tanto no se agrega y tira error
+		Log::getInstance()->error("el mensaje tiene un id duplicado");
+		return -1;
+	}
 	XMLElement* elemTIPO = (XMLElement*)elemID->NextSibling();
 	if (strcmp(elemTIPO->Name(),"tipo") != 0)
 		return -1;
