@@ -17,7 +17,7 @@
 #pragma comment(lib,"ws2_32.lib")
 
 #include "../../common/Log.h"
-#include "ParserXml.h"
+#include "../../common/ParserXml.h"
 #include "MensajeXml.h"
 #define OPT_CONECTAR	1
 #define OPT_DESCONECTAR 2
