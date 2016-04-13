@@ -1,7 +1,7 @@
 <cliente>
     <conexion>
         <ip>127.0.0.1</ip>
-        <puerto>9999</puerto>
+        <puerto>15636</puerto>
     </conexion>
     <mensajes>
         <mensaje>
