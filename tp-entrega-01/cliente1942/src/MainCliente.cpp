@@ -23,8 +23,10 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 	int res = getParserXml()->validarXmlArchivoCliente();
 	if (res < 0){
 		printf("\nERROR: Error semantico\n");
+		Log::getInstance()->error("ERROR: Error semantico.");
+		getParserXml()->cargarXmlCliente(0,argv);
 	}
-	else{
+	//else{
 		//luego de la carga crea los datos a partir del XML
 		ClienteXml * clienteXml = getParserXml()->createDataClienteXml();
 		printf("\nOK\n");
@@ -44,7 +46,7 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 
 		// luego de usarlo se debe borrar
 		delete clienteXml;
-	}
+//	}
 
 }
 

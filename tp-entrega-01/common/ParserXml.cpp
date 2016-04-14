@@ -42,6 +42,8 @@ int ParserXml::crearXmlCliente()
 	XMLElement * pIP = xmlDoc.NewElement("ip");
 	pConexion->InsertEndChild(pIP);
 	XMLText * textoIP = xmlDoc.NewText("127.0.0.1");
+//para que funcione en la entreta del miercoles	
+//	XMLText * textoIP = xmlDoc.NewText("169.254.241.212");
 	pIP->InsertEndChild(textoIP);
 
 	XMLElement * pPuerto = xmlDoc.NewElement("puerto");
@@ -354,6 +356,8 @@ int ParserXml::isValidIp(char * strIp){
 int ParserXml::isValidInt(char * strValor){
 	int len = strlen(strValor);
 	int idx = 0;
+	if (strValor[idx] == '-' || strValor[idx] == '+')
+		idx++;
 	while (idx < len){
 		if (!isdigit(strValor[idx]))
 			return -1;
@@ -372,6 +376,8 @@ int ParserXml::isValidDouble(char * strValor){
 	int canPoints = 0;
 	int canDig = 0;
 	int canNums = 0;
+	if (strValor[idx] == '-' || strValor[idx] == '+')
+		idx++;
 	while (idx < len){
 		if (isdigit(strValor[idx])){
 			canDig++;
