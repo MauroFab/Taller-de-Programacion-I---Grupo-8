@@ -48,6 +48,7 @@ public:
 	static int isValidTipo(char * strTipo);
 	static int isValidValor(char * strValor,int tipo);
 	static int convertTipoToInt(char * strTipo);
+	static int isIgualAPatronMayuscula(char * cadena,char * patronMayus);
 	
 	//carga de datos
 	//CLIENTE
