@@ -90,13 +90,11 @@
     <ClCompile Include="..\common\StringUtil.cpp" />
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
     <ClCompile Include="..\common\ClienteXml.cpp" />
-    <ClCompile Include="src\Common_Socket.cpp" />
     <ClCompile Include="..\common\ConexionXml.cpp" />
     <ClCompile Include="src\MainServidor.cpp" />
     <ClCompile Include="..\common\MensajeXml.cpp" />
     <ClCompile Include="..\common\ParserXml.cpp" />
     <ClCompile Include="..\common\ServidorXml.cpp" />
-    <ClCompile Include="src\Servidor_Socket.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="..\common\tinyxml2.cpp" />
   </ItemGroup>
@@ -111,8 +109,6 @@
     <ClInclude Include="..\common\MensajeXml.h" />
     <ClInclude Include="..\common\ParserXml.h" />
     <ClInclude Include="..\common\ServidorXml.h" />
-    <ClInclude Include="src\Servidor_Socket.h" />
-    <ClInclude Include="src\Common_Socket.h" />
     <ClInclude Include="..\common\tinyxml2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
