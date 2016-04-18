@@ -438,10 +438,10 @@ int ParserXml::isValidPuerto(char * strPuerto){
  * si no es valido el argumento
  */
 int ParserXml::isValidTipo(char * strTipo){
-	if (strcmp(strTipo,STR_TIPO_INT) == 0
-		|| strcmp(strTipo,STR_TIPO_DOUBLE) == 0
-		|| strcmp(strTipo,STR_TIPO_STRING) == 0
-		|| strcmp(strTipo,STR_TIPO_CHAR) == 0)
+	if (isIgualAPatronMayuscula(strTipo,STR_TIPO_INT) == 0
+		|| isIgualAPatronMayuscula(strTipo,STR_TIPO_DOUBLE) == 0
+		|| isIgualAPatronMayuscula(strTipo,STR_TIPO_STRING) == 0
+		|| isIgualAPatronMayuscula(strTipo,STR_TIPO_CHAR) == 0)
 		return 0;
 	return -1;
 }
@@ -482,15 +482,46 @@ int ParserXml::isValidValor(char * valor,int tipo){
  * @return retorna el tipo[int] segun la cadena recibida por parametro [char]
  */
 int ParserXml::convertTipoToInt(char * strTipo){
-	if (strcmp(strTipo,STR_TIPO_INT) == 0)
+	if (isIgualAPatronMayuscula(strTipo,STR_TIPO_INT) == 0)
 		return TIPO_INT;
-	else if (strcmp(strTipo,STR_TIPO_DOUBLE) == 0)
+	else if (isIgualAPatronMayuscula(strTipo,STR_TIPO_DOUBLE) == 0)
 		return TIPO_DOUBLE;
-	else if (strcmp(strTipo,STR_TIPO_STRING) == 0)
+	else if (isIgualAPatronMayuscula(strTipo,STR_TIPO_STRING) == 0)
 		return TIPO_STRING;
-	else if (strcmp(strTipo,STR_TIPO_CHAR) == 0)
+	else if (isIgualAPatronMayuscula(strTipo,STR_TIPO_CHAR) == 0)
 		return TIPO_CHAR;
 	return -1;
+}
+/**
+ * @param patronMayus cadena en MAYUSCULA a comprar
+ * @param cadena tira de caracteres 
+ */
+int ParserXml::isIgualAPatronMayuscula(char * cadena,char * patronMayus){
+	int res = -1;
+	//convertir el 1er caracter A...Z, a..z, 0..9..cualquer ascii
+	int largo = strlen(cadena);
+	char * temporal = new char[largo + 1];
+	for (int i = 0; i < largo ; i++){
+		char carMay = 0;
+		int car = cadena[i];
+		//si es minuscula
+		if (car >= 'a' && car <= 'z'){
+			carMay = car - 32;
+		}
+		else 
+			carMay = car;
+		temporal[i] = carMay;
+	}
+	temporal[largo] = '\0';
+	
+	//si luego de pasar a mayuscula son iguales, entonces son iguales
+	if (strcmp(patronMayus,temporal) != 0)
+		res = -1;
+	else
+		res = 0;
+	delete [] temporal;	
+
+	return res;
 }
 
 /**

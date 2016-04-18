@@ -7,9 +7,20 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
+#include <fstream>
+#include <stdio.h>
 #include <WinSock2.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_thread.h>
+
+#pragma comment(lib,"ws2_32.lib")
+using std::string;
+using std::cout;
+using std::cin;
+using std::clog;
+using std::cerr;
+using std::ofstream;
+
 
 #include "../../common/Log.h"
 #include "asignadorDeUsuarios.h"
