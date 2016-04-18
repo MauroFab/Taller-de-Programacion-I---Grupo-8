@@ -108,31 +108,31 @@ void Protocolo::logInformacionSobreError(int codigoError) {
 
 	if (codigoError == -1) {
 
-		informacion = "Se esperaba un (int) y se recibió un (double)";
+		informacion = "Se esperaba un (int) y se recibio un (double)";
 
 	} else if (codigoError == -2) {
 
-		informacion = "Se esperaba un (int) y se recibió un (char)";
+		informacion = "Se esperaba un (int) y se recibio un (char)";
 
 	} else if (codigoError == -3) {
 
-		informacion = "Se esperaba un (int) y se recibió un (string)";
+		informacion = "Se esperaba un (int) y se recibio un (string)";
 
 	} else if (codigoError == -4) {
 		
-		informacion = "Se esperaba un (char) y se recibió un (double)";
+		informacion = "Se esperaba un (char) y se recibio un (double)";
 
 	} else if (codigoError == -5) {
 		
-		informacion = "Se esperaba un (char) y se recibió un (string)";
+		informacion = "Se esperaba un (char) y se recibio un (string)";
 
 	} else if (codigoError == -6) {
 		
-		informacion = "Se esperaba un (double) y se recibió un (char)";
+		informacion = "Se esperaba un (double) y se recibio un (char)";
 
 	} else if (codigoError == -7) {
 		
-		informacion = "Se esperaba un (double) y se recibió un (string)";
+		informacion = "Se esperaba un (double) y se recibio un (string)";
 	}
 
 	Log::getInstance()->error(informacion);
