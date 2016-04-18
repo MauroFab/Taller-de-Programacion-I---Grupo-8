@@ -4,9 +4,10 @@
 #include <stdio.h>
 #include "MensajeXml.h"
 #include "ParserXml.h"
+#include "Log.h"
 
-class Protocolo
-{
+class Protocolo {
+
 public:
 	Protocolo();
 	virtual ~Protocolo();
@@ -26,9 +27,12 @@ public:
 	 * y moverse al size del siguiente mensaje
 	 */
 	static int decodificar(char * buffer,MensajeXml *mensajeXml);
-	
+
 	// Devuelve el código de error correspondiente o 0 en caso de que el mensaje sea válido
-	static int validarMensaje(MensajeXml &mensaje);	
+	static int validarMensaje(MensajeXml &mensaje);
+
+    // Loguea la informacion correspondiente al codigo de error generado Protocolo::validarMensaje
+	static void logInformacionSobreError(int codigoError);
 };
 
 #endif //_PROTOCOLO_H_

@@ -9,6 +9,7 @@ Protocolo::~Protocolo()
 }
 
 int Protocolo::codificar(MensajeXml &mensajeXml,char * buffer){
+	
 	int sizeBytes = mensajeXml.getSizeBytes();
 	int id = mensajeXml.getId();
 	int tipo = mensajeXml.getTipo();
@@ -34,6 +35,7 @@ int Protocolo::codificar(MensajeXml &mensajeXml,char * buffer){
 }
 
 int Protocolo::decodificar(char * buffer,MensajeXml *mensajeXml){
+	
 	int sizeBytes = -1;
 	int id = -1;
 	int tipo = -1;
@@ -91,21 +93,48 @@ int Protocolo::validarMensaje(MensajeXml& mensaje) {
 
 	return codigoError;
 }
-/*
-OJO no puede retornar un puntero a algo cuyo ambito finalizo, si se usa puede tirar error
-char* Protocolo::informacionSobreError(int codigoError) {
+
+void Protocolo::logInformacionSobreError(int codigoError) {
 	
-	if (codigoError == 1) return "Error: se esperaba un (int) y se recibió un (double)";
-	if (codigoError == 2) return "Error: se esperaba un (int) y se recibió un (char)";
-	if (codigoError == 3) return "Error: se esperaba un (int) y se recibió un (string)";
+	char* informacion;
 
-	if (codigoError == 4) return "Error: se esperaba un (char) y se recibió un (double)";
-	if (codigoError == 5) return "Error: se esperaba un (char) y se recibió un (string)";
+	if (codigoError == 0) {
 
-	if (codigoError == 6) return "Error: se esperaba un (double) y se recibió un (char)";
-	if (codigoError == 7) return "Error: se esperaba un (double) y se recibió un (string)";
+		informacion = "Ok: valor y tipo de dato correctos";
+		Log::getInstance()->info(informacion);
+		printf("%s\n", informacion);
+		return;
+	}
 
-	return "Ok: valor y tipo de dato correctos";
+	if (codigoError == -1) {
+
+		informacion = "Se esperaba un (int) y se recibió un (double)";
+
+	} else if (codigoError == -2) {
+
+		informacion = "Se esperaba un (int) y se recibió un (char)";
+
+	} else if (codigoError == -3) {
+
+		informacion = "Se esperaba un (int) y se recibió un (string)";
+
+	} else if (codigoError == -4) {
+		
+		informacion = "Se esperaba un (char) y se recibió un (double)";
+
+	} else if (codigoError == -5) {
+		
+		informacion = "Se esperaba un (char) y se recibió un (string)";
+
+	} else if (codigoError == -6) {
+		
+		informacion = "Se esperaba un (double) y se recibió un (char)";
+
+	} else if (codigoError == -7) {
+		
+		informacion = "Se esperaba un (double) y se recibió un (string)";
+	}
+
+	Log::getInstance()->error(informacion);
+	printf("%s\n", informacion);
 }
-
-*/

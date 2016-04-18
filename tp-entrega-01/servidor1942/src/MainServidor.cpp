@@ -456,8 +456,9 @@ int MainServidor::mainPrincipal(){
 			char* mensajeDeRespuesta = new char[100];
 			//VALIDAR mensaje
 
-			
 			int res = Protocolo::validarMensaje(mensajeConId->mensajeXml);
+			Protocolo::logInformacionSobreError(res);
+
 			if (res < 0){
 				sprintf(mensajeDeRespuesta,"mensaje con id <%d> es Invalido",mensajeConId->mensajeXml.getId());
 			}
