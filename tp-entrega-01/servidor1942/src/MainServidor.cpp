@@ -142,37 +142,6 @@ int MainServidor::fun_consolaDelServidor(void* punteroAlSocketRecibido){
 	MainServidor * instan = MainServidor::getInstance();
 	return instan->consolaDelServidor(punteroAlSocketRecibido);	
 }
-/*
-int MainServidor::atenderCliente(void* punteroAlSocketRecibido)
-{
-	int len;
-	//	SOCKET socket;
-	char Buffer[1024];
-
-
-	SOCKET* punteroAlSocket = (SOCKET*)punteroAlSocketRecibido;
-	len=sizeof(struct sockaddr);
-	while (len!=0 && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
-		len=recv(*punteroAlSocket,Buffer,1023,0); //recibimos los datos que envie
-		//printf("BUG-000");
-		if (len>0){
-			//si seguimos conectados
-			Buffer[len]=0; //le ponemos el final de cadena
-			SDL_mutexP(mut);
-			//productor
-			colaDeMensaje.push(Buffer);
-			printf("Texto recibido:%s\n",Buffer); //imprimimos la cadena recibida
-			SDL_mutexV(mut);
-		}
-	}
-	if(seDebeCerrarElServidor){
-		closesocket(*punteroAlSocket);
-		WSACleanup();
-	}
-	cantidadDeClientes--;
-	printf("La cantidad de clientes conectados es: %i\n", cantidadDeClientes); 
-	return 0;
-}*/
 
 void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id,MensajeXml* pMsj){
 
@@ -278,38 +247,6 @@ void waitThread (SDL_Thread* h) {  // wait para todos los threadsockets
 	SDL_WaitThread(h, NULL);
 }
 //----------------------------------------------------------------------------
-/*
-int MainServidor::recibirConexiones(void*){
-	struct sockaddr_in local;
-
-	SOCKET* socketConexion;
-	int len;
-	len=sizeof(struct sockaddr);//Si no pongo esto no funciona, queda para futuras generaciones descubrir porque.
-
-	socketDeEscucha = obtenerSocketInicializado(local);
-	ponerAEscuchar(socketDeEscucha);
-
-	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
-	do{
-		//printf("BUG-001\n");
-		if(cantidadDeClientes < cantidadDeClientesMaxima){ 
-			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
-			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
-			//Problema hace un ingreso innecesario.
-			cantidadDeClientes++;
-			printf("La cantidad de clientes conectados es: %i\n", cantidadDeClientes); 
-			void* punteroAlSocket = socketConexion;
-			vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", punteroAlSocket));
-			vectorSockets.push_back(socketConexion);
-			// colaSockets.push(socketConexion);
-			// algun contendor para los hilos que se crean			
-		}
-	}while(!seDebeCerrarElServidor);
-	for_each (vectorHilos.begin(), vectorHilos.end(), waitThread);
-	//liberar memoria de los sockets
-	for_each (vectorSockets.begin(), vectorSockets.end(), freeSockets);
-	return 0;
-}*/
 int MainServidor::recibirConexiones(void*){
 	
 	struct sockaddr_in local;

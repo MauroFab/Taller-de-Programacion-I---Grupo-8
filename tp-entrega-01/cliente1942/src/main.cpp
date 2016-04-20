@@ -5,11 +5,11 @@
 #include "MainCliente.h"
 
 int main(int argc, char* argv[]){
+
 	MainCliente mainCliente;
 	mainCliente.parsearArchivoXml(argc,argv);
 
 	mainCliente.menu();
-	// mainCliente.principal();
 
 	return 0;
 }

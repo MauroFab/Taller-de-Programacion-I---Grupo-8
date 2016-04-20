@@ -231,9 +231,6 @@ void ParserXml::cargarXmlServidor(int argc, char* argv[]){
 	}
 	else{
 		Log::getInstance()->error("La cantidad de argumentos es incorrecta, se usa archivo por default");
-/*		printf("error, no ruta valida, ingrese ruta\n");
-		scanf("%s",ruta);
-*/
 	}
 
 	//si hubo error al leer, llama al xml por defecto
@@ -251,36 +248,6 @@ void ParserXml::cargarXmlServidor(int argc, char* argv[]){
 		printf("\n INFO:xml servidor procesado con exito");
 	}
 }
-
-/*
-int ParserXml::levantarXMLServidor()
-{
-//-----------------------------------------------------------------------------
-// Lee un archivo xml del Servidor
-//-----------------------------------------------------------------------------
-
-//	XMLDocument doc;
-	xmlDoc.LoadFile( "servidor.xml" );
-	printf("\ncodigo %d\n",xmlDoc.ErrorID());
-	XMLNode * primero = xmlDoc.FirstChild();
-	//<servidor> y sobre este se obtiene el primer elemento
-	//<cantidadMaximaClientes>
-	XMLNode * dataMaxCli = primero->FirstChild();
-
-	char * textoMaxCli;
-	textoMaxCli= (char*) ((XMLElement*)dataMaxCli)->GetText();
-	printf("\nla CantMaxCli es= <%s>\n",textoMaxCli);
-
-	XMLNode * dataPuerto= primero->LastChild();
-    char * textoPuerto;
-	textoPuerto= (char*) ((XMLElement*)dataPuerto)->GetText();
-	printf("\n el puerto servidor es= <%s>\n",textoPuerto);
-//	system("pause");
-
-   return 0;
-}
-*/
-
 
 /**
  * @param strIp cadena que contiene la ip a validar
@@ -615,38 +582,13 @@ MensajeXml * ParserXml::createDataMensajeXml(XMLElement* elemMensaje){
  * @return crea y retorna un objeto mensaje cargado segun el tipo que recibe
  */
 MensajeXml * ParserXml::createMensajeXml(int id, int tipo,char * valor){
+	
 	MensajeXml * men = new MensajeXml(id,tipo,valor);
-	/*
-	switch (tipo)
-	{
-		case TIPO_CHAR:{
-			char car = valor[0];
-			men = new MensajeXml(id,tipo,valor);
-		}
-		break;
-		case TIPO_DOUBLE:{
-			double numD = atof(valor);
-			men = new MensajeXml(id,tipo,valor);
-		}
-		break;
-		case TIPO_INT:{
-			int numI = atoi(valor);
-			men = new MensajeXml(id,tipo,valor);
-		}
-		break;
-		case TIPO_STRING:{
-			char * cadena = valor;
-			men = new MensajeXml(id,tipo,valor);
-		}
-		break;
-		default:
-			men = NULL;
-		break;
-	}*/
 	return men;
 }
 
 ServidorXml * ParserXml::createDataServidorXml(){
+	
 	ServidorXml * servidorXml = new ServidorXml();
 	XMLNode * raiz = (XMLNode*)&xmlDoc;
 	XMLElement* elemServidor = (XMLElement*)raiz->FirstChild();
@@ -661,6 +603,7 @@ ServidorXml * ParserXml::createDataServidorXml(){
 }
 
 int ParserXml::validarXmlArchivoCliente(){
+	
 	XMLNode * raiz = (XMLNode*)&xmlDoc;
 	if (raiz->NoChildren()){
 	//no existe tags
@@ -797,11 +740,7 @@ int ParserXml::validarMensajeXml(XMLElement* elemMensaje,set<int> &setClaves){
 		return -1;
 	char * valor = (char*)elemVALOR->GetText();
 	int nTipo = convertTipoToInt(tipo);
-	//no se valida el valor
-	/*
-	if (isValidValor(valor,nTipo) < 0)
-		return -1;
-	*/
+
 	return 0;
 }
 
