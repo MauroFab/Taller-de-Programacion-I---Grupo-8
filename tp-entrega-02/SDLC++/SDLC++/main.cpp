@@ -1,7 +1,7 @@
 
 #include "Avion.h"
 #include "Textura.h"
-
+#include "ElementoDelMapa.h"
 //Starts up SDL and creates window
 bool init();
 
@@ -130,6 +130,7 @@ bool loadMedia()
 		gSpriteClips[ 3 ].y =   0;
 		gSpriteClips[ 3 ].w =  64;
 		gSpriteClips[ 3 ].h = 205;
+
 	}
 	return success;
 }
@@ -178,8 +179,10 @@ int main( int argc, char* args[] )
 
 			//The background scrolling offset
 			int scrollingOffset = 0;
-
+			int globalOffset = 0;
 			int frame=0;
+
+			ElementoDelMapa elemento(10,1000, gRenderer, &gIslaTextura);
 
 			//While application is running
 			while( !quit )
@@ -214,8 +217,9 @@ int main( int argc, char* args[] )
 				gBGTexture.render(0, scrollingOffset - gBGTexture.getHeight(),gRenderer );
 
 				//isla
-				gIslaTextura.render(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,gRenderer);
+				//gIslaTextura.render(0, scrollingOffset - gIslaTextura.getHeight(),gRenderer);
 				SDL_Rect* currentClip = &gSpriteClips[ frame / 4 ];
+				elemento.graficarseSiEstaEnPantalla(640 + globalOffset, globalOffset);
 				//otro frame
 				++frame;
 
@@ -232,6 +236,7 @@ int main( int argc, char* args[] )
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
+				globalOffset++;
 			}
 		}
 	}

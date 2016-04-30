@@ -60,7 +60,8 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>copy "C:\SDL2-2.0.4\lib\x86\SDL2.dll" "$(OutDir)SDL2.dll"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -84,12 +85,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Avion.cpp" />
+    <ClCompile Include="elementoDelMapa.cpp" />
+    <ClCompile Include="elementosDelMapa.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Textura.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Avion.h" />
     <ClInclude Include="Constantes.h" />
+    <ClInclude Include="elementoDelMapa.h" />
+    <ClInclude Include="elementosDelMapa.h" />
     <ClInclude Include="Textura.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
