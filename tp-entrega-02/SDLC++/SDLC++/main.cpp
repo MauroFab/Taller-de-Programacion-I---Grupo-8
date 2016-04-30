@@ -87,14 +87,14 @@ bool loadMedia()
 	bool success = true;
 
 	//Load dot texture (ya no es necesaria quitar)
-	if( !gIslaTextura.cargarDeArchivo( "dot.png",gRenderer) )
+	if( !gIslaTextura.cargarDeArchivo( "isla.bmp",gRenderer) )
 	{
 		printf( "Failed to load dot texture!\n" );
 		success = false;
 	}
 
 	//Load background texture
-	if( !gBGTexture.cargarDeArchivo( "bg.png",gRenderer ) )
+	if( !gBGTexture.cargarDeArchivo( "bg.bmp",gRenderer ) )
 	{
 		printf( "Failed to load background texture!\n" );
 		success = false;
