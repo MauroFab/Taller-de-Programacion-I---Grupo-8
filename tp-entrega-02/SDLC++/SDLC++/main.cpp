@@ -1,7 +1,7 @@
 
-//The dot that will move around on the screen
 #include "Avion.h"
 #include "Textura.h"
+
 //Starts up SDL and creates window
 bool init();
 
@@ -25,7 +25,6 @@ Textura gBGTexture;
 const int WALKING_ANIMATION_FRAMES = 4;
 SDL_Rect gSpriteClips[ WALKING_ANIMATION_FRAMES ];
 Textura gSpriteSheetTexture;
-
 
 // Inicio No tocar
 bool init()
@@ -103,7 +102,7 @@ bool loadMedia()
 
 	//SPRITES
 
-		//Load sprite sheet texture
+	//Load sprite sheet texture
 	if( !gSpriteSheetTexture.cargarDeArchivo( "foo.png",gRenderer ) )
 	{
 		printf( "Failed to load walking animation texture!\n" );
@@ -121,7 +120,7 @@ bool loadMedia()
 		gSpriteClips[ 1 ].y =   0;
 		gSpriteClips[ 1 ].w =  64;
 		gSpriteClips[ 1 ].h = 205;
-		
+
 		gSpriteClips[ 2 ].x = 128;
 		gSpriteClips[ 2 ].y =   0;
 		gSpriteClips[ 2 ].w =  64;
@@ -132,10 +131,6 @@ bool loadMedia()
 		gSpriteClips[ 3 ].w =  64;
 		gSpriteClips[ 3 ].h = 205;
 	}
-
-
-
-
 	return success;
 }
 
@@ -203,9 +198,6 @@ int main( int argc, char* args[] )
 					avion.handleEvent( e );
 				}
 
-				
-				
-
 				//Scroll background
 				++scrollingOffset;
 				if( scrollingOffset >= gBGTexture.getHeight() )
@@ -223,12 +215,7 @@ int main( int argc, char* args[] )
 
 				//isla
 				gIslaTextura.render(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,gRenderer);
-
-
-				
 				SDL_Rect* currentClip = &gSpriteClips[ frame / 4 ];
-				 
-
 				//otro frame
 				++frame;
 
@@ -237,12 +224,11 @@ int main( int argc, char* args[] )
 				{
 					frame = 0;
 				}
-				
+
 				// mover el muñequito
 				avion.move();
-				//Render objects
+				//Render sprite
 				avion.render(gSpriteSheetTexture,currentClip,gRenderer);
-
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
