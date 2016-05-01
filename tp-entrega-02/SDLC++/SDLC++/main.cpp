@@ -3,6 +3,7 @@
 #include "Textura.h"
 #include "ElementoDelMapa.h"
 #include "Mapa.h"
+
 //Starts up SDL and creates window
 bool init();
 
@@ -22,10 +23,16 @@ SDL_Renderer* gRenderer = NULL;
 Textura gIslaTextura;
 Textura gBGTexture;
 
-//Walking animation
-const int WALKING_ANIMATION_FRAMES = 4;
+// Textura avion
+const int WALKING_ANIMATION_FRAMES = 7;
 SDL_Rect gSpriteClips[ WALKING_ANIMATION_FRAMES ];
 Textura gSpriteSheetTexture;
+
+
+//Walking animation
+//const int WALKING_ANIMATION_FRAMES = 4;
+//SDL_Rect gSpriteClips[ WALKING_ANIMATION_FRAMES ];
+//Textura gSpriteSheetTexture;
 
 // Inicio No tocar
 bool init()
@@ -104,34 +111,30 @@ bool loadMedia()
 	//SPRITES
 
 	//Load sprite sheet texture
-	if( !gSpriteSheetTexture.cargarDeArchivo( "foo.png",gRenderer ) )
+	if( !gSpriteSheetTexture.cargarDeArchivo( "rollTest.bmp",gRenderer ) )
 	{
 		printf( "Failed to load walking animation texture!\n" );
 		success = false;
 	}
 	else
 	{
-		//Set sprite clips
-		gSpriteClips[ 0 ].x =   0;
-		gSpriteClips[ 0 ].y =   0;
-		gSpriteClips[ 0 ].w =  64;
-		gSpriteClips[ 0 ].h = 205;
+		//Configurable desde xml
+		//id
+		//path a la imagen
+		//cantidad de fotogramas
+		//ancho (en unidades lógicas)
+		//alto	(en	unidades	lógicas)
+		int cantidadDeFotogramas = 7;
+		int altoFotograma = 195;
+		int anchoFotograma = 112;
 
-		gSpriteClips[ 1 ].x =  64;
-		gSpriteClips[ 1 ].y =   0;
-		gSpriteClips[ 1 ].w =  64;
-		gSpriteClips[ 1 ].h = 205;
+		for(int i=0; i < cantidadDeFotogramas; i++){
 
-		gSpriteClips[ 2 ].x = 128;
-		gSpriteClips[ 2 ].y =   0;
-		gSpriteClips[ 2 ].w =  64;
-		gSpriteClips[ 2 ].h = 205;
-
-		gSpriteClips[ 3 ].x = 196;
-		gSpriteClips[ 3 ].y =   0;
-		gSpriteClips[ 3 ].w =  64;
-		gSpriteClips[ 3 ].h = 205;
-
+			gSpriteClips[ i ].x = anchoFotograma * i;
+			gSpriteClips[ i ].y = 0;
+			gSpriteClips[ i ].w = anchoFotograma;
+			gSpriteClips[ i ].h = altoFotograma;
+		}
 	}
 	return success;
 }
@@ -210,12 +213,12 @@ int main( int argc, char* args[] )
 				//Render background
 				mapa.graficar();
 				//isla
-				SDL_Rect* currentClip = &gSpriteClips[ frame / 4 ];
+				SDL_Rect* currentClip = &gSpriteClips[ frame / 7 ];
 				//otro frame
 				++frame;
 
 				//para poder ciclar
-				if( frame / 4 >= WALKING_ANIMATION_FRAMES )
+				if( frame / 7 >= WALKING_ANIMATION_FRAMES )
 				{
 					frame = 0;
 				}

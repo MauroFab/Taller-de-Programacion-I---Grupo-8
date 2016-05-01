@@ -24,9 +24,6 @@
     <ClCompile Include="Avion.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="elementosDelMapa.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
     <ClCompile Include="elementoDelMapa.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
@@ -42,9 +39,6 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Constantes.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="elementosDelMapa.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="elementoDelMapa.h">

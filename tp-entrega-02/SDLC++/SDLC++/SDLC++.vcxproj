@@ -86,7 +86,6 @@
   <ItemGroup>
     <ClCompile Include="Avion.cpp" />
     <ClCompile Include="elementoDelMapa.cpp" />
-    <ClCompile Include="elementosDelMapa.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Textura.cpp" />
@@ -95,7 +94,6 @@
     <ClInclude Include="Avion.h" />
     <ClInclude Include="Constantes.h" />
     <ClInclude Include="elementoDelMapa.h" />
-    <ClInclude Include="elementosDelMapa.h" />
     <ClInclude Include="Mapa.h" />
     <ClInclude Include="Textura.h" />
   </ItemGroup>
