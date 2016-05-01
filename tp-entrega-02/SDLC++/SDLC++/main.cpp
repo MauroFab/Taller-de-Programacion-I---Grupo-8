@@ -2,6 +2,7 @@
 #include "Avion.h"
 #include "Textura.h"
 #include "ElementoDelMapa.h"
+#include "Mapa.h"
 //Starts up SDL and creates window
 bool init();
 
@@ -183,7 +184,7 @@ int main( int argc, char* args[] )
 			int frame=0;
 
 			ElementoDelMapa elemento(10,1000, gRenderer, &gIslaTextura);
-
+			Mapa mapa(gRenderer, &gBGTexture);
 			//While application is running
 			while( !quit )
 			{
@@ -213,9 +214,7 @@ int main( int argc, char* args[] )
 				SDL_RenderClear( gRenderer );
 
 				//Render background
-				gBGTexture.render(0,scrollingOffset,gRenderer );
-				gBGTexture.render(0, scrollingOffset - gBGTexture.getHeight(),gRenderer );
-
+				mapa.graficar();
 				//isla
 				//gIslaTextura.render(0, scrollingOffset - gIslaTextura.getHeight(),gRenderer);
 				SDL_Rect* currentClip = &gSpriteClips[ frame / 4 ];
