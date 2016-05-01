@@ -19,10 +19,6 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
-//Scene textures
-Textura gIslaTextura;
-Textura gBGTexture;
-
 // Textura avion
 const int WALKING_ANIMATION_FRAMES = 7;
 SDL_Rect gSpriteClips[ WALKING_ANIMATION_FRAMES ];
@@ -95,18 +91,7 @@ bool loadMedia()
 	bool success = true;
 
 	//Load dot texture (ya no es necesaria quitar)
-	if( !gIslaTextura.cargarDeArchivo( "isla.bmp",gRenderer) )
-	{
-		printf( "Failed to load dot texture!\n" );
-		success = false;
-	}
 
-	//Load background texture
-	if( !gBGTexture.cargarDeArchivo( "bg.bmp",gRenderer ) )
-	{
-		printf( "Failed to load background texture!\n" );
-		success = false;
-	}
 
 	//SPRITES
 
@@ -142,8 +127,6 @@ bool loadMedia()
 void close()
 {
 	//Free loaded images
-	gIslaTextura.liberar();
-	gBGTexture.liberar();
 	gSpriteSheetTexture.liberar();
 	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );
@@ -182,11 +165,9 @@ int main( int argc, char* args[] )
 			Avion avion;
 
 			//The background scrolling offset
-			int scrollingOffset = 0;
-			int globalOffset = 0;
 			int frame=0;
 
-			Mapa mapa(gRenderer, &gBGTexture, &gIslaTextura);
+			Mapa mapa(gRenderer, "bg.bmp", "isla.bmp");
 			mapa.crearIslaEn(100, 700);
 			mapa.crearIslaEn(300, 900);
 			//While application is running

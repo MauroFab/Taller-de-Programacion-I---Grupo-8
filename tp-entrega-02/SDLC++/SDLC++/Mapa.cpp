@@ -1,14 +1,25 @@
 #include "Mapa.h"
 
 
-Mapa::Mapa(SDL_Renderer* rendererRecibido, Textura* texturaMapaRecibida, Textura* texturaIslaRecibida){
-	texturaMapa = texturaMapaRecibida;
-	texturaIsla = texturaIslaRecibida;
-	anchoMapa = texturaMapaRecibida->getWidth();
-	altoMapa = texturaMapaRecibida->getHeight();
+Mapa::Mapa(SDL_Renderer* rendererRecibido, std::string dirImagenMapa, std::string dirImagenIsla){
+	bool success = true;
+	renderer = rendererRecibido;
+	texturaMapa= new Textura();
+	if( !texturaMapa->cargarDeArchivo( dirImagenMapa,renderer ) )
+	{
+		printf( "Failed to load background texture!\n" );
+		success = false;
+	}
+	texturaIsla= new Textura();
+	if( !texturaIsla->cargarDeArchivo( dirImagenIsla,renderer) )
+	{
+		printf( "Failed to load dot texture!\n" );
+		success = false;
+	}
+	anchoMapa = texturaMapa->getWidth();
+	altoMapa = texturaMapa->getHeight();
 	pixelesAvanzados = 0;
 	scrollingOffset = 0;
-	renderer = rendererRecibido;
 	cantidadDePixelesQuePasaron = 0;
 }
 
@@ -16,8 +27,10 @@ Mapa::Mapa(SDL_Renderer* rendererRecibido, Textura* texturaMapaRecibida, Textura
 Mapa::~Mapa(){
 	std::list<ElementoDelMapa*>::iterator it;
 
-for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
-     delete (*it);
+	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
+		 delete (*it);
+	delete texturaIsla;
+	delete texturaMapa;
 }
 
 void Mapa::graficarElementosDelMapa(){
