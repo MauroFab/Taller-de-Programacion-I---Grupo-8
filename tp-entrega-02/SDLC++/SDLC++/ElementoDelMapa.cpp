@@ -29,7 +29,7 @@ void ElementoDelMapa::graficarseSiEstaEnPantalla(int yMaxPantalla,int  yMinPanta
 		//La imagen comienza a verse no en 0, si no cuando solo una parte de la imagen ya entra
 		//por eso, recien entramos 
 		//textura->render(x, offset - textura->getHeight() ,gRenderer);
-		textura->render(50, offset - textura->getHeight() ,gRenderer);
+		textura->render(x, offset - textura->getHeight() ,gRenderer);
 		offset++;
 	}
 }

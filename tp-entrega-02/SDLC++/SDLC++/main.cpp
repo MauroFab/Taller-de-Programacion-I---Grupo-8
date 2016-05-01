@@ -183,8 +183,8 @@ int main( int argc, char* args[] )
 			int globalOffset = 0;
 			int frame=0;
 
-			ElementoDelMapa elemento(10,1000, gRenderer, &gIslaTextura);
-			Mapa mapa(gRenderer, &gBGTexture);
+			Mapa mapa(gRenderer, &gBGTexture, &gIslaTextura);
+			mapa.crearIslaEn(100, 700);
 			//While application is running
 			while( !quit )
 			{
@@ -202,13 +202,6 @@ int main( int argc, char* args[] )
 					avion.handleEvent( e );
 				}
 
-				//Scroll background
-				++scrollingOffset;
-				if( scrollingOffset >= gBGTexture.getHeight() )
-				{
-					scrollingOffset = 0;
-				}
-
 				//Clear screen
 				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				SDL_RenderClear( gRenderer );
@@ -216,9 +209,7 @@ int main( int argc, char* args[] )
 				//Render background
 				mapa.graficar();
 				//isla
-				//gIslaTextura.render(0, scrollingOffset - gIslaTextura.getHeight(),gRenderer);
 				SDL_Rect* currentClip = &gSpriteClips[ frame / 4 ];
-				elemento.graficarseSiEstaEnPantalla(640 + globalOffset, globalOffset);
 				//otro frame
 				++frame;
 
@@ -235,7 +226,6 @@ int main( int argc, char* args[] )
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
-				globalOffset++;
 			}
 		}
 	}
