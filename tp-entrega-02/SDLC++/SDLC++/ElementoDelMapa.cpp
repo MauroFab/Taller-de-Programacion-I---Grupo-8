@@ -11,8 +11,7 @@ ElementoDelMapa::ElementoDelMapa(int xInicial, int yInicial, SDL_Renderer* gRend
 }
 
 
-ElementoDelMapa::~ElementoDelMapa(void)
-{
+ElementoDelMapa::~ElementoDelMapa(void){
 }
 
 bool ElementoDelMapa::estaEnPantalla(int yMaxPantalla,int  yMinPantalla){

@@ -1,6 +1,8 @@
 #pragma once
 #include "Textura.h"
 #include "ElementoDelMapa.h"
+#include <list>
+
 class Mapa
 {
 public:
@@ -12,13 +14,13 @@ public:
 private:
 	Textura* texturaMapa;
 	Textura* texturaIsla;
-	ElementoDelMapa* elementoDelMapa;
 	int anchoMapa;
 	int altoMapa;
 	int pixelesAvanzados;
 	int scrollingOffset;
 	SDL_Renderer* renderer;
 	int cantidadDePixelesQuePasaron;
-
+	std::list<ElementoDelMapa*> elementosDelMapa;
+	void graficarElementosDelMapa();
 };
 

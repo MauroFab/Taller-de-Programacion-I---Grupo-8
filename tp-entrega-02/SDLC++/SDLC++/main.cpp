@@ -185,6 +185,7 @@ int main( int argc, char* args[] )
 
 			Mapa mapa(gRenderer, &gBGTexture, &gIslaTextura);
 			mapa.crearIslaEn(100, 700);
+			mapa.crearIslaEn(300, 900);
 			//While application is running
 			while( !quit )
 			{
