@@ -1,7 +1,19 @@
 #include "Mapa.h"
 
+bool Mapa::instanceFlag = false;
+Mapa* Mapa::instance = NULL;
 
-Mapa::Mapa(SDL_Renderer* rendererRecibido, std::string dirImagenMapa, std::string dirImagenIsla){
+Mapa* Mapa::getInstace() {
+
+	if(!instanceFlag){
+        instance = new Mapa();
+        instanceFlag = true;
+    }
+    return instance;
+}
+
+void Mapa::inicializar(SDL_Renderer* rendererRecibido, std::string dirImagenMapa, std::string dirImagenIsla) {
+
 	bool success = true;
 	renderer = rendererRecibido;
 	texturaMapa= new Textura();
@@ -17,7 +29,11 @@ Mapa::Mapa(SDL_Renderer* rendererRecibido, std::string dirImagenMapa, std::strin
 		success = false;
 	}
 	anchoMapa = texturaMapa->getWidth();
-	altoMapa = texturaMapa->getHeight();
+	altoMapa = texturaMapa->getHeight();	
+}
+
+Mapa::Mapa(){
+	
 	pixelesAvanzados = 0;
 	scrollingOffset = 0;
 	cantidadDePixelesQuePasaron = 0;

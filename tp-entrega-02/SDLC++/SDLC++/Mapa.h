@@ -6,12 +6,23 @@
 class Mapa
 {
 public:
-	Mapa(SDL_Renderer* renderer, std::string dirImagenMapa, std::string dirImagenIsla);
+
+	static Mapa* getInstace();
+
+	void inicializar(SDL_Renderer* renderer, std::string dirImagenMapa, std::string dirImagenIsla);
+
 	~Mapa();
 	void graficar();
 	//Por ahora solo se puede crear una isla
 	void crearIslaEn(int x, int y);
+
 private:
+
+	static bool instanceFlag;
+	static Mapa* instance;
+
+	Mapa();
+
 	Textura* texturaMapa;
 	Textura* texturaIsla;
 	int anchoMapa;

@@ -19,17 +19,6 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
-// Textura avion
-const int WALKING_ANIMATION_FRAMES = 7;
-SDL_Rect gSpriteClips[ WALKING_ANIMATION_FRAMES ];
-Textura gSpriteSheetTexture;
-
-
-//Walking animation
-//const int WALKING_ANIMATION_FRAMES = 4;
-//SDL_Rect gSpriteClips[ WALKING_ANIMATION_FRAMES ];
-//Textura gSpriteSheetTexture;
-
 // Inicio No tocar
 bool init()
 {
@@ -87,47 +76,11 @@ bool init()
 
 bool loadMedia()
 {
-	//Loading success flag
-	bool success = true;
-
-	//Load dot texture (ya no es necesaria quitar)
-
-
-	//SPRITES
-
-	//Load sprite sheet texture
-	if( !gSpriteSheetTexture.cargarDeArchivo( "rollTest.bmp",gRenderer ) )
-	{
-		printf( "Failed to load walking animation texture!\n" );
-		success = false;
-	}
-	else
-	{
-		//Configurable desde xml
-		//id
-		//path a la imagen
-		//cantidad de fotogramas
-		//ancho (en unidades lógicas)
-		//alto	(en	unidades	lógicas)
-		int cantidadDeFotogramas = 7;
-		int altoFotograma = 195;
-		int anchoFotograma = 112;
-
-		for(int i=0; i < cantidadDeFotogramas; i++){
-
-			gSpriteClips[ i ].x = anchoFotograma * i;
-			gSpriteClips[ i ].y = 0;
-			gSpriteClips[ i ].w = anchoFotograma;
-			gSpriteClips[ i ].h = altoFotograma;
-		}
-	}
-	return success;
+	return true;
 }
 
 void close()
 {
-	//Free loaded images
-	gSpriteSheetTexture.liberar();
 	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );
 	SDL_DestroyWindow( gWindow );
@@ -161,15 +114,16 @@ int main( int argc, char* args[] )
 			//Event handler
 			SDL_Event e;
 
-			//The dot that will be moving around on the screen
-			Avion avion;
-
 			//The background scrolling offset
 			int frame=0;
 
-			Mapa mapa(gRenderer, "bg.bmp", "isla.bmp");
-			mapa.crearIslaEn(100, 700);
-			mapa.crearIslaEn(300, 900);
+			Mapa::getInstace()->inicializar(gRenderer, "bg.bmp", "isla.bmp");
+			Mapa::getInstace()->crearIslaEn(100, 700);
+			Mapa::getInstace()->crearIslaEn(300, 900);
+
+			//The dot that will be moving around on the screen
+			Avion avion(gRenderer, "rollTest.bmp", 7, 112, 195);
+
 			//While application is running
 			while( !quit )
 			{
@@ -192,22 +146,13 @@ int main( int argc, char* args[] )
 				SDL_RenderClear( gRenderer );
 
 				//Render background
-				mapa.graficar();
-				//isla
-				SDL_Rect* currentClip = &gSpriteClips[ frame / 7 ];
-				//otro frame
-				++frame;
-
-				//para poder ciclar
-				if( frame / 7 >= WALKING_ANIMATION_FRAMES )
-				{
-					frame = 0;
-				}
+				Mapa::getInstace()->graficar();
 
 				// mover el muñequito
 				avion.move();
+
 				//Render sprite
-				avion.render(gSpriteSheetTexture,currentClip,gRenderer);
+				avion.render();
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
