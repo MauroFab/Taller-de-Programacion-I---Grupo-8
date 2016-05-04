@@ -36,6 +36,7 @@ class Avion
 		SDL_Renderer* renderer;
 		int frame;
 		int cantDeFotogramas;
+		bool rollFlag;
 
 		//The X and Y offsets of the dot
 		int mPosX, mPosY;

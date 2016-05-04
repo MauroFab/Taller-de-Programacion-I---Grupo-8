@@ -108,20 +108,14 @@ int main( int argc, char* args[] )
 		}
 		else
 		{	
-			//Main loop flag
 			bool quit = false;
 
-			//Event handler
 			SDL_Event e;
-
-			//The background scrolling offset
-			int frame=0;
 
 			Mapa::getInstace()->inicializar(gRenderer, "bg.bmp", "isla.bmp");
 			Mapa::getInstace()->crearIslaEn(100, 700);
 			Mapa::getInstace()->crearIslaEn(300, 900);
 
-			//The dot that will be moving around on the screen
 			Avion avion(gRenderer, "rollTest.bmp", 6, 112, 195);
 
 			//While application is running
@@ -136,7 +130,6 @@ int main( int argc, char* args[] )
 						quit = true;
 					}
 
-					//Handle input for the dot
 					// registrar mov del teclado
 					avion.handleEvent( e );
 				}
@@ -148,7 +141,6 @@ int main( int argc, char* args[] )
 				//Render background
 				Mapa::getInstace()->graficar();
 
-				// mover el muñequito
 				avion.move();
 
 				//Render sprite

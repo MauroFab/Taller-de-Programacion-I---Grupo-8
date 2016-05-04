@@ -11,17 +11,16 @@ Avion::Avion(SDL_Renderer* rendererRecibido, std::string dirImagenAvion, int can
     mVelY = 0;
 
 	frame = 0;
+	rollFlag = false;
 
 	cantDeFotogramas = cantidadDeFotogramas;
 	renderer = rendererRecibido;
 	texturaAvion = new Textura();
 	fotogramas = new SDL_Rect[cantDeFotogramas];
 
-	bool success = true;
 	if( !texturaAvion->cargarDeArchivo( dirImagenAvion, renderer ) )
 	{
 		printf( "Failed to load plane animation texture!\n" );
-		success = false;
 	}
 	else
 	{
@@ -59,22 +58,7 @@ void Avion::handleEvent( SDL_Event& e )
             case SDLK_RIGHT: mVelX += DOT_VEL; break;
 			
 			// Realiza el roll
-			case SDLK_RETURN: {
-
-				while ( (frame / cantDeFotogramas) < cantDeFotogramas ) {
-
-					SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-					SDL_RenderClear( renderer );
-
-					Mapa::getInstace()->graficar();
-
-					++frame;
-					move();
-					render();
-
-					SDL_RenderPresent( renderer );
-				}
-							  } break;
+			case SDLK_RETURN: rollFlag = true; break;
         }
     }
     //If a key was released
@@ -88,16 +72,12 @@ void Avion::handleEvent( SDL_Event& e )
             case SDLK_LEFT: mVelX += DOT_VEL; break;
             case SDLK_RIGHT: mVelX -= DOT_VEL; break;
 
-			// Realiza el roll
-			case SDLK_RETURN: frame = 0; break;
-
 			// Realiza un disparo
 			case SDLK_SPACE: {
 
 				Proyectil proyectil(renderer, "proyectilAvion.bmp", 1, 50, 50);
 				proyectil.setCoordenasDeComienzo(mPosX, mPosY);
 				proyectil.move();
-
 							 } break;
         }
     }
@@ -130,7 +110,14 @@ void Avion::move()
 
 void Avion::render()
 {
+	if (rollFlag) ++frame;
+
 	SDL_Rect* currentClip = &fotogramas[ frame / cantDeFotogramas ];
+
+	if ((frame / cantDeFotogramas) >= cantDeFotogramas){
+		frame = 0;
+		rollFlag = false;
+	}
 
     //Show the dot
 	texturaAvion->render( mPosX, mPosY, renderer, currentClip );
