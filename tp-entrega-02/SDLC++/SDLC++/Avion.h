@@ -2,31 +2,26 @@
 
 #include "Constantes.h"
 #include "Textura.h"
-#include "Mapa.h"
 #include "Proyectil.h"
+#include <list>
 
-class Avion
-{
+class Avion {
+
     public:
-		//The dimensions of the dot
-		static const int DOT_WIDTH = 64;
-		static const int DOT_HEIGHT = 206;
 
-		//Maximum axis velocity of the dot
-		static const int DOT_VEL = 10;
+		static const int ANCHO_AVION = 64;
+		static const int ALTO_AVION = 206;
 
-		//Initializes the variables
+		static const int VELOCIDAD_AVION = 10;
+
 		Avion(SDL_Renderer* renderer, std::string dirImagenAvion, int cantidadDeFrames, int anchoFotograma, int altoFotograma);
 
 		~Avion();
 
-		//Takes key presses and adjusts the dot's velocity
 		void handleEvent( SDL_Event& e );
 
-		//Moves the dot
-		void move();
+		void mover();
 
-		//Shows the dot on the screen
 		void render();
 
     private:
@@ -37,10 +32,11 @@ class Avion
 		int frame;
 		int cantDeFotogramas;
 		bool rollFlag;
+		std::list<Proyectil*> proyectiles;
 
-		//The X and Y offsets of the dot
-		int mPosX, mPosY;
+		// Posicion del avion
+		int posicionX, posicionY;
 
-		//The velocity of the dot
-		int mVelX, mVelY;
+		// Velocidad del avion
+		int velocidadX, velocidadY;
 };

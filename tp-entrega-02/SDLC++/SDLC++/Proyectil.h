@@ -2,41 +2,40 @@
 
 #include "Constantes.h"
 #include "Textura.h"
-#include "Mapa.h"
-#include "Avion.h"
 
 class Proyectil {
 
-public:
+	public:
 
-	//The dimensions of the dot
-	static const int DOT_WIDTH = 47;
-	static const int DOT_HEIGHT = 44;
+		static const int ANCHO_PROYECTIL = 47;
+		static const int ALTO_PROYECTIL = 44;
 
-	static const int DOT_VEL = 1;
+		static const int VELOCIDAD_PROYECTIL = 1;
 
-	Proyectil(SDL_Renderer* rendererRecibido, std::string dirImagenProyectil, int cantidadDeFrames, int anchoFotograma, int altoFotograma);
+		Proyectil(SDL_Renderer* rendererRecibido, std::string dirImagenProyectil, int cantidadDeFrames, int anchoFotograma, int altoFotograma);
 
-	virtual ~Proyectil(void);
+		virtual ~Proyectil(void);
 
-	void move();
+		bool estaEnPantalla();
 
-	void render();
+		void mover();
 
-	void setCoordenasDeComienzo(int posX, int posY);
+		void render();
 
-private:
+		void setCoordenasDeComienzo(int posX, int posY);
 
-	SDL_Rect *fotogramas;
-	Textura* texturaProyectil;
-	SDL_Renderer* renderer;
-	int frame;
-	int cantDeFotogramas;
+	private:
 
-	//The X and Y offsets of the dot
-	int mPosX, mPosY;
+		SDL_Rect *fotogramas;
+		Textura* texturaProyectil;
+		SDL_Renderer* renderer;
+		int frame;
+		int cantDeFotogramas;
 
-	//The velocity of the dot
-	int mVelX, mVelY;
+		// Posicion del proyectil
+		int posicionX, posicionY;
+
+		// Velocidad del proyectil
+		int velocidadX, velocidadY;
 };
 

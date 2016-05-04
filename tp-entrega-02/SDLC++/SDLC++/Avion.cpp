@@ -1,14 +1,12 @@
 #include "Avion.h"
 
-Avion::Avion(SDL_Renderer* rendererRecibido, std::string dirImagenAvion, int cantidadDeFotogramas, int anchoFotograma, int altoFotograma)
-{
-    //Initialize the offsets
-    mPosX = 200;
-    mPosY = 400;
+Avion::Avion(SDL_Renderer* rendererRecibido, std::string dirImagenAvion, int cantidadDeFotogramas, int anchoFotograma, int altoFotograma) {
 
-    //Initialize the velocity
-    mVelX = 0;
-    mVelY = 0;
+    posicionX = 200;
+    posicionY = 400;
+
+    velocidadX = 0;
+    velocidadY = 0;
 
 	frame = 0;
 	rollFlag = false;
@@ -42,69 +40,73 @@ Avion::~Avion() {
 
 	delete [] fotogramas;
 	texturaAvion->liberar();
+
+	std::list<Proyectil*>::iterator it;
+
+	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
+		delete (*it);
+	}
 }
 
 void Avion::handleEvent( SDL_Event& e )
 {
-    //If a key was pressed
+    // Si se presiona una tecla
 	if( e.type == SDL_KEYDOWN && e.key.repeat == 0 )
     {
         switch( e.key.keysym.sym )
         {
-			//Adjust the velocity
-            case SDLK_UP: mVelY -= DOT_VEL; break;
-            case SDLK_DOWN: mVelY += DOT_VEL; break;
-            case SDLK_LEFT: mVelX -= DOT_VEL; break;
-            case SDLK_RIGHT: mVelX += DOT_VEL; break;
+			// Ajusta la velocidad
+            case SDLK_UP: velocidadY -= VELOCIDAD_AVION; break;
+            case SDLK_DOWN: velocidadY += VELOCIDAD_AVION; break;
+            case SDLK_LEFT: velocidadX -= VELOCIDAD_AVION; break;
+            case SDLK_RIGHT: velocidadX += VELOCIDAD_AVION; break;
 			
 			// Realiza el roll
 			case SDLK_RETURN: rollFlag = true; break;
         }
     }
-    //If a key was released
+
+    // Si se libero una tecla
     else if( e.type == SDL_KEYUP && e.key.repeat == 0 )
     {
         switch( e.key.keysym.sym )
         {
-			//Adjust the velocity
-            case SDLK_UP: mVelY += DOT_VEL; break;
-            case SDLK_DOWN: mVelY -= DOT_VEL; break;
-            case SDLK_LEFT: mVelX += DOT_VEL; break;
-            case SDLK_RIGHT: mVelX -= DOT_VEL; break;
+			// Ajusta la velocidad
+            case SDLK_UP: velocidadY += VELOCIDAD_AVION; break;
+            case SDLK_DOWN: velocidadY -= VELOCIDAD_AVION; break;
+            case SDLK_LEFT: velocidadX += VELOCIDAD_AVION; break;
+            case SDLK_RIGHT: velocidadX -= VELOCIDAD_AVION; break;
 
 			// Realiza un disparo
 			case SDLK_SPACE: {
 
-				Proyectil proyectil(renderer, "proyectilAvion.bmp", 1, 50, 50);
-				proyectil.setCoordenasDeComienzo(mPosX, mPosY);
-				proyectil.move();
+				Proyectil* proyectil = new Proyectil(renderer, "proyectilAvion.bmp", 1, 50, 50);
+				proyectil->setCoordenasDeComienzo(posicionX + (ANCHO_AVION/2), posicionY - (ALTO_AVION/32));
+				proyectiles.push_back(proyectil);
+
 							 } break;
         }
     }
 }
 
-void Avion::move()
-{
-    //Move the dot left or right
-    mPosX += mVelX;
+void Avion::mover() {
 
-    //If the dot went too far to the left or right
-	// aca cambiar para no salir de la pantalla X
-    if( ( mPosX < 0 ) || ( mPosX + DOT_WIDTH > SCREEN_WIDTH ) )
+	// Mueve el avion hacia la derecha o a la izquierda
+    posicionX += velocidadX;
+
+	// Para que no se salga de la pantalla en X
+    if( ( posicionX < 0 ) || ( posicionX + ANCHO_AVION > SCREEN_WIDTH ) )
     {
-        //Move back
-        mPosX -= mVelX;
+        posicionX -= velocidadX;
     }
 
-    //Move the dot up or down
-    mPosY += mVelY;
+	// Mueve el avion hacia arriba o hacia abajo
+    posicionY += velocidadY;
 
-    //If the dot went too far up or down
-	// aca cambiar para no salir de la pantalla Y
-    if( ( mPosY < 0 ) || ( mPosY + DOT_HEIGHT > SCREEN_HEIGHT ) )
+    // Para que no se salga de la pantalla en Y
+    if( ( posicionY < 0 ) || ( posicionY + ALTO_AVION > SCREEN_HEIGHT ) )
     {
-        //Move back
-        mPosY -= mVelY;
+        posicionY -= velocidadY;
     }
 }
 
@@ -119,6 +121,17 @@ void Avion::render()
 		rollFlag = false;
 	}
 
-    //Show the dot
-	texturaAvion->render( mPosX, mPosY, renderer, currentClip );
+	std::list<Proyectil*>::iterator it;
+
+	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
+		
+		if ((*it)->estaEnPantalla()) {
+			
+			(*it)->mover();
+			(*it)->render();
+		}
+	}
+
+    // Muestra el avion
+	texturaAvion->render( posicionX, posicionY, renderer, currentClip );
 }

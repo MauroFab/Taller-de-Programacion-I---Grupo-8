@@ -2,7 +2,6 @@
 #define TEXTURA_H_
 
 #include "Constantes.h"
-//Texture wrapper class
 
 class Textura
 {

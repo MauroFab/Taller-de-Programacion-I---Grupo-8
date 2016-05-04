@@ -1,11 +1,9 @@
 #include "Proyectil.h"
 
-
 Proyectil::Proyectil(SDL_Renderer* rendererRecibido, std::string dirImagenProyectil, int cantidadDeFotogramas, int anchoFotograma, int altoFotograma) {
 
-    //Initialize the velocity
-    mVelX = 0;
-    mVelY = 0;
+    velocidadX = 0;
+    velocidadY = 0;
 
 	frame = 0;
 
@@ -14,11 +12,9 @@ Proyectil::Proyectil(SDL_Renderer* rendererRecibido, std::string dirImagenProyec
 	texturaProyectil = new Textura();
 	fotogramas = new SDL_Rect[cantDeFotogramas];
 
-	bool success = true;
 	if( !texturaProyectil->cargarDeArchivo( dirImagenProyectil, renderer ) ) {
 		
 		printf( "Failed to load missil animation texture!\n" );
-		success = false;
 
 	} else {
 
@@ -45,34 +41,24 @@ Proyectil::~Proyectil(void) {
 
 void Proyectil::setCoordenasDeComienzo(int posX, int posY) {
 
-	mPosX = posX + (Avion::DOT_WIDTH/2);
-	mPosY = posY - (Avion::DOT_HEIGHT/32);
+	posicionX = posX;
+	posicionY = posY;
 }
 
-void Proyectil::move() {
+bool Proyectil::estaEnPantalla() {
+	return (posicionY >= -SCREEN_HEIGHT);
+}
 
-	while (mPosY >= -SCREEN_HEIGHT) {
+void Proyectil::mover() {
 
-		SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-		SDL_RenderClear( renderer );
-
-		Mapa::getInstace()->graficar();
-
-		mVelY -= DOT_VEL;
-		mPosY += mVelY;
-		render();
-
-		SDL_RenderPresent( renderer );
-	}
-	
-	texturaProyectil->liberar();
-	texturaProyectil = NULL;
+	velocidadY -= VELOCIDAD_PROYECTIL;
+	posicionY += velocidadY;
 }
 
 void Proyectil::render() {
 
 	SDL_Rect* currentClip = &fotogramas[ frame / cantDeFotogramas ];
 
-    //Show the dot
-	texturaProyectil->render( mPosX, mPosY, renderer, currentClip );
+    // Muestra el proyectil
+	texturaProyectil->render( posicionX, posicionY, renderer, currentClip );
 }

@@ -1,7 +1,4 @@
-
 #include "Avion.h"
-#include "Textura.h"
-#include "ElementoDelMapa.h"
 #include "Mapa.h"
 
 //Starts up SDL and creates window
@@ -141,7 +138,7 @@ int main( int argc, char* args[] )
 				//Render background
 				Mapa::getInstace()->graficar();
 
-				avion.move();
+				avion.mover();
 
 				//Render sprite
 				avion.render();
