@@ -3,13 +3,14 @@
 #include "Constantes.h"
 #include "Textura.h"
 #include "Mapa.h"
+#include "Proyectil.h"
 
 class Avion
 {
     public:
 		//The dimensions of the dot
 		static const int DOT_WIDTH = 64;
-		static const int DOT_HEIGHT = 205;
+		static const int DOT_HEIGHT = 206;
 
 		//Maximum axis velocity of the dot
 		static const int DOT_VEL = 10;

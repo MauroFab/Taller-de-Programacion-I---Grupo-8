@@ -122,7 +122,7 @@ int main( int argc, char* args[] )
 			Mapa::getInstace()->crearIslaEn(300, 900);
 
 			//The dot that will be moving around on the screen
-			Avion avion(gRenderer, "rollTest.bmp", 7, 112, 195);
+			Avion avion(gRenderer, "rollTest.bmp", 6, 112, 195);
 
 			//While application is running
 			while( !quit )

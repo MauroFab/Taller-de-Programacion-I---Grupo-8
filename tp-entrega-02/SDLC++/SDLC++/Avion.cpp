@@ -71,14 +71,10 @@ void Avion::handleEvent( SDL_Event& e )
 					++frame;
 					move();
 					render();
+
 					SDL_RenderPresent( renderer );
 				}
 							  } break;
-
-			// Realiza un disparo
-			case SDLK_KP_SPACE: {
-
-								} break;
         }
     }
     //If a key was released
@@ -92,7 +88,17 @@ void Avion::handleEvent( SDL_Event& e )
             case SDLK_LEFT: mVelX += DOT_VEL; break;
             case SDLK_RIGHT: mVelX -= DOT_VEL; break;
 
+			// Realiza el roll
 			case SDLK_RETURN: frame = 0; break;
+
+			// Realiza un disparo
+			case SDLK_SPACE: {
+
+				Proyectil proyectil(renderer, "proyectilAvion.bmp", 1, 50, 50);
+				proyectil.setCoordenasDeComienzo(mPosX, mPosY);
+				proyectil.move();
+
+							 } break;
         }
     }
 }
@@ -124,7 +130,7 @@ void Avion::move()
 
 void Avion::render()
 {
-	SDL_Rect* currentClip = &fotogramas[ frame / 7 ];
+	SDL_Rect* currentClip = &fotogramas[ frame / cantDeFotogramas ];
 
     //Show the dot
 	texturaAvion->render( mPosX, mPosY, renderer, currentClip );
