@@ -88,6 +88,7 @@
     <ClCompile Include="elementoDelMapa.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mapa.cpp" />
+    <ClCompile Include="Proyectil.cpp" />
     <ClCompile Include="Textura.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +96,7 @@
     <ClInclude Include="Constantes.h" />
     <ClInclude Include="elementoDelMapa.h" />
     <ClInclude Include="Mapa.h" />
+    <ClInclude Include="Proyectil.h" />
     <ClInclude Include="Textura.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
