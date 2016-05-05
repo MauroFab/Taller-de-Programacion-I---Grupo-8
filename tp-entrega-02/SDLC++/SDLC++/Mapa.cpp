@@ -67,8 +67,13 @@ void Mapa::graficar(){
 	scrollingOffset++;
 	cantidadDePixelesQuePasaron++;
 }
-
-
+void Mapa::reiniciar(){
+	cantidadDePixelesQuePasaron = 0;
+	scrollingOffset = 0;
+	std::list<ElementoDelMapa*>::iterator it;
+	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
+		(*it)->reiniciar();
+}
 void Mapa::crearIslaEn(int x, int y){
 	ElementoDelMapa* elementoDelMapa;
 	elementoDelMapa = new ElementoDelMapa(x,y, renderer,texturaIsla);

@@ -14,6 +14,10 @@ ElementoDelMapa::ElementoDelMapa(int xInicial, int yInicial, SDL_Renderer* gRend
 ElementoDelMapa::~ElementoDelMapa(void){
 }
 
+void ElementoDelMapa::reiniciar(){
+		offset = 0;
+}
+
 bool ElementoDelMapa::estaEnPantalla(int yMaxPantalla,int  yMinPantalla){
 	bool estaEnPantalla;
 	return ((y - textura->getHeight() < yMaxPantalla)

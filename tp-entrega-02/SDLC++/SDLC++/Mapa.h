@@ -10,7 +10,7 @@ public:
 	static Mapa* getInstace();
 
 	void inicializar(SDL_Renderer* renderer, std::string dirImagenMapa, std::string dirImagenIsla);
-
+	void reiniciar();
 	~Mapa();
 	void graficar();
 	//Por ahora solo se puede crear una isla

@@ -6,7 +6,7 @@ public:
 	ElementoDelMapa(int xInicial, int yInicial, SDL_Renderer* gRenderer, Textura* textura);
 	~ElementoDelMapa(void);
 	void graficarseSiEstaEnPantalla(int yMaxPantalla,int  yMinPantalla);
-	
+	void reiniciar();
 private:
 	bool estaEnPantalla(int yMaxPantalla,int  yMinPantalla);
 	int x;

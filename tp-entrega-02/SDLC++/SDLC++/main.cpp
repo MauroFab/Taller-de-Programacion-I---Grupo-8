@@ -126,7 +126,8 @@ int main( int argc, char* args[] )
 					{
 						quit = true;
 					}
-
+					if( e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_r)
+						Mapa::getInstace()->reiniciar();
 					// registrar mov del teclado
 					avion.handleEvent( e );
 				}
