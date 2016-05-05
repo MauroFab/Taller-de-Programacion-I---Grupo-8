@@ -9,9 +9,6 @@ class Avion {
 
     public:
 
-		static const int ANCHO_AVION = 64;
-		static const int ALTO_AVION = 206;
-
 		static const int VELOCIDAD_AVION = 10;
 
 		Avion(SDL_Renderer* renderer, std::string dirImagenAvion, int cantidadDeFrames, int anchoFotograma, int altoFotograma);
@@ -36,6 +33,9 @@ class Avion {
 
 		// Posicion del avion
 		int posicionX, posicionY;
+
+		int anchoFotograma;
+		int altoFotograma;
 
 		// Velocidad del avion
 		int velocidadX, velocidadY;

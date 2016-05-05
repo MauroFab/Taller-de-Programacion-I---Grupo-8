@@ -1,6 +1,6 @@
 #include "Avion.h"
 
-Avion::Avion(SDL_Renderer* rendererRecibido, std::string dirImagenAvion, int cantidadDeFotogramas, int anchoFotograma, int altoFotograma) {
+Avion::Avion(SDL_Renderer* rendererRecibido, std::string dirImagenAvion, int cantidadDeFotogramas, int anchoFotogramaRecibido, int altoFotogramaRecibido) {
 
     posicionX = 200;
     posicionY = 400;
@@ -11,6 +11,8 @@ Avion::Avion(SDL_Renderer* rendererRecibido, std::string dirImagenAvion, int can
 	frame = 0;
 	rollFlag = false;
 
+	altoFotograma = altoFotogramaRecibido;
+	anchoFotograma = anchoFotogramaRecibido;
 	cantDeFotogramas = cantidadDeFotogramas;
 	renderer = rendererRecibido;
 	texturaAvion = new Textura();
@@ -80,8 +82,9 @@ void Avion::handleEvent( SDL_Event& e )
 			// Realiza un disparo
 			case SDLK_SPACE: {
 
-				Proyectil* proyectil = new Proyectil(renderer, "proyectilAvion.bmp", 1, 50, 50);
-				proyectil->setCoordenasDeComienzo(posicionX + (ANCHO_AVION/2), posicionY - (ALTO_AVION/32));
+				Proyectil* proyectil = new Proyectil(renderer, "proyectil2.bmp", 1, 11, 25);
+				//El centro del proyectil esta en el pixel 5
+				proyectil->setCoordenasDeComienzo(posicionX + (anchoFotograma / 2) - 5, posicionY - (altoFotograma/24));
 				proyectiles.push_back(proyectil);
 
 							 } break;
@@ -95,7 +98,7 @@ void Avion::mover() {
     posicionX += velocidadX;
 
 	// Para que no se salga de la pantalla en X
-    if( ( posicionX < 0 ) || ( posicionX + ANCHO_AVION > SCREEN_WIDTH ) )
+    if( ( posicionX < 0 ) || ( posicionX + anchoFotograma > SCREEN_WIDTH ) )
     {
         posicionX -= velocidadX;
     }
@@ -104,7 +107,7 @@ void Avion::mover() {
     posicionY += velocidadY;
 
     // Para que no se salga de la pantalla en Y
-    if( ( posicionY < 0 ) || ( posicionY + ALTO_AVION > SCREEN_HEIGHT ) )
+    if( ( posicionY < 0 ) || ( posicionY + altoFotograma > SCREEN_HEIGHT ) )
     {
         posicionY -= velocidadY;
     }

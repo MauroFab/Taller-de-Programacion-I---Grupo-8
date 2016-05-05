@@ -7,8 +7,8 @@ class Proyectil {
 
 	public:
 
-		static const int ANCHO_PROYECTIL = 47;
-		static const int ALTO_PROYECTIL = 44;
+		static const int ANCHO_PROYECTIL = 11;
+		static const int ALTO_PROYECTIL = 25;
 
 		static const int VELOCIDAD_PROYECTIL = 1;
 
