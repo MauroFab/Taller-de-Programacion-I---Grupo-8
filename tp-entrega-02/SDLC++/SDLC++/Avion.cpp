@@ -57,7 +57,7 @@ Avion::~Avion() {
 void Avion::handleEvent( SDL_Event& e )
 {
     // Si se presiona una tecla
-	if( e.type == SDL_KEYDOWN && e.key.repeat == 0 )
+	if( e.type == SDL_KEYDOWN && e.key.repeat == 0)
     {
         switch( e.key.keysym.sym )
         {
@@ -66,14 +66,12 @@ void Avion::handleEvent( SDL_Event& e )
             case SDLK_DOWN: velocidadY += velocidad; break;
             case SDLK_LEFT: velocidadX -= velocidad; break;
             case SDLK_RIGHT: velocidadX += velocidad; break;
-			
 			// Realiza el roll
 			case SDLK_RETURN: rollFlag = true; break;
-        }
-    }
-
+		}
+	}
     // Si se libero una tecla
-    else if( e.type == SDL_KEYUP && e.key.repeat == 0 )
+    else if( e.type == SDL_KEYUP && e.key.repeat == 0)
     {
         switch( e.key.keysym.sym )
         {
@@ -85,36 +83,35 @@ void Avion::handleEvent( SDL_Event& e )
 
 			// Realiza un disparo
 			case SDLK_SPACE: {
-
-				Proyectil* proyectil = new Proyectil(renderer);
-				//El centro del proyectil esta en el pixel 5
-				proyectil->setCoordenasDeComienzo(posicionX + (anchoFotograma / 2) - 5, posicionY - (altoFotograma/24));
-				proyectiles.push_back(proyectil);
-
-							 } break;
+				if(!rollFlag){
+					Proyectil* proyectil = new Proyectil(renderer);
+					//El centro del proyectil esta en el pixel 5
+					proyectil->setCoordenasDeComienzo(posicionX + (anchoFotograma / 2) - 5, posicionY - (altoFotograma/24));
+					proyectiles.push_back(proyectil);
+				}
+			} break;
         }
     }
 }
 
 void Avion::mover() {
+	if(!rollFlag){
+		// Mueve el avion hacia la derecha o a la izquierda
+		 posicionX += velocidadX;
 
-	// Mueve el avion hacia la derecha o a la izquierda
-    posicionX += velocidadX;
-
-	// Para que no se salga de la pantalla en X
-    if( ( posicionX < 0 ) || ( posicionX + anchoFotograma > SCREEN_WIDTH ) )
-    {
-        posicionX -= velocidadX;
-    }
+		// Para que no se salga de la pantalla en X
+	   if( ( posicionX < 0 ) || ( posicionX + anchoFotograma > SCREEN_WIDTH ) ){
+			posicionX -= velocidadX;
+	   }
 
 	// Mueve el avion hacia arriba o hacia abajo
     posicionY += velocidadY;
 
     // Para que no se salga de la pantalla en Y
-    if( ( posicionY < 0 ) || ( posicionY + altoFotograma > SCREEN_HEIGHT ) )
-    {
-        posicionY -= velocidadY;
-    }
+	   if( ( posicionY < 0 ) || ( posicionY + altoFotograma > SCREEN_HEIGHT ) ){
+		    posicionY -= velocidadY;
+	   }
+	}
 }
 
 void Avion::render()
