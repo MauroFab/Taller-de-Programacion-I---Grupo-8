@@ -82,7 +82,7 @@ void Avion::handleEvent( SDL_Event& e )
 			// Realiza un disparo
 			case SDLK_SPACE: {
 
-				Proyectil* proyectil = new Proyectil(renderer, "proyectil2.bmp", 1, 11, 25);
+				Proyectil* proyectil = new Proyectil(renderer, "proyectilAvion.bmp", 1, 11, 25);
 				//El centro del proyectil esta en el pixel 5
 				proyectil->setCoordenasDeComienzo(posicionX + (anchoFotograma / 2) - 5, posicionY - (altoFotograma/24));
 				proyectiles.push_back(proyectil);
