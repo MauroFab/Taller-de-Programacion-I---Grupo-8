@@ -85,6 +85,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Avion.cpp" />
+    <ClCompile Include="ConfiguracionAvionXML.cpp" />
+    <ClCompile Include="ConfiguracionJuegoXML.cpp" />
+    <ClCompile Include="ConfiguracionProyectilXML.cpp" />
     <ClCompile Include="elementoDelMapa.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mapa.cpp" />
@@ -93,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Avion.h" />
+    <ClInclude Include="ConfiguracionAvionXML.h" />
+    <ClInclude Include="ConfiguracionJuegoXML.h" />
+    <ClInclude Include="ConfiguracionProyectilXML.h" />
     <ClInclude Include="Constantes.h" />
     <ClInclude Include="elementoDelMapa.h" />
     <ClInclude Include="Mapa.h" />

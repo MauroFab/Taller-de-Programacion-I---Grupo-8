@@ -1,18 +1,24 @@
 #include "Proyectil.h"
 
-Proyectil::Proyectil(SDL_Renderer* rendererRecibido, std::string dirImagenProyectil, int cantidadDeFotogramas, int anchoFotograma, int altoFotograma) {
+Proyectil::Proyectil(SDL_Renderer* rendererRecibido) {
 
     velocidadX = 0;
     velocidadY = 0;
 
 	frame = 0;
 
-	cantDeFotogramas = cantidadDeFotogramas;
+	ConfiguracionProyectilXML* configProyectil = ConfiguracionJuegoXML::getInstance()->getConfiguracionProyectil();
+
+	altoFotograma = configProyectil->getAltoFotograma();
+	anchoFotograma = configProyectil->getAnchoFotograma();
+	cantDeFotogramas = configProyectil->getCantidadDeFotogramas();
+	velocidad = configProyectil->getVelocidad();
 	renderer = rendererRecibido;
+
 	texturaProyectil = new Textura();
 	fotogramas = new SDL_Rect[cantDeFotogramas];
 
-	if( !texturaProyectil->cargarDeArchivo( dirImagenProyectil, renderer ) ) {
+	if( !texturaProyectil->cargarDeArchivo( configProyectil->getPathImagen(), renderer ) ) {
 		
 		printf( "Failed to load missil animation texture!\n" );
 
@@ -51,7 +57,7 @@ bool Proyectil::estaEnPantalla() {
 
 void Proyectil::mover() {
 
-	velocidadY -= VELOCIDAD_PROYECTIL;
+	velocidadY -= velocidad;
 	posicionY += velocidadY;
 }
 

@@ -3,15 +3,15 @@
 #include "Constantes.h"
 #include "Textura.h"
 #include "Proyectil.h"
+#include "ConfiguracionJuegoXML.h"
+#include "ConfiguracionAvionXML.h"
 #include <list>
 
 class Avion {
 
     public:
 
-		static const int VELOCIDAD_AVION = 10;
-
-		Avion(SDL_Renderer* renderer, std::string dirImagenAvion, int cantidadDeFrames, int anchoFotograma, int altoFotograma);
+		Avion(SDL_Renderer* renderer);
 
 		~Avion();
 
@@ -28,14 +28,16 @@ class Avion {
 		SDL_Renderer* renderer;
 		int frame;
 		int cantDeFotogramas;
+		int anchoFotograma;
+		int altoFotograma;
+
 		bool rollFlag;
 		std::list<Proyectil*> proyectiles;
 
 		// Posicion del avion
 		int posicionX, posicionY;
 
-		int anchoFotograma;
-		int altoFotograma;
+		int velocidad;
 
 		// Velocidad del avion
 		int velocidadX, velocidadY;

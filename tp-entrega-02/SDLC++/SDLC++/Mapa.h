@@ -1,6 +1,7 @@
 #pragma once
 #include "Textura.h"
 #include "ElementoDelMapa.h"
+#include "ConfiguracionJuegoXML.h"
 #include <list>
 
 class Mapa
@@ -9,7 +10,7 @@ public:
 
 	static Mapa* getInstace();
 
-	void inicializar(SDL_Renderer* renderer, std::string dirImagenMapa, std::string dirImagenIsla, int tamanioMaximoMapa);
+	void inicializar(SDL_Renderer* renderer);
 	void reiniciar();
 	~Mapa();
 	void graficar();

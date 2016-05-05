@@ -1,6 +1,6 @@
 #include "Avion.h"
 
-Avion::Avion(SDL_Renderer* rendererRecibido, std::string dirImagenAvion, int cantidadDeFotogramas, int anchoFotogramaRecibido, int altoFotogramaRecibido) {
+Avion::Avion(SDL_Renderer* rendererRecibido) {
 
     posicionX = 200;
     posicionY = 400;
@@ -11,14 +11,18 @@ Avion::Avion(SDL_Renderer* rendererRecibido, std::string dirImagenAvion, int can
 	frame = 0;
 	rollFlag = false;
 
-	altoFotograma = altoFotogramaRecibido;
-	anchoFotograma = anchoFotogramaRecibido;
-	cantDeFotogramas = cantidadDeFotogramas;
+	ConfiguracionAvionXML* configAvion = ConfiguracionJuegoXML::getInstance()->getConfiguracionAvion();
+
+	altoFotograma = configAvion->getAltoFotograma();
+	anchoFotograma = configAvion->getAnchoFotograma();
+	cantDeFotogramas = configAvion->getCantidadDeFotogramas();
+	velocidad = configAvion->getVelocidad();
 	renderer = rendererRecibido;
+
 	texturaAvion = new Textura();
 	fotogramas = new SDL_Rect[cantDeFotogramas];
 
-	if( !texturaAvion->cargarDeArchivo( dirImagenAvion, renderer ) )
+	if( !texturaAvion->cargarDeArchivo( configAvion->getPathImagen(), renderer ) )
 	{
 		printf( "Failed to load plane animation texture!\n" );
 	}
@@ -58,10 +62,10 @@ void Avion::handleEvent( SDL_Event& e )
         switch( e.key.keysym.sym )
         {
 			// Ajusta la velocidad
-            case SDLK_UP: velocidadY -= VELOCIDAD_AVION; break;
-            case SDLK_DOWN: velocidadY += VELOCIDAD_AVION; break;
-            case SDLK_LEFT: velocidadX -= VELOCIDAD_AVION; break;
-            case SDLK_RIGHT: velocidadX += VELOCIDAD_AVION; break;
+            case SDLK_UP: velocidadY -= velocidad; break;
+            case SDLK_DOWN: velocidadY += velocidad; break;
+            case SDLK_LEFT: velocidadX -= velocidad; break;
+            case SDLK_RIGHT: velocidadX += velocidad; break;
 			
 			// Realiza el roll
 			case SDLK_RETURN: rollFlag = true; break;
@@ -74,15 +78,15 @@ void Avion::handleEvent( SDL_Event& e )
         switch( e.key.keysym.sym )
         {
 			// Ajusta la velocidad
-            case SDLK_UP: velocidadY += VELOCIDAD_AVION; break;
-            case SDLK_DOWN: velocidadY -= VELOCIDAD_AVION; break;
-            case SDLK_LEFT: velocidadX += VELOCIDAD_AVION; break;
-            case SDLK_RIGHT: velocidadX -= VELOCIDAD_AVION; break;
+            case SDLK_UP: velocidadY += velocidad; break;
+            case SDLK_DOWN: velocidadY -= velocidad; break;
+            case SDLK_LEFT: velocidadX += velocidad; break;
+            case SDLK_RIGHT: velocidadX -= velocidad; break;
 
 			// Realiza un disparo
 			case SDLK_SPACE: {
 
-				Proyectil* proyectil = new Proyectil(renderer, "proyectilAvion.bmp", 1, 11, 25);
+				Proyectil* proyectil = new Proyectil(renderer);
 				//El centro del proyectil esta en el pixel 5
 				proyectil->setCoordenasDeComienzo(posicionX + (anchoFotograma / 2) - 5, posicionY - (altoFotograma/24));
 				proyectiles.push_back(proyectil);

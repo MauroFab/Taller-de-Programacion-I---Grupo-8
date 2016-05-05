@@ -12,19 +12,22 @@ Mapa* Mapa::getInstace() {
     return instance;
 }
 
-void Mapa::inicializar(SDL_Renderer* rendererRecibido, std::string dirImagenMapa, std::string dirImagenIsla,
-						int tamanioMaximoMapaRecibido) {
-	tamanioMaximoMapa = tamanioMaximoMapaRecibido;
-	bool success = true;
+void Mapa::inicializar(SDL_Renderer* rendererRecibido) {
+
+	ConfiguracionJuegoXML* configJuego = ConfiguracionJuegoXML::getInstance();
+
+	tamanioMaximoMapa = configJuego->getTamanioMaximoFondo();
 	renderer = rendererRecibido;
 	texturaMapa= new Textura();
-	if( !texturaMapa->cargarDeArchivo( dirImagenMapa,renderer ) )
+
+	bool success = true;
+	if( !texturaMapa->cargarDeArchivo( configJuego->getPathFondo(),renderer ) )
 	{
 		printf( "Failed to load background texture!\n" );
 		success = false;
 	}
 	texturaIsla= new Textura();
-	if( !texturaIsla->cargarDeArchivo( dirImagenIsla,renderer) )
+	if( !texturaIsla->cargarDeArchivo( configJuego->getPathIsla(),renderer) )
 	{
 		printf( "Failed to load dot texture!\n" );
 		success = false;
@@ -42,6 +45,7 @@ Mapa::Mapa(){
 
 
 Mapa::~Mapa(){
+
 	std::list<ElementoDelMapa*>::iterator it;
 
 	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
@@ -59,6 +63,7 @@ for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
 }
 
 void Mapa::graficar(){
+
 	if(cantidadDePixelesQuePasaron > tamanioMaximoMapa)
 		this->reiniciar();
 
@@ -72,6 +77,7 @@ void Mapa::graficar(){
 	cantidadDePixelesQuePasaron++;
 }
 void Mapa::reiniciar(){
+
 	cantidadDePixelesQuePasaron = 0;
 	scrollingOffset = 0;
 	std::list<ElementoDelMapa*>::iterator it;
@@ -79,6 +85,7 @@ void Mapa::reiniciar(){
 		(*it)->reiniciar();
 }
 void Mapa::crearIslaEn(int x, int y){
+
 	ElementoDelMapa* elementoDelMapa;
 	elementoDelMapa = new ElementoDelMapa(x,y, renderer,texturaIsla);
 	elementosDelMapa.push_back(elementoDelMapa);
