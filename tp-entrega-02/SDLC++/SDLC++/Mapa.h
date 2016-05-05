@@ -9,7 +9,7 @@ public:
 
 	static Mapa* getInstace();
 
-	void inicializar(SDL_Renderer* renderer, std::string dirImagenMapa, std::string dirImagenIsla);
+	void inicializar(SDL_Renderer* renderer, std::string dirImagenMapa, std::string dirImagenIsla, int tamanioMaximoMapa);
 	void reiniciar();
 	~Mapa();
 	void graficar();
@@ -29,6 +29,7 @@ private:
 	int altoMapa;
 	int pixelesAvanzados;
 	int scrollingOffset;
+	int tamanioMaximoMapa;
 	SDL_Renderer* renderer;
 	int cantidadDePixelesQuePasaron;
 	std::list<ElementoDelMapa*> elementosDelMapa;

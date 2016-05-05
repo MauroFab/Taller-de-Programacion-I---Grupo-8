@@ -108,8 +108,8 @@ int main( int argc, char* args[] )
 			bool quit = false;
 
 			SDL_Event e;
-
-			Mapa::getInstace()->inicializar(gRenderer, "bg.bmp", "isla.bmp");
+			static int tamanioMaximoMapa = 2000;
+			Mapa::getInstace()->inicializar(gRenderer, "bg.bmp", "isla.bmp", tamanioMaximoMapa);
 			Mapa::getInstace()->crearIslaEn(100, 700);
 			Mapa::getInstace()->crearIslaEn(300, 900);
 
