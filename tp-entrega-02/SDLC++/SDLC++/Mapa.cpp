@@ -21,7 +21,7 @@ void Mapa::inicializar(SDL_Renderer* rendererRecibido) {
 	texturaMapa= new Textura();
 
 	if( !texturaMapa->cargarDeArchivo( configJuego->getPathFondo(),renderer ) ){
-		printf( "Failed to load dot texture!\n" );
+		texturaMapa->cargarDeArchivo( "fondoDefault.bmp",renderer );
 	}
 	texturaIsla= new Textura();
 	if( !texturaIsla->cargarDeArchivo( configJuego->getPathIsla(),renderer) ){
