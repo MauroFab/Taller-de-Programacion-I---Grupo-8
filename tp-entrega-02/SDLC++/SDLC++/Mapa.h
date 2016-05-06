@@ -16,6 +16,7 @@ public:
 	void graficar();
 	//Por ahora solo se puede crear una isla
 	void crearIslaEn(int x, int y);
+	void crearCarrierEn(int x, int y);
 
 private:
 
@@ -26,6 +27,7 @@ private:
 
 	Textura* texturaMapa;
 	Textura* texturaIsla;
+	Textura* texturaCarrier;
 	int anchoMapa;
 	int altoMapa;
 	int pixelesAvanzados;

@@ -18,10 +18,15 @@ void Mapa::inicializar(SDL_Renderer* rendererRecibido) {
 
 	tamanioMaximoMapa = configJuego->getTamanioMaximoFondo();
 	renderer = rendererRecibido;
-	texturaMapa= new Textura();
 
+	texturaMapa= new Textura();
 	if( !texturaMapa->cargarDeArchivo( configJuego->getPathFondo(),renderer ) ){
 		texturaMapa->cargarDeArchivo( "fondoDefault.bmp",renderer );
+	}
+
+	texturaCarrier= new Textura();
+	if( !texturaCarrier->cargarDeArchivo( configJuego->getPathCarrier(),renderer) ){
+		texturaCarrier->cargarDeArchivo( "carrier.bmp",renderer );
 	}
 	texturaIsla= new Textura();
 	if( !texturaIsla->cargarDeArchivo( configJuego->getPathIsla(),renderer) ){
@@ -46,6 +51,7 @@ Mapa::~Mapa(){
 	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
 		 delete (*it);
 	delete texturaIsla;
+	delete texturaCarrier;
 	delete texturaMapa;
 }
 
@@ -83,5 +89,12 @@ void Mapa::crearIslaEn(int x, int y){
 
 	ElementoDelMapa* elementoDelMapa;
 	elementoDelMapa = new ElementoDelMapa(x,y, renderer,texturaIsla);
+	elementosDelMapa.push_back(elementoDelMapa);
+}
+
+void Mapa::crearCarrierEn(int x, int y){
+
+	ElementoDelMapa* elementoDelMapa;
+	elementoDelMapa = new ElementoDelMapa(x,y, renderer,texturaCarrier);
 	elementosDelMapa.push_back(elementoDelMapa);
 }

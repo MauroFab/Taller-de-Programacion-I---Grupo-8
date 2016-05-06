@@ -11,7 +11,7 @@ public:
 
 	virtual ~ConfiguracionJuegoXML(void);
 
-	void setCaracteristicasMapa(std::string fondo, std::string isla, int tamanioMaximoFondo);
+	void setCaracteristicasMapa(std::string fondo, std::string isla, std::string carrier, int tamanioMaximoFondo);
 	void setCaracteristicasAvion(std::string avion, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad);
 	void setCaracteristicasProyectil(std::string proyectil, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad);
 
@@ -19,6 +19,7 @@ public:
 	ConfiguracionProyectilXML* getConfiguracionProyectil();
 	std::string getPathFondo();
 	std::string getPathIsla();
+	std::string getPathCarrier();
 	int getTamanioMaximoFondo();
 
 private:
@@ -30,6 +31,7 @@ private:
 
 	std::string pathImagenFondo;
 	std::string pathImagenIsla;
+	std::string pathImagenCarrier;
 	int tamanioMaximoFondo;
 
 	ConfiguracionAvionXML* configAvion;

@@ -18,8 +18,9 @@ ConfiguracionJuegoXML* ConfiguracionJuegoXML::getInstance() {
     return instance;
 }
 
-void ConfiguracionJuegoXML::setCaracteristicasMapa(std::string fondo, std::string isla, int tamanioMaximoMapa) {
-	
+void ConfiguracionJuegoXML::setCaracteristicasMapa(std::string fondo, std::string isla, std::string carrier,
+																	int tamanioMaximoMapa) {
+	pathImagenCarrier = carrier;
 	pathImagenFondo = fondo;
 	pathImagenIsla = isla;
 	tamanioMaximoFondo = tamanioMaximoMapa;
@@ -45,6 +46,11 @@ ConfiguracionProyectilXML* ConfiguracionJuegoXML::getConfiguracionProyectil() {
 
 std::string ConfiguracionJuegoXML::getPathFondo() {
 	return pathImagenFondo;
+}
+
+
+std::string ConfiguracionJuegoXML::getPathCarrier() {
+	return pathImagenCarrier;
 }
 
 std::string ConfiguracionJuegoXML::getPathIsla() {

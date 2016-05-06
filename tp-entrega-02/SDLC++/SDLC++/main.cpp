@@ -95,14 +95,14 @@ int main( int argc, char* args[] ) {
 		bool quit = false;
 		SDL_Event e;
 
-		ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", tamanioMaximoMapa);
+		ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
 		ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion("f22b.bmp", 6, 113, 195, 10);
 		ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
 		Mapa::getInstace()->inicializar(gRenderer);
-		Mapa::getInstace()->crearIslaEn(100, 700);
-		Mapa::getInstace()->crearIslaEn(300, 900);
-
+		Mapa::getInstace()->crearIslaEn(100, 200);
+		Mapa::getInstace()->crearIslaEn(400, 900);
+		Mapa::getInstace()->crearCarrierEn(200, 1500);
 		Avion avion(gRenderer);
 
 		//While application is running
