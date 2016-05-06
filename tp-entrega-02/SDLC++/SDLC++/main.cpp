@@ -3,21 +3,15 @@
 #include "ConfiguracionJuegoXML.h"
 #include "Graficador.h"
 
-//Starts up SDL and creates window
-bool init();
-
-//Frees media and shuts down SDL
-void close();
-
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
 
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
-// Inicio No tocar
-bool init()
-{
+// Inicializacion
+bool init() {
+
 	//Initialization flag
 	bool success = true;
 
@@ -70,8 +64,8 @@ bool init()
 	return success;
 }
 
-void close()
-{
+void close() {
+
 	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );
 	SDL_DestroyWindow( gWindow );
@@ -83,9 +77,13 @@ void close()
 	SDL_Quit();
 }
 
-int main( int argc, char* args[] ) {
 
-	//Start up SDL and create window
+void configuracionInicial() {
+
+}
+
+void juego1942() {
+
 	if( !init() ) {
 
 		printf( "Failed to initialize!\n" );
@@ -155,8 +153,14 @@ int main( int argc, char* args[] ) {
 			SDL_RenderPresent( gRenderer );
 		}
 	}
+}
 
-	//Free resources and close SDL
+int main( int argc, char* args[] ) {
+
+	configuracionInicial();
+
+	juego1942();
+
 	close();
 
 	return 0;
