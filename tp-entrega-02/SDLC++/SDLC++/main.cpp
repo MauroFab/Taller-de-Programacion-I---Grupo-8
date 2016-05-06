@@ -84,82 +84,83 @@ void configuracionInicial() {
 
 void juego1942() {
 
-	if( !init() ) {
+	static int tamanioMaximoMapa = 2000;
+	bool quit = false;
+	SDL_Event e;
 
-		printf( "Failed to initialize!\n" );
-	}
-	else {
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
-		static int tamanioMaximoMapa = 2000;
-		bool quit = false;
-		SDL_Event e;
-
-		ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
-		ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
-		ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
-
-		// Test para ver si se grafican otros aviones
-		static int id = 2;
-		Graficador::getInstance()->inicializar(gRenderer);
-		Graficador::getInstance()->cargarDatosAvion(id, "mig51.bmp", 6, 102, 195);
+	// Test para ver si se grafican otros aviones
+	static int id = 2;
+	Graficador::getInstance()->inicializar(gRenderer);
+	Graficador::getInstance()->cargarDatosAvion(id, "mig51.bmp", 6, 102, 195);
 
 
-		Mapa::getInstace()->inicializar(gRenderer);
-		Mapa::getInstace()->crearIslaEn(1, 300);
-		Mapa::getInstace()->crearIslaEn(300, 800);
-		Mapa::getInstace()->crearIslaEn(50, 500);
-		Mapa::getInstace()->crearCarrierEn(300, 1200);
-		Mapa::getInstace()->crearCarrierEn(200, 1);
+	Mapa::getInstace()->inicializar(gRenderer);
+	Mapa::getInstace()->crearIslaEn(1, 300);
+	Mapa::getInstace()->crearIslaEn(300, 800);
+	Mapa::getInstace()->crearIslaEn(50, 500);
+	Mapa::getInstace()->crearCarrierEn(300, 1200);
+	Mapa::getInstace()->crearCarrierEn(200, 1);
 
-		Avion avion(gRenderer);
+	Avion avion(gRenderer);
 
-		//While application is running
-		while( !quit ) {
+	//While application is running
+	while( !quit ) {
 
-			//Handle events on queue
-			while( SDL_PollEvent( &e ) != 0 ) {
+		//Handle events on queue
+		while( SDL_PollEvent( &e ) != 0 ) {
 
-				// Si se desea salir del juego
-				if( e.type == SDL_QUIT || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE) ) {
+			// Si se desea salir del juego
+			if( e.type == SDL_QUIT || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE) ) {
 
-					quit = true;
-				}
-
-				if( e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_r)
-					Mapa::getInstace()->reiniciar();
-
-				// Registrar mov del teclado
-				avion.handleEvent( e );
+				quit = true;
 			}
 
-			//Clear screen
-			SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-			SDL_RenderClear( gRenderer );
+			if( e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_r)
+				Mapa::getInstace()->reiniciar();
 
-			//Render background
-			Mapa::getInstace()->graficar();
-
-			avion.mover();
-
-			//Render sprite
-			avion.render();
-
-			// Test del graficador
-			std::list<EstadoAvion*> lista;
-			lista.push_back(new EstadoAvion(id, 0, 200, 200));
-			Graficador::getInstance()->graficarAviones(lista);
-
-			//Update screen
-			SDL_RenderPresent( gRenderer );
+			// Registrar mov del teclado
+			avion.handleEvent( e );
 		}
+
+		//Clear screen
+		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+		SDL_RenderClear( gRenderer );
+
+		//Render background
+		Mapa::getInstace()->graficar();
+
+		avion.mover();
+
+		//Render sprite
+		avion.render();
+
+		// Test del graficador
+		std::list<EstadoAvion*> lista;
+		lista.push_back(new EstadoAvion(id, 0, 200, 200));
+		Graficador::getInstance()->graficarAviones(lista);
+
+		//Update screen
+		SDL_RenderPresent( gRenderer );
 	}
 }
 
 int main( int argc, char* args[] ) {
 
-	configuracionInicial();
+	if( !init() ) {
 
-	juego1942();
+		printf( "Failed to initialize!\n" );
+
+	} else {
+
+		configuracionInicial();
+
+		juego1942();
+
+	}
 
 	close();
 
