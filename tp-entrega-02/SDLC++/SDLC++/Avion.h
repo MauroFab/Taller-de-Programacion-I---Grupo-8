@@ -22,7 +22,6 @@ class Avion {
 		void render();
 
     private:
-
 		SDL_Rect *fotogramas;
 		Textura* texturaAvion;
 		SDL_Renderer* renderer;

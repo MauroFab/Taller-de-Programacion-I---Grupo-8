@@ -96,7 +96,7 @@ int main( int argc, char* args[] ) {
 		SDL_Event e;
 
 		ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", tamanioMaximoMapa);
-		ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion("f22b.bmp", 6, 113, 195, 10);
+		ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion("f2b.bmp", 6, 113, 195, 10);
 		ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
 		Mapa::getInstace()->inicializar(gRenderer);

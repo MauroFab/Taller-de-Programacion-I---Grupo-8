@@ -24,10 +24,11 @@ Avion::Avion(SDL_Renderer* rendererRecibido) {
 
 	if( !texturaAvion->cargarDeArchivo( configAvion->getPathImagen(), renderer ) )
 	{
-		printf( "Failed to load plane animation texture!\n" );
+		texturaAvion->cargarDeArchivo("avionNoEncontrado.bmp", renderer);
+		cantDeFotogramas = 1;
+		altoFotograma = texturaAvion->getHeight();
+		anchoFotograma = texturaAvion->getWidth();
 	}
-	else
-	{
 		for(int i=0; i < cantDeFotogramas; i++){
 
 			SDL_Rect fotograma;
@@ -38,7 +39,6 @@ Avion::Avion(SDL_Renderer* rendererRecibido) {
 			fotograma.h = altoFotograma;
 
 			fotogramas[ i ] = fotograma;
-		}
 	}
 }
 
