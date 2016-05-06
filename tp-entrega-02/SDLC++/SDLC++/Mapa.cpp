@@ -20,17 +20,12 @@ void Mapa::inicializar(SDL_Renderer* rendererRecibido) {
 	renderer = rendererRecibido;
 	texturaMapa= new Textura();
 
-	bool success = true;
-	if( !texturaMapa->cargarDeArchivo( configJuego->getPathFondo(),renderer ) )
-	{
-		printf( "Failed to load background texture!\n" );
-		success = false;
+	if( !texturaMapa->cargarDeArchivo( configJuego->getPathFondo(),renderer ) ){
+		printf( "Failed to load dot texture!\n" );
 	}
 	texturaIsla= new Textura();
-	if( !texturaIsla->cargarDeArchivo( configJuego->getPathIsla(),renderer) )
-	{
-		printf( "Failed to load dot texture!\n" );
-		success = false;
+	if( !texturaIsla->cargarDeArchivo( configJuego->getPathIsla(),renderer) ){
+		texturaIsla->cargarDeArchivo( "signoInterrogacion.bmp",renderer );
 	}
 	anchoMapa = texturaMapa->getWidth();
 	altoMapa = texturaMapa->getHeight();	
