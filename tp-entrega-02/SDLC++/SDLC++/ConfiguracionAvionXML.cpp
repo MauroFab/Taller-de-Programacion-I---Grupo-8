@@ -1,13 +1,14 @@
 #include "ConfiguracionAvionXML.h"
 
 
-ConfiguracionAvionXML::ConfiguracionAvionXML(std::string path, int cantidadDeFotogramas, int anchoFotograma, int altoFotograma, int velocidad) {
+ConfiguracionAvionXML::ConfiguracionAvionXML(int id, std::string path, int cantidadDeFotogramas, int anchoFotograma, int altoFotograma, int velocidad) {
 
 	this->pathImagen = path;
 	this->cantidadDeFotogramas = cantidadDeFotogramas;
 	this->anchoFotograma = anchoFotograma;
 	this->altoFotograma = altoFotograma;
 	this->velocidad = velocidad;
+	this->id = id;
 }
 
 ConfiguracionAvionXML::~ConfiguracionAvionXML(void) {
@@ -31,4 +32,8 @@ int ConfiguracionAvionXML::getAltoFotograma() {
 
 int ConfiguracionAvionXML::getVelocidad() {
 	return velocidad;
+}
+
+int ConfiguracionAvionXML::getId() {
+	return id;
 }

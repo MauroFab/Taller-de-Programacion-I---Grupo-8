@@ -26,9 +26,9 @@ void ConfiguracionJuegoXML::setCaracteristicasMapa(std::string fondo, std::strin
 	tamanioMaximoFondo = tamanioMaximoMapa;
 }
 
-void ConfiguracionJuegoXML::setCaracteristicasAvion(std::string avion, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad) {
+void ConfiguracionJuegoXML::setCaracteristicasAvion(int id, std::string avion, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad) {
 
-	configAvion = new ConfiguracionAvionXML(avion, cantFotogramas, anchoFotograma, altoFotograma, velocidad);
+	configAvion = new ConfiguracionAvionXML(id, avion, cantFotogramas, anchoFotograma, altoFotograma, velocidad);
 }
 
 void ConfiguracionJuegoXML::setCaracteristicasProyectil(std::string proyectil, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad) {

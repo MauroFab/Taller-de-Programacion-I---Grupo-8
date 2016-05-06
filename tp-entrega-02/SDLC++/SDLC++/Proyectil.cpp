@@ -68,3 +68,8 @@ void Proyectil::render() {
     // Muestra el proyectil
 	texturaProyectil->render( posicionX, posicionY, renderer, currentClip );
 }
+
+EstadoProyectil* Proyectil::getEstado() {
+
+	return new EstadoProyectil(frame, posicionX, posicionY);
+}

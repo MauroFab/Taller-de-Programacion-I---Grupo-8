@@ -1,6 +1,7 @@
 #include "Avion.h"
 #include "Mapa.h"
 #include "ConfiguracionJuegoXML.h"
+#include "Graficador.h"
 
 //Starts up SDL and creates window
 bool init();
@@ -96,8 +97,14 @@ int main( int argc, char* args[] ) {
 		SDL_Event e;
 
 		ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
-		ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion("f22b.bmp", 6, 113, 195, 10);
+		ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
 		ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
+
+		// Test para ver si se grafican otros aviones
+		static int id = 2;
+		Graficador::getInstance()->inicializar(gRenderer);
+		Graficador::getInstance()->cargarDatosAvion(id, "mig51.bmp", 6, 102, 195);
+
 
 		Mapa::getInstace()->inicializar(gRenderer);
 		Mapa::getInstace()->crearIslaEn(1, 300);
@@ -105,6 +112,7 @@ int main( int argc, char* args[] ) {
 		Mapa::getInstace()->crearIslaEn(50, 500);
 		Mapa::getInstace()->crearCarrierEn(300, 1200);
 		Mapa::getInstace()->crearCarrierEn(200, 1);
+
 		Avion avion(gRenderer);
 
 		//While application is running
@@ -137,6 +145,11 @@ int main( int argc, char* args[] ) {
 
 			//Render sprite
 			avion.render();
+
+			// Test del graficador
+			std::list<EstadoAvion*> lista;
+			lista.push_back(new EstadoAvion(id, 0, 200, 200));
+			Graficador::getInstance()->graficarAviones(lista);
 
 			//Update screen
 			SDL_RenderPresent( gRenderer );

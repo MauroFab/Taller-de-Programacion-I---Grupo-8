@@ -12,7 +12,7 @@ public:
 	virtual ~ConfiguracionJuegoXML(void);
 
 	void setCaracteristicasMapa(std::string fondo, std::string isla, std::string carrier, int tamanioMaximoFondo);
-	void setCaracteristicasAvion(std::string avion, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad);
+	void setCaracteristicasAvion(int id, std::string avion, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad);
 	void setCaracteristicasProyectil(std::string proyectil, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad);
 
 	ConfiguracionAvionXML* getConfiguracionAvion();

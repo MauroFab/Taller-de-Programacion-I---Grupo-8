@@ -4,6 +4,7 @@
 #include "Textura.h"
 #include "ConfiguracionJuegoXML.h"
 #include "ConfiguracionProyectilXML.h"
+#include "EstadoProyectil.h"
 
 class Proyectil {
 
@@ -23,6 +24,8 @@ class Proyectil {
 		void render();
 
 		void setCoordenasDeComienzo(int posX, int posY);
+
+		EstadoProyectil* getEstado();
 
 	private:
 

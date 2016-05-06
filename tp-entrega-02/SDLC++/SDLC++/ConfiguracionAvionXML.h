@@ -5,7 +5,7 @@ class ConfiguracionAvionXML {
 
 public:
 
-	ConfiguracionAvionXML(std::string pathAvion, int cantidadDeFotogramas, int anchoFotograma, int altoFotograma, int velocidad);
+	ConfiguracionAvionXML(int id, std::string pathAvion, int cantidadDeFotogramas, int anchoFotograma, int altoFotograma, int velocidad);
 	virtual ~ConfiguracionAvionXML(void);
 
 	std::string getPathImagen();
@@ -13,6 +13,7 @@ public:
 	int getAnchoFotograma();
 	int getAltoFotograma();
 	int getVelocidad();
+	int getId();
 
 private:
 
@@ -21,5 +22,6 @@ private:
 	int anchoFotograma;
 	int altoFotograma;
 	int velocidad;
+	int id;
 };
 

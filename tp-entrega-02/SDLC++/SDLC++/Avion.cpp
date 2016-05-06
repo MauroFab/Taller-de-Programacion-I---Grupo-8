@@ -17,6 +17,7 @@ Avion::Avion(SDL_Renderer* rendererRecibido) {
 	anchoFotograma = configAvion->getAnchoFotograma();
 	cantDeFotogramas = configAvion->getCantidadDeFotogramas();
 	velocidad = configAvion->getVelocidad();
+	id = configAvion->getId();
 	renderer = rendererRecibido;
 
 	texturaAvion = new Textura();
@@ -95,7 +96,9 @@ void Avion::handleEvent( SDL_Event& e )
 }
 
 void Avion::mover() {
+
 	if(!rollFlag){
+
 		// Mueve el avion hacia la derecha o a la izquierda
 		 posicionX += velocidadX;
 
@@ -104,10 +107,10 @@ void Avion::mover() {
 			posicionX -= velocidadX;
 	   }
 
-	// Mueve el avion hacia arriba o hacia abajo
-    posicionY += velocidadY;
+		// Mueve el avion hacia arriba o hacia abajo
+		posicionY += velocidadY;
 
-    // Para que no se salga de la pantalla en Y
+		// Para que no se salga de la pantalla en Y
 	   if( ( posicionY < 0 ) || ( posicionY + altoFotograma > SCREEN_HEIGHT ) ){
 		    posicionY -= velocidadY;
 	   }
@@ -138,4 +141,23 @@ void Avion::render()
 
     // Muestra el avion
 	texturaAvion->render( posicionX, posicionY, renderer, currentClip );
+}
+
+EstadoAvion* Avion::getEstado() {
+
+	return new EstadoAvion(id, frame, posicionX, posicionY);
+}
+
+std::list<EstadoProyectil*> Avion::getEstadoProyectiles() {
+
+	std::list<EstadoProyectil*> lista;
+
+	std::list<Proyectil*>::iterator it;
+
+	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
+
+		lista.push_back((*it)->getEstado());
+	}
+
+	return lista;
 }

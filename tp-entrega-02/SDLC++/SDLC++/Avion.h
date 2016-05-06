@@ -5,6 +5,8 @@
 #include "Proyectil.h"
 #include "ConfiguracionJuegoXML.h"
 #include "ConfiguracionAvionXML.h"
+#include "EstadoAvion.h"
+#include "EstadoProyectil.h"
 #include <list>
 
 class Avion {
@@ -21,7 +23,12 @@ class Avion {
 
 		void render();
 
+		EstadoAvion* getEstado();
+
+		std::list<EstadoProyectil*> getEstadoProyectiles();
+
     private:
+
 		SDL_Rect *fotogramas;
 		Textura* texturaAvion;
 		SDL_Renderer* renderer;
@@ -29,6 +36,7 @@ class Avion {
 		int cantDeFotogramas;
 		int anchoFotograma;
 		int altoFotograma;
+		int id;
 
 		bool rollFlag;
 		std::list<Proyectil*> proyectiles;
