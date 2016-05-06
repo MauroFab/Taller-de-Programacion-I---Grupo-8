@@ -1,0 +1,45 @@
+#include "GraficoAvion.h"
+
+
+GraficoAvion::GraficoAvion(SDL_Renderer* renderer, int id, std::string pathAvion, int cantFotogramas, int ancho, int alto) {
+
+	this->id = id;
+	textura = new Textura();
+	fotogramas = new SDL_Rect[cantFotogramas];
+	cantidadFotogramas = cantFotogramas;
+
+	if( !textura->cargarDeArchivo( pathAvion, renderer ) ) {
+
+		textura->cargarDeArchivo("avionNoEncontrado.bmp", renderer);
+		cantidadFotogramas = 1;
+
+	} else {
+
+		for(int i=0; i < cantidadFotogramas; i++) {
+
+			SDL_Rect fotograma;
+
+			fotograma.x = ancho * i;
+			fotograma.y = 0;
+			fotograma.w = ancho;
+			fotograma.h = alto;
+
+			fotogramas[ i ] = fotograma;
+		}
+	}
+}
+
+GraficoAvion::~GraficoAvion(void) {
+
+	delete [] fotogramas;
+	textura->liberar();
+}
+
+Textura* GraficoAvion::getTextura() {
+	return textura;
+}
+
+SDL_Rect* GraficoAvion::getCurrentClip(int frame) {
+
+	return &fotogramas[ frame / cantidadFotogramas ];
+}
