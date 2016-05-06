@@ -14,7 +14,7 @@ public:
 	void reiniciar();
 	~Mapa();
 	void graficar();
-	//Por ahora solo se puede crear una isla
+	//Las posiciones del mapa empiezan en la 1,1 que es la esquina inferior izquierda.
 	void crearIslaEn(int x, int y);
 	void crearCarrierEn(int x, int y);
 
