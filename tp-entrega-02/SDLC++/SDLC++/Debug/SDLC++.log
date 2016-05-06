@@ -1,4 +1,4 @@
-﻿Build started 06/05/2016 03:35:23 p.m..
+﻿Build started 06/05/2016 05:06:56 p.m..
      1>Project "C:\Taller\Taller-de-Programacion-I-Grupo-8\tp-entrega-02\SDLC++\SDLC++\SDLC++.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\SDLC++.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -27,4 +27,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.15
+Time Elapsed 00:00:00.81

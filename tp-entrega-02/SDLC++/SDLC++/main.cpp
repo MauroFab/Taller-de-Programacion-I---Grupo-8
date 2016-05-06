@@ -100,9 +100,10 @@ int main( int argc, char* args[] ) {
 		ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
 		Mapa::getInstace()->inicializar(gRenderer);
-		Mapa::getInstace()->crearIslaEn(100, 200);
-		Mapa::getInstace()->crearIslaEn(400, 900);
-		Mapa::getInstace()->crearCarrierEn(200, 1500);
+		Mapa::getInstace()->crearIslaEn(200, 300);
+		Mapa::getInstace()->crearIslaEn(300, 800);
+		Mapa::getInstace()->crearCarrierEn(200, 1200);
+		Mapa::getInstace()->crearCarrierEn(0, 400);
 		Avion avion(gRenderer);
 
 		//While application is running

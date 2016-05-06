@@ -24,15 +24,26 @@ bool ElementoDelMapa::estaEnPantalla(int yMaxPantalla,int  yMinPantalla){
 			&& (y + offset > yMinPantalla));
 }
 
+bool ElementoDelMapa::apareceDesdeAfuera(int yMaxPantalla, int yMinPantalla){
+	int tamanioVertical;
+	tamanioVertical = (yMaxPantalla - yMinPantalla);
+	return (y > tamanioVertical);
+}
+
 void ElementoDelMapa::graficarseSiEstaEnPantalla(int yMaxPantalla,int  yMinPantalla){
+
 	if(estaEnPantalla(yMaxPantalla, yMinPantalla)){
-		int tamanioVertical;
-		tamanioVertical = (yMaxPantalla - yMinPantalla);
-		//Para el render y = 0 es el tope de la pantalla
-		//La imagen comienza a verse no en 0, si no cuando solo una parte de la imagen ya entra
-		//por eso, recien entramos 
-		//textura->render(x, offset - textura->getHeight() ,gRenderer);
-		textura->render(x, offset - textura->getHeight() ,gRenderer);
-		offset++;
+		if(apareceDesdeAfuera(yMaxPantalla, yMinPantalla)){
+			//Para el render y = 0 es el tope de la pantalla
+			//La imagen comienza a verse no en 0, si no cuando solo una parte de la imagen ya entra, y desde arriba
+			textura->render(x, offset - textura->getHeight() ,gRenderer);
+			offset++;
+		}else{
+			int tamanioVertical;
+			tamanioVertical = (yMaxPantalla - yMinPantalla);
+			int posicionInicial = tamanioVertical - y;
+			textura->render(x, offset - textura->getHeight() + posicionInicial ,gRenderer);
+			offset++;
+		}
 	}
 }
