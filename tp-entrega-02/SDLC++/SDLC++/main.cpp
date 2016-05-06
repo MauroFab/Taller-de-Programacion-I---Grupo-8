@@ -5,9 +5,6 @@
 //Starts up SDL and creates window
 bool init();
 
-//Loads media
-bool loadMedia();
-
 //Frees media and shuts down SDL
 void close();
 
@@ -72,11 +69,6 @@ bool init()
 	return success;
 }
 
-bool loadMedia()
-{
-	return true;
-}
-
 void close()
 {
 	//Destroy window	
@@ -90,68 +82,62 @@ void close()
 	SDL_Quit();
 }
 
-int main( int argc, char* args[] )
-{
+int main( int argc, char* args[] ) {
+
 	//Start up SDL and create window
-	if( !init() )
-	{
+	if( !init() ) {
+
 		printf( "Failed to initialize!\n" );
 	}
-	else
-	{
-		//Load media
-		if( !loadMedia() )
-		{
-			printf( "Failed to load media!\n" );
-		}
-		else
-		{	
-			static int tamanioMaximoMapa = 2000;
-			bool quit = false;
-			SDL_Event e;
+	else {
 
-			ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", tamanioMaximoMapa);
-			ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion("f22b.bmp", 6, 113, 195, 10);
-			ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
+		static int tamanioMaximoMapa = 2000;
+		bool quit = false;
+		SDL_Event e;
 
-			Mapa::getInstace()->inicializar(gRenderer);
-			Mapa::getInstace()->crearIslaEn(100, 700);
-			Mapa::getInstace()->crearIslaEn(300, 900);
+		ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", tamanioMaximoMapa);
+		ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion("f22b.bmp", 6, 113, 195, 10);
+		ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
-			Avion avion(gRenderer);
+		Mapa::getInstace()->inicializar(gRenderer);
+		Mapa::getInstace()->crearIslaEn(100, 700);
+		Mapa::getInstace()->crearIslaEn(300, 900);
 
-			//While application is running
-			while( !quit )
-			{
-				//Handle events on queue
-				while( SDL_PollEvent( &e ) != 0 )
-				{
-					//User requests quit
-					if( e.type == SDL_QUIT )
-					{
-						quit = true;
-					}
-					if( e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_r)
-						Mapa::getInstace()->reiniciar();
-					// registrar mov del teclado
-					avion.handleEvent( e );
+		Avion avion(gRenderer);
+
+		//While application is running
+		while( !quit ) {
+
+			//Handle events on queue
+			while( SDL_PollEvent( &e ) != 0 ) {
+
+				// Si se desea salir del juego
+				if( e.type == SDL_QUIT || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE) ) {
+
+					quit = true;
 				}
 
-				//Clear screen
-				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-				SDL_RenderClear( gRenderer );
+				if( e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_r)
+					Mapa::getInstace()->reiniciar();
 
-				//Render background
-				Mapa::getInstace()->graficar();
-
-				avion.mover();
-
-				//Render sprite
-				avion.render();
-
-				//Update screen
-				SDL_RenderPresent( gRenderer );
+				// Registrar mov del teclado
+				avion.handleEvent( e );
 			}
+
+			//Clear screen
+			SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+			SDL_RenderClear( gRenderer );
+
+			//Render background
+			Mapa::getInstace()->graficar();
+
+			avion.mover();
+
+			//Render sprite
+			avion.render();
+
+			//Update screen
+			SDL_RenderPresent( gRenderer );
 		}
 	}
 

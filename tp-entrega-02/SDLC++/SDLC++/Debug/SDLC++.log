@@ -1,4 +1,4 @@
-﻿Build started 5/6/2016 3:17:27 PM.
+﻿Build started 5/6/2016 3:35:08 PM.
      1>Project "C:\Users\Patricio\Documents\Visual Studio 2010\Taller de Programacion I\Taller-de-Programacion-I-Grupo-8\tp-entrega-02\SDLC++\SDLC++\SDLC++.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\SDLC++.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -27,4 +27,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.25
+Time Elapsed 00:00:01.82
