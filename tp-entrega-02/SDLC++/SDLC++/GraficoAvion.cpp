@@ -14,8 +14,8 @@ GraficoAvion::GraficoAvion(SDL_Renderer* renderer, int id, std::string pathAvion
 		cantidadFotogramas = 1;
 
 	} else {
-
-		for(int i=0; i < cantidadFotogramas; i++) {
+		//1 mas para el grisado
+		for(int i=0; i < cantidadFotogramas + 1; i++) {
 
 			SDL_Rect fotograma;
 
