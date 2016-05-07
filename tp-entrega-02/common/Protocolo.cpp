@@ -579,19 +579,21 @@ int Protocolo::decodificar(char * buffer,EscenarioXml *escenarioXml){
 	
 	memcpy(&alto,buffer + offset,sizeof(int));
 	offset += sizeof(int);
-	
-	memcpy(&canElems,buffer + offset,sizeof(int));
-	offset += sizeof(int);
-	
+		
 	escenarioXml->setId(id);
 	escenarioXml->setAncho(ancho);
 	escenarioXml->setAlto(alto);
+
 	//-----------
 	FondoXml fondoXml;
 	offset += decodificar(buffer + offset,&fondoXml);
 	escenarioXml->setFondoXml(fondoXml);
 	//-----------	
-	//-----------
+	
+	// Muevo el canElems
+	memcpy(&canElems,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
 	for (int idx = 0; idx < canElems;idx++){
 		ElementoXml * elem = new ElementoXml();
 		offset += decodificar(buffer + offset,elem);
