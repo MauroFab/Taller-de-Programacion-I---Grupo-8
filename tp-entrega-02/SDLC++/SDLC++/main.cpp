@@ -1,5 +1,6 @@
-#include "Avion.h"
 #include "Mapa.h"
+#include "FondoInicio.h"
+#include "Avion.h"
 #include "ConfiguracionJuegoXML.h"
 #include "Graficador.h"
 
@@ -80,6 +81,25 @@ void close() {
 
 void configuracionInicial() {
 
+	bool jugar = false;
+	SDL_Event e;
+
+	FondoInicio fondo("fondoInicio.bmp", gRenderer);
+
+	while( !jugar ) {
+
+		while( SDL_PollEvent( &e ) != 0 ) {
+
+			if (e.type == SDL_KEYUP) jugar = true;
+		}
+
+		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+		SDL_RenderClear( gRenderer );
+
+		fondo.render();
+
+		SDL_RenderPresent( gRenderer );
+	}
 }
 
 void juego1942() {

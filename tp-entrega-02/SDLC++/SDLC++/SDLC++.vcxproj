@@ -91,6 +91,7 @@
     <ClCompile Include="elementoDelMapa.cpp" />
     <ClCompile Include="EstadoAvion.cpp" />
     <ClCompile Include="EstadoProyectil.cpp" />
+    <ClCompile Include="FondoInicio.cpp" />
     <ClCompile Include="Graficador.cpp" />
     <ClCompile Include="GraficoAvion.cpp" />
     <ClCompile Include="GraficoProyectil.cpp" />
@@ -108,6 +109,7 @@
     <ClInclude Include="elementoDelMapa.h" />
     <ClInclude Include="EstadoAvion.h" />
     <ClInclude Include="EstadoProyectil.h" />
+    <ClInclude Include="FondoInicio.h" />
     <ClInclude Include="Graficador.h" />
     <ClInclude Include="GraficoAvion.h" />
     <ClInclude Include="GraficoProyectil.h" />

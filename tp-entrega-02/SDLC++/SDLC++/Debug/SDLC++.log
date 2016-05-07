@@ -1,4 +1,4 @@
-﻿Build started 5/6/2016 8:27:33 PM.
+﻿Build started 5/7/2016 7:31:25 PM.
      1>Project "C:\Users\Patricio\Documents\Visual Studio 2010\Taller de Programacion I\Taller-de-Programacion-I-Grupo-8\tp-entrega-02\SDLC++\SDLC++\SDLC++.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\SDLC++.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -13,6 +13,7 @@
          Debug\elementoDelMapa.obj
          Debug\EstadoAvion.obj
          Debug\EstadoProyectil.obj
+         Debug\FondoInicio.obj
          Debug\Graficador.obj
          Debug\GraficoAvion.obj
          Debug\GraficoProyectil.obj
@@ -32,4 +33,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.83
+Time Elapsed 00:00:01.94
