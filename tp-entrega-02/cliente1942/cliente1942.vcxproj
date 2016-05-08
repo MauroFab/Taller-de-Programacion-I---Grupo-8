@@ -103,6 +103,7 @@
     <ClCompile Include="..\juego\ElementoDelMapa.cpp" />
     <ClCompile Include="..\juego\EstadoAvion.cpp" />
     <ClCompile Include="..\juego\EstadoProyectil.cpp" />
+    <ClCompile Include="..\juego\FondoInicio.cpp" />
     <ClCompile Include="..\juego\Graficador.cpp" />
     <ClCompile Include="..\juego\GraficoAvion.cpp" />
     <ClCompile Include="..\juego\GraficoProyectil.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="..\juego\ElementoDelMapa.h" />
     <ClInclude Include="..\juego\EstadoAvion.h" />
     <ClInclude Include="..\juego\EstadoProyectil.h" />
+    <ClInclude Include="..\juego\FondoInicio.h" />
     <ClInclude Include="..\juego\Graficador.h" />
     <ClInclude Include="..\juego\GraficoAvion.h" />
     <ClInclude Include="..\juego\GraficoProyectil.h" />

@@ -150,6 +150,9 @@
     <ClCompile Include="..\juego\Juego.cpp">
       <Filter>Archivos de código fuente\Juego\Modelo</Filter>
     </ClCompile>
+    <ClCompile Include="..\juego\FondoInicio.cpp">
+      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -243,6 +246,9 @@
       <Filter>Archivos de encabezado\Juego\Configuracion</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\Juego.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\FondoInicio.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>

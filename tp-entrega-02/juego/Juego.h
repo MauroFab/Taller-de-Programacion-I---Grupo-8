@@ -10,9 +10,8 @@ public:
 	static Juego* getInstance();
 	~Juego();
 
-	void close();
 	void ejecutar();
-	void cargarConfiguracion();
+	void close();
 	//void agregarNuevoEstadoAvion();
 
 private:
@@ -21,6 +20,7 @@ private:
 	static Juego* instance;
 	Juego();
 	bool init();
+	void configuracionInicial();
 	
 	SDL_Window* gWindow;
 	SDL_Renderer* gRenderer;

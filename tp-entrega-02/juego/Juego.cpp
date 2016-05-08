@@ -2,6 +2,7 @@
 #include "Mapa.h"
 #include "ConfiguracionJuegoXML.h"
 #include "Graficador.h"
+#include "FondoInicio.h"
 
 #include "Juego.h"
 
@@ -93,13 +94,28 @@ void Juego::close() {
 	SDL_Quit();
 }
 
-void Juego::cargarConfiguracion() {
+void Juego::configuracionInicial() {
 
-	static int tamanioMaximoMapa = 2000;
+	bool jugar = false;
+	SDL_Event e;
 
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
+	FondoInicio fondo("fondoInicio.bmp", gRenderer);
+
+	// TODO: PENDIENTE INICIAR LA PARTIDA CUANDO TODOS LOS USUARIOS ESTEN CONECTADOS
+	while( !jugar ) {
+
+		while( SDL_PollEvent( &e ) != 0 ) {
+
+			if (e.type == SDL_KEYUP) jugar = true;
+		}
+
+		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+		SDL_RenderClear( gRenderer );
+
+		fondo.render();
+
+		SDL_RenderPresent( gRenderer );
+	}
 }
 
 void Juego::ejecutar() {
@@ -107,6 +123,8 @@ void Juego::ejecutar() {
 	// Si se pudo iniciar la ventana del juego
 	if(!init())
 		return;
+
+	configuracionInicial();
 
 	static int tamanioMaximoMapa = 2000;
 	bool quit = false;
