@@ -13,6 +13,9 @@ MainCliente::MainCliente(){
 	// si usan el principal comentar inicializar()
 	this->parserx = new ParserXml();
 	this->servidorXml = new ServidorXml();
+
+	this->serverDesconectado = true;
+	this->cerrarConexion = true;
 }
 
 MainCliente::~MainCliente(){
@@ -51,6 +54,7 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 ParserXml * MainCliente::getParserXml(){
 	return this->parserx;
 }
+
 
 int MainCliente::chequearConexion(int len){
 
@@ -104,8 +108,52 @@ int MainCliente::inicializarConexion(){
 	return 0;
 }
 
+int MainCliente::recibirMensajes(void* ptrSock)
+{
+	// TODO: HACER CLIENTE ESTATICO
+	bool serverDesconectadoTest = false;
+	bool cerrarConexionTest = false;
+
+	char bufferEntrada[MAX_BUFFER];
+
+	while (!cerrarConexionTest && !serverDesconectadoTest){ 
+
+		int len=recv(*((SOCKET*)ptrSock),bufferEntrada,MAX_BUFFER,0); //recibimos los datos que envie
+		
+		if (len>0){
+			//si seguimos conectados
+			//--------------------------------
+			MovimientoXml * pMensj = new MovimientoXml();
+			Protocolo::decodificar(bufferEntrada,pMensj);
+			//Juego::getInstance()->actualizarCompetidores(new Movimiento(pMensj->getId(), pMensj->getTipo(), pMensj->getPosX(), pMensj->getPosY()));					
+			//--------------------------------
+		}
+		else if (len == 0){
+			Log::getInstance()->info( "Se ha desconectado el server");
+		}
+		else if (len < 0){
+			// Si es -1 hay un error en la conexion
+			int error = WSAGetLastError();
+
+			if(error == WSAENOTCONN || error == WSAECONNRESET){
+				Log::getInstance()->error( "Se ha desconectado inesperadamente el server");
+			}
+			else if (error == WSAENETDOWN)
+				Log::getInstance()->error( "Red caida");
+			else
+				Log::getInstance()->error( "Error de conexion");
+
+			serverDesconectadoTest = true;
+		}
+	}
+
+	return 0;
+}
+
 int MainCliente::conectar(){
+
 	inicializarConexion();
+	
 	if(conectado==true){
 		Log::getInstance()->warn(" el cliente ya se encuentra conectado.");
 		printf("ya se encuentra conectado \n"); //WARN?
@@ -143,6 +191,7 @@ int MainCliente::conectar(){
 					// Si el server nos envia respuesta es que la conexion ha sido satisfactoria
 					Log::getInstance()->info("El cliente se ha conectado correctamente.");
 					conectado = true;
+					serverDesconectado = false;
 
 					//se procede a decodificar el resto del mensaje
 					//se decodifica el escenario completo
@@ -150,6 +199,9 @@ int MainCliente::conectar(){
 					TCadena1000 cadena;
 					this->servidorXml->toString(cadena);
 					printf("%s",cadena);
+
+					// Creo un hilo para escuchar los mensajes
+					receptor=SDL_CreateThread(recibirMensajes, "recibirMensajes", &sock);
 
 					//Juego::getInstance()->cargarConfiguracion(this->servidorXml);
 					Juego::getInstance()->agregarObservador(this);
@@ -312,6 +364,6 @@ void MainCliente::actualizar(int argc, void* argv[]){
 	int sizeBytesTotalLista = Protocolo::codificar(*msjMov,buffEnvio);
 
 	if(chequearConexion(send(sock,buffEnvio,sizeBytesTotalLista,0))<0) //enviar el texto que se ha introducido
-		printf("No se pudo enviar el texto");
+		printf("No se pudo enviar el movimiento"); // TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
 
 }

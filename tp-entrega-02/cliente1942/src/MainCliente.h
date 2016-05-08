@@ -50,6 +50,8 @@ private:
 	struct sockaddr_in direc;
 	int conex,c,len;
 	bool conectado;
+	bool serverDesconectado;
+	bool cerrarConexion;
 
 	//contiene al parser, lo crea y lo borra
 	ParserXml * parserx;
@@ -68,6 +70,10 @@ public:
 	int enviar();
 private:
 	int inicializarConexion();
+
+	SDL_Thread* receptor;
+	static int recibirMensajes(void*);
+
 	virtual void actualizar(int argc, void* argv[]);
 };
 

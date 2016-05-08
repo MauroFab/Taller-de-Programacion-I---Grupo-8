@@ -131,7 +131,6 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 			SDL_mutexV(mut);
 			char buffEnvio[MAX_BUFFER];
 			mensaje->calculateSizeBytes();
-			mensaje->setTipo(TIPO_STRING);
 			int sizeEnvio = Protocolo::codificar(*mensaje,buffEnvio);
 			send(socket, buffEnvio, sizeEnvio, 0 );
 
@@ -405,7 +404,6 @@ int MainServidor::mainPrincipal(){
 			colaDeMensaje.pop();
 
 			printf("Recibido del usuario:%i", mensajeConId->id);
-//			printf(" el mensaje:%s\n",mensajeConId->mensaje);
 			printf(" Movimiento id: %d tipo: %d x: %d y: %d\n",mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
 
 			// Log info
@@ -418,7 +416,8 @@ int MainServidor::mainPrincipal(){
 
 			//TODO OJO aca deberia hacerse el delete sino perdera memoria
 			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
-			MovimientoXml* mensajeDeRespuesta = new MovimientoXml;
+			MovimientoXml* mensajeDeRespuesta = new MovimientoXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+
 			//VALIDAR mensaje
 			
 			//int res = Protocolo::validarMensaje(mensajeConId->mensajeXml);
@@ -433,9 +432,9 @@ int MainServidor::mainPrincipal(){
 			//}
 			//mensajeDeRespuesta->setValor(cadena,strlen(cadena));
 
-			//SDL_mutexP(mut);
-			//colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
-			//SDL_mutexV(mut);
+			SDL_mutexP(mut);
+			colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
+			SDL_mutexV(mut);
 
 			delete mensajeConId;
 		}
