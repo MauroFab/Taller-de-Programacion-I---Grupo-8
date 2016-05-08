@@ -1,5 +1,5 @@
+#include "../../juego/Juego.h"
 #include "MainCliente.h"
-
 
 MainCliente::MainCliente(){
 	this->dirXML.assign("");
@@ -31,7 +31,6 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 	//else{
 	//luego de la carga crea los datos a partir del XML
 	ClienteXml * clienteXml = getParserXml()->createDataClienteXml();
-	printf("\nOK\n");
 	//se cargan los datos desde el cliente
 	//copia la ip
 	this->ip.assign(clienteXml->getConexionXmlCopy()->getIp());
@@ -41,10 +40,6 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 	sprintf(cadena,"%d",puerto);
 	this->port.assign(cadena);
 	std::cout<< port<<std::endl;
-	//carga un listado,
-	//que luego viajara al cliente
-	//aca ya se puede cargar el mapa
-	cargarIDMensajes(clienteXml);
 
 	// luego de usarlo se debe borrar
 	delete clienteXml;
@@ -56,12 +51,6 @@ ParserXml * MainCliente::getParserXml(){
 	return this->parserx;
 }
 
-bool MainCliente::esUnNumero(string s){
-	for(int i=0;i<s.length();i++)
-		if(!isdigit(s[i]))
-			return false;
-	return true;
-}
 int MainCliente::chequearConexion(int len){
 
 	if (len == 0){
@@ -87,7 +76,7 @@ int MainCliente::chequearConexion(int len){
 	return 0;
 }
 
-int MainCliente::inicializar(){
+int MainCliente::inicializarConexion(){
 
 	//Inicializamos
 	WSAStartup(MAKEWORD(2,2),&wsa);
@@ -113,8 +102,9 @@ int MainCliente::inicializar(){
 
 	return 0;
 }
-int MainCliente::optConectar(){
-	inicializar();
+
+int MainCliente::conectar(){
+	inicializarConexion();
 	if(conectado==true){
 		Log::getInstance()->warn(" el cliente ya se encuentra conectado.");
 		printf("ya se encuentra conectado \n"); //WARN?
@@ -141,26 +131,31 @@ int MainCliente::optConectar(){
 				chequearConexion(len2);
 			}
 			else{
+
 				//decodificar el mensaje
 				MensajeXml mensaXml;
 				int offset = Protocolo::decodificar(bufferEntrada,&mensaXml);
 				char * respuesta = mensaXml.getValor();
-//				if(len2 == 18){
+
 				if (strcmp(respuesta,FAKE_MENSAJE_01) == 0){
+					
 					// Si el server nos envia respuesta es que la conexion ha sido satisfactoria
 					Log::getInstance()->info("El cliente se ha conectado correctamente.");
 					conectado = true;
+
 					//se procede a decodificar el resto del mensaje
 					//se decodifica el escenario completo
 					offset += Protocolo::decodificar(bufferEntrada + offset,this->servidorXml);
 					TCadena1000 cadena;
 					this->servidorXml->toString(cadena);
 					printf("%s",cadena);
+
+					//Juego::getInstance()->cargarConfiguracion(this->servidorXml);
+					Juego::getInstance()->ejecutar();
+
 				}
 				else if (strcmp(respuesta,FAKE_MENSAJE_02) == 0){
-					//se leen los datos que siguen
 					// El server envia un mensaje al superar la cantidad de clientes
-					//bufferEntrada[len2] =0;
 	
 					Log::getInstance()->error(bufferEntrada);
 					printf("Respuesta servidor:> %s\n",bufferEntrada);
@@ -173,35 +168,25 @@ int MainCliente::optConectar(){
 	}
 	return 0;
 }
-int MainCliente::optDesconectar(){
+
+int MainCliente::desconectar(){
 	shutdown(sock,2);
 	closesocket(sock);
 	conectado=false;
 	// WSACleanup();
 	return 0;
 }
-int MainCliente::optSalir(){
+
+int MainCliente::salir(){
+
 	mapMensajes.clear(); // chequear si se liberan los string
 	// liberar la memoria de los mensajes
-	optDesconectar();
+	desconectar();
 
 	return 0;
 }
-// auxiliar de carga de mensajes que deberia hacerse desde el xml
-int MainCliente::cargarIDMensajes(ClienteXml * clienteXml){
-	int idx = 0;
-	MensajeXml ** listaMsjs = clienteXml->getListaMensajes();
-	int totMsjs = clienteXml->getCanMsjs();
-	while (idx < totMsjs){
-	//se crea una copia
-		MensajeXml * pMensj = new MensajeXml(*listaMsjs[idx]);
-		mapMensajes.insert ( std::pair<int,MensajeXml*>(pMensj->getId(),pMensj));
-		idx++;
-	}
-	//hasta aca
-	return 0;
-}
-int MainCliente::optEnviar(){
+
+int MainCliente::enviar(){
 
 	if(conectado==false){ //!conectado
 		Log::getInstance()->info(" debe conectarse para enviar/recibir mensajes.");
@@ -224,11 +209,11 @@ int MainCliente::optEnviar(){
 		string numstring;
 		cin>>numstring;
 		// scanf("%d",&id);
-		if(!esUnNumero(numstring)){
-			cout<<"recuerde los valores tienen que ser numericos"<<endl;
-			system("PAUSE");
-			return -1;
-		}
+		//if(!esUnNumero(numstring)){
+		//	cout<<"recuerde los valores tienen que ser numericos"<<endl;
+		//	system("PAUSE");
+		//	return -1;
+		//}
 		id=atoi(numstring.c_str());
 		if(id==0)
 			return 0;
@@ -267,80 +252,7 @@ int MainCliente::optEnviar(){
 	system("PAUSE");
 	return 0;
 }
-int MainCliente::contarCiclo(void* sciclo){
-	ciclar_t* ciclos=(ciclar_t*)sciclo;
-	SDL_Delay(ciclos->tiempo);
-	ciclos->terminarCiclar=true;
-	return 0;
-}
-int MainCliente::optCiclar(){
-	if(conectado==false){ //!conectado
 
-		Log::getInstance()->info(" debe conectarse para enviar/recibir mensajes.");
-		printf(" debe conectarse para enviar/recibir mensajes.\n");
-		system("PAUSE");
-		return -1;
-	}
-	int tiempo=0;
-	char bufferEntrada[MAX_BUFFER];
-	int len2 = -1;
-	ciclar_t ciclos;
-	ciclos.terminarCiclar=false;
-	printf("por cuanto tiempo desea ciclar(ms):");
-	string numstring;
-	cin>>numstring;
-	// scanf("%d",&id);
-	if(!esUnNumero(numstring)){
-		cout<<"recuerde los valores tienen que ser numericos"<<endl;
-		system("PAUSE");
-		return -1;
-	}
-	ciclos.tiempo=atoi(numstring.c_str());
-
-	//scanf("%d",&(ciclos.tiempo));
-	SDL_Thread* hiloCiclar=SDL_CreateThread(MainCliente::contarCiclo, "contarCiclo", (void*)&ciclos);
-	std::map<int,MensajeXml*>::iterator it = mapMensajes.begin();
-	while(ciclos.terminarCiclar==false){
-
-		if(it==mapMensajes.end())
-			it=mapMensajes.begin();
-		std::cout<< "Enviando:> ID:" << it->first << " => " << it->second;
-		//-----------------
-		//se envia de a uno los mensajes, por eso no hace falta un dato para la cantidad
-		//total de mensajes (ahora trivila canMjs=1)
-		MensajeXml* pMsj = it->second;
-		char * buffEnvio = new char[MAX_BUFFER];
-		int sizeBytesTotalLista = Protocolo::codificar(*pMsj,buffEnvio);
-		//-----------------
-		if(chequearConexion(send(sock,buffEnvio,sizeBytesTotalLista,0))<0)
-			return -1;
-		if(chequearConexion(len2=recv(sock,bufferEntrada,MAX_BUFFER,0))<0)
-			return -1;
-		MensajeXml mensajeIN;
-		Protocolo::decodificar(bufferEntrada,&mensajeIN);
-		//bufferEntrada[len2] =0;
-		printf(" || respuesta servidor:> %s\n",mensajeIN.getValor());
-		it++;
-	}
-
-	SDL_WaitThread(hiloCiclar, NULL);
-	system("PAUSE");
-	return 0;
-}
-
-int MainCliente::optErronea(){
-	printf("\n No existe la opcion marcada\n");
-	system("PAUSE");
-	return 0;
-}
-
-int MainCliente::cargarMenuMsj(){
-	std::map<int,MensajeXml*>::iterator it = mapMensajes.begin();
-	std::cout<<""<<std::endl;
-	for (it=mapMensajes.begin(); it!=mapMensajes.end(); ++it)
-		std::cout<< "\t ID:" << it->first << " => " << it->second->getValor() << std::endl;
-	return 0;
-}
 /**
 * muestra el menu y direcciona a las opciones
 *
@@ -348,54 +260,42 @@ int MainCliente::cargarMenuMsj(){
 int MainCliente::menu(){
 	int opt = 0;
 	while (opt != OPT_SALIR){
-		system("CLS");
+		// TODO: Por el momento no borro la pantalla asi veo que va llegando 
+		// system("CLS");	
+		printf("\n%s\n", "------------------------------------------------------------------------");
 		if(conectado)
-			std::cout<<"\t se encuentra: CONECTADO" <<std::endl;
+			std::cout<<"Se encuentra: CONECTADO" <<std::endl;
 		else
-			std::cout<<"\t se encuentra: DESCONECTADO" <<std::endl;
+			std::cout<<"Se encuentra: DESCONECTADO" <<std::endl;
 		printf("\n<1> CONECTAR");
 		printf("\n<2> DESCONECTAR");
 		printf("\n<3> SALIR");
 		printf("\n<4> ENVIAR");
-		cargarMenuMsj();
-		printf("\n<5> CICLAR");
 		printf("\n");
 		string numstring;
 		cin>>numstring;
 		// scanf("%d",&id);
-		if(!esUnNumero(numstring)){
-			cout<<"recuerde los valores tienen que ser numericos"<<endl;
-			system("PAUSE");
-		}else{
-			opt=atoi(numstring.c_str());
-			//scanf("%d",&opt);
-			switch (opt)
-			{
-			case OPT_CONECTAR:{
-				optConectar();
-							  }
-							  break;
-			case OPT_DESCONECTAR:{
-				optDesconectar();
-								 }
-								 break;
-			case OPT_SALIR:{
-				optSalir();
-						   }
-						   break;
-			case OPT_ENVIAR:{
-				optEnviar();
-							}
-							break;
-			case OPT_CICLAR:{
-				optCiclar();
-							}
-							break;
-			default:
-				optErronea();
+		//if(!esUnNumero(numstring)){
+		//	cout<<"recuerde los valores tienen que ser numericos"<<endl;
+		//	system("PAUSE");
+		//}else{
+		opt=atoi(numstring.c_str());
+		//scanf("%d",&opt);
+		switch (opt){
+			case OPT_CONECTAR:
+				conectar();
 				break;
-			}
+			case OPT_DESCONECTAR:
+				desconectar();
+				break;
+			case OPT_SALIR:
+				salir();
+				break;
+			case OPT_ENVIAR:
+				enviar();
+				break;
 		}
+		//}
 	}
 	return 0;
 }

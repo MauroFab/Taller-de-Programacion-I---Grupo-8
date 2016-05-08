@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Archivos de código fuente">
@@ -13,108 +13,237 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de código fuente\Parser">
+      <UniqueIdentifier>{22ec1649-efe1-451e-ae10-f4c350590b40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Utils">
+      <UniqueIdentifier>{f2f8c28d-7288-4aec-b7aa-842d554cb5e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Utils">
+      <UniqueIdentifier>{807f6a64-64e8-48d8-9c07-768513f2c317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Parser">
+      <UniqueIdentifier>{41b1d703-7c3b-46e2-9b20-da2faffe1421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Conexion">
+      <UniqueIdentifier>{33f83c3c-cff6-44b7-9ee4-610e4249f20b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Juego">
+      <UniqueIdentifier>{f99dbde3-0140-40da-ba7a-02ca43eb69c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Juego">
+      <UniqueIdentifier>{eb98eb7d-a54c-4011-9cbf-752d12dc704a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Juego\Modelo">
+      <UniqueIdentifier>{a8dba11e-d0f9-4771-a2b5-29a91ee35af3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Juego\Graficadores">
+      <UniqueIdentifier>{1671ec93-e35a-4758-a15d-820560736f25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Juego\Modelo">
+      <UniqueIdentifier>{5989d33f-0ff2-4154-9610-10c61cdc1766}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Juego\Graficadores">
+      <UniqueIdentifier>{256c0389-80a2-4ea8-a813-ebdd8f24d327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Conexion">
+      <UniqueIdentifier>{647045c7-462b-498e-ab70-b89291f371a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Juego\Configuracion">
+      <UniqueIdentifier>{7dad4ffa-ddd8-4691-b3bc-0964d28d6e74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Juego\Configuracion">
+      <UniqueIdentifier>{bcba8b38-7070-442d-8aae-ef797437bcb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="src\MainCliente.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\ClienteXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\ConexionXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\MensajeXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\ParserXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\ServidorXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
+    <ClCompile Include="..\common\xml\VentanaXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\tinyxml2.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\Log.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\StringUtil.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\Protocolo.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\VentanaXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\EscenarioXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\FondoXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\ElementoXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\AvionXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\SpriteXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ParserXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\MensajeXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\FondoXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\EscenarioXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ElementoXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ConexionXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ClienteXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\AvionXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ServidorXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\StringUtil.cpp">
+      <Filter>Archivos de código fuente\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Log.cpp">
+      <Filter>Archivos de código fuente\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Protocolo.cpp">
+      <Filter>Archivos de código fuente\Conexion</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainCliente.cpp">
+      <Filter>Archivos de código fuente\Conexion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\GraficoProyectil.cpp">
+      <Filter>Archivos de código fuente\Juego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\GraficoAvion.cpp">
+      <Filter>Archivos de código fuente\Juego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\Graficador.cpp">
+      <Filter>Archivos de código fuente\Juego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\Avion.cpp">
+      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\ElementoDelMapa.cpp">
+      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\EstadoAvion.cpp">
+      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\EstadoProyectil.cpp">
+      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\Mapa.cpp">
+      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\Proyectil.cpp">
+      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\Textura.cpp">
+      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\ConfiguracionAvionXML.cpp">
+      <Filter>Archivos de código fuente\Juego\Configuracion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\ConfiguracionJuegoXML.cpp">
+      <Filter>Archivos de código fuente\Juego\Configuracion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\ConfiguracionProyectilXML.cpp">
+      <Filter>Archivos de código fuente\Juego\Configuracion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\Juego.cpp">
+      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\MainCliente.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\xml\tinyxml2.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\xml\ParserXml.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\xml\MensajeXml.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\xml\ConexionXml.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\common\xml\AvionXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\ClienteXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\ConexionXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\ElementoXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\EscenarioXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\FondoXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\tinyxml2.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\VentanaXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\ServidorXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\Log.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\common\xml\SpriteXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\ParserXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\MensajeXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\StringUtil.h">
+      <Filter>Archivos de encabezado\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Log.h">
+      <Filter>Archivos de encabezado\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Avion.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\ElementoDelMapa.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoAvion.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoProyectil.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Graficador.h">
+      <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficoAvion.h">
+      <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficoProyectil.h">
+      <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Mapa.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Proyectil.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Textura.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Constantes.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Protocolo.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Conexion</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\xml\VentanaXml.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="src\MainCliente.h">
+      <Filter>Archivos de encabezado\Conexion</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\xml\EscenarioXml.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\juego\ConfiguracionAvionXML.h">
+      <Filter>Archivos de encabezado\Juego\Configuracion</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\xml\FondoXml.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\juego\ConfiguracionJuegoXML.h">
+      <Filter>Archivos de encabezado\Juego\Configuracion</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\xml\ElementoXml.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\juego\ConfiguracionProyectilXML.h">
+      <Filter>Archivos de encabezado\Juego\Configuracion</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\xml\AvionXml.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\xml\SpriteXml.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\juego\Juego.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -19,7 +19,9 @@ int ParserXml::levantarXMLCliente(char * ruta)
 	xmlDoc.LoadFile(ruta);
 
 	int codErr = xmlDoc.ErrorID();
-	printf("\ncodigo %d\n",xmlDoc.ErrorID());
+	
+	if(codErr != 0)
+		printf("\n%s %d\n","codigo", xmlDoc.ErrorID());
 
 	return codErr;
 }
@@ -157,7 +159,7 @@ void ParserXml::cargarXmlCliente(int argc, char* argv[]){
 	//solo si es 2 intenta levantar sino asumo error
 	if (cantargs == 2){
 		strcpy(ruta, argv[1]);
-		printf("\n argumento %s\n", ruta);
+		printf("\n%s %s\n", "argumento", ruta);
 		codErr = this->levantarXMLCliente(ruta);
 	}
 	else{
@@ -174,12 +176,12 @@ void ParserXml::cargarXmlCliente(int argc, char* argv[]){
 			Log::getInstance()->error("Error de sintaxis en xml, elemento no encontrado XML_ERROR_MISMATCHED_ELEMENT");
 
 		this->crearXmlCliente();
-		printf("\n INFO:ese cargo xml por defecto del cliente");
+		printf("\n%s\n","INFO:ese cargo xml por defecto del cliente.");
 		char * rutaDefecto = XML_DEF_CLIENTE;
 		codErr = this->levantarXMLCliente(rutaDefecto);
 	}
 	else{
-		printf("\n INFO:xml cliente procesado con exito");
+		printf("\n%s\n","INFO:xml cliente procesado con exito.");
 	}
 }
 //------------SERVIDOR
@@ -187,9 +189,11 @@ int ParserXml::levantarXMLServidor(char * ruta){
 	xmlDoc.LoadFile(ruta);
 
 	int codErr = xmlDoc.ErrorID();
-	printf("\ncodigo %d\n",xmlDoc.ErrorID());
+	
+	if(codErr != 0)
+		printf("\n%s %d\n","codigo",xmlDoc.ErrorID());
+	
 	return codErr;
-
 }
 
 int ParserXml::crearXmlServidor(){
@@ -227,7 +231,7 @@ void ParserXml::cargarXmlServidor(int argc, char* argv[]){
 	int codErr = XML_ERROR_FILE_NOT_FOUND;
 	if (cantargs == 2){
 		strcpy(ruta, argv[1]);
-		printf("\n argumento %s\n", ruta);
+		printf("\n%s %s\n", "argumento", ruta);
 		codErr = this->levantarXMLServidor(ruta);
 	}
 	else{
@@ -239,17 +243,17 @@ void ParserXml::cargarXmlServidor(int argc, char* argv[]){
 
 	//si hubo error al leer, llama al xml por defecto
 	if (codErr != XML_SUCCESS){
-		printf("\n ERROR:el xml servidor NO fue encontrado o hubo error al intentar abrir");
+		printf("\n%s\n","ERROR:el xml servidor NO fue encontrado o hubo error al intentar abrir.");
 		if (codErr == XML_ERROR_MISMATCHED_ELEMENT)
-			printf("\nERROR: Error de sintaxis en xml, xml invalido");
+			printf("\n%s\n","ERROR: Error de sintaxis en xml, xml invalido.");
 
 		this->crearXmlServidor();
-		printf("\n INFO:ese cargo xml por defecto del servidor");
+		printf("\n%s\n","INFO:ese cargo xml por defecto del servidor.");
 		char * rutaDefecto = XML_DEF_SERVIDOR;
 		codErr = this->levantarXMLServidor(rutaDefecto);
 	}
 	else{
-		printf("\n INFO:xml servidor procesado con exito");
+		printf("\n%s\n","INFO:xml servidor procesado con exito.");
 	}
 }
 

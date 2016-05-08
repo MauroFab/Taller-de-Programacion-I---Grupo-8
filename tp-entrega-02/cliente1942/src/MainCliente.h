@@ -21,11 +21,21 @@
 #include "../../common/xml/ServidorXml.h"
 #include "../../common/xml/MensajeXml.h"
 #include "../../common/Protocolo.h"
+
+// CODIGO DE FINALIZACION DE OPERACIONES
+#define COD_OK					0
+#define COD_KO					-1
+
+// ID DE MENSAJES
+#define ID_MSG_CLIENTE_LISTO	1
+#define ID_MSG_POSICION_X		2
+#define ID_MSG_POSICION_Y		3
+#define ID_MSG_PATH				4
+
 #define OPT_CONECTAR	1
 #define OPT_DESCONECTAR 2
 #define OPT_SALIR		3
 #define OPT_ENVIAR		4
-#define OPT_CICLAR		5
 
 using std::string;
 using std::map;
@@ -45,10 +55,6 @@ private:
 	struct sockaddr_in direc;
 	int conex,c,len;
 	bool conectado;
-	typedef struct ciclar{
-		bool terminarCiclar;
-		int tiempo;
-	}ciclar_t;
 
 	//contiene al parser, lo crea y lo borra
 	ParserXml * parserx;
@@ -59,21 +65,14 @@ public:
 	virtual ~MainCliente();
 	void parsearArchivoXml(int argc, char* argv[]);
 	ParserXml * getParserXml();
-//	int principal();
-	bool esUnNumero(string s);
 	int chequearConexion(int len);
 	int menu();
-	static int contarCiclo(void* time);
-	int optConectar();
-	int optDesconectar();
-	int optSalir();
-	int optEnviar();
-	int optCiclar();
-	int optErronea();
-	int cargarIDMensajes(ClienteXml * clienteXml);
-	int cargarMenuMsj();
+	int conectar();
+	int desconectar();
+	int salir();
+	int enviar();
 private:
-	int inicializar();
+	int inicializarConexion();
 };
 
 #endif //_MAINCLIENTE_H_
