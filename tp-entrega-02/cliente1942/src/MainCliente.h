@@ -21,16 +21,11 @@
 #include "../../common/xml/ServidorXml.h"
 #include "../../common/xml/MensajeXml.h"
 #include "../../common/Protocolo.h"
+#include "../../common/observer/Observador.h"
 
 // CODIGO DE FINALIZACION DE OPERACIONES
 #define COD_OK					0
 #define COD_KO					-1
-
-// ID DE MENSAJES
-#define ID_MSG_CLIENTE_LISTO	1
-#define ID_MSG_POSICION_X		2
-#define ID_MSG_POSICION_Y		3
-#define ID_MSG_PATH				4
 
 #define OPT_CONECTAR	1
 #define OPT_DESCONECTAR 2
@@ -41,7 +36,7 @@ using std::string;
 using std::map;
 using std::pair;
 
-class MainCliente
+class MainCliente : public Observador
 {
 private:
 	SOCKET sock;
@@ -73,6 +68,7 @@ public:
 	int enviar();
 private:
 	int inicializarConexion();
+	virtual void actualizar(int argc, void* argv[]);
 };
 
 #endif //_MAINCLIENTE_H_

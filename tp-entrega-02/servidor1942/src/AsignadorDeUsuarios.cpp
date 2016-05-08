@@ -4,7 +4,7 @@
 AsignadorDeUsuarios::AsignadorDeUsuarios(int usuariosMaximos){
 	cantidadMaximaDeUsuarios = usuariosMaximos;
 	cantidadDeUsuariosActuales = 0;
-	colaDeMensajesDeUsuario = new std::queue<MensajeXml*>[usuariosMaximos];
+	colaDeMensajesDeUsuario = new std::queue<MovimientoXml*>[usuariosMaximos];
 	estaTomadaLaId = new bool[usuariosMaximos];
 	for(int i = 0; i < usuariosMaximos; i++){
 		estaTomadaLaId[i] = false;
@@ -53,7 +53,7 @@ void AsignadorDeUsuarios::eliminarUsuario(int idUsuario){
 	}
 }
 
-std::queue<MensajeXml*>* AsignadorDeUsuarios::obtenerColaDeUsuario(int idUsuario){
+std::queue<MovimientoXml*>* AsignadorDeUsuarios::obtenerColaDeUsuario(int idUsuario){
 	return &colaDeMensajesDeUsuario[idUsuario];
 }
 

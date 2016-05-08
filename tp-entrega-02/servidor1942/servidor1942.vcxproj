@@ -99,6 +99,7 @@
     <ClCompile Include="..\common\xml\EscenarioXml.cpp" />
     <ClCompile Include="..\common\xml\FondoXml.cpp" />
     <ClCompile Include="..\common\xml\MensajeXml.cpp" />
+    <ClCompile Include="..\common\xml\MovimientoXml.cpp" />
     <ClCompile Include="..\common\xml\ParserXml.cpp" />
     <ClCompile Include="..\common\xml\ServidorXml.cpp" />
     <ClCompile Include="..\common\xml\SpriteXml.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="..\common\xml\EscenarioXml.h" />
     <ClInclude Include="..\common\xml\FondoXml.h" />
     <ClInclude Include="..\common\xml\MensajeXml.h" />
+    <ClInclude Include="..\common\xml\MovimientoXml.h" />
     <ClInclude Include="..\common\xml\ParserXml.h" />
     <ClInclude Include="..\common\xml\ServidorXml.h" />
     <ClInclude Include="..\common\xml\SpriteXml.h" />

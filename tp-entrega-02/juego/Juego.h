@@ -1,9 +1,11 @@
 #ifndef _JUEGO_H_
 #define _JUEGO_H_
 
+#include "../common/observer/Observable.h"
 #include "Constantes.h"
 
-class Juego{
+class Juego : public Observable
+{
 
 public:
 
@@ -25,8 +27,7 @@ private:
 	SDL_Window* gWindow;
 	SDL_Renderer* gRenderer;
 
-	//std::list<EstadoAvion*> aviones;
-
+	void notificarMovimiento(int id, int tipo, int x, int y);
 };
 
 #endif //_JUEGO_H_

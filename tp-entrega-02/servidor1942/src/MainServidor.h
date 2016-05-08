@@ -26,6 +26,7 @@ using std::ofstream;
 #include "asignadorDeUsuarios.h"
 #include "../../common/xml/ParserXml.h"
 #include "../../common/xml/MensajeXml.h"
+#include "../../common/xml/MovimientoXml.h"
 #include "../../common/Protocolo.h"
 
 class MainServidor
@@ -34,7 +35,7 @@ private:
 	struct MensajeConId {
 	     int id;
 		 char* mensaje;
-		 MensajeXml mensajeXml;
+		 MovimientoXml mensajeXml;
 	};
     static bool instanceFlag;
     static MainServidor *single;
@@ -42,7 +43,7 @@ private:
 	int puerto;
     MainServidor();
 	//pMsj mensaje desde el cual se realiza la copia de datos
-	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,MensajeXml* pMsj);
+	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,MovimientoXml* pMsj);
 	//se almancena todo el modelo parseado
 	ServidorXml * servidorXml;
 public:

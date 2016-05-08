@@ -114,8 +114,8 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 	
 	//el socket es igual a la direccion apuntada por el punteroAlSocket
 	int id = idYPunteroAlSocket.id;
-	std::queue<MensajeXml*>* colaDeMensajesParaEnviar;
-	MensajeXml* mensaje;
+	std::queue<MovimientoXml*>* colaDeMensajesParaEnviar;
+	MovimientoXml* mensaje;
 	bool* seCerroLaConexionPointer = structRecibido.seCerroLaConexion;
 	colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
 	
@@ -154,7 +154,7 @@ int MainServidor::fun_consolaDelServidor(void* punteroAlSocketRecibido){
 	return instan->consolaDelServidor(punteroAlSocketRecibido);	
 }
 
-void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id,MensajeXml* pMsj){
+void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id,MovimientoXml* pMsj){
 
 	SDL_mutexP(mut);
 	MensajeConId* mensajeConId = new MensajeConId;
@@ -198,13 +198,13 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 		if (len>0){
 			//si seguimos conectados
 			//--------------------------------
-			MensajeXml * pMensj = new MensajeXml();
+			MovimientoXml * pMensj = new MovimientoXml();
 			Protocolo::decodificar(bufferEntrada,pMensj);
 			
 			//--------------------------------
 			//bufferEntrada[len]=0; //Ponemos el fin de cadena 
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);
-			delete pMensj;
+			//delete pMensj; <-- TODO IMPORTANTE: NO PUEDO ELIMINAR EL MENSAJE 
 		}
 		else if (len == 0){
 			// VER: Mauro *seCerroLaConexion deberia ir aca o es lo mismo que este afuera?
@@ -400,44 +400,43 @@ int MainServidor::mainPrincipal(){
 		if(!colaDeMensaje.empty()){
 
 			//consumidor
-			std::queue<MensajeXml*>* colaDeMensajesDelUsuario;
+			std::queue<MovimientoXml*>* colaDeMensajesDelUsuario;
 			mensajeConId = colaDeMensaje.front();
 			colaDeMensaje.pop();
 
 			printf("Recibido del usuario:%i", mensajeConId->id);
 //			printf(" el mensaje:%s\n",mensajeConId->mensaje);
-			printf(" el mensaje:%s\n",mensajeConId->mensajeXml.getValor());
+			printf(" Movimiento id: %d tipo: %d x: %d y: %d\n",mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
 
 			// Log info
 			stringstream mensajeLog; 
-			mensajeLog << "Usuario " << mensajeConId->id << " Mensaje: " << mensajeConId->mensajeXml.getValor();
+			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: " <<  mensajeConId->mensajeXml.getTipo() << " x: " << mensajeConId->mensajeXml.getPosX() << " y: " << mensajeConId->mensajeXml.getPosY();
 			mensajeLog << " SizeBytes:" << mensajeConId->mensajeXml.getSizeBytes();
-			mensajeConId->mensajeXml.getId();
-			mensajeConId->mensajeXml.getTipo();
-			mensajeConId->mensajeXml.getValor();
 			Log::getInstance()->info(mensajeLog.str());
 
 			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(mensajeConId->id);
+
 			//TODO OJO aca deberia hacerse el delete sino perdera memoria
 			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
-			MensajeXml* mensajeDeRespuesta = new MensajeXml;
+			MovimientoXml* mensajeDeRespuesta = new MovimientoXml;
 			//VALIDAR mensaje
 			
-			int res = Protocolo::validarMensaje(mensajeConId->mensajeXml);
-			char cadena[200];
-			if (res < 0){
-				//INVALIDO
-				sprintf(cadena,"mensaje con id <%d> es Invalido",mensajeConId->mensajeXml.getId());
-			}
-			else{
-				//NO INVALIDO
-				sprintf(cadena,"mensaje con id <%d> procesado OK",mensajeConId->mensajeXml.getId());
-			}
-			mensajeDeRespuesta->setValor(cadena,strlen(cadena));
+			//int res = Protocolo::validarMensaje(mensajeConId->mensajeXml);
+			//char cadena[200];
+			//if (res < 0){
+			//	//INVALIDO
+			//	sprintf(cadena,"mensaje con id <%d> es Invalido",mensajeConId->mensajeXml.getId());
+			//}
+			//else{
+			//	//NO INVALIDO
+			//	sprintf(cadena,"mensaje con id <%d> procesado OK",mensajeConId->mensajeXml.getId());
+			//}
+			//mensajeDeRespuesta->setValor(cadena,strlen(cadena));
 
-			SDL_mutexP(mut);
-			colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
-			SDL_mutexV(mut);
+			//SDL_mutexP(mut);
+			//colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
+			//SDL_mutexV(mut);
+
 			delete mensajeConId;
 		}
 

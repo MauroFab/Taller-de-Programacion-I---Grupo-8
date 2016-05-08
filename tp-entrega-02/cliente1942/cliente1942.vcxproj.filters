@@ -55,6 +55,12 @@
     <Filter Include="Archivos de encabezado\Juego\Configuracion">
       <UniqueIdentifier>{bcba8b38-7070-442d-8aae-ef797437bcb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de código fuente\Observador">
+      <UniqueIdentifier>{011561b0-fb3b-476c-99fd-6cb2d10ea4ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Observador">
+      <UniqueIdentifier>{13f802fb-74ba-40ba-b0cc-3c6609fb5c55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -153,6 +159,15 @@
     <ClCompile Include="..\juego\FondoInicio.cpp">
       <Filter>Archivos de código fuente\Juego\Modelo</Filter>
     </ClCompile>
+    <ClCompile Include="..\juego\Movimiento.cpp">
+      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\MovimientoXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\observer\Observable.cpp">
+      <Filter>Archivos de código fuente\Observador</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -198,9 +213,6 @@
       <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\Avion.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\juego\ElementoDelMapa.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\EstadoAvion.h">
@@ -249,6 +261,21 @@
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\FondoInicio.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Movimiento.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\MovimientoXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\observer\Observable.h">
+      <Filter>Archivos de encabezado\Observador</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\observer\Observador.h">
+      <Filter>Archivos de encabezado\Observador</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\ElementoDelMapa.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,5 @@
 #include "../../juego/Juego.h"
+#include "../../juego/Movimiento.h"
 #include "MainCliente.h"
 
 MainCliente::MainCliente(){
@@ -151,6 +152,7 @@ int MainCliente::conectar(){
 					printf("%s",cadena);
 
 					//Juego::getInstance()->cargarConfiguracion(this->servidorXml);
+					Juego::getInstance()->agregarObservador(this);
 					Juego::getInstance()->ejecutar();
 
 				}
@@ -298,4 +300,18 @@ int MainCliente::menu(){
 		//}
 	}
 	return 0;
+}
+
+void MainCliente::actualizar(int argc, void* argv[]){
+
+	Movimiento* mov = (Movimiento*)argv[0];
+
+	MovimientoXml* msjMov = new MovimientoXml(mov->getId(), mov->getTipo(), mov->getPosX(), mov->getPosY());
+
+	char * buffEnvio = new char[MAX_BUFFER];
+	int sizeBytesTotalLista = Protocolo::codificar(*msjMov,buffEnvio);
+
+	if(chequearConexion(send(sock,buffEnvio,sizeBytesTotalLista,0))<0) //enviar el texto que se ha introducido
+		printf("No se pudo enviar el texto");
+
 }

@@ -705,3 +705,71 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	return offset;
 }
 	
+	int Protocolo::codificar(MovimientoXml &movimientoXml,char * buffer){
+
+	int sizeBytes = movimientoXml.getSizeBytes();
+	int id = movimientoXml.getId();
+	int tipo = movimientoXml.getTipo(); 
+	int posX = movimientoXml.getPosX(); 
+	int posY = movimientoXml.getPosY();
+	int offset = 0;
+
+	memcpy(buffer + offset,&sizeBytes,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&id,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&tipo,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&posX,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&posY,sizeof(int));
+	offset += sizeof(int);
+
+	TCadena1000 cadena;
+	movimientoXml.toString(cadena);
+	printf("%s\n",cadena);
+
+	return offset;
+}
+
+int Protocolo::decodificar(char * buffer,MovimientoXml *movimientoXml){
+
+	int sizeBytes = -1;
+	int id = -1;
+	int tipo = -1;
+	int posX = -1;
+	int posY = -1;
+	int offset = 0;
+
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&id,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&tipo,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&posX,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&posY,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	movimientoXml->setId(id);
+	movimientoXml->setTipo(tipo);
+	movimientoXml->setPosX(posX);
+	movimientoXml->setPosY(posY);
+	movimientoXml->calculateSizeBytes();
+	
+	TCadena1000 cadena;
+	movimientoXml->toString(cadena);
+	printf("%s\n",cadena);		
+	
+	return offset;
+}
+

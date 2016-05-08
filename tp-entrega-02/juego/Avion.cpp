@@ -55,20 +55,22 @@ Avion::~Avion() {
 	}
 }
 
-void Avion::handleEvent( SDL_Event& e )
+bool Avion::handleEvent( SDL_Event& e )
 {
+	bool cambiaEstado = false;
+
     // Si se presiona una tecla
 	if( e.type == SDL_KEYDOWN && e.key.repeat == 0)
     {
         switch( e.key.keysym.sym )
         {
 			// Ajusta la velocidad
-            case SDLK_UP: velocidadY -= velocidad; break;
-            case SDLK_DOWN: velocidadY += velocidad; break;
-            case SDLK_LEFT: velocidadX -= velocidad; break;
-            case SDLK_RIGHT: velocidadX += velocidad; break;
+            case SDLK_UP: velocidadY -= velocidad; cambiaEstado = true; break;
+            case SDLK_DOWN: velocidadY += velocidad; cambiaEstado = true; break;
+            case SDLK_LEFT: velocidadX -= velocidad; cambiaEstado = true; break;
+            case SDLK_RIGHT: velocidadX += velocidad; cambiaEstado = true; break;
 			// Realiza el roll
-			case SDLK_RETURN: rollFlag = true; break;
+			case SDLK_RETURN: rollFlag = true; cambiaEstado = true; break;
 		}
 	}
     // Si se libero una tecla
@@ -77,22 +79,27 @@ void Avion::handleEvent( SDL_Event& e )
         switch( e.key.keysym.sym )
         {
 			// Ajusta la velocidad
-            case SDLK_UP: velocidadY += velocidad; break;
-            case SDLK_DOWN: velocidadY -= velocidad; break;
-            case SDLK_LEFT: velocidadX += velocidad; break;
-            case SDLK_RIGHT: velocidadX -= velocidad; break;
+            case SDLK_UP: velocidadY += velocidad; cambiaEstado = true; break;
+            case SDLK_DOWN: velocidadY -= velocidad; cambiaEstado = true; break;
+            case SDLK_LEFT: velocidadX += velocidad; cambiaEstado = true; break;
+            case SDLK_RIGHT: velocidadX -= velocidad; cambiaEstado = true; break;
 
 			// Realiza un disparo
 			case SDLK_SPACE: {
+
 				if(!rollFlag){
 					Proyectil* proyectil = new Proyectil(renderer);
 					//El centro del proyectil esta en el pixel 5
 					proyectil->setCoordenasDeComienzo(posicionX + (anchoFotograma / 2) - 5, posicionY - (altoFotograma/24));
 					proyectiles.push_back(proyectil);
+					cambiaEstado = true; 
 				}
+
 			} break;
         }
     }
+
+	return cambiaEstado;
 }
 
 void Avion::mover() {

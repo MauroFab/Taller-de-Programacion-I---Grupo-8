@@ -1,10 +1,13 @@
+#include "Movimiento.h"
 #include "Avion.h"
 #include "Mapa.h"
 #include "ConfiguracionJuegoXML.h"
 #include "Graficador.h"
 #include "FondoInicio.h"
-
+#include <vector>
 #include "Juego.h"
+
+using namespace std;
 
 bool Juego::instanceFlag = false;
 Juego* Juego::instance = NULL;
@@ -25,6 +28,7 @@ Juego::Juego(){
 }
 
 Juego::~Juego(){
+	close();
 }
 
 // Inicializacion
@@ -187,7 +191,12 @@ void Juego::ejecutar() {
 				Mapa::getInstace()->reiniciar();
 
 			// Registrar mov del teclado
-			avion.handleEvent( e );
+			if(avion.handleEvent( e )){
+				// TODO: CAMBIAR POQUE EL HANDLER ME DEVUELVA EL NUEVO MOVIMIENTO YA CON EL TIPO - AVION/ROLL/PROYECTIL
+				EstadoAvion* estado = avion.getEstado();
+				notificarMovimiento(estado->getId(), 1, estado->getPosX(), estado->getPosY());
+				delete(estado);
+			}
 		}
 
 		//Clear screen
@@ -212,4 +221,15 @@ void Juego::ejecutar() {
 	}
 }
 
+void Juego::notificarMovimiento(int id, int tipo, int x, int y){
+
+	vector<void*> argv;
+
+	//Movimiento* movimiento = new Movimiento(id, tipo, x, y);
+	argv.push_back(new Movimiento(id, tipo, x, y));
+
+	// indicar bien la cantidad de valores que son enviados
+	notificar(0, &argv[0]);
+	//delete(movimiento);
+}
 

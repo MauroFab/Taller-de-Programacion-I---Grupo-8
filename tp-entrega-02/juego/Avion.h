@@ -17,7 +17,7 @@ class Avion {
 
 		~Avion();
 
-		void handleEvent( SDL_Event& e );
+		bool handleEvent( SDL_Event& e );
 
 		void mover();
 
