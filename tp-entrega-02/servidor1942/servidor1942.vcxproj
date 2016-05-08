@@ -61,6 +61,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>;$(SolutionDir)\SDL2.lib;$(SolutionDir)\SDL2main.lib;$(SolutionDir)\SDL2_image.lib;$(SolutionDir)\SDL2_gfx.lib;$(SolutionDir)\SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

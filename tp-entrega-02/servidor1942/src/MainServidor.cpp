@@ -38,15 +38,20 @@ MainServidor* MainServidor::getInstance(){
 		return single;
 	}
 }
+
 void MainServidor::parsearArchivoXml(int argc, char* argv[]){
+
 	ParserXml parserx;
+
 	parserx.cargarXmlServidor(argc,argv);
+
 	int res = parserx.validarXmlArchivoServidor();
+	
 	if (res < 0){
 		printf("\nERROR: Error semantico\n");
 		parserx.cargarXmlServidor(0,argv);
 	}
-//	else{
+
 	//luego de la carga crea los datos a partir del XML
 	this->servidorXml = parserx.createDataServidorXml();
 	printf("\nOK\n");
@@ -56,7 +61,6 @@ void MainServidor::parsearArchivoXml(int argc, char* argv[]){
 	this->seDebeCerrarElServidor = false;
 	// luego de usarlo se debe borrar
 //	delete servidorXml;
-//	}
 }
 
 SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){

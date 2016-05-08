@@ -13,60 +13,72 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de encabezado\Parser">
+      <UniqueIdentifier>{95ce540f-0d95-4c92-9c7a-9cf10e603189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Utils">
+      <UniqueIdentifier>{ef2ebe2e-883f-4047-9d4b-ea6cc58730ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Paser">
+      <UniqueIdentifier>{04acdd0d-568e-4b21-9342-1da2e56baa62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Utils">
+      <UniqueIdentifier>{1aa850db-e3a6-4cf2-b572-9ed84e9f0e0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Archivos de recursos</Filter>
-    </ClCompile>
     <ClCompile Include="src\AsignadorDeUsuarios.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="src\MainServidor.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\xml\AvionXml.cpp">
+    <ClCompile Include="..\common\Protocolo.cpp">
       <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\AvionXml.cpp">
+      <Filter>Archivos de código fuente\Paser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\ClienteXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Paser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\ConexionXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Paser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\ElementoXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Paser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\EscenarioXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Paser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\FondoXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\MensajeXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\ParserXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\ServidorXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\SpriteXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\tinyxml2.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\VentanaXml.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\StringUtil.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Paser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\Log.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\Protocolo.cpp">
+    <ClCompile Include="..\common\xml\MensajeXml.cpp">
+      <Filter>Archivos de código fuente\Paser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ParserXml.cpp">
+      <Filter>Archivos de código fuente\Paser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ServidorXml.cpp">
+      <Filter>Archivos de código fuente\Paser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\SpriteXml.cpp">
+      <Filter>Archivos de código fuente\Paser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\tinyxml2.cpp">
+      <Filter>Archivos de código fuente\Paser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\VentanaXml.cpp">
+      <Filter>Archivos de código fuente\Paser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\StringUtil.cpp">
+      <Filter>Archivos de código fuente\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,53 +89,53 @@
     <ClInclude Include="src\MainServidor.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\IGenericaVO.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\xml\VentanaXml.h">
+    <ClInclude Include="..\common\Protocolo.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\AvionXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\ClienteXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\ConexionXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\ElementoXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\EscenarioXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\FondoXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\MensajeXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\ParserXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\ServidorXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\SpriteXml.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\VentanaXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\tinyxml2.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\StringUtil.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Log.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\Protocolo.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\common\IGenericaVO.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
