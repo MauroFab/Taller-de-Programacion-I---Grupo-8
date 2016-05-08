@@ -1,5 +1,6 @@
 #pragma once
 #include "Constantes.h"
+#include "Movimiento.h"
 #include "EstadoAvion.h"
 #include "EstadoProyectil.h"
 #include "GraficoAvion.h"
@@ -19,6 +20,7 @@ public:
 	void inicializar(SDL_Renderer* renderer);
 	void cargarDatosAvion(int id, std::string pathAvion, int cantFotogramas, int ancho, int alto);
 	void cargarDatosProyectil(std::string pathProyectil, int cantFotogramas, int ancho, int alto);
+	void graficarMovimientos(std::list<Movimiento*> listaAviones);
 	void graficarAviones(std::list<EstadoAvion*> listaAviones);
 	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
 

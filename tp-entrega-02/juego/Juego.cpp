@@ -171,7 +171,7 @@ void Juego::ejecutar() {
 	SDL_RenderPresent( gRenderer );
 
 	int test = 0;
-	while(test < 1000000000)
+	while(test < 100000000)
 		test++;
 	/*------------------------------------------------------------------*/
 
@@ -211,10 +211,7 @@ void Juego::ejecutar() {
 		//Render sprite
 		avion.render();
 
-		// Test del graficador
-		std::list<EstadoAvion*> aviones;
-		aviones.push_back(new EstadoAvion(id, 0, 200, 200));
-		Graficador::getInstance()->graficarAviones(aviones);
+		Graficador::getInstance()->graficarMovimientos(movimientosDeCompetidores);
 
 		//Update screen
 		SDL_RenderPresent( gRenderer );
@@ -226,7 +223,8 @@ void Juego::notificarMovimiento(int id, int tipo, int x, int y){
 	vector<void*> argv;
 
 	//Movimiento* movimiento = new Movimiento(id, tipo, x, y);
-	argv.push_back(new Movimiento(id, tipo, x, y));
+	// argv.push_back(new Movimiento(id, tipo, x, y)); 
+	argv.push_back(new Movimiento(2, tipo, x + 20 , y + 20)); // test para graficar el avion 2 cerca del otro
 
 	// indicar bien la cantidad de valores que son enviados
 	notificar(0, &argv[0]);

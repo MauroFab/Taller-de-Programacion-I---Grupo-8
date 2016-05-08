@@ -125,7 +125,7 @@ int MainCliente::recibirMensajes(void* ptrSock)
 			//--------------------------------
 			MovimientoXml * pMensj = new MovimientoXml();
 			Protocolo::decodificar(bufferEntrada,pMensj);
-			//Juego::getInstance()->actualizarCompetidores(new Movimiento(pMensj->getId(), pMensj->getTipo(), pMensj->getPosX(), pMensj->getPosY()));					
+			Juego::getInstance()->movimientosDeCompetidores.push_back(new Movimiento(pMensj->getId(), pMensj->getTipo(), pMensj->getPosX(), pMensj->getPosY()));					
 			//--------------------------------
 		}
 		else if (len == 0){

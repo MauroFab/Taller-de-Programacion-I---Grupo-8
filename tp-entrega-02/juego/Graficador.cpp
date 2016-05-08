@@ -43,6 +43,24 @@ void Graficador::cargarDatosProyectil(std::string pathProyectil, int cantFotogra
 	graficoProyectil = new GraficoProyectil(renderer, pathProyectil, cantFotogramas, ancho, alto);
 }
 
+void Graficador::graficarMovimientos(std::list<Movimiento*> listaAviones) {
+
+	std::list<Movimiento*>::iterator it;
+
+	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
+
+		GraficoAvion* grafico = graficosAvion.at((*it)->getId());
+
+		SDL_Rect* clip = grafico->getCurrentClip(0); // TODO PRUEBA(*it)->getFrame());
+
+		Textura* textura = grafico->getTextura();
+
+		textura->render((*it)->getPosX(), (*it)->getPosY(), renderer, clip);
+	}
+	//printf("2");
+}
+
+
 void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones) {
 
 	std::list<EstadoAvion*>::iterator it;

@@ -2,7 +2,10 @@
 #define _JUEGO_H_
 
 #include "../common/observer/Observable.h"
+#include "Movimiento.h"
 #include "Constantes.h"
+
+#include<list>
 
 class Juego : public Observable
 {
@@ -14,7 +17,7 @@ public:
 
 	void ejecutar();
 	void close();
-	//void agregarNuevoEstadoAvion();
+	std::list<Movimiento*> movimientosDeCompetidores;
 
 private:
 
