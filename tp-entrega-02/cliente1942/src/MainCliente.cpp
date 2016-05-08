@@ -1,5 +1,7 @@
 #include "../../juego/Juego.h"
 #include "../../juego/Movimiento.h"
+#include <map>
+
 #include "MainCliente.h"
 
 MainCliente::MainCliente(){
@@ -121,11 +123,25 @@ int MainCliente::recibirMensajes(void* ptrSock)
 		int len=recv(*((SOCKET*)ptrSock),bufferEntrada,MAX_BUFFER,0); //recibimos los datos que envie
 		
 		if (len>0){
+
 			//si seguimos conectados
 			//--------------------------------
 			MovimientoXml * pMensj = new MovimientoXml();
 			Protocolo::decodificar(bufferEntrada,pMensj);
-			Juego::getInstance()->movimientosDeCompetidores.push_back(new Movimiento(pMensj->getId(), pMensj->getTipo(), pMensj->getPosX(), pMensj->getPosY()));					
+
+			map<int,Movimiento*>::iterator  it = Juego::getInstance()->movimientosDeCompetidores.find(pMensj->getId());
+
+			if( it != Juego::getInstance()->movimientosDeCompetidores.end() ){
+				
+				it->second->setTipo(pMensj->getTipo());
+				it->second->setPosX(pMensj->getPosX());
+				it->second->setPosY(pMensj->getPosY());
+			}
+			else{
+				
+				Juego::getInstance()->movimientosDeCompetidores[pMensj->getId()] = new Movimiento(pMensj->getId(), pMensj->getTipo(), pMensj->getPosX(), pMensj->getPosY());					
+			}
+
 			//--------------------------------
 		}
 		else if (len == 0){

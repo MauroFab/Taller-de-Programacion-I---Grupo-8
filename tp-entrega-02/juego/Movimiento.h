@@ -13,6 +13,11 @@ public:
 	int getPosX();
 	int getPosY();
 
+	void setId(int id);
+	void setTipo(int tipo);
+	void setPosX(int posX);
+	void setPosY(int posY);
+
 private:
 
 	int id;

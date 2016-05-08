@@ -26,3 +26,19 @@ int Movimiento::getPosX() {
 int Movimiento::getPosY() {
 	return y;
 }
+
+void Movimiento::setId(int id) {
+	this->id = id;
+}
+
+void Movimiento::setTipo(int tipo) {
+	this->tipo = tipo;
+}
+
+void Movimiento::setPosX(int posX) {
+	this->x = posX;
+}
+
+void Movimiento::setPosY(int posY) {
+	this->y = posY;
+}

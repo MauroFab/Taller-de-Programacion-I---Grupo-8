@@ -5,7 +5,7 @@
 #include "Movimiento.h"
 #include "Constantes.h"
 
-#include<list>
+#include <map>
 
 class Juego : public Observable
 {
@@ -17,7 +17,7 @@ public:
 
 	void ejecutar();
 	void close();
-	std::list<Movimiento*> movimientosDeCompetidores;
+	std::map<int,Movimiento*> movimientosDeCompetidores;
 
 private:
 
