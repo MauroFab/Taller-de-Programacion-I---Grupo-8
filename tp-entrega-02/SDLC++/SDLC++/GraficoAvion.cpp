@@ -5,7 +5,7 @@ GraficoAvion::GraficoAvion(SDL_Renderer* renderer, int id, std::string pathAvion
 
 	this->id = id;
 	textura = new Textura();
-	fotogramas = new SDL_Rect[cantFotogramas];
+	fotogramas = new SDL_Rect[cantFotogramas + 1];
 	cantidadFotogramas = cantFotogramas;
 
 	if( !textura->cargarDeArchivo( pathAvion, renderer ) ) {
