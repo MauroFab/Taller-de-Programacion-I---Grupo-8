@@ -374,6 +374,32 @@ int MainServidor::consolaDelServidor(void*){
 	return 0;
 }
 
+int MainServidor::fun_avisarATodos(void* data){
+	MainServidor * instan = MainServidor::getInstance();
+	return instan->avisarATodos(data);	
+}
+
+
+int MainServidor::avisarATodos(void* data){
+	std::queue<MovimientoXml*>* colaDeMensajesDelUsuario;
+	MensajeConId* mensajeConId=(MensajeConId*)data;
+			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
+
+				if(i != mensajeConId->id){
+
+					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
+					MovimientoXml* mensajeDeRespuesta = new MovimientoXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+
+					SDL_mutexP(mut);
+					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
+					SDL_mutexV(mut);
+				}
+			}
+			delete mensajeConId;
+			return 0;
+
+}
+
 int MainServidor::mainPrincipal(){
 
 	Log::getInstance()->debug("Servidor - Main Principal");
@@ -390,7 +416,7 @@ int MainServidor::mainPrincipal(){
 
 	while(!seDebeCerrarElServidor){
 
-		SDL_mutexP(mut);
+		 SDL_mutexP(mut);
 
 		if(!colaDeMensaje.empty()){
 
@@ -411,6 +437,8 @@ int MainServidor::mainPrincipal(){
 			//TODO OJO aca deberia hacerse el delete sino perdera memoria
 			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
 
+			// SDL_Thread* avisador=SDL_CreateThread(MainServidor::fun_avisarATodos, "recibirConexiones", (void*)mensajeConId);
+			
 			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
 
 				if(i != mensajeConId->id){
@@ -418,17 +446,17 @@ int MainServidor::mainPrincipal(){
 					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
 					MovimientoXml* mensajeDeRespuesta = new MovimientoXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
 
-					SDL_mutexP(mut);
+					// SDL_mutexP(mut);
 					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
-					SDL_mutexV(mut);
+					// SDL_mutexV(mut);
 				}
 			}
-
-			delete mensajeConId;
+			
+			  delete mensajeConId;
 		}
 
 		SDL_mutexV(mut);
-		SDL_Delay(100);//No quiero tener permanentemente bloqueada la cola para revisar si llego algo.
+		//SDL_Delay(100);//No quiero tener permanentemente bloqueada la cola para revisar si llego algo.
 	}
 
 	Log::getInstance()->info("Se solicito la detención del Server.");
