@@ -9,7 +9,7 @@ class Observable {
 
 private:
 	std::vector<Observador*> observables;
-	SDL_mutex *mut; // mutex para proteger la lista de Observadores
+	SDL_mutex *mutObs; // mutex para proteger la lista de Observadores
 
 public:
 	Observable();

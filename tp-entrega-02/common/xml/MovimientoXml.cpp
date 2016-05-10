@@ -59,7 +59,7 @@ void MovimientoXml::setPosY(int posY){
 }
 
 int MovimientoXml::getPosY(){
-	return this->posX;
+	return this->posY;
 }
 
 void MovimientoXml::toString(TCadena1000 cadena){

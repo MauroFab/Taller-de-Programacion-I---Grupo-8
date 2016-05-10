@@ -137,6 +137,7 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 			//Aca debería liberar la memoria del mensaje, pero si lo hago estalla.
 			//Y efectivamente si mando muchos mensajes (Con un solo cliente abierto), la memoria aumenta, asi que 
 			// la estamos perdiendo con los mensajes
+			delete mensaje; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
 		}
 	}
     
@@ -203,16 +204,13 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 			//--------------------------------
 			//bufferEntrada[len]=0; //Ponemos el fin de cadena 
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);
-			//delete pMensj; <-- TODO IMPORTANTE: NO PUEDO ELIMINAR EL MENSAJE 
+			delete pMensj; 
 		}
 		else if (len == 0){
-			// VER: Mauro *seCerroLaConexion deberia ir aca o es lo mismo que este afuera?
 			Log::getInstance()->info( "Se ha desconectado correctamente el usuario " + id);
+
 		}
 		else if (len < 0){
-
-			// VER: Mauro *seCerroLaConexion deberia ir aca o es lo mismo que este afuera?
-			// Si es -1 hay un error en la conexion
 			int error = WSAGetLastError();
 
 			if(error == WSAENOTCONN || error == WSAECONNRESET)
@@ -321,13 +319,11 @@ int MainServidor::recibirConexiones(void*){
 				// algun contendor para los hilos que se crean		
 			}
 			else{
-				//VER: revisar si es necesario
 				free(socketConexion);
 			}
 
 		}
 		else {
-			// VER: Revisar esta logica
 			// Si se supero la cantidad maxima de usuarios enviamos un mensaje al cliente informado que ha sido rechazado
 
 			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
@@ -408,48 +404,25 @@ int MainServidor::mainPrincipal(){
 
 			// Log info
 			stringstream mensajeLog; 
-			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: " <<  mensajeConId->mensajeXml.getTipo() << " x: " << mensajeConId->mensajeXml.getPosX() << " y: " << mensajeConId->mensajeXml.getPosY();
+			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: id: " << mensajeConId->mensajeXml.getId() << " tipo: " <<  mensajeConId->mensajeXml.getTipo() << " x: " << mensajeConId->mensajeXml.getPosX() << " y: " << mensajeConId->mensajeXml.getPosY();
 			mensajeLog << " SizeBytes:" << mensajeConId->mensajeXml.getSizeBytes();
-			Log::getInstance()->info(mensajeLog.str());
-
-
-			//Ahora deberia pedir todas las colas de los usuarios que no tengan esa id, esto no va
-			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(mensajeConId->id);
-
+			Log::getInstance()->debug(mensajeLog.str());
 		
 			//TODO OJO aca deberia hacerse el delete sino perdera memoria
 			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
-			MovimientoXml* mensajeDeRespuesta = new MovimientoXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
 
-			//Y para respodner
+			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
 
-			/*	for(int i = 0; i < cantidadDeUsuariosActuales(); i++){
 				if(i != mensajeConId->id){
+
 					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
 					MovimientoXml* mensajeDeRespuesta = new MovimientoXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+
+					SDL_mutexP(mut);
 					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
+					SDL_mutexV(mut);
 				}
-			}*/
-
-
-
-			//VALIDAR mensaje
-			
-			//int res = Protocolo::validarMensaje(mensajeConId->mensajeXml);
-			//char cadena[200];
-			//if (res < 0){
-			//	//INVALIDO
-			//	sprintf(cadena,"mensaje con id <%d> es Invalido",mensajeConId->mensajeXml.getId());
-			//}
-			//else{
-			//	//NO INVALIDO
-			//	sprintf(cadena,"mensaje con id <%d> procesado OK",mensajeConId->mensajeXml.getId());
-			//}
-			//mensajeDeRespuesta->setValor(cadena,strlen(cadena));
-
-			SDL_mutexP(mut);
-			colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
-			SDL_mutexV(mut);
+			}
 
 			delete mensajeConId;
 		}

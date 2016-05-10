@@ -25,9 +25,14 @@ Juego::Juego(){
 
 	SDL_Window* gWindow = NULL;
 	SDL_Renderer* gRenderer = NULL;
+
+	mut = SDL_CreateMutex();
 }
 
 Juego::~Juego(){
+
+	SDL_DestroyMutex(mut);
+
 	close();
 }
 
@@ -136,12 +141,13 @@ void Juego::ejecutar() {
 
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
+	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 6, 102, 195, 10);
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
 	// Test para ver si se grafican otros aviones
-	static int id = 2;
 	Graficador::getInstance()->inicializar(gRenderer);
-	Graficador::getInstance()->cargarDatosAvion(id, "mig51.bmp", 6, 102, 195);
+	Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);  
+	//Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
 
 	Mapa::getInstace()->inicializar(gRenderer);
 	Mapa::getInstace()->crearIslaEn(1, 300);
@@ -163,17 +169,14 @@ void Juego::ejecutar() {
 	//Render sprite
 	avion.render();
 
-	// Test del graficador
-	std::list<EstadoAvion*> aviones;
-	aviones.push_back(new EstadoAvion(id, 0, 200, 200));
-	Graficador::getInstance()->graficarAviones(aviones);
-
 	SDL_RenderPresent( gRenderer );
 
+	// TODO: VOLAR LO QUE SIGUE ahora solo queda para dar tiempo a empezar en "paralelo"
 	int test = 0;
-	while(test < 100000000)
+	while(test < 1000000000)
 		test++;
 	/*------------------------------------------------------------------*/
+	EstadoAvion* estadoAnterior = NULL; 
 
 	//Mientras el usuario no desee salir
 	while( !quit ) {
@@ -191,12 +194,21 @@ void Juego::ejecutar() {
 				Mapa::getInstace()->reiniciar();
 
 			// Registrar mov del teclado
-			if(avion.handleEvent( e )){
-				// TODO: CAMBIAR POQUE EL HANDLER ME DEVUELVA EL NUEVO MOVIMIENTO YA CON EL TIPO - AVION/ROLL/PROYECTIL
-				EstadoAvion* estado = avion.getEstado();
-				notificarMovimiento(estado->getId(), 1, estado->getPosX(), estado->getPosY());
-				delete(estado);
-			}
+			avion.handleEvent( e );
+		}
+
+		//// Envio los movimientos del avion solo si cambiaron
+		// TODO2: redefinir los operadores == != en estadoAvion.
+		EstadoAvion* estadoActual = avion.getEstado();
+
+		if(estadoAnterior == NULL || !(estadoAnterior->getFrame() == estadoActual->getFrame() 
+			&& estadoAnterior->getPosX() == estadoActual->getPosX() && estadoAnterior->getPosY() == estadoActual->getPosY()))
+		{
+			estadoAnterior = estadoActual;
+			notificarMovimiento(estadoActual->getId(), 1, estadoActual->getPosX(), estadoActual->getPosY());
+		}
+		else {
+			delete estadoActual;
 		}
 
 		//Clear screen
@@ -218,16 +230,36 @@ void Juego::ejecutar() {
 	}
 }
 
+void Juego::actualizarMovimientos(Movimiento* movimiento){
+
+	SDL_mutexP(mut);
+
+	int idAvion = movimiento->getId();
+	map<int,Movimiento*>::iterator  it = Juego::getInstance()->movimientosDeCompetidores.find(idAvion);
+
+	if( it != Juego::getInstance()->movimientosDeCompetidores.end() ){
+				
+		it->second->setTipo(movimiento->getTipo());
+		it->second->setPosX(movimiento->getPosX());
+		it->second->setPosY(movimiento->getPosY());
+
+		delete movimiento;
+	}
+	else{
+				
+		Juego::getInstance()->movimientosDeCompetidores[idAvion] = movimiento;					
+	}
+
+	SDL_mutexV(mut);
+}
+
 void Juego::notificarMovimiento(int id, int tipo, int x, int y){
 
 	vector<void*> argv;
 
-	//Movimiento* movimiento = new Movimiento(id, tipo, x, y);
-	// argv.push_back(new Movimiento(id, tipo, x, y)); 
-	argv.push_back(new Movimiento(2, tipo, x + 20 , y + 20)); // test para graficar el avion 2 cerca del otro
+	argv.push_back(new Movimiento(id, tipo, x, y)); 
 
 	// indicar bien la cantidad de valores que son enviados
 	notificar(0, &argv[0]);
-	//delete(movimiento);
 }
 

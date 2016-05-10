@@ -5,6 +5,7 @@
 #include "Movimiento.h"
 #include "Constantes.h"
 
+#include <SDL2/SDL.h>
 #include <map>
 
 class Juego : public Observable
@@ -17,7 +18,7 @@ public:
 
 	void ejecutar();
 	void close();
-	std::map<int,Movimiento*> movimientosDeCompetidores;
+	void actualizarMovimientos(Movimiento* movimiento);
 
 private:
 
@@ -29,6 +30,9 @@ private:
 	
 	SDL_Window* gWindow;
 	SDL_Renderer* gRenderer;
+
+	SDL_mutex *mut; // mutex para proteger la lista de movimientos
+	std::map<int,Movimiento*> movimientosDeCompetidores;
 
 	void notificarMovimiento(int id, int tipo, int x, int y);
 };

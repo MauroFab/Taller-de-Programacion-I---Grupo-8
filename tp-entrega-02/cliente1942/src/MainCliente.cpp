@@ -129,18 +129,11 @@ int MainCliente::recibirMensajes(void* ptrSock)
 			MovimientoXml * pMensj = new MovimientoXml();
 			Protocolo::decodificar(bufferEntrada,pMensj);
 
-			map<int,Movimiento*>::iterator  it = Juego::getInstance()->movimientosDeCompetidores.find(pMensj->getId());
+			Movimiento* movimiento = new Movimiento(pMensj->getId(), pMensj->getTipo(), pMensj->getPosX(), pMensj->getPosY());
+			
+			Juego::getInstance()->actualizarMovimientos(movimiento);
 
-			if( it != Juego::getInstance()->movimientosDeCompetidores.end() ){
-				
-				it->second->setTipo(pMensj->getTipo());
-				it->second->setPosX(pMensj->getPosX());
-				it->second->setPosY(pMensj->getPosY());
-			}
-			else{
-				
-				Juego::getInstance()->movimientosDeCompetidores[pMensj->getId()] = new Movimiento(pMensj->getId(), pMensj->getTipo(), pMensj->getPosX(), pMensj->getPosY());					
-			}
+			delete pMensj;
 
 			//--------------------------------
 		}
