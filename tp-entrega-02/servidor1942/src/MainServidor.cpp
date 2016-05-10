@@ -412,11 +412,26 @@ int MainServidor::mainPrincipal(){
 			mensajeLog << " SizeBytes:" << mensajeConId->mensajeXml.getSizeBytes();
 			Log::getInstance()->info(mensajeLog.str());
 
+
+			//Ahora deberia pedir todas las colas de los usuarios que no tengan esa id, esto no va
 			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(mensajeConId->id);
 
+		
 			//TODO OJO aca deberia hacerse el delete sino perdera memoria
 			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
 			MovimientoXml* mensajeDeRespuesta = new MovimientoXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+
+			//Y para respodner
+
+			/*	for(int i = 0; i < cantidadDeUsuariosActuales(); i++){
+				if(i != mensajeConId->id){
+					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
+					MovimientoXml* mensajeDeRespuesta = new MovimientoXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
+				}
+			}*/
+
+
 
 			//VALIDAR mensaje
 			

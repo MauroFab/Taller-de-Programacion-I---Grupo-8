@@ -17,11 +17,11 @@ public:
 	int cantidadDeUsuarios();
 	//No tratar de liberar la memoria de la cola pedida, simplemente llamar a eliminarUsuario(int idUsuario) al final
 	std::queue<MovimientoXml*>* obtenerColaDeUsuario(int idUsuario);
+	int cantidadDeUsuariosActuales;
 private:
 	std::queue<MovimientoXml*>* colaDeMensajesDeUsuario;
 	bool* estaTomadaLaId;
 	int cantidadMaximaDeUsuarios;
-	int cantidadDeUsuariosActuales;
 	int obtenerUnaIdLibre();
 };
 
