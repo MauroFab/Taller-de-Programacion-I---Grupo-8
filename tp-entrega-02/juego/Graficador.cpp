@@ -5,7 +5,7 @@ Graficador* Graficador::instance = NULL;
 
 
 Graficador* Graficador::getInstance() {
-	
+
 	if(!instanceFlag){
         instance = new Graficador();
         instanceFlag = true;
@@ -17,9 +17,9 @@ Graficador::Graficador(void) {
 }
 
 Graficador::~Graficador(void) {
-	
+
 	std::map<int, GraficoAvion*>::iterator it;
-	
+
 	for (it = graficosAvion.begin(); it != graficosAvion.end(); it++) {
 		delete ((*it).second);
 	}
@@ -47,7 +47,7 @@ void Graficador::graficarMovimientos(std::map<int,Movimiento*> listaAviones) {
 	std::map<int, Movimiento*>::iterator it;
 
 	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
-		
+
 		GraficoAvion* grafico = graficosAvion.at(it->second->getId());
 
 		SDL_Rect* clip = grafico->getCurrentClip(it->second->getTipo()); // TODO PRUEBA(*it)->getFrame());
@@ -56,7 +56,7 @@ void Graficador::graficarMovimientos(std::map<int,Movimiento*> listaAviones) {
 
 		textura->render(it->second->getPosX(), it->second->getPosY(), renderer, clip);
 
-		this->graficarProyectiles(it->second->getListaProyectiles());
+		this->graficarProyectiles(it->second->getEstadoProyectiles());
 	}
 }
 
