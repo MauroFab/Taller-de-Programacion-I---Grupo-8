@@ -10,7 +10,7 @@ GraficoAvion::GraficoAvion(SDL_Renderer* renderer, int id, std::string pathAvion
 
 	if( !textura->cargarDeArchivo( pathAvion, renderer ) ) {
 
-		textura->cargarDeArchivo("avionNoEncontrado.bmp", renderer);
+		textura->cargarDeArchivo(FAKE_PATH_AVION_NOT_ENC, renderer);
 		cantidadFotogramas = 1;
 
 	} else {

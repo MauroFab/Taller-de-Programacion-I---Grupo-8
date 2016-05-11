@@ -1,10 +1,19 @@
 #pragma once
+#ifndef _PROYECTIL_H_
+#define _PROYECTIL_H_
 
-#include "Constantes.h"
+#include <stdio.h>
 #include "Textura.h"
 #include "ConfiguracionJuegoXML.h"
 #include "ConfiguracionProyectilXML.h"
 #include "EstadoProyectil.h"
+
+//************************
+//esto NOO tiene que estar
+#define FAKE_2_SCREEN_WIDTH 480
+#define FAKE_2_SCREEN_HEIGHT 640
+
+//************************
 
 class Proyectil {
 
@@ -46,3 +55,4 @@ class Proyectil {
 		int velocidadX, velocidadY;
 };
 
+#endif //_PROYECTIL_H_

@@ -143,9 +143,6 @@
     <ClInclude Include="..\common\IGenericaVO.h">
       <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\xml\MovimientoXml.h">
-      <Filter>Archivos de encabezado\Parser</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\xml\EstadoAvionXml.h">
       <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>

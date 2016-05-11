@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _MAPA_H_
+#define _MAPA_H_
 #include "Textura.h"
 #include "ElementoDelMapa.h"
 #include "ConfiguracionJuegoXML.h"
@@ -39,3 +41,4 @@ private:
 	void graficarElementosDelMapa();
 };
 
+#endif //_MAPA_H_

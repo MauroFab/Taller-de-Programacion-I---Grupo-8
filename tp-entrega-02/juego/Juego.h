@@ -3,9 +3,9 @@
 
 #include "../common/observer/Observable.h"
 #include "EstadoAvion.h"
-#include "Constantes.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2\SDL_image.h>
 #include <map>
 
 class Juego : public Observable

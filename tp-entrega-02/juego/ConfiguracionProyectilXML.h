@@ -1,5 +1,9 @@
 #pragma once
-#include "Constantes.h"
+#ifndef _CONFIGURACIONPROYECTILXML_H_
+#define _CONFIGURACIONPROYECTILXML_H_
+
+#include <string>
+using namespace std;
 
 class ConfiguracionProyectilXML {
 
@@ -23,3 +27,4 @@ private:
 	int velocidad;
 };
 
+#endif //_CONFIGURACIONPROYECTILXML_H_

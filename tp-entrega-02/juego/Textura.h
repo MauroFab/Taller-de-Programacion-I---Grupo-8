@@ -1,7 +1,9 @@
 #ifndef TEXTURA_H_
 #define TEXTURA_H_
-
-#include "Constantes.h"
+#include <string>
+#include <SDL2\SDL.h>
+#include <SDL2\SDL_image.h>
+using namespace std;
 
 class Textura
 {

@@ -2,8 +2,8 @@
 
 Avion::Avion(SDL_Renderer* rendererRecibido) {
 
-    posicionX = 200;
-    posicionY = 400;
+    posicionX = FAKE_POS_X;
+    posicionY = FAKE_POS_Y;
 
     velocidadX = 0;
     velocidadY = 0;
@@ -110,7 +110,7 @@ void Avion::mover() {
 		 posicionX += velocidadX;
 
 		// Para que no se salga de la pantalla en X
-	   if( ( posicionX < 0 ) || ( posicionX + anchoFotograma > SCREEN_WIDTH ) ){
+	   if( ( posicionX < 0 ) || ( posicionX + anchoFotograma > FAKE_SCREEN_WIDTH ) ){
 			posicionX -= velocidadX;
 	   }
 
@@ -118,7 +118,7 @@ void Avion::mover() {
 		posicionY += velocidadY;
 
 		// Para que no se salga de la pantalla en Y
-	   if( ( posicionY < 0 ) || ( posicionY + altoFotograma > SCREEN_HEIGHT ) ){
+	   if( ( posicionY < 0 ) || ( posicionY + altoFotograma > FAKE_SCREEN_HEIGHT ) ){
 		    posicionY -= velocidadY;
 	   }
 	}

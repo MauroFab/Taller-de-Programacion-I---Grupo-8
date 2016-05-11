@@ -1,6 +1,7 @@
 #pragma once
+#ifndef _ESTADOAVION_H_
+#define _ESTADOAVION_H_
 
-#include "Constantes.h"
 #include "EstadoProyectil.h"
 
 #include <list>
@@ -32,4 +33,4 @@ private:
 	int y;
 	std::list<EstadoProyectil*> estadosProyectiles;
 };
-
+#endif //_ESTADOAVION_H_

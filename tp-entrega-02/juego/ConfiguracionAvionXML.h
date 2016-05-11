@@ -1,5 +1,8 @@
 #pragma once
-#include "Constantes.h"
+#ifndef _CONFIGURACIONAVIONXML_H_
+#define _CONFIGURACIONAVIONXML_H_
+#include <string>
+using namespace std;
 
 class ConfiguracionAvionXML {
 
@@ -24,4 +27,4 @@ private:
 	int velocidad;
 	int id;
 };
-
+#endif //_CONFIGURACIONAVIONXML_H_

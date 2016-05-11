@@ -76,5 +76,26 @@
 		<vueltaSpriteId>avion_gris</vueltaSpriteId>
 		<disparosSpriteId>disparo</disparosSpriteId>
 	</avion>
+	<avion>
+		<velocidadDesplazamiento>12</velocidadDesplazamiento>
+		<velocidadDisparos>7</velocidadDisparos>
+		<avionSpriteId>avion_1</avionSpriteId>
+		<vueltaSpriteId>disparo_1</vueltaSpriteId>
+		<disparosSpriteId>vuelta_1</disparosSpriteId>
+	</avion>
+	<avion>
+		<velocidadDesplazamiento>13</velocidadDesplazamiento>
+		<velocidadDisparos>8</velocidadDisparos>
+		<avionSpriteId>avion_2</avionSpriteId>
+		<vueltaSpriteId>disparo_2</vueltaSpriteId>
+		<disparosSpriteId>vuelta_2</disparosSpriteId>
+	</avion>
+	<avion>
+		<velocidadDesplazamiento>14</velocidadDesplazamiento>
+		<velocidadDisparos>9</velocidadDisparos>
+		<avionSpriteId>avion_3</avionSpriteId>
+		<vueltaSpriteId>disparo_3</vueltaSpriteId>
+		<disparosSpriteId>vuelta_3</disparosSpriteId>
+	</avion>
 	</aviones>
 </servidor>

@@ -1,5 +1,7 @@
 #pragma once
-#include "Constantes.h"
+#ifndef _GRAFICADOR_H_
+#define _GRAFICADOR_H_
+
 #include "Movimiento.h"
 #include "EstadoAvion.h"
 #include "EstadoProyectil.h"
@@ -37,3 +39,4 @@ private:
 	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
 };
 
+#endif //_GRAFICADOR_H_

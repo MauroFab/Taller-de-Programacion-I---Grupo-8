@@ -1,6 +1,21 @@
 #pragma once
+#ifndef _AVION_H_
+#define _AVION_H_
 
-#include "Constantes.h"
+#include <SDL2\SDL.h>
+#include <SDL2\SDL_image.h>
+#include <stdio.h>
+#include <string>
+
+//************************
+//esto NOO tiene que estar
+#define FAKE_SCREEN_WIDTH 480
+#define FAKE_SCREEN_HEIGHT 640
+
+#define FAKE_POS_X 200
+#define FAKE_POS_Y 400
+//************************
+
 #include "Textura.h"
 #include "Proyectil.h"
 #include "ConfiguracionJuegoXML.h"
@@ -49,3 +64,4 @@ class Avion {
 		// Velocidad del avion
 		int velocidadX, velocidadY;
 };
+#endif //_AVION_H_

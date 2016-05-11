@@ -215,9 +215,6 @@ int MainCliente::conectar(){
 					//se procede a decodificar el resto del mensaje
 					//se decodifica el escenario completo
 					offset += Protocolo::decodificar(bufferEntrada + offset,this->servidorXml);
-					TCadena1000 cadena;
-					this->servidorXml->toString(cadena);
-					printf("%s",cadena);
 
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(recibirMensajes, "recibirMensajes", &sock);

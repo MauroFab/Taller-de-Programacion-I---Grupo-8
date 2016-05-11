@@ -124,7 +124,6 @@
     <ClInclude Include="..\common\xml\EstadoProyectilXml.h" />
     <ClInclude Include="..\common\xml\FondoXml.h" />
     <ClInclude Include="..\common\xml\MensajeXml.h" />
-    <ClInclude Include="..\common\xml\MovimientoXml.h" />
     <ClInclude Include="..\common\xml\ParserXml.h" />
     <ClInclude Include="..\common\xml\ServidorXml.h" />
     <ClInclude Include="..\common\xml\SpriteXml.h" />

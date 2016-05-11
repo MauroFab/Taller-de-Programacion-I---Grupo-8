@@ -141,7 +141,6 @@
     <ClInclude Include="..\juego\ConfiguracionAvionXML.h" />
     <ClInclude Include="..\juego\ConfiguracionJuegoXML.h" />
     <ClInclude Include="..\juego\ConfiguracionProyectilXML.h" />
-    <ClInclude Include="..\juego\Constantes.h" />
     <ClInclude Include="..\juego\ElementoDelMapa.h" />
     <ClInclude Include="..\juego\EstadoAvion.h" />
     <ClInclude Include="..\juego\EstadoProyectil.h" />

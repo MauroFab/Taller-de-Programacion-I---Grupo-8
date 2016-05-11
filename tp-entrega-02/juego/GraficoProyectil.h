@@ -1,5 +1,8 @@
 #pragma once
-#include "Constantes.h"
+#ifndef _GRAFICOPROYECTIL_H_
+#define _GRAFICOPROYECTIL_H_
+
+#include <stdio.h>
 #include "Textura.h"
 
 class GraficoProyectil {
@@ -19,4 +22,4 @@ private:
 
 	int cantidadFotogramas;
 };
-
+#endif //_GRAFICOPROYECTIL_H_

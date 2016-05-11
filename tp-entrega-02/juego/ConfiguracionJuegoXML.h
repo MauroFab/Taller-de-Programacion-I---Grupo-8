@@ -1,5 +1,7 @@
 #pragma once
-#include "Constantes.h"
+#ifndef _CONFIGURACIONJUEGOXML_H_
+#define _CONFIGURACIONJUEGOXML_H_
+
 #include "ConfiguracionAvionXML.h"
 #include "ConfiguracionProyectilXML.h"
 
@@ -38,3 +40,4 @@ private:
 	ConfiguracionProyectilXML* configProyectil;
 };
 
+#endif //_CONFIGURACIONJUEGOXML_H_

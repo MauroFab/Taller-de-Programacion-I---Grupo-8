@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _ELEMENTODELMAPA_H_
+#define _ELEMENTODELMAPA_H_
 #include "Textura.h"
 class ElementoDelMapa
 {
@@ -17,4 +19,4 @@ private:
 	SDL_Renderer* gRenderer;
 	Textura* textura;
 };
-
+#endif //_ELEMENTODELMAPA_H_

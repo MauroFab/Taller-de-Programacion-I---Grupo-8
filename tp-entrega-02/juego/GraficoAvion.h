@@ -1,6 +1,13 @@
 #pragma once
-#include "Constantes.h"
+#ifndef _GRAFICOAVION_H_
+#define _GRAFICOAVION_H_
+
 #include "Textura.h"
+
+//**************************
+//Esto NOO debe estar
+#define FAKE_PATH_AVION_NOT_ENC "avionNoEncontrado.bmp"
+//**************************
 
 class GraficoAvion {
 
@@ -21,4 +28,4 @@ private:
 	int cantidadFotogramas;
 };
 
-
+#endif //_GRAFICOAVION_H_

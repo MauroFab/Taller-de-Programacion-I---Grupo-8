@@ -1,5 +1,6 @@
 #pragma once
-#include "Constantes.h"
+#ifndef _ESTADOPROYECTIL_H_
+#define _ESTADOPROYECTIL_H_
 
 class EstadoProyectil {
 
@@ -18,4 +19,4 @@ private:
 	int x;
 	int y;
 };
-
+#endif //_ESTADOPROYECTIL_H_

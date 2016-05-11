@@ -52,7 +52,7 @@ void Proyectil::setCoordenasDeComienzo(int posX, int posY) {
 }
 
 bool Proyectil::estaEnPantalla() {
-	return (posicionY >= -SCREEN_HEIGHT);
+	return (posicionY >= - FAKE_2_SCREEN_HEIGHT);
 }
 
 void Proyectil::mover() {
