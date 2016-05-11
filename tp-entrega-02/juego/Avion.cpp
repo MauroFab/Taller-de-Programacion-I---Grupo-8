@@ -152,7 +152,18 @@ void Avion::render()
 
 EstadoAvion* Avion::getEstado() {
 
-	return new EstadoAvion(id, frame, posicionX, posicionY);
+	EstadoAvion*  estado =  new EstadoAvion(id, frame, posicionX, posicionY); 
+
+	std::list<EstadoProyectil*> lista;
+
+	std::list<Proyectil*>::iterator it;
+
+	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
+
+		estado->agregarEstadoProyectil((*it)->getEstado());
+	}
+
+	return estado;
 }
 
 std::list<EstadoProyectil*> Avion::getEstadoProyectiles() {
