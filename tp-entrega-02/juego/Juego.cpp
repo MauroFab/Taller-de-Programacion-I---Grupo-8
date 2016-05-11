@@ -13,7 +13,7 @@ bool Juego::instanceFlag = false;
 Juego* Juego::instance = NULL;
 
 Juego* Juego::getInstance() {
-	
+
 	if(!instanceFlag){
         instance = new Juego();
         instanceFlag = true;
@@ -58,7 +58,7 @@ bool Juego::init() {
 
 		//Create window
 
-		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		gWindow = SDL_CreateWindow( "1942", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( gWindow == NULL )
 		{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -146,7 +146,7 @@ void Juego::ejecutar() {
 
 	// Test para ver si se grafican otros aviones
 	Graficador::getInstance()->inicializar(gRenderer);
-	Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);  
+	Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);
 	//Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
 
 	Mapa::getInstace()->inicializar(gRenderer);
@@ -176,7 +176,7 @@ void Juego::ejecutar() {
 	while(test < 1000000000)
 		test++;
 	/*------------------------------------------------------------------*/
-	EstadoAvion* estadoAnterior = NULL; 
+	EstadoAvion* estadoAnterior = NULL;
 
 	//Mientras el usuario no desee salir
 	while( !quit ) {
@@ -201,7 +201,7 @@ void Juego::ejecutar() {
 		// TODO2: redefinir los operadores == != en estadoAvion.
 		EstadoAvion* estadoActual = avion.getEstado();
 
-		if(estadoAnterior == NULL || !(estadoAnterior->getFrame() == estadoActual->getFrame() 
+		if(estadoAnterior == NULL || !(estadoAnterior->getFrame() == estadoActual->getFrame()
 			&& estadoAnterior->getPosX() == estadoActual->getPosX() && estadoAnterior->getPosY() == estadoActual->getPosY()))
 		{
 			estadoAnterior = estadoActual;
@@ -240,7 +240,7 @@ void Juego::actualizarMovimientos(Movimiento* movimiento){
 	map<int,Movimiento*>::iterator  it = Juego::getInstance()->movimientosDeCompetidores.find(idAvion);
 
 	if( it != Juego::getInstance()->movimientosDeCompetidores.end() ){
-				
+
 		it->second->setTipo(movimiento->getTipo());
 		it->second->setPosX(movimiento->getPosX());
 		it->second->setPosY(movimiento->getPosY());
@@ -248,8 +248,8 @@ void Juego::actualizarMovimientos(Movimiento* movimiento){
 		delete movimiento;
 	}
 	else{
-				
-		Juego::getInstance()->movimientosDeCompetidores[idAvion] = movimiento;					
+
+		Juego::getInstance()->movimientosDeCompetidores[idAvion] = movimiento;
 	}
 
 	SDL_mutexV(mut);
@@ -259,7 +259,7 @@ void Juego::notificarMovimiento(int id, int tipo, int x, int y){
 
 	vector<void*> argv;
 
-	argv.push_back(new Movimiento(id, tipo, x, y)); 
+	argv.push_back(new Movimiento(id, tipo, x, y));
 
 	// indicar bien la cantidad de valores que son enviados
 	notificar(0, &argv[0]);
