@@ -9,7 +9,7 @@ EstadoAvion::EstadoAvion(int id, int frame, int posX, int posY) {
 }
 
 EstadoAvion::~EstadoAvion(void) {
-	delete[] &estadosProyectiles;
+	//delete[] &estadosProyectiles;
 }
 
 int EstadoAvion::getId() {

@@ -140,14 +140,14 @@ void Juego::ejecutar() {
 	SDL_Event e;
 
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
-	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 6, 102, 195, 10);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
+	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 6, 102, 195, 10);
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
 	// Test para ver si se grafican otros aviones
 	Graficador::getInstance()->inicializar(gRenderer);
-	//Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);
-	Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
+	Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);
+	//Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
 
 	Mapa::getInstace()->inicializar(gRenderer);
 	Mapa::getInstace()->crearIslaEn(1, 300);
@@ -197,19 +197,7 @@ void Juego::ejecutar() {
 			avion.handleEvent( e );
 		}
 
-		//// Envio los movimientos del avion solo si cambiaron
-		// TODO2: redefinir los operadores == != en estadoAvion.
-		EstadoAvion* estadoActual = avion.getEstado();
-
-		if(estadoAnterior == NULL || !(estadoAnterior->getFrame() == estadoActual->getFrame()
-			&& estadoAnterior->getPosX() == estadoActual->getPosX() && estadoAnterior->getPosY() == estadoActual->getPosY()))
-		{
-			estadoAnterior = estadoActual;
-			notificarMovimiento(estadoActual);
-		}
-		else {
-			delete estadoActual;
-		}
+		notificarMovimiento(avion.getEstado());
 
 		//Clear screen
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );

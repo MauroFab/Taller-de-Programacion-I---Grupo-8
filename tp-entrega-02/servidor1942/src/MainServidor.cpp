@@ -446,6 +446,13 @@ int MainServidor::mainPrincipal(){
 					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
 					EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getFrame(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
 
+					std::list<EstadoProyectilXml*>::iterator it;
+					std::list<EstadoProyectilXml*> listaP = mensajeConId->mensajeXml.getEstadosProyectiles();
+
+					for (it = listaP.begin(); it != listaP.end(); it++) {
+						mensajeDeRespuesta->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+					}
+
 					// SDL_mutexP(mut);
 					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
 					// SDL_mutexV(mut);
