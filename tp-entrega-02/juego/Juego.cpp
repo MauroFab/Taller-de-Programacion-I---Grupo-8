@@ -223,7 +223,7 @@ void Juego::ejecutar() {
 		//Render sprite
 		avion.render();
 
-		//TODO DESCOMENTAR Graficador::getInstance()->graficarMovimientos(movimientosDeCompetidores);
+		Graficador::getInstance()->graficarAviones(movimientosDeCompetidores);
 
 		//Update screen
 		SDL_RenderPresent( gRenderer );

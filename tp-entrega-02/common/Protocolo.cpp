@@ -735,7 +735,9 @@ int Protocolo::codificar(EstadoAvionXml &estadoAvionXml,char * buffer){
 
 	std::list<EstadoProyectilXml*>::iterator it;
 
-	for (it = estadoAvionXml.getEstadosProyectiles().begin(); it != estadoAvionXml.getEstadosProyectiles().end(); it++) {
+	std::list<EstadoProyectilXml*> lista = estadoAvionXml.getEstadosProyectiles();
+
+	for (it = lista.begin(); it != lista.end(); it++) {
 		EstadoProyectilXml* estadoProyectilXml = (*it);
 		offset += codificar(*estadoProyectilXml,buffer + offset);
 	}

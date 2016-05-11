@@ -135,7 +135,9 @@ int MainCliente::recibirMensajes(void* ptrSock)
 			// Itero la lista de proyectiles y los agrego al estado avion 
 			std::list<EstadoProyectilXml*>::iterator it;
 
-			for (it = pMensj->getEstadosProyectiles().begin(); it != pMensj->getEstadosProyectiles().end(); it++) {
+			std::list<EstadoProyectilXml*> lista = pMensj->getEstadosProyectiles();
+
+			for (it = lista.begin(); it != lista.end(); it++) {
 				estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
 			}
 			
@@ -378,7 +380,9 @@ void MainCliente::actualizar(int argc, void* argv[]){
 	EstadoAvionXml* msjMov = new EstadoAvionXml(mov->getId(), mov->getFrame(), mov->getPosX(), mov->getPosY());
 
 	std::list<EstadoProyectil*>::iterator it;
-	for (it = mov->getEstadosProyectiles().begin(); it != mov->getEstadosProyectiles().end(); it++) {
+	std::list<EstadoProyectil*> listaP = mov->getEstadosProyectiles();
+
+	for (it = listaP.begin(); it != listaP.end(); it++) {
 		msjMov->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
 	}
 
