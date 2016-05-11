@@ -11,7 +11,8 @@
 #include "./xml/ElementoXml.h"
 #include "./xml/FondoXml.h"
 #include "./xml/VentanaXml.h"
-#include "./xml/MovimientoXml.h"
+#include "./xml/EstadoAvionXml.h"
+#include "./xml/EstadoProyectilXml.h"
 
 #define MAX_CADENA	300
 //buffer suficientemente grande para todo el escenario (2Kb de datos)
@@ -62,9 +63,10 @@ public:
 	static int codificar(ServidorXml &servidorXml,char * buffer);
 	static int decodificar(char * buffer,ServidorXml *servidorXml);
 
-	static int codificar(MovimientoXml &movimientoXml,char * buffer);
-	static int decodificar(char * buffer,MovimientoXml *movimientoXml);
-
+	static int codificar(EstadoAvionXml &estadoProyectilXml,char * buffer);
+	static int decodificar(char * buffer,EstadoAvionXml *estadoProyectilXml);
+	static int codificar(EstadoProyectilXml &estadoProyectilXml,char * buffer);
+	static int decodificar(char * buffer,EstadoProyectilXml *estadoProyectil);
 };
 
 #endif //_PROTOCOLO_H_

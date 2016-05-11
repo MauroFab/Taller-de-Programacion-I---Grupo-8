@@ -159,14 +159,14 @@
     <ClCompile Include="..\juego\FondoInicio.cpp">
       <Filter>Archivos de código fuente\Juego\Modelo</Filter>
     </ClCompile>
-    <ClCompile Include="..\juego\Movimiento.cpp">
-      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\MovimientoXml.cpp">
-      <Filter>Archivos de código fuente\Parser</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\observer\Observable.cpp">
       <Filter>Archivos de código fuente\Observador</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\EstadoAvionXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\EstadoProyectilXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,12 +263,6 @@
     <ClInclude Include="..\juego\FondoInicio.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
-    <ClInclude Include="..\juego\Movimiento.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\xml\MovimientoXml.h">
-      <Filter>Archivos de encabezado\Parser</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\observer\Observable.h">
       <Filter>Archivos de encabezado\Observador</Filter>
     </ClInclude>
@@ -277,6 +271,12 @@
     </ClInclude>
     <ClInclude Include="..\juego\ElementoDelMapa.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\EstadoAvionXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\EstadoProyectilXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #pragma once
 #include <queue> 
 #include <list>
-#include "../../common/xml/MovimientoXml.h"
+#include "../../common/xml/EstadoAvionXml.h"
 using namespace std;
 
 //Esta clase esta hecha para crear, eliminar y brindar la dirección a las colas de cada usuario (Cliente que se le acepto la conexion)
@@ -16,10 +16,10 @@ public:
 	void eliminarUsuario(int idUsuario);
 	int cantidadDeUsuarios();
 	//No tratar de liberar la memoria de la cola pedida, simplemente llamar a eliminarUsuario(int idUsuario) al final
-	std::queue<MovimientoXml*>* obtenerColaDeUsuario(int idUsuario);
+	std::queue<EstadoAvionXml*>* obtenerColaDeUsuario(int idUsuario);
 	int cantidadDeUsuariosActuales;
 private:
-	std::queue<MovimientoXml*>* colaDeMensajesDeUsuario;
+	std::queue<EstadoAvionXml*>* colaDeMensajesDeUsuario;
 	bool* estaTomadaLaId;
 	int cantidadMaximaDeUsuarios;
 	int obtenerUnaIdLibre();

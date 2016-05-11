@@ -2,7 +2,7 @@
 #define _JUEGO_H_
 
 #include "../common/observer/Observable.h"
-#include "Movimiento.h"
+#include "EstadoAvion.h"
 #include "Constantes.h"
 
 #include <SDL2/SDL.h>
@@ -18,7 +18,7 @@ public:
 
 	void ejecutar();
 	void close();
-	void actualizarMovimientos(Movimiento* movimiento);
+	void actualizarMovimientos(EstadoAvion* estadoAvion);
 
 private:
 
@@ -32,9 +32,9 @@ private:
 	SDL_Renderer* gRenderer;
 
 	SDL_mutex *mut; // mutex para proteger la lista de movimientos
-	std::map<int,Movimiento*> movimientosDeCompetidores;
+	std::map<int,EstadoAvion*> movimientosDeCompetidores;
 
-	void notificarMovimiento(int id, int tipo, int x, int y);
+	void notificarMovimiento(EstadoAvion* estadoAvion);
 };
 
 #endif //_JUEGO_H_

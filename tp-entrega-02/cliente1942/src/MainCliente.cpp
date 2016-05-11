@@ -1,5 +1,6 @@
 #include "../../juego/Juego.h"
-#include "../../juego/Movimiento.h"
+#include "../../juego/EstadoAvion.h"
+#include "../../juego/EstadoProyectil.h"
 #include <map>
 
 #include "MainCliente.h"
@@ -126,12 +127,19 @@ int MainCliente::recibirMensajes(void* ptrSock)
 
 			//si seguimos conectados
 			//--------------------------------
-			MovimientoXml * pMensj = new MovimientoXml();
+			EstadoAvionXml * pMensj = new EstadoAvionXml();
 			Protocolo::decodificar(bufferEntrada,pMensj);
 
-			Movimiento* movimiento = new Movimiento(pMensj->getId(), pMensj->getTipo(), pMensj->getPosX(), pMensj->getPosY());
+			EstadoAvion* estadoAvion = new EstadoAvion(pMensj->getId(), pMensj->getFrame(), pMensj->getPosX(), pMensj->getPosY());
+
+			// Itero la lista de proyectiles y los agrego al estado avion 
+			std::list<EstadoProyectilXml*>::iterator it;
+
+			for (it = pMensj->getEstadosProyectiles().begin(); it != pMensj->getEstadosProyectiles().end(); it++) {
+				estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+			}
 			
-			Juego::getInstance()->actualizarMovimientos(movimiento);
+			Juego::getInstance()->actualizarMovimientos(estadoAvion);
 
 			delete pMensj;
 
@@ -365,9 +373,15 @@ int MainCliente::menu(){
 
 void MainCliente::actualizar(int argc, void* argv[]){
 
-	Movimiento* mov = (Movimiento*)argv[0];
+	EstadoAvion* mov = (EstadoAvion*)argv[0];
 
-	MovimientoXml* msjMov = new MovimientoXml(mov->getId(), mov->getTipo(), mov->getPosX(), mov->getPosY());
+	EstadoAvionXml* msjMov = new EstadoAvionXml(mov->getId(), mov->getFrame(), mov->getPosX(), mov->getPosY());
+
+	std::list<EstadoProyectil*>::iterator it;
+	for (it = mov->getEstadosProyectiles().begin(); it != mov->getEstadosProyectiles().end(); it++) {
+		msjMov->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+	}
+
 
 	char * buffEnvio = new char[MAX_BUFFER];
 	int sizeBytesTotalLista = Protocolo::codificar(*msjMov,buffEnvio);

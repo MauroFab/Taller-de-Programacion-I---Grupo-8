@@ -1,5 +1,9 @@
 #pragma once
+
 #include "Constantes.h"
+#include "EstadoProyectil.h"
+
+#include <list>
 
 class EstadoAvion {
 
@@ -12,6 +16,13 @@ public:
 	int getFrame();
 	int getPosX();
 	int getPosY();
+	std::list<EstadoProyectil*> EstadoAvion::getEstadosProyectiles();
+
+	void setId(int id);
+	void setFrame(int frame);
+	void setPosX(int posX);
+	void setPosY(int posY);
+	void agregarEstadoProyectil(EstadoProyectil* estadoProyectil);
 
 private:
 
@@ -19,5 +30,6 @@ private:
 	int frame;
 	int x;
 	int y;
+	std::list<EstadoProyectil*> estadosProyectiles;
 };
 

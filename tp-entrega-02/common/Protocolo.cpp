@@ -705,13 +705,14 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	return offset;
 }
 	
-	int Protocolo::codificar(MovimientoXml &movimientoXml,char * buffer){
+int Protocolo::codificar(EstadoAvionXml &estadoAvionXml,char * buffer){
 
-	int sizeBytes = movimientoXml.getSizeBytes();
-	int id = movimientoXml.getId();
-	int tipo = movimientoXml.getTipo(); 
-	int posX = movimientoXml.getPosX(); 
-	int posY = movimientoXml.getPosY();
+	int sizeBytes = estadoAvionXml.getSizeBytes();
+	int id = estadoAvionXml.getId();
+	int frame = estadoAvionXml.getFrame(); 
+	int posX = estadoAvionXml.getPosX(); 
+	int posY = estadoAvionXml.getPosY();
+	int sizeProyectiles = estadoAvionXml.getEstadosProyectiles().size();
 	int offset = 0;
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
@@ -720,56 +721,133 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	memcpy(buffer + offset,&id,sizeof(int));
 	offset += sizeof(int);
 	
-	memcpy(buffer + offset,&tipo,sizeof(int));
+	memcpy(buffer + offset,&frame,sizeof(int));
 	offset += sizeof(int);
-	
+
 	memcpy(buffer + offset,&posX,sizeof(int));
 	offset += sizeof(int);
-	
+
 	memcpy(buffer + offset,&posY,sizeof(int));
 	offset += sizeof(int);
 
-	TCadena1000 cadena;
-	movimientoXml.toString(cadena);
-	printf("%s\n",cadena);
+	memcpy(buffer + offset,&sizeProyectiles,sizeof(int));
+	offset += sizeof(int);
 
+	std::list<EstadoProyectilXml*>::iterator it;
+
+	for (it = estadoAvionXml.getEstadosProyectiles().begin(); it != estadoAvionXml.getEstadosProyectiles().end(); it++) {
+		EstadoProyectilXml* estadoProyectilXml = (*it);
+		offset += codificar(*estadoProyectilXml,buffer + offset);
+	}
+
+	TCadena1000 cadena;
+	estadoAvionXml.toString(cadena);
+	printf("%s\n",cadena);		
 	return offset;
+
 }
 
-int Protocolo::decodificar(char * buffer,MovimientoXml *movimientoXml){
+int Protocolo::decodificar(char * buffer,EstadoAvionXml *estadoAvionXml){
 
 	int sizeBytes = -1;
 	int id = -1;
-	int tipo = -1;
+	int frame = -1;
 	int posX = -1;
 	int posY = -1;
+	int sizeProyectiles = -1;
 	int offset = 0;
-
+	
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
 	memcpy(&id,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
-	memcpy(&tipo,buffer + offset,sizeof(int));
+	memcpy(&frame,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
 	memcpy(&posX,buffer + offset,sizeof(int));
 	offset += sizeof(int);
-	
+
 	memcpy(&posY,buffer + offset,sizeof(int));
 	offset += sizeof(int);
+		
+	estadoAvionXml->setId(id);
+	estadoAvionXml->setFrame(frame);
+	estadoAvionXml->setPosX(posX);
+	estadoAvionXml->setPosY(posY);
 	
-	movimientoXml->setId(id);
-	movimientoXml->setTipo(tipo);
-	movimientoXml->setPosX(posX);
-	movimientoXml->setPosY(posY);
-	movimientoXml->calculateSizeBytes();
-	
+	memcpy(&sizeProyectiles,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	for (int i = 0; i < sizeProyectiles;i++){
+		EstadoProyectilXml* estadoProyectil = new EstadoProyectilXml();
+		offset += decodificar(buffer + offset,estadoProyectil);
+		estadoAvionXml->agregarEstadoProyectil(estadoProyectil);
+	}
+
+	estadoAvionXml->calculateSizeBytes();
 	TCadena1000 cadena;
-	movimientoXml->toString(cadena);
-	printf("%s\n",cadena);		
-	
+	estadoAvionXml->toString(cadena);
+	printf("%s\n",cadena);	
 	return offset;
 }
 
+int Protocolo::codificar(EstadoProyectilXml &estadoProyectilXml,char * buffer){
+
+	int sizeBytes = estadoProyectilXml.getSizeBytes();
+	int frame = estadoProyectilXml.getFrame(); 
+	int posX = estadoProyectilXml.getPosX(); 
+	int posY = estadoProyectilXml.getPosY();
+	int offset = 0;
+
+	memcpy(buffer + offset,&sizeBytes,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&frame,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&posX,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&posY,sizeof(int));
+	offset += sizeof(int);
+
+	TCadena1000 cadena;
+	estadoProyectilXml.toString(cadena);
+	printf("%s\n",cadena);		
+	return offset;
+}
+
+int Protocolo::decodificar(char * buffer,EstadoProyectilXml *estadoProyectilXml){
+
+	int sizeBytes = -1;
+	int frame = -1;
+	int posX = -1;
+	int posY = -1;
+	int offset = 0;
+	
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&frame,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&posX,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&posY,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+		
+	estadoProyectilXml->setFrame(frame);
+	estadoProyectilXml->setPosX(posX);
+	estadoProyectilXml->setPosY(posY);
+	
+	estadoProyectilXml->calculateSizeBytes();
+
+	TCadena1000 cadena;
+	estadoProyectilXml->toString(cadena);
+	printf("%s\n",cadena);	
+
+	return offset;
+}

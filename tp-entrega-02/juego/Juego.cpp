@@ -205,7 +205,7 @@ void Juego::ejecutar() {
 			&& estadoAnterior->getPosX() == estadoActual->getPosX() && estadoAnterior->getPosY() == estadoActual->getPosY()))
 		{
 			estadoAnterior = estadoActual;
-			notificarMovimiento(estadoActual->getId(), 1, estadoActual->getPosX(), estadoActual->getPosY());
+			notificarMovimiento(estadoActual);
 		}
 		else {
 			delete estadoActual;
@@ -223,7 +223,7 @@ void Juego::ejecutar() {
 		//Render sprite
 		avion.render();
 
-		Graficador::getInstance()->graficarMovimientos(movimientosDeCompetidores);
+		//TODO DESCOMENTAR Graficador::getInstance()->graficarMovimientos(movimientosDeCompetidores);
 
 		//Update screen
 		SDL_RenderPresent( gRenderer );
@@ -232,36 +232,35 @@ void Juego::ejecutar() {
 	close();
 }
 
-void Juego::actualizarMovimientos(Movimiento* movimiento){
+void Juego::actualizarMovimientos(EstadoAvion* estadoAvion){
 
 	SDL_mutexP(mut);
 
-	int idAvion = movimiento->getId();
-	map<int,Movimiento*>::iterator  it = Juego::getInstance()->movimientosDeCompetidores.find(idAvion);
+	int idAvion = estadoAvion->getId();
+	map<int,EstadoAvion*>::iterator  it = Juego::getInstance()->movimientosDeCompetidores.find(idAvion);
 
 	if( it != Juego::getInstance()->movimientosDeCompetidores.end() ){
 
-		it->second->setTipo(movimiento->getTipo());
-		it->second->setPosX(movimiento->getPosX());
-		it->second->setPosY(movimiento->getPosY());
+		it->second->setFrame(estadoAvion->getFrame());
+		it->second->setPosX(estadoAvion->getPosX());
+		it->second->setPosY(estadoAvion->getPosY());
 
-		delete movimiento;
+		delete estadoAvion;
 	}
 	else{
 
-		Juego::getInstance()->movimientosDeCompetidores[idAvion] = movimiento;
+		Juego::getInstance()->movimientosDeCompetidores[idAvion] = estadoAvion;
 	}
 
 	SDL_mutexV(mut);
 }
 
-void Juego::notificarMovimiento(int id, int tipo, int x, int y){
+void Juego::notificarMovimiento(EstadoAvion* estadoAvion){
 
 	vector<void*> argv;
 
-	argv.push_back(new Movimiento(id, tipo, x, y));
+	argv.push_back(estadoAvion);
 
-	// indicar bien la cantidad de valores que son enviados
 	notificar(0, &argv[0]);
 }
 

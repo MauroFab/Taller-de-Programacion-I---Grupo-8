@@ -43,23 +43,23 @@ void Graficador::cargarDatosProyectil(std::string pathProyectil, int cantFotogra
 	graficoProyectil = new GraficoProyectil(renderer, pathProyectil, cantFotogramas, ancho, alto);
 }
 
-void Graficador::graficarMovimientos(std::map<int,Movimiento*> listaAviones) {
-
-	std::map<int, Movimiento*>::iterator it;
-
-	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
-		
-		GraficoAvion* grafico = graficosAvion.at(it->second->getId());
-
-		SDL_Rect* clip = grafico->getCurrentClip(it->second->getTipo()); // TODO PRUEBA(*it)->getFrame());
-
-		Textura* textura = grafico->getTextura();
-
-		textura->render(it->second->getPosX(), it->second->getPosY(), renderer, clip);
-	}
-	//printf("2");
-}
-
+//void Graficador::graficarMovimientos(std::map<int,Movimiento*> listaAviones) {
+//
+//	std::map<int, Movimiento*>::iterator it;
+//
+//	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
+//		
+//		GraficoAvion* grafico = graficosAvion.at(it->second->getId());
+//
+//		SDL_Rect* clip = grafico->getCurrentClip(it->second->getTipo()); // TODO PRUEBA(*it)->getFrame());
+//
+//		Textura* textura = grafico->getTextura();
+//
+//		textura->render(it->second->getPosX(), it->second->getPosY(), renderer, clip);
+//	}
+//	//printf("2");
+//}
+//
 
 void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones) {
 

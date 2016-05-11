@@ -78,11 +78,14 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\xml\MovimientoXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\Protocolo.cpp">
       <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\EstadoAvionXml.cpp">
+      <Filter>Archivos de código fuente\Paser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\EstadoProyectilXml.cpp">
+      <Filter>Archivos de código fuente\Paser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +144,12 @@
       <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\MovimientoXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\EstadoAvionXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\EstadoProyectilXml.h">
       <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
   </ItemGroup>

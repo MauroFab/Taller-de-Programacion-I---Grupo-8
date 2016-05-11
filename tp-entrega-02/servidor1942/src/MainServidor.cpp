@@ -114,8 +114,8 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 	
 	//el socket es igual a la direccion apuntada por el punteroAlSocket
 	int id = idYPunteroAlSocket.id;
-	std::queue<MovimientoXml*>* colaDeMensajesParaEnviar;
-	MovimientoXml* mensaje;
+	std::queue<EstadoAvionXml*>* colaDeMensajesParaEnviar;
+	EstadoAvionXml* mensaje;
 	bool* seCerroLaConexionPointer = structRecibido.seCerroLaConexion;
 	colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
 	
@@ -154,7 +154,7 @@ int MainServidor::fun_consolaDelServidor(void* punteroAlSocketRecibido){
 	return instan->consolaDelServidor(punteroAlSocketRecibido);	
 }
 
-void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id,MovimientoXml* pMsj){
+void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id,EstadoAvionXml* pMsj){
 
 	SDL_mutexP(mut);
 	MensajeConId* mensajeConId = new MensajeConId;
@@ -198,7 +198,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 		if (len>0){
 			//si seguimos conectados
 			//--------------------------------
-			MovimientoXml * pMensj = new MovimientoXml();
+			EstadoAvionXml * pMensj = new EstadoAvionXml();
 			Protocolo::decodificar(bufferEntrada,pMensj);
 			
 			//--------------------------------
@@ -381,14 +381,14 @@ int MainServidor::fun_avisarATodos(void* data){
 
 
 int MainServidor::avisarATodos(void* data){
-	std::queue<MovimientoXml*>* colaDeMensajesDelUsuario;
+	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 	MensajeConId* mensajeConId=(MensajeConId*)data;
 			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
 
 				if(i != mensajeConId->id){
 
 					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-					MovimientoXml* mensajeDeRespuesta = new MovimientoXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+					EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getFrame(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
 
 					SDL_mutexP(mut);
 					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
@@ -421,16 +421,16 @@ int MainServidor::mainPrincipal(){
 		if(!colaDeMensaje.empty()){
 
 			//consumidor
-			std::queue<MovimientoXml*>* colaDeMensajesDelUsuario;
+			std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 			mensajeConId = colaDeMensaje.front();
 			colaDeMensaje.pop();
 
 			printf("Recibido del usuario:%i", mensajeConId->id);
-			printf(" Movimiento id: %d tipo: %d x: %d y: %d\n",mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+			printf(" Movimiento id: %d frame: %d x: %d y: %d\n",mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getFrame(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
 
 			// Log info
 			stringstream mensajeLog; 
-			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: id: " << mensajeConId->mensajeXml.getId() << " tipo: " <<  mensajeConId->mensajeXml.getTipo() << " x: " << mensajeConId->mensajeXml.getPosX() << " y: " << mensajeConId->mensajeXml.getPosY();
+			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: id: " << mensajeConId->mensajeXml.getId() << " frame: " <<  mensajeConId->mensajeXml.getFrame() << " x: " << mensajeConId->mensajeXml.getPosX() << " y: " << mensajeConId->mensajeXml.getPosY();
 			mensajeLog << " SizeBytes:" << mensajeConId->mensajeXml.getSizeBytes();
 			Log::getInstance()->debug(mensajeLog.str());
 		
@@ -444,7 +444,7 @@ int MainServidor::mainPrincipal(){
 				if(i != mensajeConId->id){
 
 					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-					MovimientoXml* mensajeDeRespuesta = new MovimientoXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getTipo(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+					EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getFrame(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
 
 					// SDL_mutexP(mut);
 					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);

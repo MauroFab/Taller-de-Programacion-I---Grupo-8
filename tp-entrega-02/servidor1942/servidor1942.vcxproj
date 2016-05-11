@@ -97,9 +97,10 @@
     <ClCompile Include="..\common\xml\ConexionXml.cpp" />
     <ClCompile Include="..\common\xml\ElementoXml.cpp" />
     <ClCompile Include="..\common\xml\EscenarioXml.cpp" />
+    <ClCompile Include="..\common\xml\EstadoAvionXml.cpp" />
+    <ClCompile Include="..\common\xml\EstadoProyectilXml.cpp" />
     <ClCompile Include="..\common\xml\FondoXml.cpp" />
     <ClCompile Include="..\common\xml\MensajeXml.cpp" />
-    <ClCompile Include="..\common\xml\MovimientoXml.cpp" />
     <ClCompile Include="..\common\xml\ParserXml.cpp" />
     <ClCompile Include="..\common\xml\ServidorXml.cpp" />
     <ClCompile Include="..\common\xml\SpriteXml.cpp" />
@@ -119,6 +120,8 @@
     <ClInclude Include="..\common\xml\ConexionXml.h" />
     <ClInclude Include="..\common\xml\ElementoXml.h" />
     <ClInclude Include="..\common\xml\EscenarioXml.h" />
+    <ClInclude Include="..\common\xml\EstadoAvionXml.h" />
+    <ClInclude Include="..\common\xml\EstadoProyectilXml.h" />
     <ClInclude Include="..\common\xml\FondoXml.h" />
     <ClInclude Include="..\common\xml\MensajeXml.h" />
     <ClInclude Include="..\common\xml\MovimientoXml.h" />
