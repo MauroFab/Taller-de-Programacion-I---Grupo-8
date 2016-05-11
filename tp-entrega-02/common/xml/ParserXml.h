@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iterator>
 #include <set>
+#include <map>
 #include <string>
 using namespace std;
 #include "tinyxml2.h"
@@ -27,6 +28,10 @@ class ParserXml
 private:
 	//contiene el document
 	tinyxml2::XMLDocument xmlDoc;
+	
+	//mapa con los IDs de los sprites
+	map<string,int> mapaSpriteIds;
+	
 public:
 	ParserXml();
 	virtual ~ParserXml();
@@ -72,6 +77,8 @@ public:
 	ElementoXml * createDataElementoXml(XMLElement* elemE,int idxE);
 	void createDataListAvionXml(ServidorXml *servidorXml,XMLElement* listAviones);	
 	AvionXml * createDataAvionXml(XMLElement* elemAvion,int idxAvs);
+
+	int findSpriteIdByName(char * strIdSprite);
 
 	//validacion de xml
 	//CLIENTE

@@ -19,9 +19,7 @@ int ParserXml::levantarXMLCliente(char * ruta)
 	xmlDoc.LoadFile(ruta);
 
 	int codErr = xmlDoc.ErrorID();
-	
-	if(codErr != 0)
-		printf("\n%s %d\n","codigo", xmlDoc.ErrorID());
+	printf("\ncodigo %d\n",xmlDoc.ErrorID());
 
 	return codErr;
 }
@@ -159,7 +157,7 @@ void ParserXml::cargarXmlCliente(int argc, char* argv[]){
 	//solo si es 2 intenta levantar sino asumo error
 	if (cantargs == 2){
 		strcpy(ruta, argv[1]);
-		printf("\n%s %s\n", "argumento", ruta);
+		printf("\n argumento %s\n", ruta);
 		codErr = this->levantarXMLCliente(ruta);
 	}
 	else{
@@ -176,12 +174,12 @@ void ParserXml::cargarXmlCliente(int argc, char* argv[]){
 			Log::getInstance()->error("Error de sintaxis en xml, elemento no encontrado XML_ERROR_MISMATCHED_ELEMENT");
 
 		this->crearXmlCliente();
-		printf("\n%s\n","INFO:ese cargo xml por defecto del cliente.");
+		printf("\n INFO:ese cargo xml por defecto del cliente");
 		char * rutaDefecto = XML_DEF_CLIENTE;
 		codErr = this->levantarXMLCliente(rutaDefecto);
 	}
 	else{
-		printf("\n%s\n","INFO:xml cliente procesado con exito.");
+		printf("\n INFO:xml cliente procesado con exito");
 	}
 }
 //------------SERVIDOR
@@ -189,11 +187,9 @@ int ParserXml::levantarXMLServidor(char * ruta){
 	xmlDoc.LoadFile(ruta);
 
 	int codErr = xmlDoc.ErrorID();
-	
-	if(codErr != 0)
-		printf("\n%s %d\n","codigo",xmlDoc.ErrorID());
-	
+	printf("\ncodigo %d\n",xmlDoc.ErrorID());
 	return codErr;
+
 }
 
 int ParserXml::crearXmlServidor(){
@@ -231,7 +227,7 @@ void ParserXml::cargarXmlServidor(int argc, char* argv[]){
 	int codErr = XML_ERROR_FILE_NOT_FOUND;
 	if (cantargs == 2){
 		strcpy(ruta, argv[1]);
-		printf("\n%s %s\n", "argumento", ruta);
+		printf("\n argumento %s\n", ruta);
 		codErr = this->levantarXMLServidor(ruta);
 	}
 	else{
@@ -243,17 +239,17 @@ void ParserXml::cargarXmlServidor(int argc, char* argv[]){
 
 	//si hubo error al leer, llama al xml por defecto
 	if (codErr != XML_SUCCESS){
-		printf("\n%s\n","ERROR:el xml servidor NO fue encontrado o hubo error al intentar abrir.");
+		printf("\n ERROR:el xml servidor NO fue encontrado o hubo error al intentar abrir");
 		if (codErr == XML_ERROR_MISMATCHED_ELEMENT)
-			printf("\n%s\n","ERROR: Error de sintaxis en xml, xml invalido.");
+			printf("\nERROR: Error de sintaxis en xml, xml invalido");
 
 		this->crearXmlServidor();
-		printf("\n%s\n","INFO:ese cargo xml por defecto del servidor.");
+		printf("\n INFO:ese cargo xml por defecto del servidor");
 		char * rutaDefecto = XML_DEF_SERVIDOR;
 		codErr = this->levantarXMLServidor(rutaDefecto);
 	}
 	else{
-		printf("\n%s\n","INFO:xml servidor procesado con exito.");
+		printf("\n INFO:xml servidor procesado con exito");
 	}
 }
 
@@ -694,6 +690,7 @@ void ParserXml::createDataVentanaXml(ServidorXml *servidorXml,XMLElement* elemVe
 }
 void ParserXml::createDataListSpriteXml(ServidorXml *servidorXml,XMLElement* listSprites){
 	XMLNode * elemSprite = NULL;
+	//Primer ID de sprite comienza en "1"
 	int idxSps = 0;
 //	char * texto;
 	if (!listSprites->NoChildren()){	//si tiene al menos un hijo
@@ -707,6 +704,9 @@ void ParserXml::createDataListSpriteXml(ServidorXml *servidorXml,XMLElement* lis
 			servidorXml->addSprite(spriteX,idxSps);
 			//leo siguiente mensaje
 			elemSprite = elemSprite->NextSibling();
+			//se carga la cadena junto con el id al mapa
+			mapaSpriteIds.insert(pair<string,int>(string(spriteX->getStrId()),idxSps));
+			
 			idxSps++; // contador de mensajes del cliente
 		}
 		//leo el ultimo mensaje dado que elemSprite es el lastchild
@@ -761,6 +761,8 @@ void ParserXml::createDataFondoXml(EscenarioXml *escenarioXml,XMLElement* elemFo
 	//obtiene el ALTO
 	XMLElement* elemALTO = (XMLElement*)elemANCHO->NextSibling();
 	int alto = atoi(elemALTO->GetText());
+	idSprite = findSpriteIdByName(strIdSprite);
+	
 	FondoXml fondoXml(idSprite,strIdSprite,ancho,alto);
 	escenarioXml->setFondoXml(fondoXml);
 }
@@ -798,10 +800,10 @@ ElementoXml * ParserXml::createDataElementoXml(XMLElement* elemE,int idxE){
 				</posicion>
 			</elemento>
  */
-	//obtiene spriteId
-	int idSprite = idxE;
 	XMLElement* elemStrSpId = (XMLElement*)elemE->FirstChild();
 	char * strIdSprite = (char*)elemStrSpId->GetText();
+	//obtiene spriteId
+	int idSprite = findSpriteIdByName(strIdSprite);
 	//obtiene la posicion y luego los dos hijos
 	XMLElement* elemPosicion = (XMLElement*)elemStrSpId->NextSibling();
 	//obtiene la posicionX
@@ -852,18 +854,29 @@ AvionXml * ParserXml::createDataAvionXml(XMLElement* elemAvion,int idxAvs){
 	XMLElement* elemVelBala = (XMLElement*)elemVelAvion->NextSibling();
 	int velBala = atoi(elemVelBala->GetText());
 	//obtiene la strSpAvion
-	int idSpAvion = idxAvs;
 	XMLElement* elemStrSpAvion = (XMLElement*)elemVelBala->NextSibling();
 	char * strSpAvion = (char*)elemStrSpAvion->GetText();
+	int idSpAvion = findSpriteIdByName(strSpAvion);
 	//obtiene la VUELTA
-	int idSpVuelta = idxAvs*100;
 	XMLElement* elemVuelta = (XMLElement*)elemStrSpAvion->NextSibling();
 	char * strSpVuelta = (char *)elemVuelta->GetText();
+	int idSpVuelta = findSpriteIdByName(strSpVuelta);
 	//obtiene la BALA
 	XMLElement* elemBALA = (XMLElement*)elemVuelta->NextSibling();
-	int idSpBala = idxAvs*1000;
 	char * strSpBala = (char *)elemBALA->GetText();
+	int idSpBala = findSpriteIdByName(strSpBala);
 	return new AvionXml(velAvion,velBala,idSpAvion,strSpAvion,idSpVuelta,strSpVuelta,idSpBala,strSpBala);
+}
+
+int ParserXml::findSpriteIdByName(char * strIdSprite){
+	//ser busca el idSprite en el mapa
+	map<string,int>::iterator it;
+	string strPath(strIdSprite);
+	it = this->mapaSpriteIds.find(strIdSprite);
+	if (it != this->mapaSpriteIds.end()){
+		return it->second;
+	}	
+	return -1;
 }
 
 int ParserXml::validarXmlArchivoCliente(){
