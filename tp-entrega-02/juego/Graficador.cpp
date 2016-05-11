@@ -5,7 +5,7 @@ Graficador* Graficador::instance = NULL;
 
 
 Graficador* Graficador::getInstance() {
-	
+
 	if(!instanceFlag){
         instance = new Graficador();
         instanceFlag = true;
@@ -17,9 +17,9 @@ Graficador::Graficador(void) {
 }
 
 Graficador::~Graficador(void) {
-	
+
 	std::map<int, GraficoAvion*>::iterator it;
-	
+
 	for (it = graficosAvion.begin(); it != graficosAvion.end(); it++) {
 		delete ((*it).second);
 	}
@@ -35,7 +35,6 @@ void Graficador::cargarDatosAvion(int id, std::string pathAvion, int cantFotogra
 
 	GraficoAvion* grafico = new GraficoAvion(renderer, id, pathAvion, cantFotogramas, ancho, alto);
 	graficosAvion.insert(std::pair<int, GraficoAvion*>(id, grafico));
-	printf("1");
 }
 
 void Graficador::cargarDatosProyectil(std::string pathProyectil, int cantFotogramas, int ancho, int alto) {
@@ -48,7 +47,7 @@ void Graficador::cargarDatosProyectil(std::string pathProyectil, int cantFotogra
 //	std::map<int, Movimiento*>::iterator it;
 //
 //	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
-//		
+//
 //		GraficoAvion* grafico = graficosAvion.at(it->second->getId());
 //
 //		SDL_Rect* clip = grafico->getCurrentClip(it->second->getTipo()); // TODO PRUEBA(*it)->getFrame());
@@ -56,27 +55,10 @@ void Graficador::cargarDatosProyectil(std::string pathProyectil, int cantFotogra
 //		Textura* textura = grafico->getTextura();
 //
 //		textura->render(it->second->getPosX(), it->second->getPosY(), renderer, clip);
-//	}
-//	//printf("2");
-//}
 //
-
-void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones) {
-
-	std::list<EstadoAvion*>::iterator it;
-
-	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
-
-		GraficoAvion* grafico = graficosAvion.at((*it)->getId());
-
-		SDL_Rect* clip = grafico->getCurrentClip((*it)->getFrame());
-
-		Textura* textura = grafico->getTextura();
-
-		textura->render((*it)->getPosX(), (*it)->getPosY(), renderer, clip);
-	}
-	//printf("2");
-}
+//		this->graficarProyectiles(it->second->getEstadoProyectiles());
+//	}
+//}
 
 void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles) {
 

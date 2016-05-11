@@ -21,8 +21,6 @@ public:
 	void cargarDatosAvion(int id, std::string pathAvion, int cantFotogramas, int ancho, int alto);
 	void cargarDatosProyectil(std::string pathProyectil, int cantFotogramas, int ancho, int alto);
 	//void graficarMovimientos(std::map<int, Movimiento*> listaAviones);
-	void graficarAviones(std::list<EstadoAvion*> listaAviones);
-	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
 
 private:
 
@@ -35,5 +33,7 @@ private:
 	GraficoProyectil* graficoProyectil;
 
 	Graficador(void);
+
+	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
 };
 
