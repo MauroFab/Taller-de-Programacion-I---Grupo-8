@@ -148,6 +148,7 @@ void Juego::ejecutar() {
 	Graficador::getInstance()->inicializar(gRenderer);
 	//Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);
 	Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
+	Graficador::getInstance()->cargarDatosProyectil("proyectilAvion.bmp", 1, 11, 25);
 
 	Mapa::getInstace()->inicializar(gRenderer);
 	Mapa::getInstace()->crearIslaEn(1, 300);
@@ -197,8 +198,6 @@ void Juego::ejecutar() {
 			avion.handleEvent( e );
 		}
 
-		notificarMovimiento(avion.getEstado());
-
 		//Clear screen
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 		SDL_RenderClear( gRenderer );
@@ -207,6 +206,8 @@ void Juego::ejecutar() {
 		Mapa::getInstace()->graficar();
 
 		avion.mover();
+
+		notificarMovimiento(avion.getEstado());
 
 		//Render sprite
 		avion.render();
@@ -232,6 +233,14 @@ void Juego::actualizarMovimientos(EstadoAvion* estadoAvion){
 		it->second->setFrame(estadoAvion->getFrame());
 		it->second->setPosX(estadoAvion->getPosX());
 		it->second->setPosY(estadoAvion->getPosY());
+
+		std::list<EstadoProyectil*> lista = it->second->getEstadosProyectiles();
+
+		std::list<EstadoProyectil*>::iterator it2;
+		
+		for (it2 = lista.begin(); it2 != lista.end(); it2++) {
+			it->second->agregarEstadoProyectil(*it2);
+		}
 
 		delete estadoAvion;
 	}
