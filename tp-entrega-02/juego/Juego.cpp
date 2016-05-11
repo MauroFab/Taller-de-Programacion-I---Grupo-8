@@ -228,6 +228,8 @@ void Juego::ejecutar() {
 		//Update screen
 		SDL_RenderPresent( gRenderer );
 	}
+
+	close();
 }
 
 void Juego::actualizarMovimientos(Movimiento* movimiento){

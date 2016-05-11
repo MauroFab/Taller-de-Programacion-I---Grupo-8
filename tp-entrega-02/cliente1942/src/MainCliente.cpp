@@ -372,7 +372,8 @@ void MainCliente::actualizar(int argc, void* argv[]){
 	char * buffEnvio = new char[MAX_BUFFER];
 	int sizeBytesTotalLista = Protocolo::codificar(*msjMov,buffEnvio);
 
-	if(chequearConexion(send(sock,buffEnvio,sizeBytesTotalLista,0))<0) //enviar el texto que se ha introducido
-		printf("No se pudo enviar el movimiento"); // TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
-
+	if(chequearConexion(send(sock,buffEnvio,sizeBytesTotalLista,0))<0) { //enviar el texto que se ha introducido
+		printf("No se pudo enviar el movimiento");
+		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
+	}
 }
