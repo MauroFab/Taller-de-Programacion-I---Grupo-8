@@ -122,6 +122,12 @@ void Avion::mover() {
 		    posicionY -= velocidadY;
 	   }
 	}
+	if(!proyectiles.empty()){
+		Proyectil* ultimoProyectil = proyectiles.front();
+		if(!ultimoProyectil->estaEnPantalla() ){
+			proyectiles.pop_front();
+		}
+	}
 }
 
 void Avion::render()
@@ -145,7 +151,6 @@ void Avion::render()
 			(*it)->render();
 		}
 	}
-
     // Muestra el avion
 	texturaAvion->render( posicionX, posicionY, renderer, currentClip );
 }
