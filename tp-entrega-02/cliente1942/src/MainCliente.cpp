@@ -138,6 +138,7 @@ int MainCliente::recibirMensajes(void* ptrSock)
 			std::list<EstadoProyectilXml*> lista = pMensj->getEstadosProyectiles();
 
 			for (it = lista.begin(); it != lista.end(); it++) {
+
 				estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
 			}
 			

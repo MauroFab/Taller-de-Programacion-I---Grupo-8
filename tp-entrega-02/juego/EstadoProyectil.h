@@ -13,6 +13,10 @@ public:
 	int getPosX();
 	int getPosY();
 
+	void setFrame(int frame);
+	void setPosX(int x);
+	void setPosY(int y);
+
 private:
 
 	int frame;

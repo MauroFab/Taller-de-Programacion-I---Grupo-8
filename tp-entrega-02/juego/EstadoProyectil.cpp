@@ -21,3 +21,15 @@ int EstadoProyectil::getPosX() {
 int EstadoProyectil::getPosY() {
 	return y;
 }
+
+void EstadoProyectil::setFrame(int frame) {
+	this->frame = frame;
+}
+
+void EstadoProyectil::setPosX(int x) {
+	this->x = x;
+}
+
+void EstadoProyectil::setPosY(int y) {
+	this->y = y;
+}

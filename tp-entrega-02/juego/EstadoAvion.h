@@ -23,6 +23,8 @@ public:
 	void setFrame(int frame);
 	void setPosX(int posX);
 	void setPosY(int posY);
+	void setEstadoProyectiles(std::list<EstadoProyectil*> lista);
+
 	void agregarEstadoProyectil(EstadoProyectil* estadoProyectil);
 
 private:
