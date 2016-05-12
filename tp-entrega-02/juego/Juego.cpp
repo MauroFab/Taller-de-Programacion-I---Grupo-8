@@ -227,6 +227,10 @@ void Juego::actualizarMovimientos(EstadoAvion* estadoAvion){
 
 	int idAvion = estadoAvion->getId();
 
+	EstadoAvion* estadoAnterior = Juego::getInstance()->movimientosDeCompetidores[idAvion];
+
+	delete estadoAnterior;
+
 	Juego::getInstance()->movimientosDeCompetidores[idAvion] = estadoAvion;
 
 	SDL_mutexV(mut);
