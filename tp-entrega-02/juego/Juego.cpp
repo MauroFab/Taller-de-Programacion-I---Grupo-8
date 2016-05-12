@@ -140,14 +140,14 @@ void Juego::ejecutar() {
 	SDL_Event e;
 
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
-	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 6, 102, 195, 10);
+	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 6, 102, 195, 10);
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
 	// Test para ver si se grafican otros aviones
 	Graficador::getInstance()->inicializar(gRenderer);
-	Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);
-	//Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
+	//Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);
+	Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
 	Graficador::getInstance()->cargarDatosProyectil("proyectilAvion.bmp", 1, 11, 25);
 
 	Mapa::getInstace()->inicializar(gRenderer);
@@ -226,24 +226,8 @@ void Juego::actualizarMovimientos(EstadoAvion* estadoAvion){
 	SDL_mutexP(mut);
 
 	int idAvion = estadoAvion->getId();
-	map<int,EstadoAvion*>::iterator  it = Juego::getInstance()->movimientosDeCompetidores.find(idAvion);
 
-	if( it != Juego::getInstance()->movimientosDeCompetidores.end() ){
-
-		it->second->setFrame(estadoAvion->getFrame());
-		it->second->setPosX(estadoAvion->getPosX());
-		it->second->setPosY(estadoAvion->getPosY());
-
-		std::list<EstadoProyectil*> listaProyectiles = estadoAvion->getEstadosProyectiles();
-
-		it->second->setEstadoProyectiles(listaProyectiles); // aca se tiene que pasar los nuevos estados de los proyectiles
-
-		delete estadoAvion;
-	}
-	else{
-
-		Juego::getInstance()->movimientosDeCompetidores[idAvion] = estadoAvion;
-	}
+	Juego::getInstance()->movimientosDeCompetidores[idAvion] = estadoAvion;
 
 	SDL_mutexV(mut);
 }
