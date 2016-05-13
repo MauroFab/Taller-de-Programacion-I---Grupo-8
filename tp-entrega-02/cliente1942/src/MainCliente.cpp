@@ -393,4 +393,5 @@ void MainCliente::actualizar(int argc, void* argv[]){
 		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
 	}
 	delete[] buffEnvio;
+	delete msjMov;
 }
