@@ -43,6 +43,8 @@ public:
 	void agregarEstadoProyectil(EstadoProyectilXml* estadoProyectil);
 	list<EstadoProyectilXml*> getEstadosProyectiles();
 
+	void eliminarProyectiles();
+
 	void toString(TCadena1000 cadena);	
 };
 

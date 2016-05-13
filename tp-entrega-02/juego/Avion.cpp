@@ -137,7 +137,7 @@ void Avion::render()
 
 	SDL_Rect* currentClip = &fotogramas[ frame / cantDeFotogramas ];
 
-	if ((frame / cantDeFotogramas) >= cantDeFotogramas){
+	if ((frame / cantDeFotogramas) >= cantDeFotogramas - 1){
 		frame = 0;
 		rollFlag = false;
 	}

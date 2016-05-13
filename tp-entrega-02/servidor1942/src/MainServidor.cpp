@@ -231,7 +231,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 			grabarEnElLogLaDesconexion(len);
 			// El frame 42 es el grisado
 			pMensj->setFrame(42);
-			//pMensj->eliminarProyectiles();
+			pMensj->eliminarProyectiles();
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);
 			delete pMensj;
 		}
