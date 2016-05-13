@@ -69,6 +69,16 @@ void EstadoAvionXml::agregarEstadoProyectil(EstadoProyectilXml* estadoProyectil)
 	this->estadosProyectiles.push_back(estadoProyectil);
 }
 
+
+//si van a usar esto, referirse a la nota en el header.
+void EstadoAvionXml::liberarMemoriaProyectiles(){
+	std::list<EstadoProyectilXml*>::iterator it;
+	for (it = estadosProyectiles.begin(); it != estadosProyectiles.end(); it++) {
+		delete (*it);
+	}
+	eliminarProyectiles();
+}
+
 void EstadoAvionXml::eliminarProyectiles(){
 	estadosProyectiles.clear();
 }

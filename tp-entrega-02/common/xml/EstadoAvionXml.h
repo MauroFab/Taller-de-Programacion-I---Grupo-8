@@ -46,6 +46,13 @@ public:
 	void eliminarProyectiles();
 
 	void toString(TCadena1000 cadena);	
+
+	//Cuidado con este metodo. A veces los proyectiles que se le mandaron fueron en forma
+	//estatica. Y otras veces en forma dinamica. En los casos donde esta con memoria estatica
+	//No llamar
+	void EstadoAvionXml::liberarMemoriaProyectiles();
+
+
 };
 
 #endif //_ESTADOAVIONXML_H_

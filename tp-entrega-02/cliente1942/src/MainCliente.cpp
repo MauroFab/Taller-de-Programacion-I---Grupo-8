@@ -321,7 +321,7 @@ int MainCliente::enviar(){
 			//bufferEntrada[len2] =0;
 			Log::getInstance()->debug(mensajeIN.getValor());
 			printf(" || respuesta servidor:> %s\n",mensajeIN.getValor());
-
+			delete pMsj;
 			delete buffEnvio;
 		}
 
@@ -398,6 +398,9 @@ void MainCliente::actualizar(int argc, void* argv[]){
 		printf("No se pudo enviar el movimiento");
 		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
 	}
+	//Recuerdo que este metodo es solo para cuando los proyectiels esten en 
+	//memoria dinamica
+	msjMov->liberarMemoriaProyectiles();
 	delete[] buffEnvio;
 	delete msjMov;
 	delete mov;
