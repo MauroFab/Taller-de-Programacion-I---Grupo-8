@@ -37,6 +37,7 @@ private:
 		 char* mensaje;
 		 EstadoAvionXml mensajeXml;
 	};
+	void notificarPorConsolaLaDesconexionInesperada();
     static bool instanceFlag;
     static MainServidor *single;
 	AsignadorDeUsuarios *usuarios;
@@ -46,6 +47,7 @@ private:
 	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,EstadoAvionXml* pMsj);
 	//se almancena todo el modelo parseado
 	ServidorXml * servidorXml;
+	void MainServidor::grabarEnElLogLaDesconexion(int len);
 public:
 	bool seDebeCerrarElServidor;
 	std::queue<MensajeConId*> colaDeMensaje;

@@ -168,6 +168,25 @@ void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id,Estado
 	SDL_mutexV(mut);
 }
 
+void MainServidor::grabarEnElLogLaDesconexion(int len){
+	if (len == 0){
+			Log::getInstance()->info( "Se ha desconectado el server");
+		}
+		else if (len < 0){
+			// Si es -1 hay un error en la conexion
+			int error = WSAGetLastError();
+
+			if(error == WSAENOTCONN || error == WSAECONNRESET){
+				Log::getInstance()->error( "Se ha desconectado inesperadamente el server");
+			}
+			else if (error == WSAENETDOWN)
+				Log::getInstance()->error( "Red caida");
+			else
+				Log::getInstance()->error( "Error de conexion");
+
+	
+		}
+}
 int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 {
 	int len;
@@ -205,20 +224,8 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 			//bufferEntrada[len]=0; //Ponemos el fin de cadena 
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);
 			delete pMensj; 
-		}
-		else if (len == 0){
-			Log::getInstance()->info( "Se ha desconectado correctamente el usuario " + id);
-
-		}
-		else if (len < 0){
-			int error = WSAGetLastError();
-
-			if(error == WSAENOTCONN || error == WSAECONNRESET)
-				Log::getInstance()->error( "Se ha desconectado inesperadamente el usuario " + id);
-			else if (error == WSAENETDOWN)
-				Log::getInstance()->error( "Red caida");
-			else
-				Log::getInstance()->error( "Error de conexion usuario " + id);
+		}else{
+			grabarEnElLogLaDesconexion(len);
 		}
 	}
 	
@@ -458,8 +465,7 @@ int MainServidor::mainPrincipal(){
 					// SDL_mutexV(mut);
 				}
 			}
-			
-			  delete mensajeConId;
+			delete mensajeConId;
 		}
 
 		SDL_mutexV(mut);
