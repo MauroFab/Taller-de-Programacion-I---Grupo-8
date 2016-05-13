@@ -394,4 +394,5 @@ void MainCliente::actualizar(int argc, void* argv[]){
 	}
 	delete[] buffEnvio;
 	delete msjMov;
+	delete mov;
 }
