@@ -220,7 +220,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 		if (seguimosConectados(len)){
 			if(!esElPrimerMensaje)
 				delete pMensj;
-			esElPrimerMensaje = true;
+			esElPrimerMensaje = false;
 			pMensj = new EstadoAvionXml();
 			Protocolo::decodificar(bufferEntrada,pMensj);
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);

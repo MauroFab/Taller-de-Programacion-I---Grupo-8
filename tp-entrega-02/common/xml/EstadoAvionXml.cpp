@@ -70,11 +70,6 @@ void EstadoAvionXml::agregarEstadoProyectil(EstadoProyectilXml* estadoProyectil)
 }
 
 void EstadoAvionXml::eliminarProyectiles(){
-    std::list<EstadoProyectilXml*>::iterator it;
-
-	for (it = estadosProyectiles.begin(); it != estadosProyectiles.end(); it++) {
-		delete (*it);
-	}
 	estadosProyectiles.clear();
 }
 
