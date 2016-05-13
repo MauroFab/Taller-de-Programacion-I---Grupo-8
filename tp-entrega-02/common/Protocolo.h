@@ -18,11 +18,11 @@
 //buffer suficientemente grande para todo el escenario (2Kb de datos)
 #define MAX_BUFFER	2048
 //TODO corregir
-#define FAKE_MENSAJE_01 "Conexion aceptada."	
+#define FAKE_MENSAJE_01 "Conexion aceptada."
 #define FAKE_MENSAJE_02	"Conexion rechazada. Se ha superado la cantidad maxima de conexiones. Vuelva a intentar mas tarde."
 //si este flag existe, entonces se muestran todos los mensajes de debug del protocolo
 //se comenta o descomenta esta linea
-//#define FAKE_DEBUG_PROTO 1 
+#define FAKE_DEBUG_PROTO 1
 
 class Protocolo
 {
@@ -45,10 +45,10 @@ public:
 	 * y moverse al size del siguiente mensaje
 	 */
 	static int decodificar(char * buffer,MensajeXml *mensajeXml);
-	
+
 	// Devuelve el código de error correspondiente o 0 en caso de que el mensaje sea válido
 	static int validarMensaje(MensajeXml &mensaje);
-	
+
 	//los objetos se carga en forma lazy, aquellos que tienen contenedores solo tienen
 	//carga parcial de datos
 	static int codificar(SpriteXml &spriteXml,char * buffer);
