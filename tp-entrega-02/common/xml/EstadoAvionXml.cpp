@@ -20,11 +20,7 @@ EstadoAvionXml::EstadoAvionXml(int id,int frame,int posX, int posY){
 
 EstadoAvionXml::~EstadoAvionXml(){
 
-	//std::list<EstadoProyectilXml*>::iterator it;
-
-	//for (it = estadosProyectiles.begin(); it != estadosProyectiles.end(); it++) {
-	//	delete (*it);
-	//}
+	eliminarProyectiles();
 
 }
 

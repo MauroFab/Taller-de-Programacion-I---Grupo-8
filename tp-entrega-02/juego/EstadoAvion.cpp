@@ -13,6 +13,7 @@ EstadoAvion::~EstadoAvion(void) {
 	for (it = estadosProyectiles.begin(); it != estadosProyectiles.end(); it++) {
 		delete (*it);
 	}
+	estadosProyectiles.clear();
 }
 
 int EstadoAvion::getId() {
