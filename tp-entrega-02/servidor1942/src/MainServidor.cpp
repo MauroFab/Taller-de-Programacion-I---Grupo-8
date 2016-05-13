@@ -183,10 +183,13 @@ void MainServidor::grabarEnElLogLaDesconexion(int len){
 				Log::getInstance()->error( "Red caida");
 			else
 				Log::getInstance()->error( "Error de conexion");
-
-	
 		}
 }
+
+bool MainServidor::seguimosConectados(int len){
+	return(len > 0);
+}
+
 int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 {
 	int len;
@@ -210,22 +213,27 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 	structParaEnviar->seCerroLaConexion = seCerroLaConexion;
 	threadDeEnvioDeMensajes = SDL_CreateThread(MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos, "mensajesParaElCliente", (void*) structParaEnviar);
 
-	while (len > 0 && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
-		
+	bool esElPrimerMensaje = true;
+	while (seguimosConectados(len) && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
+		EstadoAvionXml *pMensj;
 		len=recv(socket,bufferEntrada,MAX_BUFFER,0); //recibimos los datos que envie
-		
-		if (len>0){
-			//si seguimos conectados
-			//--------------------------------
-			EstadoAvionXml * pMensj = new EstadoAvionXml();
+		if (seguimosConectados(len)){
+			if(!esElPrimerMensaje)
+				delete pMensj;
+			esElPrimerMensaje = true;
+			pMensj = new EstadoAvionXml();
 			Protocolo::decodificar(bufferEntrada,pMensj);
-			
+			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);
 			//--------------------------------
 			//bufferEntrada[len]=0; //Ponemos el fin de cadena 
-			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);
-			delete pMensj; 
+		 
 		}else{
 			grabarEnElLogLaDesconexion(len);
+			// El frame 42 es el grisado
+			pMensj->setFrame(42);
+			//pMensj->eliminarProyectiles();
+			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);
+			delete pMensj;
 		}
 	}
 	

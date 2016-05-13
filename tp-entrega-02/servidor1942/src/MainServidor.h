@@ -48,6 +48,7 @@ private:
 	//se almancena todo el modelo parseado
 	ServidorXml * servidorXml;
 	void MainServidor::grabarEnElLogLaDesconexion(int len);
+	bool seguimosConectados(int len);
 public:
 	bool seDebeCerrarElServidor;
 	std::queue<MensajeConId*> colaDeMensaje;
