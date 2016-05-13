@@ -110,6 +110,25 @@ int MainCliente::inicializarConexion(){
 
 	return 0;
 }
+void MainCliente::grabarEnElLogLaDesconexion(int len){
+	if (len == 0){
+			Log::getInstance()->info( "Se ha desconectado el server");
+		}
+		else if (len < 0){
+			// Si es -1 hay un error en la conexion
+			int error = WSAGetLastError();
+
+			if(error == WSAENOTCONN || error == WSAECONNRESET){
+				Log::getInstance()->error( "Se ha desconectado inesperadamente el server");
+			}
+			else if (error == WSAENETDOWN)
+				Log::getInstance()->error( "Red caida");
+			else
+				Log::getInstance()->error( "Error de conexion");
+
+	
+		}
+}
 
 int MainCliente::recibirMensajes(void* ptrSock)
 {
@@ -147,26 +166,11 @@ int MainCliente::recibirMensajes(void* ptrSock)
 			delete pMensj;
 
 			//--------------------------------
-		}
-		else if (len == 0){
-			Log::getInstance()->info( "Se ha desconectado el server");
-		}
-		else if (len < 0){
-			// Si es -1 hay un error en la conexion
-			int error = WSAGetLastError();
-
-			if(error == WSAENOTCONN || error == WSAECONNRESET){
-				Log::getInstance()->error( "Se ha desconectado inesperadamente el server");
-			}
-			else if (error == WSAENETDOWN)
-				Log::getInstance()->error( "Red caida");
-			else
-				Log::getInstance()->error( "Error de conexion");
-
+		}else{
+			grabarEnElLogLaDesconexion(len);
 			serverDesconectadoTest = true;
 		}
 	}
-
 	return 0;
 }
 

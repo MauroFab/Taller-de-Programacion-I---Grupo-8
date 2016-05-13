@@ -70,7 +70,7 @@ public:
 	int enviar();
 private:
 	int inicializarConexion();
-
+	static void grabarEnElLogLaDesconexion(int len);
 	SDL_Thread* receptor;
 	static int recibirMensajes(void*);
 
