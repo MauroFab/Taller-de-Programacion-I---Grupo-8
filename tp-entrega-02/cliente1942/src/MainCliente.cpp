@@ -321,6 +321,8 @@ int MainCliente::enviar(){
 			//bufferEntrada[len2] =0;
 			Log::getInstance()->debug(mensajeIN.getValor());
 			printf(" || respuesta servidor:> %s\n",mensajeIN.getValor());
+
+			delete buffEnvio;
 		}
 
 	}
