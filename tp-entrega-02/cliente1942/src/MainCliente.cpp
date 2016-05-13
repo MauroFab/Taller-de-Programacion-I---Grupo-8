@@ -392,4 +392,5 @@ void MainCliente::actualizar(int argc, void* argv[]){
 		printf("No se pudo enviar el movimiento");
 		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
 	}
+	delete[] buffEnvio;
 }
