@@ -9,7 +9,10 @@ EstadoAvion::EstadoAvion(int id, int frame, int posX, int posY) {
 }
 
 EstadoAvion::~EstadoAvion(void) {
-	//delete[] &estadosProyectiles;
+	std::list<EstadoProyectil*>::iterator it;
+	for (it = estadosProyectiles.begin(); it != estadosProyectiles.end(); it++) {
+		delete (*it);
+	}
 }
 
 int EstadoAvion::getId() {
