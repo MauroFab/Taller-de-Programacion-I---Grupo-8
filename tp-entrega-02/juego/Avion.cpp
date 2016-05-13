@@ -126,6 +126,7 @@ void Avion::mover() {
 		Proyectil* ultimoProyectil = proyectiles.front();
 		if(!ultimoProyectil->estaEnPantalla() ){
 			proyectiles.pop_front();
+			delete ultimoProyectil;
 		}
 	}
 }
