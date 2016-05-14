@@ -68,11 +68,16 @@ public:
 	int desconectar();
 	int salir();
 	int enviar();
+
 private:
+
+	SDL_Thread* receptor;
 	int inicializarConexion();
 	static void grabarEnElLogLaDesconexion(int len);
-	SDL_Thread* receptor;
 	static int recibirMensajes(void*);
+	void cargarIpYPuerto();
+	void cargarIP();
+	void cargarPuerto();
 
 	virtual void actualizar(int argc, void* argv[]);
 };

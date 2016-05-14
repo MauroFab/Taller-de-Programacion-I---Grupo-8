@@ -6,6 +6,7 @@
 #include "MainCliente.h"
 
 MainCliente::MainCliente(){
+
 	this->dirXML.assign("");
 	this->conex = 0;
 	this->len = 0;
@@ -27,7 +28,9 @@ MainCliente::~MainCliente(){
 		delete this->servidorXml;
 }
 
+// Ahora se carga la IP y el Puerto por consola, se deja esta función para configuraciones del cliente
 void MainCliente::parsearArchivoXml(int argc, char* argv[]){
+
 	getParserXml()->cargarXmlCliente(argc,argv);
 	int res = getParserXml()->validarXmlArchivoCliente();
 	if (res < 0){
@@ -174,7 +177,45 @@ int MainCliente::recibirMensajes(void* ptrSock)
 	return 0;
 }
 
+void MainCliente::cargarIP() {
+
+	system("CLS");
+
+	printf("Ingrese IP\n");
+
+	string ip = "";
+
+	while (strcmp(ip.c_str(), "") == 0) {
+		cin>>ip;
+	}
+
+	this->ip = ip;
+}
+
+void MainCliente::cargarPuerto() {
+
+	system("CLS");
+
+	printf("Ingrese Puerto\n");
+
+	string puerto = "";
+
+	while (strcmp(puerto.c_str(), "") == 0) {
+		cin>>puerto;
+	}
+
+	this->port = puerto;
+}
+
+void MainCliente::cargarIpYPuerto() {
+
+	cargarIP();
+	cargarPuerto();
+}
+
 int MainCliente::conectar(){
+
+	cargarIpYPuerto();
 
 	inicializarConexion();
 	
