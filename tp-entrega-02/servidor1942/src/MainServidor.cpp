@@ -132,7 +132,7 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 			char buffEnvio[MAX_BUFFER];
 			mensaje->calculateSizeBytes();
 			int sizeEnvio = Protocolo::codificar(*mensaje,buffEnvio);
-			send(socket, buffEnvio, sizeEnvio, 0 );
+			MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
 
 			//Aca debería liberar la memoria del mensaje, pero si lo hago estalla.
 			//Y efectivamente si mando muchos mensajes (Con un solo cliente abierto), la memoria aumenta, asi que 
@@ -216,7 +216,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 	bool esElPrimerMensaje = true;
 	while (seguimosConectados(len) && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
 		EstadoAvionXml *pMensj;
-		len=recv(socket,bufferEntrada,MAX_BUFFER,0); //recibimos los datos que envie
+		len=MensajeSeguro::recibir(socket,bufferEntrada); //recibimos los datos que envie
 		if (seguimosConectados(len)){
 			if(!esElPrimerMensaje)
 				delete pMensj;
@@ -326,7 +326,7 @@ int MainServidor::recibirConexiones(void*){
 				//sendServidorXml
 				sizeEnvio += Protocolo::codificar(*this->servidorXml,buffEnvio + sizeEnvio);	
 				//BUG-003
-				send(*socketConexion, buffEnvio, sizeEnvio, 0 );
+				MensajeSeguro::enviar(*socketConexion, buffEnvio, sizeEnvio);
 
 				vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 				vectorSockets.push_back(socketConexion);
@@ -355,7 +355,7 @@ int MainServidor::recibirConexiones(void*){
 				mensaje.calculateSizeBytes();
 				mensaje.setTipo(TIPO_STRING);
 				int sizeEnvio = Protocolo::codificar(mensaje,buffEnvio);
-				send(*socketConexion, buffEnvio, sizeEnvio, 0 );
+				MensajeSeguro::enviar(*socketConexion, buffEnvio, sizeEnvio);
 
 				Log::getInstance()->info("Se informa al cliente que se rechaza la conexion ya que se ha alcanzado el limite de usuarios.");
 

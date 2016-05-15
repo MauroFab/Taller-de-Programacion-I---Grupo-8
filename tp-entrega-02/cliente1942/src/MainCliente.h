@@ -22,6 +22,7 @@
 #include "../../common/xml/MensajeXml.h"
 #include "../../common/Protocolo.h"
 #include "../../common/observer/Observador.h"
+#include "../../common/MensajeSeguro.h"
 
 #include "../../juego/Juego.h"
 #include "../../juego/EstadoAvion.h"

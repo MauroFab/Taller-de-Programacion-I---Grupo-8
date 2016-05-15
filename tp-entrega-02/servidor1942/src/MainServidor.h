@@ -28,7 +28,7 @@ using std::ofstream;
 #include "../../common/xml/MensajeXml.h"
 #include "../../common/xml/EstadoAvionXml.h"
 #include "../../common/Protocolo.h"
-
+#include "../../common/MensajeSeguro.h"
 class MainServidor
 {
 private:

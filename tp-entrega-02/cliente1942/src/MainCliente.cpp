@@ -135,7 +135,7 @@ int MainCliente::recibirMensajes(void* ptrSock)
 
 	while (!cerrarConexionTest && !serverDesconectadoTest){ 
 
-		int len=recv(*((SOCKET*)ptrSock),bufferEntrada,MAX_BUFFER,0); //recibimos los datos que envie
+		int len=MensajeSeguro::recibir(*((SOCKET*)ptrSock),bufferEntrada); //recibimos los datos que envie
 		
 		if (len>0){
 
@@ -256,7 +256,7 @@ int MainCliente::conectar(){
 			int len2 = 2;
 			char bufferEntrada[MAX_BUFFER];
 
-			len2 = recv(sock,bufferEntrada,MAX_BUFFER,0);
+			len2 = MensajeSeguro::recibir(sock,bufferEntrada);
 
 			if (len2 <= 0){// Es un error
 				chequearConexion(len2);
@@ -371,7 +371,7 @@ int MainCliente::enviar(){
 			char * buffEnvio = new char[MAX_BUFFER];
 			int sizeBytesTotalLista = Protocolo::codificar(*pMsj,buffEnvio);
 		//----------------
-			if(chequearConexion(send(sock,buffEnvio,sizeBytesTotalLista,0))<0) //enviar el texto que se ha introducido
+			if(chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista))<0) //enviar el texto que se ha introducido
 				return -1;
 			Log::getInstance()->debug(it->second->getValor());
 			std::cout<< "Enviando:> ID:" << it->first << " => " << it->second->getValor();
@@ -379,7 +379,7 @@ int MainCliente::enviar(){
 			// usar el socket y enviar el mensaje
 			//recibir un mensaje
 			//TODO 
-			if(chequearConexion(len2 = recv(sock,bufferEntrada,MAX_BUFFER,0)) < 0)
+			if(chequearConexion(len2 = MensajeSeguro::recibir(sock,bufferEntrada)) < 0)
 				return -1;
 			MensajeXml mensajeIN;
 			Protocolo::decodificar(bufferEntrada,&mensajeIN);
@@ -460,7 +460,7 @@ void MainCliente::actualizar(int argc, void* argv[]){
 	char * buffEnvio = new char[MAX_BUFFER];
 	int sizeBytesTotalLista = Protocolo::codificar(*msjMov,buffEnvio);
 
-	if(chequearConexion(send(sock,buffEnvio,sizeBytesTotalLista,0))<0) { //enviar el texto que se ha introducido
+	if(chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista))<0) { //enviar el texto que se ha introducido
 		printf("No se pudo enviar el movimiento");
 		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
 	}
