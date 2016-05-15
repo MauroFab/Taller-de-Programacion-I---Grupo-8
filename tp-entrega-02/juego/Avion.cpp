@@ -1,7 +1,9 @@
 #include "Avion.h"
 
-Avion::Avion(SDL_Renderer* rendererRecibido) {
+Avion::Avion(SDL_Renderer* rendererRecibido,int ventanaAncho,int ventanaAlto) {
 
+	this->ventanaAncho = ventanaAncho;
+	this->ventanaAlto = ventanaAlto;
     posicionX = FAKE_POS_X;
     posicionY = FAKE_POS_Y;
 
@@ -55,13 +57,11 @@ Avion::~Avion() {
 	}
 }
 
-bool Avion::handleEvent( SDL_Event& e )
-{
+bool Avion::handleEvent( SDL_Event& e ){
 	bool cambiaEstado = false;
 
     // Si se presiona una tecla
-	if( e.type == SDL_KEYDOWN && e.key.repeat == 0)
-    {
+	if( e.type == SDL_KEYDOWN && e.key.repeat == 0){
         switch( e.key.keysym.sym )
         {
 			// Ajusta la velocidad
@@ -96,30 +96,27 @@ bool Avion::handleEvent( SDL_Event& e )
 				}
 
 			} break;
-        }
-    }
-
+		}
+	}
 	return cambiaEstado;
 }
 
 void Avion::mover() {
-
 	if(!rollFlag){
-
 		// Mueve el avion hacia la derecha o a la izquierda
-		 posicionX += velocidadX;
+		posicionX += velocidadX;
 
 		// Para que no se salga de la pantalla en X
-	   if( ( posicionX < 0 ) || ( posicionX + anchoFotograma > FAKE_SCREEN_WIDTH ) ){
+		if( ( posicionX < 0 ) || ( posicionX + anchoFotograma > this->ventanaAncho ) ){
 			posicionX -= velocidadX;
-	   }
+		}
 
 		// Mueve el avion hacia arriba o hacia abajo
 		posicionY += velocidadY;
 
 		// Para que no se salga de la pantalla en Y
-	   if( ( posicionY < 0 ) || ( posicionY + altoFotograma > FAKE_SCREEN_HEIGHT ) ){
-		    posicionY -= velocidadY;
+		if( ( posicionY < 0 ) || ( posicionY + altoFotograma > this->ventanaAlto ) ){
+			posicionY -= velocidadY;
 	   }
 	}
 	if(!proyectiles.empty()){
@@ -152,6 +149,7 @@ void Avion::render()
 			(*it)->render();
 		}
 	}
+
     // Muestra el avion
 	texturaAvion->render( posicionX, posicionY, renderer, currentClip );
 }
@@ -159,29 +157,19 @@ void Avion::render()
 EstadoAvion* Avion::getEstado() {
 
 	EstadoAvion*  estado =  new EstadoAvion(id, frame, posicionX, posicionY); 
-
 	std::list<EstadoProyectil*> lista;
-
 	std::list<Proyectil*>::iterator it;
-
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
-
 		estado->agregarEstadoProyectil((*it)->getEstado());
 	}
-
 	return estado;
 }
 
 std::list<EstadoProyectil*> Avion::getEstadoProyectiles() {
-
 	std::list<EstadoProyectil*> lista;
-
 	std::list<Proyectil*>::iterator it;
-
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
-
 		lista.push_back((*it)->getEstado());
 	}
-
 	return lista;
 }

@@ -2,8 +2,8 @@
 	<cantidadMaximaClientes>7</cantidadMaximaClientes>
 	<puerto>15636</puerto>
 	<ventana>
-		<ancho>800</ancho>
-		<alto>600</alto>
+		<ancho>480</ancho>
+		<alto>640</alto>
 		<velocidadCamara>500</velocidadCamara>
 	</ventana>
 	<sprites>
@@ -89,13 +89,6 @@
 		<avionSpriteId>avion_2</avionSpriteId>
 		<vueltaSpriteId>disparo_2</vueltaSpriteId>
 		<disparosSpriteId>vuelta_2</disparosSpriteId>
-	</avion>
-	<avion>
-		<velocidadDesplazamiento>14</velocidadDesplazamiento>
-		<velocidadDisparos>9</velocidadDisparos>
-		<avionSpriteId>avion_3</avionSpriteId>
-		<vueltaSpriteId>disparo_3</vueltaSpriteId>
-		<disparosSpriteId>vuelta_3</disparosSpriteId>
 	</avion>
 	</aviones>
 </servidor>

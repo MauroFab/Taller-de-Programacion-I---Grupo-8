@@ -1,12 +1,6 @@
-#include "../../juego/Juego.h"
-#include "../../juego/EstadoAvion.h"
-#include "../../juego/EstadoProyectil.h"
-#include <map>
-
 #include "MainCliente.h"
 
 MainCliente::MainCliente(){
-
 	this->dirXML.assign("");
 	this->conex = 0;
 	this->len = 0;
@@ -19,7 +13,6 @@ MainCliente::MainCliente(){
 	this->servidorXml = new ServidorXml();
 
 	this->nombreDeUsuario = "";
-
 	this->serverDesconectado = true;
 	this->cerrarConexion = true;
 }
@@ -32,7 +25,6 @@ MainCliente::~MainCliente(){
 
 // Ahora se carga la IP y el Puerto por consola, se deja esta función para configuraciones del cliente
 void MainCliente::parsearArchivoXml(int argc, char* argv[]){
-
 	getParserXml()->cargarXmlCliente(argc,argv);
 	int res = getParserXml()->validarXmlArchivoCliente();
 	if (res < 0){
@@ -56,13 +48,11 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 	// luego de usarlo se debe borrar
 	delete clienteXml;
 //	}
-
 }
 
 ParserXml * MainCliente::getParserXml(){
 	return this->parserx;
 }
-
 
 int MainCliente::chequearConexion(int len){
 
@@ -162,7 +152,6 @@ int MainCliente::recibirMensajes(void* ptrSock)
 			std::list<EstadoProyectilXml*> lista = pMensj->getEstadosProyectiles();
 
 			for (it = lista.begin(); it != lista.end(); it++) {
-
 				estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
 			}
 			
@@ -176,6 +165,7 @@ int MainCliente::recibirMensajes(void* ptrSock)
 			serverDesconectadoTest = true;
 		}
 	}
+
 	return 0;
 }
 
@@ -236,15 +226,19 @@ void MainCliente::cargarNombreDeUsuario() {
 	this->nombreDeUsuario = nombreDeUsuario;
 }
 
+
 int MainCliente::conectar(){
-
+#ifndef FAKE_DEBUG_CLIENTE	
 	cargarIpYPuerto();
-
+#endif	
 	inicializarConexion();
-	
+#ifndef FAKE_DEBUG_CLIENTE		
 	cargarNombreDeUsuario();
+#else
+	this->nombreDeUsuario.assign("cliente-A");
+#endif	
 
-	if(conectado==true){
+	if(conectado == true){
 		Log::getInstance()->warn(" el cliente ya se encuentra conectado.");
 		printf("ya se encuentra conectado \n"); //WARN?
 	}
@@ -259,25 +253,21 @@ int MainCliente::conectar(){
 			return -1;
 		}
 		else{
-
 			int len2 = 2;
 			char bufferEntrada[MAX_BUFFER];
 
 			len2 = recv(sock,bufferEntrada,MAX_BUFFER,0);
 
-			if (len2 <= 0){
-				// Es un error
+			if (len2 <= 0){// Es un error
 				chequearConexion(len2);
 			}
 			else{
-
 				//decodificar el mensaje
 				MensajeXml mensaXml;
 				int offset = Protocolo::decodificar(bufferEntrada,&mensaXml);
 				char * respuesta = mensaXml.getValor();
 
 				if (strcmp(respuesta,FAKE_MENSAJE_01) == 0){
-					
 					// Si el server nos envia respuesta es que la conexion ha sido satisfactoria
 					Log::getInstance()->info("El cliente se ha conectado correctamente.");
 					conectado = true;
@@ -290,7 +280,7 @@ int MainCliente::conectar(){
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(recibirMensajes, "recibirMensajes", &sock);
 
-					//Juego::getInstance()->cargarConfiguracion(this->servidorXml);
+					Juego::getInstance()->readServidorXml(this->servidorXml);
 					Juego::getInstance()->agregarObservador(this);
 					Juego::getInstance()->ejecutar();
 

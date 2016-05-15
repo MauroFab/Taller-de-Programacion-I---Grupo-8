@@ -24,7 +24,6 @@ public:
 	void setPosX(int posX);
 	void setPosY(int posY);
 	void setEstadoProyectiles(std::list<EstadoProyectil*> lista);
-
 	void agregarEstadoProyectil(EstadoProyectil* estadoProyectil);
 
 private:

@@ -91,11 +91,11 @@
     <ClCompile Include="..\common\xml\ConexionXml.cpp" />
     <ClCompile Include="..\common\xml\ElementoXml.cpp" />
     <ClCompile Include="..\common\xml\EscenarioXml.cpp" />
+    <ClCompile Include="..\common\xml\EstadoAvionXml.cpp" />
     <ClCompile Include="..\common\xml\EstadoProyectilXml.cpp" />
     <ClCompile Include="..\common\xml\FondoXml.cpp" />
     <ClCompile Include="..\common\Log.cpp" />
     <ClCompile Include="..\common\Protocolo.cpp" />
-    <ClCompile Include="..\common\xml\EstadoAvionXml.cpp" />
     <ClCompile Include="..\common\xml\SpriteXml.cpp" />
     <ClCompile Include="..\common\StringUtil.cpp" />
     <ClCompile Include="..\common\xml\VentanaXml.cpp" />
@@ -129,11 +129,11 @@
     <ClInclude Include="..\common\xml\ConexionXml.h" />
     <ClInclude Include="..\common\xml\ElementoXml.h" />
     <ClInclude Include="..\common\xml\EscenarioXml.h" />
+    <ClInclude Include="..\common\xml\EstadoAvionXml.h" />
     <ClInclude Include="..\common\xml\EstadoProyectilXml.h" />
     <ClInclude Include="..\common\xml\FondoXml.h" />
     <ClInclude Include="..\common\Log.h" />
     <ClInclude Include="..\common\Protocolo.h" />
-    <ClInclude Include="..\common\xml\EstadoAvionXml.h" />
     <ClInclude Include="..\common\xml\SpriteXml.h" />
     <ClInclude Include="..\common\StringUtil.h" />
     <ClInclude Include="..\common\xml\VentanaXml.h" />
@@ -148,6 +148,7 @@
     <ClInclude Include="..\juego\Graficador.h" />
     <ClInclude Include="..\juego\GraficoAvion.h" />
     <ClInclude Include="..\juego\GraficoProyectil.h" />
+    <ClInclude Include="..\juego\ICargable.h" />
     <ClInclude Include="..\juego\Juego.h" />
     <ClInclude Include="..\juego\Mapa.h" />
     <ClInclude Include="..\juego\Proyectil.h" />

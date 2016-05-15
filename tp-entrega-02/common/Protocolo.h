@@ -23,7 +23,7 @@
 #define FAKE_MENSAJE_03 "Nombre de usuario existente y conectado en este momento. Vuelva a intentar con otro."
 //si este flag existe, entonces se muestran todos los mensajes de debug del protocolo
 //se comenta o descomenta esta linea
-#define FAKE_DEBUG_PROTO 1
+//#define FAKE_DEBUG_PROTO 1 
 
 class Protocolo
 {
@@ -46,10 +46,10 @@ public:
 	 * y moverse al size del siguiente mensaje
 	 */
 	static int decodificar(char * buffer,MensajeXml *mensajeXml);
-
+	
 	// Devuelve el código de error correspondiente o 0 en caso de que el mensaje sea válido
 	static int validarMensaje(MensajeXml &mensaje);
-
+	
 	//los objetos se carga en forma lazy, aquellos que tienen contenedores solo tienen
 	//carga parcial de datos
 	static int codificar(SpriteXml &spriteXml,char * buffer);

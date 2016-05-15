@@ -1,19 +1,9 @@
-#include "Movimiento.h"
-#include "Avion.h"
-#include "Mapa.h"
-#include "ConfiguracionJuegoXML.h"
-#include "Graficador.h"
-#include "FondoInicio.h"
-#include <vector>
 #include "Juego.h"
-
-using namespace std;
 
 bool Juego::instanceFlag = false;
 Juego* Juego::instance = NULL;
 
 Juego* Juego::getInstance() {
-
 	if(!instanceFlag){
         instance = new Juego();
         instanceFlag = true;
@@ -22,50 +12,54 @@ Juego* Juego::getInstance() {
 }
 
 Juego::Juego(){
-
+	this->ventanaAncho = 0;
+	this->ventanaAlto = 0;	
+	//TODO los siguientes datos no se estan usando, deberian ser atributo no variables en otro metodo
 	SDL_Window* gWindow = NULL;
 	SDL_Renderer* gRenderer = NULL;
-
 	mut = SDL_CreateMutex();
 }
 
 Juego::~Juego(){
-
 	SDL_DestroyMutex(mut);
-
 	close();
+}
+int Juego::readServidorXml(ServidorXml * servidorXml){
+	return this->readFrom(servidorXml);
+}
+
+int Juego::readFrom(IGenericaVO * objetoXML){
+	ServidorXml * tempServidorXml = (ServidorXml*)objetoXML;
+	//carga la cantidad total de aviones 
+	int canAvs = tempServidorXml->getCanAvs();
+	//carga las dimensiones de la ventana
+	this->ventanaAncho = tempServidorXml->getVentanaXmlCopy()->getAncho();
+	this->ventanaAlto = tempServidorXml->getVentanaXmlCopy()->getAlto();
+	return 0;
 }
 
 // Inicializacion
 bool Juego::init() {
-
 	//Initialization flag
 	bool success = true;
 
 	//Initialize SDL
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-	{
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
 		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
 		success = false;
 	}
-	else
-	{
+	else{
 		//Set texture filtering to linear
-		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
-		{
+		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) ){
 			printf( "Warning: Linear texture filtering not enabled!" );
 		}
-
 		//Create window
-
-		gWindow = SDL_CreateWindow( "1942", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, FAKE_SCREEN_WIDTH, FAKE_SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-		if( gWindow == NULL )
-		{
+		gWindow = SDL_CreateWindow( "1942", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->ventanaAncho, this->ventanaAlto, SDL_WINDOW_SHOWN );
+		if( gWindow == NULL ){
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
 			success = false;
 		}
-		else
-		{
+		else{
 			//Create vsynced renderer for window
 			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 			if( gRenderer == NULL )
@@ -140,14 +134,14 @@ void Juego::ejecutar() {
 	SDL_Event e;
 
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 7, 113, 195, 10);
-	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 7, 102, 195, 10);
+	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 6, 102, 195, 10);
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
 	// Test para ver si se grafican otros aviones
 	Graficador::getInstance()->inicializar(gRenderer);
-	Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 7, 102, 195);
-	//Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 7, 113,195);
+	//Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);
+	Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
 	Graficador::getInstance()->cargarDatosProyectil("proyectilAvion.bmp", 1, 11, 25);
 
 	Mapa::getInstace()->inicializar(gRenderer);
@@ -157,7 +151,7 @@ void Juego::ejecutar() {
 	Mapa::getInstace()->crearCarrierEn(300, 1200);
 	Mapa::getInstace()->crearCarrierEn(200, 1);
 
-	Avion avion(gRenderer);
+	Avion avion(gRenderer,this->ventanaAncho,this->ventanaAlto);
 
 	/*------------------------------------------------------------------*/
 	//Clear screen

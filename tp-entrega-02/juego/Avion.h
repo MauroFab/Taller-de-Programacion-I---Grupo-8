@@ -9,9 +9,6 @@
 
 //************************
 //esto NOO tiene que estar
-#define FAKE_SCREEN_WIDTH 480
-#define FAKE_SCREEN_HEIGHT 640
-
 #define FAKE_POS_X 200
 #define FAKE_POS_Y 400
 //************************
@@ -25,28 +22,21 @@
 #include <list>
 
 class Avion {
-
     public:
-
-		Avion(SDL_Renderer* renderer);
-
+		Avion(SDL_Renderer* renderer,int ventanaAncho,int ventanaAlto);
 		~Avion();
-
 		bool handleEvent( SDL_Event& e );
-
 		void mover();
-
 		void render();
-
 		EstadoAvion* getEstado();
-
 		std::list<EstadoProyectil*> getEstadoProyectiles();
-
     private:
-
 		SDL_Rect *fotogramas;
 		Textura* texturaAvion;
 		SDL_Renderer* renderer;
+		//limites de la ventana
+		int ventanaAncho;
+		int ventanaAlto;
 		int frame;
 		int cantDeFotogramas;
 		int anchoFotograma;
@@ -55,12 +45,9 @@ class Avion {
 
 		bool rollFlag;
 		std::list<Proyectil*> proyectiles;
-
 		// Posicion del avion
 		int posicionX, posicionY;
-
 		int velocidad;
-
 		// Velocidad del avion
 		int velocidadX, velocidadY;
 };

@@ -23,6 +23,10 @@
 #include "../../common/Protocolo.h"
 #include "../../common/observer/Observador.h"
 
+#include "../../juego/Juego.h"
+#include "../../juego/EstadoAvion.h"
+#include "../../juego/EstadoProyectil.h"
+
 // CODIGO DE FINALIZACION DE OPERACIONES
 #define COD_OK					0
 #define COD_KO					-1
@@ -31,6 +35,13 @@
 #define OPT_DESCONECTAR 2
 #define OPT_SALIR		3
 #define OPT_ENVIAR		4
+
+//FAKE es de falso, bueno este flag esta para trabajar sin cargar los datos
+//pues servidor y puerto los levanta del XML
+//y que se harcodee nombre cuando esta todo hardcodeado no pasa nada
+//nota:antes de que un integrante puntual salte le aviso, dejar No hardcodeado lo unico que se ingresa, es complicarla ahora
+//y antes del lo de siempre, y diga <<NO<<, esa no es la forma correcta hagamos lo contrario.--> eso es perder tiempo
+#define FAKE_DEBUG_CLIENTE		1
 
 using std::string;
 using std::map;
@@ -57,21 +68,19 @@ private:
 	//contiene al parser, lo crea y lo borra
 	ParserXml * parserx;
 	//se almancena todo el modelo parseado
-	ServidorXml * servidorXml;
-
+	ServidorXml * servidorXml;	
 public:
-
 	MainCliente();
 	virtual ~MainCliente();
 	void parsearArchivoXml(int argc, char* argv[]);
 	ParserXml * getParserXml();
 	int chequearConexion(int len);
 	int menu();
+	//realiza la conexion y copia todo el modelo desde el cliente
 	int conectar();
 	int desconectar();
 	int salir();
 	int enviar();
-
 private:
 
 	SDL_Thread* receptor;
