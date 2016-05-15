@@ -20,6 +20,7 @@
 //TODO corregir
 #define FAKE_MENSAJE_01 "Conexion aceptada."
 #define FAKE_MENSAJE_02	"Conexion rechazada. Se ha superado la cantidad maxima de conexiones. Vuelva a intentar mas tarde."
+#define FAKE_MENSAJE_03 "Nombre de usuario existente y conectado en este momento. Vuelva a intentar con otro."
 //si este flag existe, entonces se muestran todos los mensajes de debug del protocolo
 //se comenta o descomenta esta linea
 #define FAKE_DEBUG_PROTO 1

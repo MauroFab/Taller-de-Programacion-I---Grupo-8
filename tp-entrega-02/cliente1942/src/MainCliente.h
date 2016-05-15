@@ -45,6 +45,7 @@ private:
 	map<int,MensajeXml*> mapMensajes;
 	string dirXML;
 	string ip,port;
+	string nombreDeUsuario;
 	WSADATA wsa;
 	struct hostent *host;
 	struct sockaddr_in direc;
@@ -56,8 +57,10 @@ private:
 	//contiene al parser, lo crea y lo borra
 	ParserXml * parserx;
 	//se almancena todo el modelo parseado
-	ServidorXml * servidorXml;	
+	ServidorXml * servidorXml;
+
 public:
+
 	MainCliente();
 	virtual ~MainCliente();
 	void parsearArchivoXml(int argc, char* argv[]);
@@ -75,6 +78,7 @@ private:
 	int inicializarConexion();
 	static void grabarEnElLogLaDesconexion(int len);
 	static int recibirMensajes(void*);
+	void cargarNombreDeUsuario();
 	void cargarIpYPuerto();
 	void cargarIP();
 	void cargarPuerto();

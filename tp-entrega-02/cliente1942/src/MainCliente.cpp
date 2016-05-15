@@ -18,6 +18,8 @@ MainCliente::MainCliente(){
 	this->parserx = new ParserXml();
 	this->servidorXml = new ServidorXml();
 
+	this->nombreDeUsuario = "";
+
 	this->serverDesconectado = true;
 	this->cerrarConexion = true;
 }
@@ -181,6 +183,8 @@ void MainCliente::cargarIP() {
 
 	system("CLS");
 
+	printf("\n%s\n", "------------------------------------------------------------------------");
+
 	printf("Ingrese IP\n");
 
 	string ip = "";
@@ -195,6 +199,8 @@ void MainCliente::cargarIP() {
 void MainCliente::cargarPuerto() {
 
 	system("CLS");
+
+	printf("\n%s\n", "------------------------------------------------------------------------");
 
 	printf("Ingrese Puerto\n");
 
@@ -213,12 +219,31 @@ void MainCliente::cargarIpYPuerto() {
 	cargarPuerto();
 }
 
+void MainCliente::cargarNombreDeUsuario() {
+
+	system("CLS");
+
+	printf("\n%s\n", "------------------------------------------------------------------------");
+
+	printf("Ingrese su nombre de usuario\n");
+
+	string nombreDeUsuario = "";
+
+	while (strcmp(nombreDeUsuario.c_str(), "") == 0) {
+		cin>>nombreDeUsuario;
+	}
+
+	this->nombreDeUsuario = nombreDeUsuario;
+}
+
 int MainCliente::conectar(){
 
 	cargarIpYPuerto();
 
 	inicializarConexion();
 	
+	cargarNombreDeUsuario();
+
 	if(conectado==true){
 		Log::getInstance()->warn(" el cliente ya se encuentra conectado.");
 		printf("ya se encuentra conectado \n"); //WARN?
@@ -279,6 +304,16 @@ int MainCliente::conectar(){
 					shutdown(sock,2);
 					closesocket(sock);
 				}
+				else if (strcmp(respuesta, FAKE_MENSAJE_03) == 0) {
+					// El server ya tiene un usuario igual y está conectado
+
+					Log::getInstance()->error(bufferEntrada);
+					printf("Respuesta servidor:> %s\n",bufferEntrada);
+	
+					shutdown(sock,2);
+					closesocket(sock);
+					conectado = false;
+				}
 			}
 		}
 	}
@@ -304,9 +339,9 @@ int MainCliente::salir(){
 
 int MainCliente::enviar(){
 
-	if(conectado==false){ //!conectado
-		Log::getInstance()->info(" debe conectarse para enviar/recibir mensajes.");
-		printf("debe conectarse para enviar/recibir mensajes. \n");
+	if(!conectado){
+		Log::getInstance()->info(" Debe conectarse para enviar/recibir mensajes.");
+		printf("Debe conectarse para enviar/recibir mensajes. \n");
 		system("PAUSE");
 		return -1;
 	}
