@@ -168,6 +168,9 @@
     <ClCompile Include="..\common\xml\EstadoProyectilXml.cpp">
       <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\MensajeSeguro.cpp">
+      <Filter>Archivos de código fuente\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -239,9 +242,6 @@
     <ClInclude Include="..\juego\Textura.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
-    <ClInclude Include="..\juego\Constantes.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\Protocolo.h">
       <Filter>Archivos de encabezado\Conexion</Filter>
     </ClInclude>
@@ -277,6 +277,12 @@
     </ClInclude>
     <ClInclude Include="..\common\xml\EstadoProyectilXml.h">
       <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\ICargable.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\MensajeSeguro.h">
+      <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

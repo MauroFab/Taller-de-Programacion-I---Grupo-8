@@ -87,6 +87,9 @@
     <ClCompile Include="..\common\xml\EstadoProyectilXml.cpp">
       <Filter>Archivos de código fuente\Paser</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\MensajeSeguro.cpp">
+      <Filter>Archivos de código fuente\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AsignadorDeUsuarios.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="..\common\xml\EstadoProyectilXml.h">
       <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\MensajeSeguro.h">
+      <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

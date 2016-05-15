@@ -90,6 +90,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\common\Log.cpp" />
+    <ClCompile Include="..\common\MensajeSeguro.cpp" />
     <ClCompile Include="..\common\Protocolo.cpp" />
     <ClCompile Include="..\common\StringUtil.cpp" />
     <ClCompile Include="..\common\xml\AvionXml.cpp" />
@@ -113,6 +114,7 @@
   <ItemGroup>
     <ClInclude Include="..\common\IGenericaVO.h" />
     <ClInclude Include="..\common\Log.h" />
+    <ClInclude Include="..\common\MensajeSeguro.h" />
     <ClInclude Include="..\common\Protocolo.h" />
     <ClInclude Include="..\common\StringUtil.h" />
     <ClInclude Include="..\common\xml\AvionXml.h" />
