@@ -311,32 +311,107 @@ int MainServidor::recibirConexiones(void*){
 				}
 			
 				idYPunteroAlSocket.punteroAlSocket = socketConexion;
-
-				//VER: Mensaje conexion aceptada
-				char* strMsj = FAKE_MENSAJE_01;
 				
-				MensajeXml mensaje;
-				mensaje.setValor(strMsj,strlen(strMsj));
-				char buffEnvio[MAX_BUFFER];
-				mensaje.calculateSizeBytes();
-				mensaje.setTipo(TIPO_STRING);
-				int sizeEnvio = Protocolo::codificar(mensaje,buffEnvio);
-				//BUG-003
-				//enviar el modelo entero
-				//sendServidorXml
-				sizeEnvio += Protocolo::codificar(*this->servidorXml,buffEnvio + sizeEnvio);	
-				//BUG-003
-				MensajeSeguro::enviar(*socketConexion, buffEnvio, sizeEnvio);
 
-				vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
-				vectorSockets.push_back(socketConexion);
-				// colaSockets.push(socketConexion);
-				// algun contendor para los hilos que se crean		
+				// Recibe el mensaje del cliente que contiene el nombre de usuario
+				
+				char bufferEntrada[MAX_BUFFER];
+				
+				MensajeSeguro::recibir(*socketConexion, bufferEntrada);
+				
+				MensajeXml mensajeUsuario; 
+				
+				Protocolo::decodificar(bufferEntrada, &mensajeUsuario);
+				
+				char* usuario = mensajeUsuario.getValor();
+				
+				bool conectado;
+
+				std::map<string, bool>::iterator it = usuariosConectados.find(usuario);
+
+				if (it == usuariosConectados.end()) {
+					conectado = NULL;
+				} else {
+					conectado = usuariosConectados.at(usuario);
+				}
+
+				// Verifica si está conectado
+				
+				MensajeXml mensajeEnvio;
+				int size = 0;
+				char* respuesta = "";
+				char buffEnvio[MAX_BUFFER];
+				
+				// Verifica si es la primera vez que se conecta
+				if (conectado != NULL) {
+					
+					if (conectado) {
+					
+						respuesta = FAKE_MENSAJE_03;
+						
+						mensajeEnvio.setValor(respuesta, strlen(respuesta));
+						
+						mensajeEnvio.setTipo(TIPO_STRING);
+						
+						mensajeEnvio.calculateSizeBytes();
+						
+						size = Protocolo::codificar(mensajeEnvio, buffEnvio);
+
+						usuarios->eliminarUsuario(idYPunteroAlSocket.id);
+
+						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
+					
+					} else {
+					
+						usuariosConectados[usuario] = true;
+						
+						respuesta = FAKE_MENSAJE_01;
+						
+						mensajeEnvio.setValor(respuesta, strlen(respuesta));
+						
+						mensajeEnvio.setTipo(TIPO_STRING);
+
+						mensajeEnvio.calculateSizeBytes();
+						
+						size = Protocolo::codificar(mensajeEnvio,buffEnvio);
+						
+						size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
+
+						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
+
+						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
+						vectorSockets.push_back(socketConexion);
+						// colaSockets.push(socketConexion);
+						// algun contendor para los hilos que se crean	
+					}
+					
+				} else {
+					
+					usuariosConectados.insert(std::pair<string, bool>(usuario, true));
+					
+					respuesta = FAKE_MENSAJE_01;
+					
+					mensajeEnvio.setValor(respuesta, strlen(respuesta));
+					
+					mensajeEnvio.setTipo(TIPO_STRING);
+
+					mensajeEnvio.calculateSizeBytes();
+					
+					size = Protocolo::codificar(mensajeEnvio,buffEnvio);
+					
+					size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
+
+					MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
+
+					vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
+					vectorSockets.push_back(socketConexion);
+					// colaSockets.push(socketConexion);
+					// algun contendor para los hilos que se crean	
+				}	
 			}
 			else{
 				free(socketConexion);
 			}
-
 		}
 		else {
 			// Si se supero la cantidad maxima de usuarios enviamos un mensaje al cliente informado que ha sido rechazado

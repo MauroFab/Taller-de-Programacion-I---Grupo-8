@@ -253,6 +253,22 @@ int MainCliente::conectar(){
 			return -1;
 		}
 		else{
+			
+			// Se envia un mensaje al servidor para que valide el nombre de usuario
+			
+			MensajeXml mensajeUsuario;
+			mensajeUsuario.setValor(this->nombreDeUsuario.c_str(), strlen((this->nombreDeUsuario).c_str()));
+			mensajeUsuario.setTipo(TIPO_STRING);
+			mensajeUsuario.calculateSizeBytes();
+			
+			char bufferSalida [MAX_BUFFER];
+			
+			int size = Protocolo::codificar(mensajeUsuario, bufferSalida);
+			
+			MensajeSeguro::enviar(sock, bufferSalida, size);
+			
+			// Se recibe la confirmación de la validación del nombre de usuario
+			
 			int len2 = 2;
 			char bufferEntrada[MAX_BUFFER];
 
@@ -298,7 +314,7 @@ int MainCliente::conectar(){
 					// El server ya tiene un usuario igual y está conectado
 
 					Log::getInstance()->error(bufferEntrada);
-					printf("Respuesta servidor:> %s\n",bufferEntrada);
+					printf("Respuesta servidor:> %s\n",FAKE_MENSAJE_03);
 	
 					shutdown(sock,2);
 					closesocket(sock);

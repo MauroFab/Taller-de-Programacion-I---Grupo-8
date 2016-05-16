@@ -54,6 +54,7 @@ public:
 	std::queue<MensajeConId*> colaDeMensaje;
 	std::vector<SDL_Thread*> vectorHilos;
 	std::vector<SOCKET*> vectorSockets;
+	std::map<string, bool> usuariosConectados;
 	SOCKET socketDeEscucha;
 	SDL_mutex *mut; // el mutex para proteger la cola de mensajes
 

@@ -147,7 +147,7 @@ char * MensajeXml::getValor(){
 	return this->valor;
 }
 
-void MensajeXml::setValor(char * valor,int lenValor){
+void MensajeXml::setValor(const char * valor,int lenValor){
 	this->valor = new char[lenValor + 1];
 	memcpy(this->valor,valor,lenValor + 1);
 }
