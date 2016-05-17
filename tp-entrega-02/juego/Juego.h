@@ -44,6 +44,7 @@ private:
 	Juego();
 	int ventanaAncho;
 	int ventanaAlto;
+	bool jugar; // para avisar que debe de inciar el juego
 	//este metodo realiza la inicializacion de la configuracion grafica de SDL
 	bool init();
 	void configuracionInicial();

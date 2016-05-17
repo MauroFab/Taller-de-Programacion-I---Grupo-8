@@ -293,6 +293,9 @@ int MainCliente::conectar(){
 					//se decodifica el escenario completo
 					offset += Protocolo::decodificar(bufferEntrada + offset,this->servidorXml);
 
+					//TODO: modifica aca para que el cliente espere el mensaje del servidor y comiense
+					// a cargar el juego
+
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(recibirMensajes, "recibirMensajes", &sock);
 

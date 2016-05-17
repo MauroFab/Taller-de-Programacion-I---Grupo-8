@@ -18,6 +18,7 @@ Juego::Juego(){
 	SDL_Window* gWindow = NULL;
 	SDL_Renderer* gRenderer = NULL;
 	mut = SDL_CreateMutex();
+	jugar=false;
 }
 
 Juego::~Juego(){
@@ -105,20 +106,21 @@ void Juego::configuracionInicial() {
 	FondoInicio fondo("fondoInicio.bmp", gRenderer);
 
 	// TODO: PENDIENTE INICIAR LA PARTIDA CUANDO TODOS LOS USUARIOS ESTEN CONECTADOS
-	while( !jugar ) {
+	// while( !jugar ) {
 
-		while( SDL_PollEvent( &e ) != 0 ) {
+		// while( SDL_PollEvent( &e ) != 0 ) {
 
-			if (e.type == SDL_KEYUP) jugar = true;
-		}
-
+		//	if (e.type == SDL_KEYUP) jugar = true;
+		// }
+		// esperar 5 seg para comenzar el juego, esta afuera
+		
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 		SDL_RenderClear( gRenderer );
 
 		fondo.render();
 
 		SDL_RenderPresent( gRenderer );
-	}
+	// }
 }
 
 void Juego::ejecutar() {
@@ -128,7 +130,12 @@ void Juego::ejecutar() {
 		return;
 
 	configuracionInicial();
-
+	// usar el flag para indicar que se puede jugar, no en necesario protegerlo, pues solo uno escribe
+	// no importa si se pierde unos loops
+	// seria mejor lanzar un evento, pero por ahora que quede asi.
+	while(jugar){
+	};
+	SDL_Delay(5000); // comienza en 5 seg luego que dio el ok el server
 	static int tamanioMaximoMapa = 2000;
 	bool quit = false;
 	SDL_Event e;
@@ -167,15 +174,18 @@ void Juego::ejecutar() {
 	SDL_RenderPresent( gRenderer );
 
 	// TODO: VOLAR LO QUE SIGUE ahora solo queda para dar tiempo a empezar en "paralelo"
-	int test = 0;
-	while(test < 1000000000)
-		test++;
+	// int test = 0;
+	// while(test < 1000000000)
+	//	test++;
+	
+	
+	
 	/*------------------------------------------------------------------*/
 	EstadoAvion* estadoAnterior = NULL;
-
+	
 	//Mientras el usuario no desee salir
 	while( !quit ) {
-
+		
 		//Agrego los eventos
 		while( SDL_PollEvent( &e ) != 0 ) {
 
