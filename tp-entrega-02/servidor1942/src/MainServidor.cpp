@@ -4,13 +4,13 @@ bool MainServidor::instanceFlag = false;
 MainServidor* MainServidor::single = NULL;
 
 struct IdYPunteroAlSocket {
-  int id;
-  SOCKET* punteroAlSocket;
+	int id;
+	SOCKET* punteroAlSocket;
 };
 
 struct StructDelEnviadorDeMensajes {
-  IdYPunteroAlSocket idYPunteroAlSocket;
-  bool* seCerroLaConexion;
+	IdYPunteroAlSocket idYPunteroAlSocket;
+	bool* seCerroLaConexion;
 };
 
 MainServidor::MainServidor(){
@@ -46,7 +46,7 @@ void MainServidor::parsearArchivoXml(int argc, char* argv[]){
 	parserx.cargarXmlServidor(argc,argv);
 
 	int res = parserx.validarXmlArchivoServidor();
-	
+
 	if (res < 0){
 		printf("\nERROR: Error semantico\n");
 		parserx.cargarXmlServidor(0,argv);
@@ -60,17 +60,17 @@ void MainServidor::parsearArchivoXml(int argc, char* argv[]){
 	this->usuarios = new AsignadorDeUsuarios(cantidadDeClientesMaxima);
 	this->seDebeCerrarElServidor = false;
 	// luego de usarlo se debe borrar
-//	delete servidorXml;
+	//	delete servidorXml;
 }
 
 SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
-	
+
 	WSADATA wsa;
 	SOCKET sock;
-	
+
 	//Inicializamos
 	WSAStartup(MAKEWORD(2,0),&wsa);
-	
+
 	//Creamos el socket
 	sock=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 
@@ -78,7 +78,7 @@ SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
 	local.sin_family = AF_INET;
 	local.sin_addr.s_addr = INADDR_ANY;
 	local.sin_port = htons(this->puerto); // htons(9999);
-	
+
 	//asociamos el socket al puerto
 	if (bind(sock, (SOCKADDR*) &local, sizeof(local))==-1){
 		printf("error en el bind\n");
@@ -111,36 +111,56 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 
 	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
 	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
-	
+
 	//el socket es igual a la direccion apuntada por el punteroAlSocket
 	int id = idYPunteroAlSocket.id;
 	std::queue<EstadoAvionXml*>* colaDeMensajesParaEnviar;
 	EstadoAvionXml* mensaje;
 	bool* seCerroLaConexionPointer = structRecibido.seCerroLaConexion;
 	colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
-	
+
 	printf("Se esta preparado para enviar mensajes al usuario: %i\n",id); 
-	
+	//-----------------------------
+	bool mensajeJugar=true;
+	MensajeXml mensajeEnvio;
+	int size = 0;
+	char* respuesta = "";
+	char bufferEnvio[MAX_BUFFER];
+
 	while(!(*seCerroLaConexionPointer)){
+	// enviar el inicio del juego a todos los clientes
+		if(!usuarios->puedoTenerMasUsuarios()&& mensajeJugar){
+		//if(mensajeJugar){
+						respuesta = FAKE_MENSAJE_04;
+						mensajeEnvio.setValor(respuesta, strlen(respuesta));
+						mensajeEnvio.setTipo(TIPO_STRING);
+						mensajeEnvio.calculateSizeBytes();
+						size = Protocolo::codificar(mensajeEnvio, bufferEnvio);
+						MensajeSeguro::enviar(socket, bufferEnvio, size);
+						cout<<"Envio el mensaje de JUGAR al cliente:"<< id <<endl;
+						mensajeJugar=false;
 
-		if(!colaDeMensajesParaEnviar->empty()){
-			
-			mensaje = colaDeMensajesParaEnviar->front();
-			SDL_mutexP(mut);
-			colaDeMensajesParaEnviar->pop();
-			SDL_mutexV(mut);
-			char buffEnvio[MAX_BUFFER];
-			mensaje->calculateSizeBytes();
-			int sizeEnvio = Protocolo::codificar(*mensaje,buffEnvio);
-			MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
+		} else {
 
-			//Aca debería liberar la memoria del mensaje, pero si lo hago estalla.
-			//Y efectivamente si mando muchos mensajes (Con un solo cliente abierto), la memoria aumenta, asi que 
-			// la estamos perdiendo con los mensajes
-			delete mensaje; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
+			if(!colaDeMensajesParaEnviar->empty()){
+
+				mensaje = colaDeMensajesParaEnviar->front();
+				SDL_mutexP(mut);
+				colaDeMensajesParaEnviar->pop();
+				SDL_mutexV(mut);
+				char buffEnvio[MAX_BUFFER];
+				mensaje->calculateSizeBytes();
+				int sizeEnvio = Protocolo::codificar(*mensaje,buffEnvio);
+				MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
+
+				//Aca debería liberar la memoria del mensaje, pero si lo hago estalla.
+				//Y efectivamente si mando muchos mensajes (Con un solo cliente abierto), la memoria aumenta, asi que 
+				// la estamos perdiendo con los mensajes
+				delete mensaje; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
+			}
 		}
 	}
-    
+
 	return 0;
 }
 
@@ -170,20 +190,20 @@ void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id,Estado
 
 void MainServidor::grabarEnElLogLaDesconexion(int len){
 	if (len == 0){
-			Log::getInstance()->info( "Se ha desconectado el server");
-		}
-		else if (len < 0){
-			// Si es -1 hay un error en la conexion
-			int error = WSAGetLastError();
+		Log::getInstance()->info( "Se ha desconectado el server");
+	}
+	else if (len < 0){
+		// Si es -1 hay un error en la conexion
+		int error = WSAGetLastError();
 
-			if(error == WSAENOTCONN || error == WSAECONNRESET){
-				Log::getInstance()->error( "Se ha desconectado inesperadamente el server");
-			}
-			else if (error == WSAENETDOWN)
-				Log::getInstance()->error( "Red caida");
-			else
-				Log::getInstance()->error( "Error de conexion");
+		if(error == WSAENOTCONN || error == WSAECONNRESET){
+			Log::getInstance()->error( "Se ha desconectado inesperadamente el server");
 		}
+		else if (error == WSAENETDOWN)
+			Log::getInstance()->error( "Red caida");
+		else
+			Log::getInstance()->error( "Error de conexion");
+	}
 }
 
 bool MainServidor::seguimosConectados(int len){
@@ -226,7 +246,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);
 			//--------------------------------
 			//bufferEntrada[len]=0; //Ponemos el fin de cadena 
-		 
+
 		}else{
 			grabarEnElLogLaDesconexion(len);
 			// El frame 42 es el grisado
@@ -236,15 +256,15 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 			delete pMensj;
 		}
 	}
-	
+
 	*seCerroLaConexion = true;
-	
+
 	// IMPORTANTE: el socket solo se libera cuando se detiene el server, sino no pueden reutilizarse. 
 	if(seDebeCerrarElServidor){
 		int result = closesocket(socket);
-	    WSACleanup();
+		WSACleanup();
 	}
-	
+
 	SDL_WaitThread(threadDeEnvioDeMensajes, NULL);
 	delete seCerroLaConexion;
 	usuarios->eliminarUsuario(id);
@@ -258,7 +278,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 void freeSockets (SOCKET* s) {  // libero la memoria de los sockets
 
 	Log::getInstance()->debug("Liberando recursos del socket.");
-	
+
 	free(s);
 }
 void waitThread (SDL_Thread* h) {  // wait para todos los threadsockets
@@ -272,7 +292,7 @@ void waitThread (SDL_Thread* h) {  // wait para todos los threadsockets
 
 
 int MainServidor::recibirConexiones(void*){
-	
+
 	struct sockaddr_in local;
 
 	SOCKET* socketConexion;
@@ -288,43 +308,43 @@ int MainServidor::recibirConexiones(void*){
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
 	do{
 		if(usuarios->puedoTenerMasUsuarios()){ 
-			
+
 			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
 
 			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
 
 			if (*socketConexion != INVALID_SOCKET) {
-			
+
 				printf("Nueva conexion aceptada\n"); 
 				Log::getInstance()->info("Nueva conexion acceptada");
-			
+
 				// aca chequear los errores por si desconectamos el servidor, cerrando su conexion
 				idYPunteroAlSocket.id = usuarios->crearUsuarioYObtenerId();
 				printf("La cantidad de clientes conectados es: %d\n",usuarios->cantidadDeUsuarios()); 
 				printf("La id del nuevo usuario es: %d\n",idYPunteroAlSocket.id); 
-			
+
 				if(usuarios->puedoTenerMasUsuarios()){
 					printf("Todavia se pueden tener mas usuarios\n");
 				}else{
 					printf("Se ha alcanzado el limite de usuarios");
 					Log::getInstance()->info("Se ha alcanzado el limite de usuarios.");
 				}
-			
+
 				idYPunteroAlSocket.punteroAlSocket = socketConexion;
-				
+
 
 				// Recibe el mensaje del cliente que contiene el nombre de usuario
-				
+
 				char bufferEntrada[MAX_BUFFER];
-				
+
 				MensajeSeguro::recibir(*socketConexion, bufferEntrada);
-				
+
 				MensajeXml mensajeUsuario; 
-				
+
 				Protocolo::decodificar(bufferEntrada, &mensajeUsuario);
-				
+
 				char* usuario = mensajeUsuario.getValor();
-				
+
 				bool conectado;
 
 				std::map<string, bool>::iterator it = usuariosConectados.find(usuario);
@@ -336,45 +356,45 @@ int MainServidor::recibirConexiones(void*){
 				}
 
 				// Verifica si está conectado
-				
+
 				MensajeXml mensajeEnvio;
 				int size = 0;
 				char* respuesta = "";
 				char buffEnvio[MAX_BUFFER];
-				
+
 				// Verifica si es la primera vez que se conecta
 				if (conectado != NULL) {
-					
+
 					if (conectado) {
-					
+
 						respuesta = FAKE_MENSAJE_03;
-						
+
 						mensajeEnvio.setValor(respuesta, strlen(respuesta));
-						
+
 						mensajeEnvio.setTipo(TIPO_STRING);
-						
+
 						mensajeEnvio.calculateSizeBytes();
-						
+
 						size = Protocolo::codificar(mensajeEnvio, buffEnvio);
 
 						usuarios->eliminarUsuario(idYPunteroAlSocket.id);
 
 						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
-					
+
 					} else {
-					
+
 						usuariosConectados[usuario] = true;
-						
+
 						respuesta = FAKE_MENSAJE_01;
-						
+
 						mensajeEnvio.setValor(respuesta, strlen(respuesta));
-						
+
 						mensajeEnvio.setTipo(TIPO_STRING);
 
 						mensajeEnvio.calculateSizeBytes();
-						
+
 						size = Protocolo::codificar(mensajeEnvio,buffEnvio);
-						
+
 						size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
 
 						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
@@ -384,21 +404,21 @@ int MainServidor::recibirConexiones(void*){
 						// colaSockets.push(socketConexion);
 						// algun contendor para los hilos que se crean	
 					}
-					
+
 				} else {
-					
+
 					usuariosConectados.insert(std::pair<string, bool>(usuario, true));
-					
+
 					respuesta = FAKE_MENSAJE_01;
-					
+
 					mensajeEnvio.setValor(respuesta, strlen(respuesta));
-					
+
 					mensajeEnvio.setTipo(TIPO_STRING);
 
 					mensajeEnvio.calculateSizeBytes();
-					
+
 					size = Protocolo::codificar(mensajeEnvio,buffEnvio);
-					
+
 					size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
 
 					MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
@@ -473,20 +493,20 @@ int MainServidor::fun_avisarATodos(void* data){
 int MainServidor::avisarATodos(void* data){
 	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 	MensajeConId* mensajeConId=(MensajeConId*)data;
-			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
+	for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
 
-				if(i != mensajeConId->id){
+		if(i != mensajeConId->id){
 
-					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-					EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getFrame(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
+			EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getFrame(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
 
-					SDL_mutexP(mut);
-					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
-					SDL_mutexV(mut);
-				}
-			}
-			delete mensajeConId;
-			return 0;
+			SDL_mutexP(mut);
+			colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
+			SDL_mutexV(mut);
+		}
+	}
+	delete mensajeConId;
+	return 0;
 
 }
 
@@ -496,7 +516,7 @@ int MainServidor::mainPrincipal(){
 
 	mut=SDL_CreateMutex();
 	MensajeConId* mensajeConId;
-	
+
 	printf("Escriba terminar si desea cerrar el servidor\n", usuarios->cantidadDeUsuarios()); 
 
 	SDL_Thread* receptor=SDL_CreateThread(MainServidor::fun_recibirConexiones, "recibirConexiones", NULL);
@@ -506,7 +526,7 @@ int MainServidor::mainPrincipal(){
 
 	while(!seDebeCerrarElServidor){
 
-		 SDL_mutexP(mut);
+		SDL_mutexP(mut);
 
 		if(!colaDeMensaje.empty()){
 
@@ -523,12 +543,12 @@ int MainServidor::mainPrincipal(){
 			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: id: " << mensajeConId->mensajeXml.getId() << " frame: " <<  mensajeConId->mensajeXml.getFrame() << " x: " << mensajeConId->mensajeXml.getPosX() << " y: " << mensajeConId->mensajeXml.getPosY();
 			mensajeLog << " SizeBytes:" << mensajeConId->mensajeXml.getSizeBytes();
 			Log::getInstance()->debug(mensajeLog.str());
-		
+
 			//TODO OJO aca deberia hacerse el delete sino perdera memoria
 			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
 
 			// SDL_Thread* avisador=SDL_CreateThread(MainServidor::fun_avisarATodos, "recibirConexiones", (void*)mensajeConId);
-			
+
 			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
 
 				if(i != mensajeConId->id){

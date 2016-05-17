@@ -47,7 +47,7 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 
 	// luego de usarlo se debe borrar
 	delete clienteXml;
-//	}
+	//	}
 }
 
 ParserXml * MainCliente::getParserXml(){
@@ -107,22 +107,22 @@ int MainCliente::inicializarConexion(){
 }
 void MainCliente::grabarEnElLogLaDesconexion(int len){
 	if (len == 0){
-			Log::getInstance()->info( "Se ha desconectado el server");
-		}
-		else if (len < 0){
-			// Si es -1 hay un error en la conexion
-			int error = WSAGetLastError();
+		Log::getInstance()->info( "Se ha desconectado el server");
+	}
+	else if (len < 0){
+		// Si es -1 hay un error en la conexion
+		int error = WSAGetLastError();
 
-			if(error == WSAENOTCONN || error == WSAECONNRESET){
-				Log::getInstance()->error( "Se ha desconectado inesperadamente el server");
-			}
-			else if (error == WSAENETDOWN)
-				Log::getInstance()->error( "Red caida");
-			else
-				Log::getInstance()->error( "Error de conexion");
-
-	
+		if(error == WSAENOTCONN || error == WSAECONNRESET){
+			Log::getInstance()->error( "Se ha desconectado inesperadamente el server");
 		}
+		else if (error == WSAENETDOWN)
+			Log::getInstance()->error( "Red caida");
+		else
+			Log::getInstance()->error( "Error de conexion");
+
+
+	}
 }
 
 int MainCliente::recibirMensajes(void* ptrSock)
@@ -130,40 +130,57 @@ int MainCliente::recibirMensajes(void* ptrSock)
 	// TODO: HACER CLIENTE ESTATICO
 	bool serverDesconectadoTest = false;
 	bool cerrarConexionTest = false;
-
+	bool primerMensaje =true;
 	char bufferEntrada[MAX_BUFFER];
 
 	while (!cerrarConexionTest && !serverDesconectadoTest){ 
 
+
 		int len=MensajeSeguro::recibir(*((SOCKET*)ptrSock),bufferEntrada); //recibimos los datos que envie
-		
+
 		if (len>0){
+			// espero el mensaje del server, comenzar el juego para desbloquear SDL
+			if(primerMensaje){
+				// en realidad no necesito chequear el mensaje
+				MensajeXml mensaXml;
+				int offset = Protocolo::decodificar(bufferEntrada,&mensaXml);
+				char * respuesta = mensaXml.getValor();
 
-			//si seguimos conectados
-			//--------------------------------
-			EstadoAvionXml * pMensj = new EstadoAvionXml();
-			Protocolo::decodificar(bufferEntrada,pMensj);
+				if (strcmp(respuesta,FAKE_MENSAJE_04) == 0){
+					// Si el server nos envia respuesta que debemos iniciar el juego
+					Log::getInstance()->info("Comenzar el juego");
+					cout<<"Comenzar el juego"<<endl;
+					Juego::getInstance()->setJugar();
+				}
+				primerMensaje=false;
+			} else {
 
-			EstadoAvion* estadoAvion = new EstadoAvion(pMensj->getId(), pMensj->getFrame(), pMensj->getPosX(), pMensj->getPosY());
+				//si seguimos conectados
+				//--------------------------------
+				EstadoAvionXml * pMensj = new EstadoAvionXml();
+				Protocolo::decodificar(bufferEntrada,pMensj);
 
-			// Itero la lista de proyectiles y los agrego al estado avion 
-			std::list<EstadoProyectilXml*>::iterator it;
+				EstadoAvion* estadoAvion = new EstadoAvion(pMensj->getId(), pMensj->getFrame(), pMensj->getPosX(), pMensj->getPosY());
 
-			std::list<EstadoProyectilXml*> lista = pMensj->getEstadosProyectiles();
+				// Itero la lista de proyectiles y los agrego al estado avion 
+				std::list<EstadoProyectilXml*>::iterator it;
 
-			for (it = lista.begin(); it != lista.end(); it++) {
-				estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+				std::list<EstadoProyectilXml*> lista = pMensj->getEstadosProyectiles();
+
+				for (it = lista.begin(); it != lista.end(); it++) {
+					estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+				}
+
+				Juego::getInstance()->actualizarMovimientos(estadoAvion);
+
+				delete pMensj;
 			}
-			
-			Juego::getInstance()->actualizarMovimientos(estadoAvion);
-
-			delete pMensj;
-
 			//--------------------------------
 		}else{
 			grabarEnElLogLaDesconexion(len);
 			serverDesconectadoTest = true;
 		}
+
 	}
 
 	return 0;
@@ -253,22 +270,22 @@ int MainCliente::conectar(){
 			return -1;
 		}
 		else{
-			
+
 			// Se envia un mensaje al servidor para que valide el nombre de usuario
-			
+
 			MensajeXml mensajeUsuario;
 			mensajeUsuario.setValor(this->nombreDeUsuario.c_str(), strlen((this->nombreDeUsuario).c_str()));
 			mensajeUsuario.setTipo(TIPO_STRING);
 			mensajeUsuario.calculateSizeBytes();
-			
+
 			char bufferSalida [MAX_BUFFER];
-			
+
 			int size = Protocolo::codificar(mensajeUsuario, bufferSalida);
-			
+
 			MensajeSeguro::enviar(sock, bufferSalida, size);
-			
+
 			// Se recibe la confirmación de la validación del nombre de usuario
-			
+
 			int len2 = 2;
 			char bufferEntrada[MAX_BUFFER];
 
@@ -306,10 +323,10 @@ int MainCliente::conectar(){
 				}
 				else if (strcmp(respuesta,FAKE_MENSAJE_02) == 0){
 					// El server envia un mensaje al superar la cantidad de clientes
-	
+
 					Log::getInstance()->error(bufferEntrada);
 					printf("Respuesta servidor:> %s\n",bufferEntrada);
-	
+
 					shutdown(sock,2);
 					closesocket(sock);
 				}
@@ -318,7 +335,7 @@ int MainCliente::conectar(){
 
 					Log::getInstance()->error(bufferEntrada);
 					printf("Respuesta servidor:> %s\n",FAKE_MENSAJE_03);
-	
+
 					shutdown(sock,2);
 					closesocket(sock);
 					conectado = false;
@@ -383,13 +400,13 @@ int MainCliente::enviar(){
 			printf("Mensaje no encontrado\n");
 			enc=0;
 		}else{
-		//----------------
-		//se envia de a uno los mensajes, por eso no hace falta un dato para la cantidad
-		//total de mensajes (ahora trivial canMjs=1)
+			//----------------
+			//se envia de a uno los mensajes, por eso no hace falta un dato para la cantidad
+			//total de mensajes (ahora trivial canMjs=1)
 			MensajeXml* pMsj = it->second;
 			char * buffEnvio = new char[MAX_BUFFER];
 			int sizeBytesTotalLista = Protocolo::codificar(*pMsj,buffEnvio);
-		//----------------
+			//----------------
 			if(chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista))<0) //enviar el texto que se ha introducido
 				return -1;
 			Log::getInstance()->debug(it->second->getValor());
@@ -402,7 +419,7 @@ int MainCliente::enviar(){
 				return -1;
 			MensajeXml mensajeIN;
 			Protocolo::decodificar(bufferEntrada,&mensajeIN);
-			
+
 			//bufferEntrada[len2] =0;
 			Log::getInstance()->debug(mensajeIN.getValor());
 			printf(" || respuesta servidor:> %s\n",mensajeIN.getValor());
@@ -444,18 +461,18 @@ int MainCliente::menu(){
 		opt=atoi(numstring.c_str());
 		//scanf("%d",&opt);
 		switch (opt){
-			case OPT_CONECTAR:
-				conectar();
-				break;
-			case OPT_DESCONECTAR:
-				desconectar();
-				break;
-			case OPT_SALIR:
-				salir();
-				break;
-			case OPT_ENVIAR:
-				enviar();
-				break;
+		case OPT_CONECTAR:
+			conectar();
+			break;
+		case OPT_DESCONECTAR:
+			desconectar();
+			break;
+		case OPT_SALIR:
+			salir();
+			break;
+		case OPT_ENVIAR:
+			enviar();
+			break;
 		}
 		//}
 	}

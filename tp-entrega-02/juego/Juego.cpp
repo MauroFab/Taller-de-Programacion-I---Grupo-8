@@ -123,6 +123,9 @@ void Juego::configuracionInicial() {
 	// }
 }
 
+void Juego::setJugar(){
+jugar=true;
+}
 void Juego::ejecutar() {
 
 	// Si se pudo iniciar la ventana del juego
@@ -133,7 +136,7 @@ void Juego::ejecutar() {
 	// usar el flag para indicar que se puede jugar, no en necesario protegerlo, pues solo uno escribe
 	// no importa si se pierde unos loops
 	// seria mejor lanzar un evento, pero por ahora que quede asi.
-	while(jugar){
+	while(!jugar){
 	};
 	SDL_Delay(5000); // comienza en 5 seg luego que dio el ok el server
 	static int tamanioMaximoMapa = 2000;

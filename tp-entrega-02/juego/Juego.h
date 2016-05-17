@@ -36,6 +36,7 @@ public:
 	void ejecutar();
 	void close();
 	void actualizarMovimientos(EstadoAvion* estadoAvion);
+	void setJugar();
 
 private:
 
