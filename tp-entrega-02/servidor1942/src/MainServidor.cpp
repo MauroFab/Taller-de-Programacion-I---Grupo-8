@@ -124,15 +124,13 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 	bool mensajeJugar=true;
 	MensajeXml mensajeEnvio;
 	int size = 0;
-	char* respuesta = "";
 	char bufferEnvio[MAX_BUFFER];
 
 	while(!(*seCerroLaConexionPointer)){
 	// enviar el inicio del juego a todos los clientes
 		if(!usuarios->puedoTenerMasUsuarios()&& mensajeJugar){
 		//if(mensajeJugar){
-						respuesta = FAKE_MENSAJE_04;
-						mensajeEnvio.setValor(respuesta, strlen(respuesta));
+						mensajeEnvio.setValor(FAKE_MENSAJE_04, strlen(FAKE_MENSAJE_04));
 						mensajeEnvio.setTipo(TIPO_STRING);
 						mensajeEnvio.calculateSizeBytes();
 						size = Protocolo::codificar(mensajeEnvio, bufferEnvio);
@@ -359,7 +357,6 @@ int MainServidor::recibirConexiones(void*){
 
 				MensajeXml mensajeEnvio;
 				int size = 0;
-				char* respuesta = "";
 				char buffEnvio[MAX_BUFFER];
 
 				// Verifica si es la primera vez que se conecta
@@ -367,9 +364,7 @@ int MainServidor::recibirConexiones(void*){
 
 					if (conectado) {
 
-						respuesta = FAKE_MENSAJE_03;
-
-						mensajeEnvio.setValor(respuesta, strlen(respuesta));
+						mensajeEnvio.setValor(FAKE_MENSAJE_03, strlen(FAKE_MENSAJE_03));
 
 						mensajeEnvio.setTipo(TIPO_STRING);
 
@@ -385,9 +380,7 @@ int MainServidor::recibirConexiones(void*){
 
 						usuariosConectados[usuario] = true;
 
-						respuesta = FAKE_MENSAJE_01;
-
-						mensajeEnvio.setValor(respuesta, strlen(respuesta));
+						mensajeEnvio.setValor(FAKE_MENSAJE_01, strlen(FAKE_MENSAJE_01));
 
 						mensajeEnvio.setTipo(TIPO_STRING);
 
@@ -409,9 +402,7 @@ int MainServidor::recibirConexiones(void*){
 
 					usuariosConectados.insert(std::pair<string, bool>(usuario, true));
 
-					respuesta = FAKE_MENSAJE_01;
-
-					mensajeEnvio.setValor(respuesta, strlen(respuesta));
+					mensajeEnvio.setValor(FAKE_MENSAJE_01, strlen(FAKE_MENSAJE_01));
 
 					mensajeEnvio.setTipo(TIPO_STRING);
 
