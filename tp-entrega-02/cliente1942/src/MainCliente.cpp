@@ -325,7 +325,7 @@ int MainCliente::conectar(){
 					// El server envia un mensaje al superar la cantidad de clientes
 
 					Log::getInstance()->error(bufferEntrada);
-					printf("Respuesta servidor:> %s\n",bufferEntrada);
+					printf("Respuesta servidor:> %s\n",FAKE_MENSAJE_02);
 
 					shutdown(sock,2);
 					closesocket(sock);
