@@ -253,7 +253,7 @@ int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE		
 	cargarNombreDeUsuario();
 #else
-	this->nombreDeUsuario.assign("cliente-Z");
+	this->nombreDeUsuario.assign("cliente-A");
 #endif	
 
 	if(conectado == true){
@@ -275,7 +275,7 @@ int MainCliente::conectar(){
 			// Se envia un mensaje al servidor para que valide el nombre de usuario
 
 			MensajeXml mensajeUsuario;
-			mensajeUsuario.setValor(this->nombreDeUsuario.c_str(), strlen((this->nombreDeUsuario).c_str()));
+			mensajeUsuario.setValor((char*)this->nombreDeUsuario.c_str(), strlen((this->nombreDeUsuario).c_str()));
 			mensajeUsuario.setTipo(TIPO_STRING);
 			mensajeUsuario.calculateSizeBytes();
 
@@ -319,7 +319,7 @@ int MainCliente::conectar(){
 
 					Juego::getInstance()->readServidorXml(this->servidorXml);
 					Juego::getInstance()->agregarObservador(this);
-					Juego::getInstance()->ejecutar();
+					Juego::getInstance()->ejecutar(this->servidorXml);
 
 				}
 				else if (strcmp(respuesta,FAKE_MENSAJE_02) == 0){
@@ -497,11 +497,6 @@ void MainCliente::actualizar(int argc, void* argv[]){
 	int sizeBytesTotalLista = Protocolo::codificar(*msjMov,buffEnvio);
 
 	// TODO: test
-	if(msjMov->getId() < 0){
-		TCadena1000 cadena;
-		msjMov->toString(cadena);
-		printf("%s\n",cadena);	
-	}
 
 	if(chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista))<0) { //enviar el texto que se ha introducido
 		printf("No se pudo enviar el movimiento");
