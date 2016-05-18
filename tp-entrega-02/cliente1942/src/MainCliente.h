@@ -52,7 +52,7 @@ class MainCliente : public Observador
 {
 private:
 	SOCKET sock;
-	
+
 	//este atributo contiene los mensajes a enviar al servidor
 	map<int,MensajeXml*> mapMensajes;
 	string dirXML;
@@ -69,7 +69,7 @@ private:
 	//contiene al parser, lo crea y lo borra
 	ParserXml * parserx;
 	//se almancena todo el modelo parseado
-	ServidorXml * servidorXml;	
+	ServidorXml * servidorXml;
 public:
 	MainCliente();
 	virtual ~MainCliente();
