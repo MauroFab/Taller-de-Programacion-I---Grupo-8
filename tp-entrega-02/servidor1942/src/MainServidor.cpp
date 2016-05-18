@@ -585,4 +585,3 @@ int MainServidor::mainPrincipal(){
 
 	return 0;
 }
-
