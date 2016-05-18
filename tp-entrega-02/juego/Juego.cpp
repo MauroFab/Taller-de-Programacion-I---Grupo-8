@@ -19,11 +19,21 @@ Juego::Juego(){
 	SDL_Renderer* gRenderer = NULL;
 	mut = SDL_CreateMutex();
 	jugar=false;
+	//inicializar elementos de la vista
+	for(int i = 0; i < MAX_ELEM_VIEW; i++){
+		this->listaElemView[i] = NULL;
+	}
+	this->canElemV = 0;
 }
 
 Juego::~Juego(){
 	SDL_DestroyMutex(mut);
 	close();
+	//liberar elementos de la vista
+	for(int i = 0; i < MAX_ELEM_VIEW; i++){
+		if (this->listaElemView[i] != NULL)
+			delete this->listaElemView[i];
+	}	
 }
 int Juego::readServidorXml(ServidorXml * servidorXml){
 	return this->readFrom(servidorXml);
@@ -40,7 +50,7 @@ int Juego::readFrom(IGenericaVO * objetoXML){
 }
 
 // Inicializacion
-bool Juego::init() {
+bool Juego::initSDL() {
 	//Initialization flag
 	bool success = true;
 
@@ -98,80 +108,119 @@ void Juego::close() {
 	SDL_Quit();
 }
 
-void Juego::configuracionInicial() {
+void Juego::dibujarFondoInicio() {
 
-	FondoInicio fondo("fondoInicio.bmp", gRenderer);
+	bool jugar = false;
+	SDL_Event e;
+	FondoInicio fondo(PATH_FONDO_INICIO, gRenderer);
 
+	// TODO: PENDIENTE INICIAR LA PARTIDA CUANDO TODOS LOS USUARIOS ESTEN CONECTADOS
 	while( !jugar ) {
 
+		while( SDL_PollEvent( &e ) != 0 ) {
+
+			if (e.type == SDL_KEYUP)
+				jugar = true;
+		}
+
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+		//se limpia la pantalla
 		SDL_RenderClear( gRenderer );
-
 		fondo.render();
-
+		//actualiza la pantalla
 		SDL_RenderPresent( gRenderer );
-	}
+	 }
 }
 
 void Juego::setJugar(){
-	jugar=true;
+	jugar = true;
+}
+int Juego::cargarElementos(ServidorXml * confServidorXml){
+	//sprites
+	int cantS = confServidorXml->getCanSprs();
+	SpriteXml ** listaS = confServidorXml->getListaSprites();
+	
+	//elementos
+	int cantE = confServidorXml->getEscenarioXmlCopy()->getCanElems();
+	ElementoXml ** listaE = confServidorXml->getEscenarioXmlCopy()->getListaElementos();
+	for(int i = 0;i <cantE; i++){
+		ElementoXml * elemX = listaE[i];
+		ElementoModel * elemModel = new ElementoModel(elemX);
+		//se obtiene el id del sprite a buscar
+		int idSp = elemX->getIdSprite();
+		int bOut = false;
+		SpriteXml * spriteX = NULL;
+		for (int j = 0;j <cantS && !bOut;j++){
+			spriteX = listaS[j];
+			if (idSp == spriteX->getId()){
+				bOut = true;
+			}
+		}
+		this->listaElemView[i] = new ElementoView(elemModel,spriteX);
+		this->canElemV++;
+	}
+	return 0;
 }
 
-void Juego::ejecutar() {
+void Juego::ejecutar(ServidorXml * confServidorXml) {
 
 	// Si se pudo iniciar la ventana del juego
-	if(!init())
+	if(!initSDL())
 		return;
+		
+	cargarElementos(confServidorXml);
 
-	configuracionInicial();
-	// usar el flag para indicar que se puede jugar, no en necesario protegerlo, pues solo uno escribe
-	// no importa si se pierde unos loops
-	// seria mejor lanzar un evento, pero por ahora que quede asi.
+//	dibujarFondoInicio();
 
-	SDL_Delay(5000); // comienza en 5 seg luego que dio el ok el server
 	static int tamanioMaximoMapa = 2000;
 	bool quit = false;
-	SDL_Event e;
-
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 7, 113, 195, 10);
-	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 7, 102, 195, 10);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", tamanioMaximoMapa);
+	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "avion_1.bmp", 6, 113, 195, 10);
+	AvionXml * avionXml_0 = confServidorXml->getListaAviones()[0];
+	
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(avionXml_0);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"avion_2.bmp", 6, 102, 195, 10);
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
 	// Test para ver si se grafican otros aviones
 	Graficador::getInstance()->inicializar(gRenderer);
-	Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 7, 102, 195);
-	//Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 7, 113,195);
+	//Graficador::getInstance()->cargarDatosAvion(2, "avion_2.bmp", 6, 102, 195);
+	Graficador::getInstance()->cargarDatosAvion(1, "avion_1.bmp", 6, 113,195);
 	Graficador::getInstance()->cargarDatosProyectil("proyectilAvion.bmp", 1, 11, 25);
 
 	Mapa::getInstace()->inicializar(gRenderer);
-	Mapa::getInstace()->crearIslaEn(1, 300);
-	Mapa::getInstace()->crearIslaEn(300, 800);
-	Mapa::getInstace()->crearIslaEn(50, 500);
-	Mapa::getInstace()->crearCarrierEn(300, 1200);
-	Mapa::getInstace()->crearCarrierEn(200, 1);
+
+	for(int e = 0; e < this->canElemV; e++){
+		ElementoView * elemV = this->listaElemView[e];
+		Mapa::getInstace()->crearElemento(elemV);
+	}
+//	Mapa::getInstace()->crearIslaEn(300, 800);
+//	Mapa::getInstace()->crearIslaEn(50, 500);
 
 	Avion avion(gRenderer,this->ventanaAncho,this->ventanaAlto);
-
 	/*------------------------------------------------------------------*/
-	//Clear screen
+	
 	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+	//Clear screen
 	SDL_RenderClear( gRenderer );
 
 	//Render background
-	Mapa::getInstace()->graficar();
+	Mapa::getInstace()->dibujarFondoYElementos();
 
 	//Render sprite
 	avion.render();
-
+	//se actualiza la pantalla
 	SDL_RenderPresent( gRenderer );
-	
+
+	// TODO: VOLAR LO QUE SIGUE ahora solo queda para dar tiempo a empezar en "paralelo"
+	// int test = 0;
+	// while(test < 1000000000)
+	//	test++;
 	/*------------------------------------------------------------------*/
-	EstadoAvion* estadoAnterior = NULL;
-	
+//	EstadoAvion* estadoAnterior = NULL;
+	SDL_Event e;
 	//Mientras el usuario no desee salir
 	while( !quit ) {
-		
 		//Agrego los eventos
 		while( SDL_PollEvent( &e ) != 0 ) {
 
@@ -182,8 +231,7 @@ void Juego::ejecutar() {
 			}
 
 			if( e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_r){
-				
-				notificarMovimiento(new EstadoAvion(-2,0,0,0));
+				//notificarMovimiento(new EstadoAvion(-2,0,0,0));
 				Mapa::getInstace()->reiniciar();
 			}
 			// Registrar mov del teclado
@@ -195,7 +243,7 @@ void Juego::ejecutar() {
 		SDL_RenderClear( gRenderer );
 
 		//Render background
-		Mapa::getInstace()->graficar();
+		Mapa::getInstace()->dibujarFondoYElementos();
 
 		avion.mover();
 
@@ -205,9 +253,9 @@ void Juego::ejecutar() {
 		avion.render();
 
 		// TODO TEST  PARA QUE NO CRASHEE
-		SDL_mutexP(mut);
+//		SDL_mutexP(mut);
 		Graficador::getInstance()->graficarAviones(movimientosDeCompetidores);
-		SDL_mutexV(mut);
+//		SDL_mutexV(mut);
 
 		//Update screen
 		SDL_RenderPresent( gRenderer );
@@ -221,7 +269,7 @@ void Juego::actualizarMovimientos(EstadoAvion* estadoAvion){
 	SDL_mutexP(mut);
 
 	int idAvion = estadoAvion->getId();
-	int x;
+
 	EstadoAvion* estadoAnterior = Juego::getInstance()->movimientosDeCompetidores[idAvion];
 
 	delete estadoAnterior;

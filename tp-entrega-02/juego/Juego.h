@@ -6,6 +6,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2\SDL_image.h>
 
+#define PATH_FONDO_INICIO "fondoInicio.bmp"
+
 #include "Movimiento.h"
 #include "Avion.h"
 #include "Mapa.h"
@@ -16,11 +18,19 @@
 #include "EstadoAvion.h"
 #include "ICargable.h"
 #include "../common/xml/ServidorXml.h"
+
+#define MAX_ELEM_VIEW	20
+#include "../common/view/ElementoView.h"
+#include "../common/model/ElementoModel.h"
+
 using namespace std;
 
 class Juego : public Observable, public ICargable
 {
-
+//private:	
+public:
+	ElementoView * listaElemView[MAX_ELEM_VIEW];
+	int canElemV;
 public:
 
 	static Juego* getInstance();
@@ -33,10 +43,12 @@ public:
 	//se lee el servidorXML como un objeto generico
 	int readFrom(IGenericaVO * objetoXML);
 
-	void ejecutar();
+	void ejecutar(ServidorXml * confServidorXml);
 	void close();
 	void actualizarMovimientos(EstadoAvion* estadoAvion);
 	void setJugar();
+	//---carga de elementos
+	int cargarElementos(ServidorXml * confServidorXml);
 
 private:
 
@@ -47,8 +59,10 @@ private:
 	int ventanaAlto;
 	bool jugar; // para avisar que debe de inciar el juego
 	//este metodo realiza la inicializacion de la configuracion grafica de SDL
-	bool init();
-	void configuracionInicial();
+	bool initSDL();
+	//este metodo dibuja un fondo incial
+	//pero su tamaño esta harcodeado, deberia sacarse
+	void dibujarFondoInicio();
 	
 	SDL_Window* gWindow;
 	SDL_Renderer* gRenderer;
