@@ -14,10 +14,10 @@ AvionXml::AvionXml()
 	this->idSpBala = -1;
 	this->strSpBala = NULL;
 }
-AvionXml::AvionXml(int velAvion,int velBala,int idSpAvion,char * strSpAvion,int idSpVuelta,char * strSpVuelta,int idSpBala,char * strSpBala)
+AvionXml::AvionXml(int idxAvion,int velAvion,int velBala,int idSpAvion,char * strSpAvion,int idSpVuelta,char * strSpVuelta,int idSpBala,char * strSpBala)
 {
 	this->sizeBytes = -1;
-	this->id = -1;
+	this->id = idxAvion;
 	this->velAvion = velAvion;
 	this->velBala = velBala;
 	this->idSpAvion = idSpAvion;
@@ -53,10 +53,13 @@ void AvionXml::calculateSizeBytes(){
 		+ sizeof(int)//id
 		+ sizeof(int)//velAvion
 		+ sizeof(int)//velBala
+		+ sizeof(int)//idSpAvion
 		+ sizeof(char)//len de strSpAvion
 		+ sizeof(char)*(strlen(strSpAvion) + 1)
+		+ sizeof(int)//idSpVuelta
 		+ sizeof(char)//len de strSpVuelta
 		+ sizeof(char)*(strlen(strSpVuelta) + 1)
+		+ sizeof(int)//idSpBala
 		+ sizeof(char)//len de strSpBala
 		+ sizeof(char)*(strlen(strSpBala) + 1);
 }

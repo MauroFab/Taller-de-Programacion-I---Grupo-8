@@ -47,6 +47,7 @@ int ElementoXml::getSizeBytes(){
 void ElementoXml::calculateSizeBytes(){
 	this->sizeBytes = sizeof(int) //sizeBytes
 		+ sizeof(int)//id
+		+ sizeof(int)//idSprite
 		+ sizeof(char)//len de strSpAvion
 		+ sizeof(char)*(strlen(strIdSprite) + 1)
 		+ sizeof(int)//coorX

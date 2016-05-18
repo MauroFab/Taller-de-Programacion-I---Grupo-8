@@ -4,11 +4,10 @@
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
+#include "../IGenericaVO.h"
 using namespace std;
 
-typedef char TCadena1000[1000];
-
-class EstadoProyectilXml 
+class EstadoProyectilXml : public IGenericaVO
 {
 protected:
 	int sizeBytes;
@@ -21,6 +20,9 @@ public:
 	EstadoProyectilXml();
 	EstadoProyectilXml(int frame, int posX, int posY);
 	virtual ~EstadoProyectilXml();
+    
+	void setId(int id);
+	int getId();
     
 	int getSizeBytes();
 	void calculateSizeBytes();

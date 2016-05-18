@@ -40,7 +40,7 @@ public:
 	void setTipo(int tipo);
 	int getTipo();
 	char * getValor();
-	void setValor(const char * valor,int lenValor);
+	void setValor(char * valor,int lenValor);
 	void toString(TCadena1000 cadena);	
 };
 

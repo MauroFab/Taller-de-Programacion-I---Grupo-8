@@ -64,6 +64,14 @@ char * SpriteXml::getStrId(){
 	return this->strId;
 }
 void SpriteXml::setPath(char * path,char len_path){
+	if (this->path != NULL)
+		delete [] this->path;	
+	this->path = new char[len_path + 1];
+	memcpy(this->path,path,len_path);
+	this->path[len_path] = '\0';
+}
+
+void SpriteXml::resetPath(char * path,char len_path){
 	this->path = new char[len_path + 1];
 	memcpy(this->path,path,len_path);
 	this->path[len_path] = '\0';

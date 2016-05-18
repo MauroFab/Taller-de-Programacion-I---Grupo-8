@@ -22,6 +22,7 @@ using namespace tinyxml2;
 #define MAX_RUTA 200
 #define XML_DEF_SERVIDOR	"xmlDefaultServidor.xml"
 #define XML_DEF_CLIENTE		"xmlDefaultCliente.xml"
+#define XML_DEF_SPRITE		"error.bmp"
 
 class ParserXml
 {
@@ -101,6 +102,10 @@ public:
 	int validarPosicionXml(XMLElement* posicion);
 	int validarListaAvionXml(XMLElement* listAviones);
 	int validarAvionXml(XMLElement* elemAvion);
+	
+	//metodo para vincular y validar entidades del servidor , se puede usar tambien del lado del cliente
+	void vincularYValidarEntidades(ServidorXml *servidorXml);
+	bool existeFile(char * nomFile);
 	
 };
 

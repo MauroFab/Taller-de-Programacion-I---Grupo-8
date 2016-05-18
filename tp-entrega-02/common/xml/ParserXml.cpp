@@ -702,16 +702,17 @@ void ParserXml::createDataListSpriteXml(ServidorXml *servidorXml,XMLElement* lis
 			//se procesa el mensaje
 			SpriteXml * spriteX = createDataSpriteXml((XMLElement*)elemSprite,idxSps);
 			servidorXml->addSprite(spriteX,idxSps);
-			//leo siguiente mensaje
-			elemSprite = elemSprite->NextSibling();
 			//se carga la cadena junto con el id al mapa
 			mapaSpriteIds.insert(pair<string,int>(string(spriteX->getStrId()),idxSps));
-			
+			//leo siguiente mensaje
+			elemSprite = elemSprite->NextSibling();
 			idxSps++; // contador de mensajes del cliente
 		}
 		//leo el ultimo mensaje dado que elemSprite es el lastchild
 		SpriteXml * spriteX = createDataSpriteXml((XMLElement*)elemSprite,idxSps);
 		servidorXml->addSprite(spriteX,idxSps);
+		//se carga la cadena junto con el id al mapa
+		mapaSpriteIds.insert(pair<string,int>(string(spriteX->getStrId()),idxSps));
 	}
 }
 
@@ -865,7 +866,7 @@ AvionXml * ParserXml::createDataAvionXml(XMLElement* elemAvion,int idxAvs){
 	XMLElement* elemBALA = (XMLElement*)elemVuelta->NextSibling();
 	char * strSpBala = (char *)elemBALA->GetText();
 	int idSpBala = findSpriteIdByName(strSpBala);
-	return new AvionXml(velAvion,velBala,idSpAvion,strSpAvion,idSpVuelta,strSpVuelta,idSpBala,strSpBala);
+	return new AvionXml(idxAvs,velAvion,velBala,idSpAvion,strSpAvion,idSpVuelta,strSpVuelta,idSpBala,strSpBala);
 }
 
 int ParserXml::findSpriteIdByName(char * strIdSprite){
@@ -1438,4 +1439,35 @@ int ParserXml::validarAvionXml(XMLElement* elemAvion){
 	if (elemAvion->LastChild() != elemDisparos)
 		return -1;
 	return 0;
+}
+void ParserXml::vincularYValidarEntidades(ServidorXml *servidorXml){
+	//buscar los sprites
+	//mapa con los IDs de los sprites
+	map<int,string> localMapaIdSprites;
+	//validar que existan los archivos de imagenes
+	for (int i = 0; i < servidorXml->getCanSprs(); i++){
+		SpriteXml * spriteX = servidorXml->getListaSprites()[i];
+		//se corrigen solo los sprites inexistentes
+		if (!existeFile(spriteX->getPath())){
+			spriteX->resetPath(XML_DEF_SPRITE,strlen(XML_DEF_SPRITE));
+		}
+		//se carga la cadena junto con el id al mapa
+		localMapaIdSprites.insert(pair<int,string>(spriteX->getId(),string(spriteX->getStrId())));
+	}
+/*	
+	//se cargan los id de sprites para los aviones
+	for (int a = 0; a < servidorXml->getCanAvs(); a++){
+		AvionXml * avionXml = servidorXml->getListaAviones()[a];
+		//char * strSpAvion  
+	}
+*/	
+}
+
+bool ParserXml::existeFile(char * nomFile){
+	if (FILE *file = fopen(nomFile, "r")) {
+		fclose(file);
+		return true;
+	}
+	else
+		return false;
 }

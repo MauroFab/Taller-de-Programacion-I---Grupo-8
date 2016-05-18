@@ -23,7 +23,7 @@ private:
 	char * strSpBala;//disparosSpriteId:cadena q contiene el nombre
 public:
 	AvionXml();
-	AvionXml(int velAvion,int velBala,int idSpAvion,char * strSpAvion,int idSpVuelta,char * strSpVuelta,int idSpBala,char * strSpBala);
+	AvionXml(int idxAvion,int velAvion,int velBala,int idSpAvion,char * strSpAvion,int idSpVuelta,char * strSpVuelta,int idSpBala,char * strSpBala);
 	virtual ~AvionXml();
 	int getSizeBytes();
 	void calculateSizeBytes();

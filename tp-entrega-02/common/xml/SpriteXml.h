@@ -30,6 +30,7 @@ public:
 	void setStrId(char * strId,char len_strId);
 	char * getStrId();
 	void setPath(char * path,char len_path);
+	void resetPath(char * path,char len_path);
 	char * getPath();
 	void setCantidad(int cantidad);
 	int getCantidad();

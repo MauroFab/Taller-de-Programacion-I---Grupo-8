@@ -8,11 +8,6 @@
 using namespace std;
 #include "../IGenericaVO.h"
 
-typedef struct posicion{
-                int coorX;
-                int coorY;
-               }TPosicion;
-
 class ElementoXml : public IGenericaVO
 {
 private:

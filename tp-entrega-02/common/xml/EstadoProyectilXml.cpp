@@ -19,6 +19,13 @@ EstadoProyectilXml::EstadoProyectilXml(int frame,int posX, int posY){
 EstadoProyectilXml::~EstadoProyectilXml(){
 }
 
+void EstadoProyectilXml::setId(int id){
+	id = id;
+}
+int EstadoProyectilXml::getId(){
+	return -1;//this->id;
+}
+
 int EstadoProyectilXml::getSizeBytes(){
 	return this->sizeBytes;
 }
@@ -54,5 +61,5 @@ int EstadoProyectilXml::getPosY(){
 }
 
 void EstadoProyectilXml::toString(TCadena1000 cadena){
-	sprintf(cadena,"\n% sizeBytes=%d,frame=%d,posX=%d,posY=%d", "EstadoProyectilXml:",sizeBytes,frame,posX, posY);
+	sprintf(cadena,"\n sizeBytes=%d,frame=%d,posX=%d,posY=%d", "EstadoProyectilXml:",sizeBytes,frame,posX, posY);
 }
