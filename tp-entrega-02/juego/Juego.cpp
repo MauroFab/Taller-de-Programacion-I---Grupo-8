@@ -137,6 +137,7 @@ void Juego::ejecutar() {
 	// no importa si se pierde unos loops
 	// seria mejor lanzar un evento, pero por ahora que quede asi.
 	while(!jugar){
+
 	};
 	SDL_Delay(5000); // comienza en 5 seg luego que dio el ok el server
 	static int tamanioMaximoMapa = 2000;

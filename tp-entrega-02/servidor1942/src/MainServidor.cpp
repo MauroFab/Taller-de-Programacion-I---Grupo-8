@@ -128,34 +128,23 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 
 	while(!(*seCerroLaConexionPointer)){
 	// enviar el inicio del juego a todos los clientes
-		if(!usuarios->puedoTenerMasUsuarios()&& mensajeJugar){
-		//if(mensajeJugar){
-						mensajeEnvio.setValor(FAKE_MENSAJE_04, strlen(FAKE_MENSAJE_04));
-						mensajeEnvio.setTipo(TIPO_STRING);
-						mensajeEnvio.calculateSizeBytes();
-						size = Protocolo::codificar(mensajeEnvio, bufferEnvio);
-						MensajeSeguro::enviar(socket, bufferEnvio, size);
-						cout<<"Envio el mensaje de JUGAR al cliente:"<< id <<endl;
-						mensajeJugar=false;
-
-		} else {
 
 			if(!colaDeMensajesParaEnviar->empty()){
-
 				mensaje = colaDeMensajesParaEnviar->front();
 				SDL_mutexP(mut);
 				colaDeMensajesParaEnviar->pop();
-				SDL_mutexV(mut);
-				char buffEnvio[MAX_BUFFER];
-				mensaje->calculateSizeBytes();
-				int sizeEnvio = Protocolo::codificar(*mensaje,buffEnvio);
-				MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
+				if(mensaje->getId() > -3){
+					SDL_mutexV(mut);
+					char buffEnvio[MAX_BUFFER];
+					mensaje->calculateSizeBytes();
+					int sizeEnvio = Protocolo::codificar(*mensaje,buffEnvio);
+					MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
 
-				//Aca debería liberar la memoria del mensaje, pero si lo hago estalla.
-				//Y efectivamente si mando muchos mensajes (Con un solo cliente abierto), la memoria aumenta, asi que 
-				// la estamos perdiendo con los mensajes
+					//Aca debería liberar la memoria del mensaje, pero si lo hago estalla.
+					//Y efectivamente si mando muchos mensajes (Con un solo cliente abierto), la memoria aumenta, asi que 
+					// la estamos perdiendo con los mensajes
+				}
 				delete mensaje; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
-			}
 		}
 	}
 
@@ -514,15 +503,30 @@ int MainServidor::mainPrincipal(){
 	SDL_Thread* consola=SDL_CreateThread(MainServidor::fun_consolaDelServidor, "recibirConexiones", NULL);
 
 	Log::getInstance()->debug("Servidor - Main Principal: se inician los thread recibirConexiones");
+	bool seHaIniciadoLaPartida = false;
+	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
+
+	while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
+		if(!usuarios->puedoTenerMasUsuarios()){
+			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
+				colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
+				colaDeMensajesDelUsuario->push(new EstadoAvionXml(-1,0,0,0));
+			}
+			seHaIniciadoLaPartida = true;
+		}
+		SDL_Delay(100);
+	}
 
 	while(!seDebeCerrarElServidor){
 
+		
 		SDL_mutexP(mut);
+
 
 		if(!colaDeMensaje.empty()){
 
 			//consumidor
-			std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
+			
 			mensajeConId = colaDeMensaje.front();
 			colaDeMensaje.pop();
 
@@ -539,6 +543,7 @@ int MainServidor::mainPrincipal(){
 			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
 
 			// SDL_Thread* avisador=SDL_CreateThread(MainServidor::fun_avisarATodos, "recibirConexiones", (void*)mensajeConId);
+	
 
 			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
 

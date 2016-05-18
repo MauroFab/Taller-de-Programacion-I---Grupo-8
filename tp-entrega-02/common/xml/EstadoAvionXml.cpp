@@ -10,7 +10,6 @@ EstadoAvionXml::EstadoAvionXml()
 }
 
 EstadoAvionXml::EstadoAvionXml(int id,int frame,int posX, int posY){
-
 	this->id = id;
 	this->frame = frame;
 	this->posX = posX;

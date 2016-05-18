@@ -120,8 +120,6 @@ void MainCliente::grabarEnElLogLaDesconexion(int len){
 			Log::getInstance()->error( "Red caida");
 		else
 			Log::getInstance()->error( "Error de conexion");
-
-
 	}
 }
 
@@ -144,15 +142,13 @@ int MainCliente::recibirMensajes(void* ptrSock)
 				// en realidad no necesito chequear el mensaje
 				MensajeXml mensaXml;
 				int offset = Protocolo::decodificar(bufferEntrada,&mensaXml);
-				char * respuesta = mensaXml.getValor();
-
-				if (strcmp(respuesta,FAKE_MENSAJE_04) == 0){
+				if (mensaXml.getId() == -1){
 					// Si el server nos envia respuesta que debemos iniciar el juego
 					Log::getInstance()->info("Comenzar el juego");
 					cout<<"Comenzar el juego"<<endl;
 					Juego::getInstance()->setJugar();
+					primerMensaje=false;
 				}
-				primerMensaje=false;
 			} else {
 
 				//si seguimos conectados
@@ -474,7 +470,6 @@ int MainCliente::menu(){
 			enviar();
 			break;
 		}
-		//}
 	}
 	return 0;
 }
