@@ -202,7 +202,6 @@ void Juego::ejecutar() {
 		//Render sprite
 		avion.render();
 
-		// TODO TEST  PARA QUE NO CRASHEE
 		SDL_mutexP(mut);
 		Graficador::getInstance()->graficarAviones(movimientosDeCompetidores);
 		SDL_mutexV(mut);
