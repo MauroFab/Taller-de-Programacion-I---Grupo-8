@@ -284,7 +284,6 @@ int MainCliente::conectar(){
 			MensajeSeguro::enviar(sock, bufferSalida, size);
 
 			// Se recibe la confirmación de la validación del nombre de usuario
-
 			int len2 = 2;
 			char bufferEntrada[MAX_BUFFER];
 
@@ -308,9 +307,6 @@ int MainCliente::conectar(){
 					//se procede a decodificar el resto del mensaje
 					//se decodifica el escenario completo
 					offset += Protocolo::decodificar(bufferEntrada + offset,this->servidorXml);
-
-					//TODO: modifica aca para que el cliente espere el mensaje del servidor y comiense
-					// a cargar el juego
 
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(recibirMensajes, "recibirMensajes", &sock);
@@ -490,16 +486,8 @@ void MainCliente::actualizar(int argc, void* argv[]){
 		msjMov->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
 	}
 
-
 	char * buffEnvio = new char[MAX_BUFFER];
 	int sizeBytesTotalLista = Protocolo::codificar(*msjMov,buffEnvio);
-
-	// TODO: test
-	if(msjMov->getId() < 0){
-		TCadena1000 cadena;
-		msjMov->toString(cadena);
-		printf("%s\n",cadena);	
-	}
 
 	if(chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista))<0) { //enviar el texto que se ha introducido
 		printf("No se pudo enviar el movimiento");
