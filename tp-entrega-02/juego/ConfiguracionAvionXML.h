@@ -18,7 +18,8 @@ public:
 	int getVelocidad();
 	int getId();
 
-private:
+//private:
+public:
 
 	std::string pathImagen;
 	int cantidadDeFotogramas;

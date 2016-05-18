@@ -18,19 +18,21 @@ ConfiguracionJuegoXML* ConfiguracionJuegoXML::getInstance() {
     return instance;
 }
 
-void ConfiguracionJuegoXML::setCaracteristicasMapa(std::string fondo, std::string isla, std::string carrier,
-																	int tamanioMaximoMapa) {
-	pathImagenCarrier = carrier;
+void ConfiguracionJuegoXML::setCaracteristicasMapa(std::string fondo, int tamanioMaximoMapa) {
 	pathImagenFondo = fondo;
-	pathImagenIsla = isla;
 	tamanioMaximoFondo = tamanioMaximoMapa;
 }
 
 void ConfiguracionJuegoXML::setCaracteristicasAvion(int id, std::string avion, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad) {
 
-	configAvion = new ConfiguracionAvionXML(id, avion, cantFotogramas, anchoFotograma, altoFotograma, velocidad);
+	this->configAvion = new ConfiguracionAvionXML(id, avion, cantFotogramas, anchoFotograma, altoFotograma, velocidad);
 }
-
+void ConfiguracionJuegoXML::setCaracteristicasAvion(AvionXml * avionXml){
+	this->confAvionXml = avionXml;
+	//FAKE
+	//this->configAvion
+	
+}
 void ConfiguracionJuegoXML::setCaracteristicasProyectil(std::string proyectil, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad) {
 
 	configProyectil = new ConfiguracionProyectilXML(proyectil, cantFotogramas, anchoFotograma, altoFotograma, velocidad);
@@ -46,15 +48,6 @@ ConfiguracionProyectilXML* ConfiguracionJuegoXML::getConfiguracionProyectil() {
 
 std::string ConfiguracionJuegoXML::getPathFondo() {
 	return pathImagenFondo;
-}
-
-
-std::string ConfiguracionJuegoXML::getPathCarrier() {
-	return pathImagenCarrier;
-}
-
-std::string ConfiguracionJuegoXML::getPathIsla() {
-	return pathImagenIsla;
 }
 
 int ConfiguracionJuegoXML::getTamanioMaximoFondo() {
