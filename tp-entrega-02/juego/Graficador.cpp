@@ -48,6 +48,8 @@ void Graficador::graficarAviones(std::map<int,EstadoAvion*> listaAviones) {
 
 	//TODO error en disen..
 	//BUG-000 Cada tanto el mensaje llega incompleto, con basura, y crashea acá.
+
+
 	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
 
 		GraficoAvion* grafico = graficosAvion.at(it->second->getId());

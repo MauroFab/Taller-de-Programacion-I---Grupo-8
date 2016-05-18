@@ -5,7 +5,7 @@ GraficoAvion::GraficoAvion(SDL_Renderer* renderer, int id, std::string pathAvion
 
 	this->id = id;
 	textura = new Textura();
-	fotogramas = new SDL_Rect[cantFotogramas + 1];
+	fotogramas = new SDL_Rect[cantFotogramas];
 	cantidadFotogramas = cantFotogramas;
 
 	if( !textura->cargarDeArchivo( pathAvion, renderer ) ) {
@@ -15,7 +15,7 @@ GraficoAvion::GraficoAvion(SDL_Renderer* renderer, int id, std::string pathAvion
 
 	} else {
 		//1 mas para el grisado
-		for(int i=0; i < cantidadFotogramas + 1; i++) {
+		for(int i=0; i < cantidadFotogramas; i++) {
 
 			SDL_Rect fotograma;
 
