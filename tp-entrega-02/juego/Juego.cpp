@@ -100,32 +100,23 @@ void Juego::close() {
 
 void Juego::configuracionInicial() {
 
-	bool jugar = false;
-	SDL_Event e;
-
 	FondoInicio fondo("fondoInicio.bmp", gRenderer);
 
-	// TODO: PENDIENTE INICIAR LA PARTIDA CUANDO TODOS LOS USUARIOS ESTEN CONECTADOS
-	// while( !jugar ) {
+	while( !jugar ) {
 
-		// while( SDL_PollEvent( &e ) != 0 ) {
-
-		//	if (e.type == SDL_KEYUP) jugar = true;
-		// }
-		// esperar 5 seg para comenzar el juego, esta afuera
-		
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 		SDL_RenderClear( gRenderer );
 
 		fondo.render();
 
 		SDL_RenderPresent( gRenderer );
-	// }
+	}
 }
 
 void Juego::setJugar(){
-jugar=true;
+	jugar=true;
 }
+
 void Juego::ejecutar() {
 
 	// Si se pudo iniciar la ventana del juego
@@ -136,23 +127,21 @@ void Juego::ejecutar() {
 	// usar el flag para indicar que se puede jugar, no en necesario protegerlo, pues solo uno escribe
 	// no importa si se pierde unos loops
 	// seria mejor lanzar un evento, pero por ahora que quede asi.
-	while(!jugar){
 
-	};
 	SDL_Delay(5000); // comienza en 5 seg luego que dio el ok el server
 	static int tamanioMaximoMapa = 2000;
 	bool quit = false;
 	SDL_Event e;
 
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
-	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 6, 102, 195, 10);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
+	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 6, 102, 195, 10);
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
 	// Test para ver si se grafican otros aviones
 	Graficador::getInstance()->inicializar(gRenderer);
-	//Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);
-	Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
+	Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);
+	//Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
 	Graficador::getInstance()->cargarDatosProyectil("proyectilAvion.bmp", 1, 11, 25);
 
 	Mapa::getInstace()->inicializar(gRenderer);
@@ -176,13 +165,6 @@ void Juego::ejecutar() {
 	avion.render();
 
 	SDL_RenderPresent( gRenderer );
-
-	// TODO: VOLAR LO QUE SIGUE ahora solo queda para dar tiempo a empezar en "paralelo"
-	// int test = 0;
-	// while(test < 1000000000)
-	//	test++;
-	
-	
 	
 	/*------------------------------------------------------------------*/
 	EstadoAvion* estadoAnterior = NULL;
