@@ -4,21 +4,21 @@
 #include "Textura.h"
 #include "ElementoDelMapa.h"
 #include "ConfiguracionJuegoXML.h"
+#include "../common/view/ElementoView.h"
 #include <list>
+using namespace std;
 
 class Mapa
 {
 public:
-
 	static Mapa* getInstace();
 
 	void inicializar(SDL_Renderer* renderer);
 	void reiniciar();
 	~Mapa();
-	void graficar();
+	void dibujarFondoYElementos();
 	//Las posiciones del mapa empiezan en la 1,1 que es la esquina inferior izquierda.
-	void crearIslaEn(int x, int y);
-	void crearCarrierEn(int x, int y);
+	void crearElemento(ElementoView * elementoView);
 
 private:
 
@@ -28,8 +28,6 @@ private:
 	Mapa();
 
 	Textura* texturaMapa;
-	Textura* texturaIsla;
-	Textura* texturaCarrier;
 	int anchoMapa;
 	int altoMapa;
 	int pixelesAvanzados;
@@ -38,7 +36,7 @@ private:
 	SDL_Renderer* renderer;
 	int cantidadDePixelesQuePasaron;
 	std::list<ElementoDelMapa*> elementosDelMapa;
-	void graficarElementosDelMapa();
+	void dibujarElementos();
 };
 
 #endif //_MAPA_H_

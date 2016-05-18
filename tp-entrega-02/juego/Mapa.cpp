@@ -23,15 +23,12 @@ void Mapa::inicializar(SDL_Renderer* rendererRecibido) {
 	if( !texturaMapa->cargarDeArchivo( configJuego->getPathFondo(),renderer ) ){
 		texturaMapa->cargarDeArchivo( "fondoDefault.bmp",renderer );
 	}
-
-	texturaCarrier= new Textura();
-	if( !texturaCarrier->cargarDeArchivo( configJuego->getPathCarrier(),renderer) ){
-		texturaCarrier->cargarDeArchivo( "carrier.bmp",renderer );
-	}
+	/*
 	texturaIsla= new Textura();
 	if( !texturaIsla->cargarDeArchivo( configJuego->getPathIsla(),renderer) ){
 		texturaIsla->cargarDeArchivo( "signoInterrogacion.bmp",renderer );
 	}
+	*/
 	anchoMapa = texturaMapa->getWidth();
 	altoMapa = texturaMapa->getHeight();	
 }
@@ -50,20 +47,19 @@ Mapa::~Mapa(){
 
 	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
 		 delete (*it);
-	delete texturaIsla;
-	delete texturaCarrier;
+//	delete texturaIsla;
 	delete texturaMapa;
 }
 
-void Mapa::graficarElementosDelMapa(){
+void Mapa::dibujarElementos(){
 
-std::list<ElementoDelMapa*>::iterator it;
-
-for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
-     (*it)->graficarseSiEstaEnPantalla(altoMapa + cantidadDePixelesQuePasaron, cantidadDePixelesQuePasaron);
+	std::list<ElementoDelMapa*>::iterator it;
+	
+	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
+	     (*it)->graficarseSiEstaEnPantalla(altoMapa + cantidadDePixelesQuePasaron, cantidadDePixelesQuePasaron);
 }
 
-void Mapa::graficar(){
+void Mapa::dibujarFondoYElementos(){
 
 	if(cantidadDePixelesQuePasaron > tamanioMaximoMapa)
 		this->reiniciar();
@@ -73,7 +69,7 @@ void Mapa::graficar(){
 		scrollingOffset = 0;
 	texturaMapa->render(0, scrollingOffset, renderer);
 	texturaMapa->render(0, scrollingOffset - altoMapa, renderer);
-	graficarElementosDelMapa();
+	dibujarElementos();
 	scrollingOffset++;
 	cantidadDePixelesQuePasaron++;
 }
@@ -85,16 +81,13 @@ void Mapa::reiniciar(){
 	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
 		(*it)->reiniciar();
 }
-void Mapa::crearIslaEn(int x, int y){
 
+void Mapa::crearElemento(ElementoView * elementoView){
+//se crea el elemento a partir de los datos originales
+	Textura * texturaElemento = new Textura();
+	char * path = elementoView->spriteXml->getPath();
+	texturaElemento->cargarDeArchivo(path,renderer );
 	ElementoDelMapa* elementoDelMapa;
-	elementoDelMapa = new ElementoDelMapa(x,y, renderer,texturaIsla);
-	elementosDelMapa.push_back(elementoDelMapa);
-}
-
-void Mapa::crearCarrierEn(int x, int y){
-
-	ElementoDelMapa* elementoDelMapa;
-	elementoDelMapa = new ElementoDelMapa(x,y, renderer,texturaCarrier);
+	elementoDelMapa = new ElementoDelMapa(elementoView->posicion.x,elementoView->posicion.y, renderer,texturaElemento);
 	elementosDelMapa.push_back(elementoDelMapa);
 }
