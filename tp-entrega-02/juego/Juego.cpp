@@ -100,12 +100,8 @@ void Juego::close() {
 
 void Juego::configuracionInicial() {
 
-	//bool jugar = false;
-	SDL_Event e;
-
 	FondoInicio fondo("fondoInicio.bmp", gRenderer);
 
-	// TODO: PENDIENTE INICIAR LA PARTIDA CUANDO TODOS LOS USUARIOS ESTEN CONECTADOS
 	while( !jugar ) {
 
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
@@ -118,8 +114,9 @@ void Juego::configuracionInicial() {
 }
 
 void Juego::setJugar(){
-jugar=true;
+	jugar=true;
 }
+
 void Juego::ejecutar() {
 
 	// Si se pudo iniciar la ventana del juego
@@ -168,13 +165,6 @@ void Juego::ejecutar() {
 	avion.render();
 
 	SDL_RenderPresent( gRenderer );
-
-	// TODO: VOLAR LO QUE SIGUE ahora solo queda para dar tiempo a empezar en "paralelo"
-	// int test = 0;
-	// while(test < 1000000000)
-	//	test++;
-	
-	
 	
 	/*------------------------------------------------------------------*/
 	EstadoAvion* estadoAnterior = NULL;
