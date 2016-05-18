@@ -134,14 +134,14 @@ void Juego::ejecutar() {
 	SDL_Event e;
 
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", "isla.bmp", "carrier.bmp", tamanioMaximoMapa);
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
-	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 6, 102, 195, 10);
+	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "f22b.bmp", 6, 113, 195, 10);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"mig51.bmp", 6, 102, 195, 10);
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
 
 	// Test para ver si se grafican otros aviones
 	Graficador::getInstance()->inicializar(gRenderer);
-	Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);
-	//Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
+	//Graficador::getInstance()->cargarDatosAvion(2, "mig51.bmp", 6, 102, 195);
+	Graficador::getInstance()->cargarDatosAvion(1, "f22b.bmp", 6, 113,195);
 	Graficador::getInstance()->cargarDatosProyectil("proyectilAvion.bmp", 1, 11, 25);
 
 	Mapa::getInstace()->inicializar(gRenderer);
@@ -202,7 +202,10 @@ void Juego::ejecutar() {
 		//Render sprite
 		avion.render();
 
+		// TODO TEST  PARA QUE NO CRASHEE
+		SDL_mutexP(mut);
 		Graficador::getInstance()->graficarAviones(movimientosDeCompetidores);
+		SDL_mutexV(mut);
 
 		//Update screen
 		SDL_RenderPresent( gRenderer );

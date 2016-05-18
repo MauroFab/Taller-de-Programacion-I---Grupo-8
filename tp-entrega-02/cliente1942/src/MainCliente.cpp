@@ -156,18 +156,21 @@ int MainCliente::recibirMensajes(void* ptrSock)
 				EstadoAvionXml * pMensj = new EstadoAvionXml();
 				Protocolo::decodificar(bufferEntrada,pMensj);
 
-				EstadoAvion* estadoAvion = new EstadoAvion(pMensj->getId(), pMensj->getFrame(), pMensj->getPosX(), pMensj->getPosY());
+				if(pMensj->getId() > 0){
 
-				// Itero la lista de proyectiles y los agrego al estado avion 
-				std::list<EstadoProyectilXml*>::iterator it;
+					EstadoAvion* estadoAvion = new EstadoAvion(pMensj->getId(), pMensj->getFrame(), pMensj->getPosX(), pMensj->getPosY());
 
-				std::list<EstadoProyectilXml*> lista = pMensj->getEstadosProyectiles();
+					// Itero la lista de proyectiles y los agrego al estado avion 
+					std::list<EstadoProyectilXml*>::iterator it;
 
-				for (it = lista.begin(); it != lista.end(); it++) {
-					estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+					std::list<EstadoProyectilXml*> lista = pMensj->getEstadosProyectiles();
+
+					for (it = lista.begin(); it != lista.end(); it++) {
+						estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+					}
+
+					Juego::getInstance()->actualizarMovimientos(estadoAvion);
 				}
-
-				Juego::getInstance()->actualizarMovimientos(estadoAvion);
 
 				delete pMensj;
 			}
@@ -248,7 +251,7 @@ int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE		
 	cargarNombreDeUsuario();
 #else
-	this->nombreDeUsuario.assign("cliente-A");
+	this->nombreDeUsuario.assign("cliente-B");
 #endif	
 
 	if(conectado == true){
@@ -491,10 +494,18 @@ void MainCliente::actualizar(int argc, void* argv[]){
 	char * buffEnvio = new char[MAX_BUFFER];
 	int sizeBytesTotalLista = Protocolo::codificar(*msjMov,buffEnvio);
 
+	// TODO: test
+	if(msjMov->getId() < 0){
+		TCadena1000 cadena;
+		msjMov->toString(cadena);
+		printf("%s\n",cadena);	
+	}
+
 	if(chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista))<0) { //enviar el texto que se ha introducido
 		printf("No se pudo enviar el movimiento");
 		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
 	}
+
 	//Recuerdo que este metodo es solo para cuando los proyectiels esten en 
 	//memoria dinamica
 	msjMov->liberarMemoriaProyectiles();
