@@ -229,10 +229,13 @@ int Protocolo::codificar(AvionXml &avionXml,char * buffer){
 	int id = avionXml.getId();
 	int velAvion = avionXml.getVelAvion();
 	int velBala = avionXml.getVelBala();
+	int idSpAvion = avionXml.getIdSpAvion();
 	char * strSpAvion = avionXml.getStrSpAvion();
 	char len_strSpAvion = strlen(strSpAvion);
+	int idSpVuelta = avionXml.getIdSpVuelta();
 	char * strSpVuelta = avionXml.getStrSpVuelta();
 	char len_strSpVuelta = strlen(strSpVuelta);
+	int idSpBala = avionXml.getIdSpBala();
 	char * strSpBala = avionXml.getStrSpBala();
 	char len_strSpBala = strlen(strSpBala);
 	
@@ -250,17 +253,26 @@ int Protocolo::codificar(AvionXml &avionXml,char * buffer){
 	memcpy(buffer + offset,&velBala,sizeof(int));
 	offset += sizeof(int);
 	
+	memcpy(buffer + offset,&idSpAvion,sizeof(int));
+	offset += sizeof(int);
+	
 	memcpy(buffer + offset,&len_strSpAvion,sizeof(char));
 	offset += sizeof(char);
 	
 	memcpy(buffer + offset,strSpAvion,len_strSpAvion);
 	offset += len_strSpAvion;
 	
+	memcpy(buffer + offset,&idSpVuelta,sizeof(int));
+	offset += sizeof(int);
+	
 	memcpy(buffer + offset,&len_strSpVuelta,sizeof(char));
 	offset += sizeof(char);
 	
 	memcpy(buffer + offset,strSpVuelta,len_strSpVuelta);
 	offset += len_strSpVuelta;
+	
+	memcpy(buffer + offset,&idSpBala,sizeof(int));
+	offset += sizeof(int);
 	
 	memcpy(buffer + offset,&len_strSpBala,sizeof(char));
 	offset += sizeof(char);
@@ -280,10 +292,13 @@ int Protocolo::decodificar(char * buffer,AvionXml *avionXml){
 	int id = -1;
 	int velAvion = -1;
 	int velBala = -1;
+	int idSpAvion = -1;
 	char strSpAvion[MAX_CADENA] = {0};
 	char len_strSpAvion = -1;
+	int idSpVuelta = -1;
 	char strSpVuelta[MAX_CADENA] = {0};
 	char len_strSpVuelta = -1;
+	int idSpBala = -1;
 	char strSpBala[MAX_CADENA] = {0};
 	char len_strSpBala = -1;
 	int offset = 0;
@@ -299,12 +314,18 @@ int Protocolo::decodificar(char * buffer,AvionXml *avionXml){
 	memcpy(&velBala,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
+	memcpy(&idSpAvion,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
 	memcpy(&len_strSpAvion,buffer + offset,sizeof(char));
 	offset += sizeof(char);
 	
 	memcpy(strSpAvion,buffer + offset,len_strSpAvion);
 	offset += len_strSpAvion;
 	strSpAvion[len_strSpAvion] = '\0';
+
+	memcpy(&idSpVuelta,buffer + offset,sizeof(int));
+	offset += sizeof(int);
 	
 	memcpy(&len_strSpVuelta,buffer + offset,sizeof(char));
 	offset += sizeof(char);
@@ -312,6 +333,9 @@ int Protocolo::decodificar(char * buffer,AvionXml *avionXml){
 	memcpy(strSpVuelta,buffer + offset,len_strSpVuelta);
 	offset += len_strSpVuelta;
 	strSpVuelta[len_strSpVuelta] = '\0';
+	
+	memcpy(&idSpBala,buffer + offset,sizeof(int));
+	offset += sizeof(int);
 	
 	memcpy(&len_strSpBala,buffer + offset,sizeof(char));
 	offset += sizeof(char);
@@ -323,8 +347,11 @@ int Protocolo::decodificar(char * buffer,AvionXml *avionXml){
 	avionXml->setId(id);
 	avionXml->setVelAvion(velAvion);
 	avionXml->setVelBala(velBala);
+	avionXml->setIdSpAvion(idSpAvion);
 	avionXml->setStrSpAvion(strSpAvion,len_strSpAvion);
+	avionXml->setIdSpVuelta(idSpVuelta);
 	avionXml->setStrSpVuelta(strSpVuelta,len_strSpVuelta);
+	avionXml->setIdSpBala(idSpBala);
 	avionXml->setStrSpBala(strSpBala,len_strSpBala);
 	avionXml->calculateSizeBytes();
 
@@ -339,6 +366,7 @@ int Protocolo::decodificar(char * buffer,AvionXml *avionXml){
 int Protocolo::codificar(ElementoXml &elementoXml,char * buffer){
 	int sizeBytes = elementoXml.getSizeBytes();
 	int id = elementoXml.getId();
+	int idSprite = elementoXml.getIdSprite();
 	char * strIdSprite = elementoXml.getStrIdSprite();
 	char len_strIdSprite = strlen(strIdSprite);
 	int posicion_x = elementoXml.getPosicion().coorX;
@@ -350,6 +378,9 @@ int Protocolo::codificar(ElementoXml &elementoXml,char * buffer){
 	offset += sizeof(int);
 	
 	memcpy(buffer + offset,&id,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&idSprite,sizeof(int));
 	offset += sizeof(int);
 	
 	memcpy(buffer + offset,&len_strIdSprite,sizeof(char));
@@ -374,6 +405,7 @@ int Protocolo::codificar(ElementoXml &elementoXml,char * buffer){
 int Protocolo::decodificar(char * buffer,ElementoXml *elementoXml){
 	int sizeBytes = -1;
 	int id = -1;
+	int idSprite = -1;
 	char strIdSprite[MAX_CADENA] = {0};
 	char len_strIdSprite = -1;
 	TPosicion posicion;
@@ -384,6 +416,9 @@ int Protocolo::decodificar(char * buffer,ElementoXml *elementoXml){
 	offset += sizeof(int);
 	
 	memcpy(&id,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&idSprite,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
 	memcpy(&len_strIdSprite,buffer + offset,sizeof(char));
@@ -400,6 +435,7 @@ int Protocolo::decodificar(char * buffer,ElementoXml *elementoXml){
 	offset += sizeof(int);	
 	
 	elementoXml->setId(id);
+	elementoXml->setIdSprite(idSprite);
 	elementoXml->setStrIdSprite(strIdSprite,len_strIdSprite);
 	elementoXml->setPosicion(posicion);
 	elementoXml->calculateSizeBytes();

@@ -7,6 +7,11 @@
 
 typedef char TCadena1000[1000];
 
+typedef struct posicion{
+                int coorX;
+                int coorY;
+               }TPosicion;
+
 class IGenericaVO
 {
 public:
