@@ -110,26 +110,17 @@ void Juego::close() {
 
 void Juego::dibujarFondoInicio() {
 
-	bool jugar = false;
-	SDL_Event e;
-	FondoInicio fondo(PATH_FONDO_INICIO, gRenderer);
+	FondoInicio fondo("fondoInicio.bmp", gRenderer);
 
-	// TODO: PENDIENTE INICIAR LA PARTIDA CUANDO TODOS LOS USUARIOS ESTEN CONECTADOS
 	while( !jugar ) {
 
-		while( SDL_PollEvent( &e ) != 0 ) {
-
-			if (e.type == SDL_KEYUP)
-				jugar = true;
-		}
-
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-		//se limpia la pantalla
 		SDL_RenderClear( gRenderer );
+
 		fondo.render();
-		//actualiza la pantalla
+
 		SDL_RenderPresent( gRenderer );
-	 }
+	}
 }
 
 void Juego::setJugar(){
@@ -170,23 +161,23 @@ void Juego::ejecutar(ServidorXml * confServidorXml) {
 		
 	cargarElementos(confServidorXml);
 
-//	dibujarFondoInicio();
+	dibujarFondoInicio();
 
 	static int tamanioMaximoMapa = 2000;
 	bool quit = false;
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", tamanioMaximoMapa);
-	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "avion_1.bmp", 6, 113, 195, 10);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "avion_1.bmp", 6, 113, 195, 10);
 	AvionXml * avionXml_0 = confServidorXml->getListaAviones()[0];
 	
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(avionXml_0);
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"avion_2.bmp", 6, 102, 195, 10);
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("proyectilAvion.bmp", 1, 11, 25, 1);
+	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"avion_2.bmp", 6, 102, 195, 10);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("disparo_1.bmp", 1, 11, 25, 1);
 
 	// Test para ver si se grafican otros aviones
 	Graficador::getInstance()->inicializar(gRenderer);
-	//Graficador::getInstance()->cargarDatosAvion(2, "avion_2.bmp", 6, 102, 195);
-	Graficador::getInstance()->cargarDatosAvion(1, "avion_1.bmp", 6, 113,195);
-	Graficador::getInstance()->cargarDatosProyectil("proyectilAvion.bmp", 1, 11, 25);
+	Graficador::getInstance()->cargarDatosAvion(2, "avion_2.bmp", 6, 102, 195);
+	//Graficador::getInstance()->cargarDatosAvion(1, "avion_1.bmp", 6, 113,195);
+	Graficador::getInstance()->cargarDatosProyectil("disparo_1.bmp", 1, 11, 25);
 
 	Mapa::getInstace()->inicializar(gRenderer);
 
@@ -253,9 +244,9 @@ void Juego::ejecutar(ServidorXml * confServidorXml) {
 		avion.render();
 
 		// TODO TEST  PARA QUE NO CRASHEE
-//		SDL_mutexP(mut);
+		SDL_mutexP(mut);
 		Graficador::getInstance()->graficarAviones(movimientosDeCompetidores);
-//		SDL_mutexV(mut);
+		SDL_mutexV(mut);
 
 		//Update screen
 		SDL_RenderPresent( gRenderer );

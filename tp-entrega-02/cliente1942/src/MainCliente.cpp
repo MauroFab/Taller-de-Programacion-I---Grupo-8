@@ -253,7 +253,7 @@ int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE		
 	cargarNombreDeUsuario();
 #else
-	this->nombreDeUsuario.assign("cliente-A");
+	this->nombreDeUsuario.assign("cliente-B");
 #endif	
 
 	if(conectado == true){
