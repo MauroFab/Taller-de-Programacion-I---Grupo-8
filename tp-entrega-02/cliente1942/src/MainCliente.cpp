@@ -1,6 +1,7 @@
 #include "MainCliente.h"
 
 MainCliente::MainCliente(){
+
 	this->dirXML.assign("");
 	this->conex = 0;
 	this->len = 0;
@@ -8,7 +9,7 @@ MainCliente::MainCliente(){
 	// aca deberia de obtener el ip, port y cargar los mensajes en el map
 	this->ip = "";
 	this->port = -1;
-	// si usan el principal comentar inicializar()
+
 	this->parserx = new ParserXml();
 	this->servidorXml = new ServidorXml();
 
@@ -23,38 +24,14 @@ MainCliente::~MainCliente(){
 		delete this->servidorXml;
 }
 
-// Ahora se carga la IP y el Puerto por consola, se deja esta función para configuraciones del cliente
-void MainCliente::parsearArchivoXml(int argc, char* argv[]){
-	getParserXml()->cargarXmlCliente(argc,argv);
-	int res = getParserXml()->validarXmlArchivoCliente();
-	if (res < 0){
-		printf("\nERROR: Error semantico\n");
-		Log::getInstance()->error("ERROR: Error semantico.");
-		getParserXml()->cargarXmlCliente(0,argv);
-	}
-	//else{
-	//luego de la carga crea los datos a partir del XML
-	ClienteXml * clienteXml = getParserXml()->createDataClienteXml();
-	//se cargan los datos desde el cliente
-	//copia la ip
-	this->ip.assign(clienteXml->getConexionXmlCopy()->getIp());
-	//copia el puerto
-	int puerto = clienteXml->getConexionXmlCopy()->getPuerto();
-	char cadena[10];
-	sprintf(cadena,"%d",puerto);
-	this->port.assign(cadena);
-	std::cout<< port<<std::endl;
 
-	// luego de usarlo se debe borrar
-	delete clienteXml;
-	//	}
-}
+/*-------- Funciones privadas --------*/
 
 ParserXml * MainCliente::getParserXml(){
 	return this->parserx;
 }
 
-int MainCliente::chequearConexion(int len){
+int MainCliente::chequearConexion(int len) {
 
 	if (len == 0){
 		printf("\n No llego el mensaje, se desconecto el servidor\n");
@@ -96,8 +73,6 @@ int MainCliente::inicializarConexion(){
 		return -1;
 	}
 	setsockopt (sock, IPPROTO_TCP, SO_REUSEADDR | SOCK_STREAM, (char*)&c, sizeof(int));
-	//Definimos la dirección a conectar que hemos recibido desde el gethostbyname
-	//y decimos que el puerto al que deberá conectar es el 9999 con el protocolo ipv4
 	direc.sin_family=AF_INET;
 	direc.sin_port=htons(atoi(port.c_str()));
 	direc.sin_addr = *((struct in_addr *)host->h_addr);
@@ -105,7 +80,9 @@ int MainCliente::inicializarConexion(){
 
 	return 0;
 }
+
 void MainCliente::grabarEnElLogLaDesconexion(int len){
+
 	if (len == 0){
 		Log::getInstance()->info( "Se ha desconectado el server");
 	}
@@ -123,8 +100,8 @@ void MainCliente::grabarEnElLogLaDesconexion(int len){
 	}
 }
 
-int MainCliente::recibirMensajes(void* ptrSock)
-{
+int MainCliente::recibirMensajes(void* ptrSock) {
+
 	// TODO: HACER CLIENTE ESTATICO
 	bool serverDesconectadoTest = false;
 	bool cerrarConexionTest = false;
@@ -181,7 +158,6 @@ int MainCliente::recibirMensajes(void* ptrSock)
 			grabarEnElLogLaDesconexion(len);
 			serverDesconectadoTest = true;
 		}
-
 	}
 
 	return 0;
@@ -246,19 +222,22 @@ void MainCliente::cargarNombreDeUsuario() {
 
 
 int MainCliente::conectar(){
+
 #ifndef FAKE_DEBUG_CLIENTE	
 	cargarIpYPuerto();
-#endif	
+#endif
+
 	inicializarConexion(); 
+
 #ifndef FAKE_DEBUG_CLIENTE		
 	cargarNombreDeUsuario();
 #else
-	this->nombreDeUsuario.assign("cliente-D");
+	this->nombreDeUsuario.assign("cliente-B");
 #endif	
 
 	if(conectado == true){
 		Log::getInstance()->warn(" el cliente ya se encuentra conectado.");
-		printf("ya se encuentra conectado \n"); //WARN?
+		printf("ya se encuentra conectado \n");
 	}
 	else{
 		//Intentamos establecer la conexión
@@ -347,7 +326,8 @@ int MainCliente::conectar(){
 	return 0;
 }
 
-int MainCliente::desconectar(){
+int MainCliente::desconectar() {
+
 	shutdown(sock,2);
 	closesocket(sock);
 	conectado=false;
@@ -355,7 +335,7 @@ int MainCliente::desconectar(){
 	return 0;
 }
 
-int MainCliente::salir(){
+int MainCliente::salir() {
 
 	mapMensajes.clear(); // chequear si se liberan los string
 	// liberar la memoria de los mensajes
@@ -382,21 +362,19 @@ int MainCliente::enviar(){
 	//TODO se cambia esto y se realiza en forma temprana, es decir a penas parsea
 	//pues esto se realiza luego de parsear que carga la lista de mensajes del cliente
 	//cargarIDMensajes();
+
 	while(enc!=1){
+
 		printf("Ingrese el ID del mensaje: ");
 		string numstring;
 		cin>>numstring;
-		// scanf("%d",&id);
-		//if(!esUnNumero(numstring)){
-		//	cout<<"recuerde los valores tienen que ser numericos"<<endl;
-		//	system("PAUSE");
-		//	return -1;
-		//}
+
 		id=atoi(numstring.c_str());
 		if(id==0)
 			return 0;
 		std::map<int,MensajeXml*>::iterator it;
 		it=mapMensajes.find(id);
+
 		if(it==mapMensajes.end()){
 			printf("Mensaje no encontrado\n");
 			enc=0;
@@ -421,7 +399,6 @@ int MainCliente::enviar(){
 			MensajeXml mensajeIN;
 			Protocolo::decodificar(bufferEntrada,&mensajeIN);
 
-			//bufferEntrada[len2] =0;
 			Log::getInstance()->debug(mensajeIN.getValor());
 			printf(" || respuesta servidor:> %s\n",mensajeIN.getValor());
 			delete pMsj;
@@ -433,52 +410,7 @@ int MainCliente::enviar(){
 	return 0;
 }
 
-/**
-* muestra el menu y direcciona a las opciones
-*
-*/
-int MainCliente::menu(){
-	int opt = 0;
-	while (opt != OPT_SALIR){
-		// TODO: Por el momento no borro la pantalla asi veo que va llegando 
-		// system("CLS");	
-		printf("\n%s\n", "------------------------------------------------------------------------");
-		if(conectado)
-			std::cout<<"Se encuentra: CONECTADO" <<std::endl;
-		else
-			std::cout<<"Se encuentra: DESCONECTADO" <<std::endl;
-		printf("\n<1> CONECTAR");
-		printf("\n<2> DESCONECTAR");
-		printf("\n<3> SALIR");
-		printf("\n<4> ENVIAR");
-		printf("\n");
-		string numstring;
-		cin>>numstring;
-		// scanf("%d",&id);
-		//if(!esUnNumero(numstring)){
-		//	cout<<"recuerde los valores tienen que ser numericos"<<endl;
-		//	system("PAUSE");
-		//}else{
-		opt=atoi(numstring.c_str());
-		//scanf("%d",&opt);
-		switch (opt){
-		case OPT_CONECTAR:
-			conectar();
-			break;
-		case OPT_DESCONECTAR:
-			desconectar();
-			break;
-		case OPT_SALIR:
-			salir();
-			break;
-		case OPT_ENVIAR:
-			enviar();
-			break;
-		}
-	}
-	return 0;
-}
-
+// Actualiza la vista según el observer
 void MainCliente::actualizar(int argc, void* argv[]){
 
 	EstadoAvion* mov = (EstadoAvion*)argv[0];
@@ -510,3 +442,76 @@ void MainCliente::actualizar(int argc, void* argv[]){
 	delete msjMov;
 	delete mov;
 }
+
+
+/*-------- Funciones públicas --------*/
+
+/*
+* muestra el menu y direcciona a las opciones
+*/
+int MainCliente::menu() {
+
+	int opt = 0;
+	while (opt != OPT_SALIR){
+
+		// system("CLS"); Para poder ver que se recibe desde el servidor	
+		printf("\n%s\n", "------------------------------------------------------------------------");
+		if(conectado)
+			std::cout<<"Se encuentra: CONECTADO" <<std::endl;
+		else
+			std::cout<<"Se encuentra: DESCONECTADO" <<std::endl;
+		printf("\n<1> CONECTAR");
+		printf("\n<2> DESCONECTAR");
+		printf("\n<3> SALIR");
+		printf("\n<4> ENVIAR");
+		printf("\n");
+
+		string numstring;
+		cin>>numstring;
+		opt=atoi(numstring.c_str());
+
+		switch (opt){
+		case OPT_CONECTAR:
+			conectar();
+			break;
+		case OPT_DESCONECTAR:
+			desconectar();
+			break;
+		case OPT_SALIR:
+			salir();
+			break;
+		case OPT_ENVIAR:
+			enviar();
+			break;
+		}
+	}
+	return 0;
+}
+
+// Ahora se carga la IP y el Puerto por consola, se deja esta función para configuraciones del cliente
+void MainCliente::parsearArchivoXml(int argc, char* argv[]){
+	
+	getParserXml()->cargarXmlCliente(argc,argv);
+	int res = getParserXml()->validarXmlArchivoCliente();
+	if (res < 0){
+		printf("\nERROR: Error semantico\n");
+		Log::getInstance()->error("ERROR: Error semantico.");
+		getParserXml()->cargarXmlCliente(0,argv);
+	}
+
+	//luego de la carga crea los datos a partir del XML
+	ClienteXml * clienteXml = getParserXml()->createDataClienteXml();
+	//se cargan los datos desde el cliente
+	//copia la ip
+	this->ip.assign(clienteXml->getConexionXmlCopy()->getIp());
+	//copia el puerto
+	int puerto = clienteXml->getConexionXmlCopy()->getPuerto();
+	char cadena[10];
+	sprintf(cadena,"%d",puerto);
+	this->port.assign(cadena);
+	std::cout<< port<<std::endl;
+
+	// luego de usarlo se debe borrar
+	delete clienteXml;
+}
+

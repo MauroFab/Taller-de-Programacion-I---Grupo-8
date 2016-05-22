@@ -14,13 +14,13 @@
 #include <SDL2/SDL_thread.h>
 
 #pragma comment(lib,"ws2_32.lib")
+
 using std::string;
 using std::cout;
 using std::cin;
 using std::clog;
 using std::cerr;
 using std::ofstream;
-
 
 #include "../../common/Log.h"
 #include "asignadorDeUsuarios.h"
@@ -29,58 +29,69 @@ using std::ofstream;
 #include "../../common/xml/EstadoAvionXml.h"
 #include "../../common/Protocolo.h"
 #include "../../common/MensajeSeguro.h"
-class MainServidor
-{
+
+class MainServidor {
+
 private:
+
+	/*Atributos*/
+
 	struct MensajeConId {
-	     int id;
-		 char* mensaje;
-		 EstadoAvionXml mensajeXml;
+	    int id;
+		char* mensaje;
+		EstadoAvionXml mensajeXml;
 	};
-	void notificarPorConsolaLaDesconexionInesperada();
-    static bool instanceFlag;
+
+	static bool instanceFlag;
     static MainServidor *single;
-	AsignadorDeUsuarios *usuarios;
+
 	int puerto;
-    MainServidor();
-	//pMsj mensaje desde el cual se realiza la copia de datos
-	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,EstadoAvionXml* pMsj);
-	//se almancena todo el modelo parseado
-	ServidorXml * servidorXml;
-	void MainServidor::grabarEnElLogLaDesconexion(int len);
-	bool seguimosConectados(int len);
-	void enviarMensajeDeConexionAceptadaAl(SOCKET* socket);
-	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
-	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);
-public:
+	AsignadorDeUsuarios *usuarios;
+	ServidorXml * servidorXml; //se almancena todo el modelo parseado
 	bool seDebeCerrarElServidor;
 	std::queue<MensajeConId*> colaDeMensaje;
 	std::vector<SDL_Thread*> vectorHilos;
 	std::vector<SOCKET*> vectorSockets;
-	std::map<string, bool> usuariosConectados;
 	SOCKET socketDeEscucha;
 	SDL_mutex *mut; // el mutex para proteger la cola de mensajes
 
-public:
 
-	virtual ~MainServidor();
-	static MainServidor* getInstance();
-	void parsearArchivoXml(int argc, char* argv[]);
-public:
+	/*Funciones*/
+
+	MainServidor();
+
 	SOCKET obtenerSocketInicializado(sockaddr_in &local);
+	
 	void ponerAEscuchar(SOCKET sock);
-	static int fun_atenderCliente(void* punteroAlSocketRecibido);
-	static int fun_recibirConexiones(void*);
-	static int fun_consolaDelServidor(void*);
-	static int fun_avisarATodos(void*);
-	static int fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
+	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,EstadoAvionXml* pMsj);
+	void grabarEnElLogLaDesconexion(int len);
+	bool seguimosConectados(int len);
 
-	int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
 	int atenderCliente(void* punteroAlSocketRecibido);
 	int recibirConexiones(void*);
-	int consolaDelServidor(void*);
+	int consola(void*);
 	int avisarATodos(void*);
+	int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
+	void enviarMensajeDeConexionAceptadaAl(SOCKET* socket);
+	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
+	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);
+
+public:
+
+	/*Funciones*/
+
+	static MainServidor* getInstance();
+	void parsearArchivoXml(int argc, char* argv[]);
 	int mainPrincipal();
+	virtual ~MainServidor();
+
+	/*Funciones estatáticas ultilizadas como puntero a función*/
+
+	static int fun_atenderCliente(void* punteroAlSocketRecibido);
+	static int fun_recibirConexiones(void*);
+	static int fun_consola(void*);
+	static int fun_avisarATodos(void*);
+	static int fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
 };
 
 #endif //_MAINSERVIDOR_H_

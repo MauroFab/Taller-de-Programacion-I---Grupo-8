@@ -5,13 +5,14 @@
 #include "MainCliente.h"
 
 int main(int argc, char* argv[]){
+
 	MainCliente mainCliente;
+
 #ifdef FAKE_DEBUG_CLIENTE		
 	mainCliente.parsearArchivoXml(argc,argv);
 #endif		
 
 	mainCliente.menu();
-	// mainCliente.principal();
 
 	return 0;
 }

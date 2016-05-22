@@ -37,30 +37,32 @@
 #define OPT_SALIR		3
 #define OPT_ENVIAR		4
 
-//FAKE es de falso, bueno este flag esta para trabajar sin cargar los datos
-//pues servidor y puerto los levanta del XML
-//y que se harcodee nombre cuando esta todo hardcodeado no pasa nada
-//nota:antes de que un integrante puntual salte le aviso, dejar No hardcodeado lo unico que se ingresa, es complicarla ahora
-//y antes del lo de siempre, y diga <<NO<<, esa no es la forma correcta hagamos lo contrario.--> eso es perder tiempo
+// Para no cargar ip, puerto y usuario cuando se testea
 #define FAKE_DEBUG_CLIENTE		1
 
 using std::string;
 using std::map;
 using std::pair;
 
-class MainCliente : public Observador
-{
+class MainCliente : public Observador {
+
 private:
+
+	/*Atributos*/
+
 	SOCKET sock;
 
 	//este atributo contiene los mensajes a enviar al servidor
 	map<int,MensajeXml*> mapMensajes;
+
 	string dirXML;
 	string ip,port;
 	string nombreDeUsuario;
+
 	WSADATA wsa;
 	struct hostent *host;
 	struct sockaddr_in direc;
+
 	int conex;
 	int c;
 	int len;
@@ -68,26 +70,15 @@ private:
 	bool serverDesconectado;
 	bool cerrarConexion;
 
-	//contiene al parser, lo crea y lo borra
-	ParserXml * parserx;
-	//se almancena todo el modelo parseado
-	ServidorXml * servidorXml;
-public:
-	MainCliente();
-	virtual ~MainCliente();
-	void parsearArchivoXml(int argc, char* argv[]);
-	ParserXml * getParserXml();
-	int chequearConexion(int len);
-	int menu();
-	//realiza la conexion y copia todo el modelo desde el cliente
-	int conectar();
-	int desconectar();
-	int salir();
-	int enviar();
-private:
+	ParserXml * parserx; //contiene al parser, lo crea y lo borra
+	ServidorXml * servidorXml; //se almancena todo el modelo parseado
 
 	SDL_Thread* receptor;
+
+	/*Funciones*/
+		
 	int inicializarConexion();
+	int chequearConexion(int len);
 	static void grabarEnElLogLaDesconexion(int len);
 	static int recibirMensajes(void*);
 	void cargarNombreDeUsuario();
@@ -95,7 +86,23 @@ private:
 	void cargarIP();
 	void cargarPuerto();
 
+	ParserXml * getParserXml();
+
+	int conectar(); //realiza la conexion y copia todo el modelo desde el cliente
+	int desconectar();
+	int salir();
+	int enviar();
+
 	virtual void actualizar(int argc, void* argv[]);
+
+public:
+
+	MainCliente();
+	virtual ~MainCliente();
+
+	void parsearArchivoXml(int argc, char* argv[]);
+	
+	int menu();
 };
 
 #endif //_MAINCLIENTE_H_

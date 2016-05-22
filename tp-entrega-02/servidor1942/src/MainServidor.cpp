@@ -3,6 +3,8 @@
 bool MainServidor::instanceFlag = false;
 MainServidor* MainServidor::single = NULL;
 
+/*-------- Estructuras e inicialización --------*/
+
 struct IdYPunteroAlSocket {
 	int id;
 	SOCKET* punteroAlSocket;
@@ -14,7 +16,7 @@ struct StructDelEnviadorDeMensajes {
 };
 
 MainServidor::MainServidor(){
-	//se realiza una inicializacion parcial
+
 	this->usuarios = NULL;
 	this->seDebeCerrarElServidor = true;
 	this->puerto = -1;
@@ -22,6 +24,7 @@ MainServidor::MainServidor(){
 }
 
 MainServidor::~MainServidor(){
+
 	instanceFlag = false;
 	// luego de usarlo se debe borrar
 	if (servidorXml != NULL)
@@ -29,6 +32,7 @@ MainServidor::~MainServidor(){
 }
 
 MainServidor* MainServidor::getInstance(){
+
 	if(! instanceFlag){
 		single = new MainServidor();
 		instanceFlag = true;
@@ -39,29 +43,49 @@ MainServidor* MainServidor::getInstance(){
 	}
 }
 
-void MainServidor::parsearArchivoXml(int argc, char* argv[]){
 
-	ParserXml parserx;
+/*-------- Funciones de destrucción de Threads y Sockects --------*/
 
-	parserx.cargarXmlServidor(argc,argv);
+void freeSockets (SOCKET* s) {
 
-	int res = parserx.validarXmlArchivoServidor();
+	Log::getInstance()->debug("Liberando recursos del socket.");
 
-	if (res < 0){
-		printf("\nERROR: Error semantico\n");
-		parserx.cargarXmlServidor(0,argv);
-	}
-
-	//luego de la carga crea los datos a partir del XML
-	this->servidorXml = parserx.createDataServidorXml();
-	printf("\nOK\n");
-	static int cantidadDeClientesMaxima = servidorXml->getCantidadMaximaClientes();
-	this->puerto = servidorXml->getPuerto();
-	this->usuarios = new AsignadorDeUsuarios(cantidadDeClientesMaxima);
-	this->seDebeCerrarElServidor = false;
-	// luego de usarlo se debe borrar
-	//	delete servidorXml;
+	free(s);
 }
+
+void waitThread (SDL_Thread* h) {
+
+	printf("wait al Thread \n");
+	Log::getInstance()->debug("Esperando que el thread finalice.");
+
+	SDL_WaitThread(h, NULL);
+}
+
+
+/*-------- Funciones estáticas para la llamada de las mismas como puntero a función --------*/
+
+int MainServidor::fun_atenderCliente(void* punteroAlSocketRecibido){
+	return MainServidor::getInstance()->atenderCliente(punteroAlSocketRecibido);	
+}
+
+int MainServidor::fun_recibirConexiones(void* punteroAlSocketRecibido){
+	return  MainServidor::getInstance()->recibirConexiones(punteroAlSocketRecibido);	
+}
+
+int MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido){
+	return MainServidor::getInstance()->revisarSiHayMensajesParaElClienteYEnviarlos(idYPunteroAlSocketRecibido);	
+}
+
+int MainServidor::fun_consola(void* punteroAlSocketRecibido){
+	return MainServidor::getInstance()->consola(punteroAlSocketRecibido);	
+}
+
+int MainServidor::fun_avisarATodos(void* data){
+	return MainServidor::getInstance()->avisarATodos(data);	
+}
+
+
+/*-------- Funciones privadas --------*/
 
 SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
 
@@ -74,94 +98,29 @@ SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
 	//Creamos el socket
 	sock=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 
-	//defnimos dirección por defecto, ipv4 y el puerto 9999
+	//defnimos dirección por defecto, ipv4
 	local.sin_family = AF_INET;
 	local.sin_addr.s_addr = INADDR_ANY;
-	local.sin_port = htons(this->puerto); // htons(9999);
+	local.sin_port = htons(this->puerto);
 
 	//asociamos el socket al puerto
 	if (bind(sock, (SOCKADDR*) &local, sizeof(local))==-1){
-		printf("error en el bind\n");
-		Log::getInstance()->error(" asociando el socket al puerto.");
+		printf("Error en el bind\n");
+		Log::getInstance()->error("Asociando el socket al puerto.");
 	}
 
 	return sock;
 }
 
 void MainServidor::ponerAEscuchar(SOCKET sock){
+
 	if (listen(sock,2)==-1){
-		printf("error en el listen\n");
-		Log::getInstance()->error(" al iniciar el listen.");
+		printf("Error en el listen\n");
+		Log::getInstance()->error(" Al iniciar el listen.");
 	}
 }
-int MainServidor::fun_atenderCliente(void* punteroAlSocketRecibido){
-	MainServidor * instan = MainServidor::getInstance();
-	return instan->atenderCliente(punteroAlSocketRecibido);	
-}
 
-int MainServidor::fun_recibirConexiones(void* punteroAlSocketRecibido){
-	MainServidor * instan = MainServidor::getInstance();
-	return instan->recibirConexiones(punteroAlSocketRecibido);	
-}
-
-int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointer)
-{
-	StructDelEnviadorDeMensajes structRecibido = *((StructDelEnviadorDeMensajes*) structPointer);
-	IdYPunteroAlSocket idYPunteroAlSocket = structRecibido.idYPunteroAlSocket;
-
-	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
-	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
-
-	//el socket es igual a la direccion apuntada por el punteroAlSocket
-	int id = idYPunteroAlSocket.id;
-	std::queue<EstadoAvionXml*>* colaDeMensajesParaEnviar;
-	EstadoAvionXml* mensaje;
-	bool* seCerroLaConexionPointer = structRecibido.seCerroLaConexion;
-	colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
-
-	printf("Se esta preparado para enviar mensajes al usuario: %i\n",id); 
-	//-----------------------------
-	bool mensajeJugar=true;
-	MensajeXml mensajeEnvio;
-	int size = 0;
-	char bufferEnvio[MAX_BUFFER];
-
-	while(!(*seCerroLaConexionPointer)){
-	// enviar el inicio del juego a todos los clientes
-
-			if(!colaDeMensajesParaEnviar->empty()){
-				mensaje = colaDeMensajesParaEnviar->front();
-				SDL_mutexP(mut);
-				colaDeMensajesParaEnviar->pop();
-				if(mensaje->getId() > -3){
-					SDL_mutexV(mut);
-					char buffEnvio[MAX_BUFFER];
-					mensaje->calculateSizeBytes();
-					int sizeEnvio = Protocolo::codificar(*mensaje,buffEnvio);
-					MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
-
-					//Aca debería liberar la memoria del mensaje, pero si lo hago estalla.
-					//Y efectivamente si mando muchos mensajes (Con un solo cliente abierto), la memoria aumenta, asi que 
-					// la estamos perdiendo con los mensajes
-				}
-				delete mensaje; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
-		}
-	}
-
-	return 0;
-}
-
-int MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido){
-	MainServidor * instan = MainServidor::getInstance();
-	return instan->revisarSiHayMensajesParaElClienteYEnviarlos(idYPunteroAlSocketRecibido);	
-}
-
-int MainServidor::fun_consolaDelServidor(void* punteroAlSocketRecibido){
-	MainServidor * instan = MainServidor::getInstance();
-	return instan->consolaDelServidor(punteroAlSocketRecibido);	
-}
-
-void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id,EstadoAvionXml* pMsj){
+void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id, EstadoAvionXml* pMsj){
 
 	SDL_mutexP(mut);
 	MensajeConId* mensajeConId = new MensajeConId;
@@ -176,6 +135,7 @@ void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id,Estado
 }
 
 void MainServidor::grabarEnElLogLaDesconexion(int len){
+
 	if (len == 0){
 		Log::getInstance()->info( "Se ha desconectado el server");
 	}
@@ -197,8 +157,50 @@ bool MainServidor::seguimosConectados(int len){
 	return(len > 0);
 }
 
-int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
-{
+int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointer) {
+
+	StructDelEnviadorDeMensajes structRecibido = *((StructDelEnviadorDeMensajes*) structPointer);
+	IdYPunteroAlSocket idYPunteroAlSocket = structRecibido.idYPunteroAlSocket;
+
+	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
+	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
+
+	int id = idYPunteroAlSocket.id;
+	std::queue<EstadoAvionXml*>* colaDeMensajesParaEnviar;
+	EstadoAvionXml* mensaje;
+	bool* seCerroLaConexionPointer = structRecibido.seCerroLaConexion;
+	colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
+
+	printf("Se esta preparando para enviar mensajes al usuario: %i\n",id); 
+	//-----------------------------
+	bool mensajeJugar=true;
+	MensajeXml mensajeEnvio;
+	int size = 0;
+	char bufferEnvio[MAX_BUFFER];
+
+	while(!(*seCerroLaConexionPointer)){
+	// enviar el inicio del juego a todos los clientes
+
+		if(!colaDeMensajesParaEnviar->empty()){
+			mensaje = colaDeMensajesParaEnviar->front();
+			SDL_mutexP(mut);
+			colaDeMensajesParaEnviar->pop();
+			if(mensaje->getId() > -3){
+				SDL_mutexV(mut);
+				char buffEnvio[MAX_BUFFER];
+				mensaje->calculateSizeBytes();
+				int sizeEnvio = Protocolo::codificar(*mensaje,buffEnvio);
+				MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
+			}
+			delete mensaje; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
+		}
+	}
+
+	return 0;
+}
+
+int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
+
 	int len;
 	char bufferEntrada[MAX_BUFFER];
 	SDL_mutex *mut;
@@ -207,23 +209,28 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 	StructDelEnviadorDeMensajes* structParaEnviar = new StructDelEnviadorDeMensajes;
 	bool* seCerroLaConexion = new bool;
 
-	//Si bien seCerroLaConexion es algo que se accede de dos threads y puede ser bloqueado con un semaforo
-	//No es relevante, una desincronizacion lleva a que se cicle un par de veces demás en el otro thread
-	//se perdera mas tiempo bloqueandolo.
+	/* Si bien seCerroLaConexion es algo que se accede desde dos threads y puede ser bloqueado con un semaforo
+	   no es relevante. Una desincronización lleva a que se cicle un par de veces de más en el otro thread.
+	   Se perderá mas tiempo bloqueandolo.
+	*/
 	*seCerroLaConexion = false;
+
 	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
 	IdYPunteroAlSocket idYPunteroAlSocket = *((IdYPunteroAlSocket*) idYPunteroAlSocketRecibido);
+
 	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
 	int id = idYPunteroAlSocket.id;
-	len=sizeof(struct sockaddr);
+	len = sizeof(struct sockaddr);
 	structParaEnviar->idYPunteroAlSocket = idYPunteroAlSocket;
 	structParaEnviar->seCerroLaConexion = seCerroLaConexion;
 	threadDeEnvioDeMensajes = SDL_CreateThread(MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos, "mensajesParaElCliente", (void*) structParaEnviar);
 
 	bool esElPrimerMensaje = true;
 	while (seguimosConectados(len) && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
+		
 		EstadoAvionXml *pMensj;
-		len=MensajeSeguro::recibir(socket,bufferEntrada); //recibimos los datos que envie
+		len=MensajeSeguro::recibir(socket,bufferEntrada);
+		
 		if (seguimosConectados(len)){
 			if(!esElPrimerMensaje)
 				delete pMensj;
@@ -231,10 +238,9 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 			pMensj = new EstadoAvionXml();
 			Protocolo::decodificar(bufferEntrada,pMensj);
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);
-			//--------------------------------
-			//bufferEntrada[len]=0; //Ponemos el fin de cadena 
 
 		}else{
+
 			grabarEnElLogLaDesconexion(len);
 			// El frame 42 es el grisado
 			pMensj->setFrame(42);
@@ -261,22 +267,9 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 
 	return 0;
 }
-//----------------------------------------------------------------------------
-void freeSockets (SOCKET* s) {  // libero la memoria de los sockets
 
-	Log::getInstance()->debug("Liberando recursos del socket.");
-
-	free(s);
-}
-void waitThread (SDL_Thread* h) {  // wait para todos los threadsockets
-
-	printf("wait al Thread \n");
-	Log::getInstance()->debug("Esperando que el thread finalice.");
-
-	SDL_WaitThread(h, NULL);
-}
-//----------------------------------------------------------------------------
 void MainServidor::enviarMensajeDeConexionAceptadaAl(SOCKET* socket){
+
 	char buffEnvio[MAX_BUFFER];
 	int size = 0;
 	MensajeXml mensajeEnvio;
@@ -289,6 +282,7 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(SOCKET* socket){
 }
 
 void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket){
+
 	char buffEnvio[MAX_BUFFER];
 	int size = 0;
 	char* strMsj = FAKE_MENSAJE_02;
@@ -301,6 +295,7 @@ void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl
 }
 
 void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket){
+
 	char buffEnvio[MAX_BUFFER];
 	int size = 0;
 	MensajeXml mensajeEnvio;
@@ -316,7 +311,7 @@ int MainServidor::recibirConexiones(void*){
 	struct sockaddr_in local;
 
 	SOCKET* socketConexion;
-	int len = sizeof(struct sockaddr);//Si no pongo esto no funciona, queda para futuras generaciones descubrir porque.
+	int len = sizeof(struct sockaddr);
 
 	IdYPunteroAlSocket idYPunteroAlSocket;
 	socketDeEscucha = obtenerSocketInicializado(local);
@@ -326,6 +321,7 @@ int MainServidor::recibirConexiones(void*){
 	printf("En espera de conexiones\n"); 
 
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
+	
 	do{
 		if(usuarios->puedoTenerMasUsuarios()){ 
 
@@ -418,22 +414,22 @@ int MainServidor::recibirConexiones(void*){
 
 		}
 
-
 	}while(!seDebeCerrarElServidor);
 
 	for_each (vectorHilos.begin(), vectorHilos.end(), waitThread);
-	//liberar memoria de los sockets
 	for_each (vectorSockets.begin(), vectorSockets.end(), freeSockets);
 
 	return 0;
 }
 
-
-int MainServidor::consolaDelServidor(void*){
+int MainServidor::consola(void*){
+	
 	char entradaTeclado[20];
-	do{
+	
+	do {
 		scanf("%s", entradaTeclado);
-	}while(strcmp(entradaTeclado,"terminar"));
+	} while(strcmp(entradaTeclado,"cerrar"));
+	
 	seDebeCerrarElServidor = true;
 
 	//cuando cierro la conexion del socketDeEscucha, se crea igual un hilo, no controlo eso.
@@ -441,16 +437,12 @@ int MainServidor::consolaDelServidor(void*){
 	return 0;
 }
 
-int MainServidor::fun_avisarATodos(void* data){
-	MainServidor * instan = MainServidor::getInstance();
-	return instan->avisarATodos(data);	
-}
-
-
 int MainServidor::avisarATodos(void* data){
+
 	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 	MensajeConId* mensajeConId=(MensajeConId*)data;
-	for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
+	
+	for (int i = 0; i < usuarios->cantidadDeUsuarios(); i++) {
 
 		if(i != mensajeConId->id){
 
@@ -464,8 +456,10 @@ int MainServidor::avisarATodos(void* data){
 	}
 	delete mensajeConId;
 	return 0;
-
 }
+
+
+/*-------- Funciones publicas --------*/
 
 int MainServidor::mainPrincipal(){
 
@@ -474,16 +468,18 @@ int MainServidor::mainPrincipal(){
 	mut=SDL_CreateMutex();
 	MensajeConId* mensajeConId;
 
-	printf("Escriba terminar si desea cerrar el servidor\n", usuarios->cantidadDeUsuarios()); 
+	printf("\nEscriba 'cerrar' si desea cerrar el servidor\n"); 
 
-	SDL_Thread* receptor=SDL_CreateThread(MainServidor::fun_recibirConexiones, "recibirConexiones", NULL);
-	SDL_Thread* consola=SDL_CreateThread(MainServidor::fun_consolaDelServidor, "recibirConexiones", NULL);
+	SDL_Thread* receptor = SDL_CreateThread(MainServidor::fun_recibirConexiones, "recibirConexiones", NULL);
+	SDL_Thread* consola = SDL_CreateThread(MainServidor::fun_consola, "recibirConexiones", NULL);
 
 	Log::getInstance()->debug("Servidor - Main Principal: se inician los thread recibirConexiones");
+
 	bool seHaIniciadoLaPartida = false;
 	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 
 	while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
+		
 		//Cuando estoy lleno, le aviso a todos los jugadores que la partida comienza
 		if(!usuarios->puedoTenerMasUsuarios()){
 			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
@@ -495,15 +491,11 @@ int MainServidor::mainPrincipal(){
 		SDL_Delay(100);
 	}
 
-	while(!seDebeCerrarElServidor){
+	while(!seDebeCerrarElServidor) {
 
-		
 		SDL_mutexP(mut);
 
-
-		if(!colaDeMensaje.empty()){
-
-			//consumidor
+		if(!colaDeMensaje.empty()) {
 			
 			mensajeConId = colaDeMensaje.front();
 			colaDeMensaje.pop();
@@ -519,11 +511,8 @@ int MainServidor::mainPrincipal(){
 
 			//TODO OJO aca deberia hacerse el delete sino perdera memoria
 			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
-
-			// SDL_Thread* avisador=SDL_CreateThread(MainServidor::fun_avisarATodos, "recibirConexiones", (void*)mensajeConId);
 	
-
-			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
+			for (int i = 0; i < usuarios->cantidadDeUsuarios(); i++) {
 
 				if(i != mensajeConId->id){
 
@@ -546,7 +535,6 @@ int MainServidor::mainPrincipal(){
 		}
 
 		SDL_mutexV(mut);
-		//SDL_Delay(100);//No quiero tener permanentemente bloqueada la cola para revisar si llego algo.
 	}
 
 	Log::getInstance()->info("Se solicito la detención del Server.");
@@ -562,4 +550,24 @@ int MainServidor::mainPrincipal(){
 	Log::getInstance()->debug("Servidor - Main Principal: se liberaron los recursos.");
 
 	return 0;
+}
+
+void MainServidor::parsearArchivoXml(int argc, char* argv[]){
+
+	ParserXml parserx;
+
+	parserx.cargarXmlServidor(argc,argv);
+
+	int res = parserx.validarXmlArchivoServidor();
+
+	if (res < 0){
+		printf("\nERROR: Error semantico\n");
+		parserx.cargarXmlServidor(0,argv);
+	}
+
+	this->servidorXml = parserx.createDataServidorXml(); //luego de la carga crea los datos a partir del XML
+	static int cantidadDeClientesMaxima = servidorXml->getCantidadMaximaClientes();
+	this->puerto = servidorXml->getPuerto();
+	this->usuarios = new AsignadorDeUsuarios(cantidadDeClientesMaxima);
+	this->seDebeCerrarElServidor = false;
 }
