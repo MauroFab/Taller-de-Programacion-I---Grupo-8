@@ -3,23 +3,18 @@
 AsignadorDeUsuarios::AsignadorDeUsuarios(int usuariosMaximos){
 	cantidadMaximaDeUsuarios = usuariosMaximos;
 	cantidadDeUsuariosActuales = 0;
-	colaDeMensajesDeUsuario = new std::queue<EstadoAvionXml*>[usuariosMaximos];
-	estaTomadaLaId = new bool[usuariosMaximos];
-	for(int i = 0; i < usuariosMaximos; i++){
-		estaTomadaLaId[i] = false;
+	usuario = new Usuario[usuariosMaximos];
+	for(int i = 0; i<usuariosMaximos; i++){
+		usuario[i].estaConectado = false;
+		usuario[i].estaAsignado = false;
+		usuario[i].colaDeMensajesDeUsuario = new std::queue<EstadoAvionXml*>;
 	}
 }
 
 
 AsignadorDeUsuarios::~AsignadorDeUsuarios(void)
 {
-	delete [] colaDeMensajesDeUsuario;
-	delete [] estaTomadaLaId;
-	std::list<Usuario*>::iterator it;
 
-	for (it = usuarios.begin(); it != usuarios.end(); it++) {
-		delete(*it);
-	}
 }
 
 
@@ -28,54 +23,51 @@ bool AsignadorDeUsuarios::puedoTenerMasUsuarios(void)
 	return (cantidadDeUsuariosActuales < cantidadMaximaDeUsuarios);
 }
 
-bool AsignadorDeUsuarios::nombreDeUsuarioExistente(string nombreDeUsuario){
-
-	std::list<Usuario*>::iterator it;
-
-	for (it = usuarios.begin(); it != usuarios.end(); it++) {
-		
-		if( nombreDeUsuario.compare((*it)->nombreDeUsuario) == 0)
-			return true;
-	}
-
-	return false;
-}
-
-bool AsignadorDeUsuarios::estaConectado(string nombreDeUsuario){
-
-	std::list<Usuario*>::iterator it;
-
-	for (it = usuarios.begin(); it != usuarios.end(); it++) {
-		
-		if( nombreDeUsuario.compare((*it)->nombreDeUsuario) == 0 && (*it)->conectado == true)
-			return true;
-	}
-
-	return false;
-}
-
-int AsignadorDeUsuarios::reconectar(string nombreDeUsuario){
-
-	std::list<Usuario*>::iterator it;
-
-	for (it = usuarios.begin(); it != usuarios.end(); it++) {
-		
-		if( nombreDeUsuario.compare((*it)->nombreDeUsuario) == 0){
-			(*it)->conectado = true;
-			return (*it)->id;
+bool AsignadorDeUsuarios::nombreDeUsuarioExistente(string nombreDeUsuarioRecibido){
+	bool encontreElNombre;
+	encontreElNombre = false;
+	for(int i = 0; i< cantidadMaximaDeUsuarios; i++){
+		if(usuario[i].estaAsignado && !encontreElNombre){
+			encontreElNombre = (usuario[i].nombreDeUsuario.compare(nombreDeUsuarioRecibido) == 0);
 		}
 	}
 
+	return encontreElNombre;
+}
+
+bool AsignadorDeUsuarios::estaConectado(string nombre){
+
+	std::list<Usuario*>::iterator it;
+	int idUsuario;
+	idUsuario = idUsuarioLlamado(nombre);
+	if(idUsuario != -1)
+		return  usuario[idUsuario].estaConectado;
+	//Si el usuario no existe devuelve falso
+	return false;
+}
+int AsignadorDeUsuarios::idUsuarioLlamado(string nombre){
+	for(int i = 0; i< cantidadMaximaDeUsuarios; i++){
+		if(usuario[i].nombreDeUsuario.compare(nombre) == 0){
+			return(i);
+		}
+	}
 	return -1;
+}
+int AsignadorDeUsuarios::reconectar(string nombreUsuario){
+
+	std::list<Usuario*>::iterator it;
+	int id;
+	id = idUsuarioLlamado(nombreUsuario);
+	if(id != -1)
+		usuario[id].estaConectado = true;
+	return id;
 }
 int AsignadorDeUsuarios::obtenerUnaIdLibre(){
 	int i = -1;
 	bool encontreUnaIdLibre = false;
 	while(!encontreUnaIdLibre && i < cantidadMaximaDeUsuarios){
 		i++;
-		if(!estaTomadaLaId[i]){
-			encontreUnaIdLibre = true;
-		}
+		encontreUnaIdLibre = !usuario[i].estaAsignado;
 	}
 	return i;
 }
@@ -87,15 +79,9 @@ int AsignadorDeUsuarios::crearUsuarioYObtenerId(string nombre){
 	if (puedoTenerMasUsuarios()){
 
 		idNuevoUsuario = obtenerUnaIdLibre();
-		
-		Usuario* usuario = new Usuario();
-
-		usuario->id = idNuevoUsuario;
-		usuario->nombreDeUsuario = nombre;
-		usuario->conectado = true;
-		usuarios.push_back(usuario);
-		
-		estaTomadaLaId[idNuevoUsuario] = true;
+		usuario[idNuevoUsuario].estaAsignado = true;
+		usuario[idNuevoUsuario].estaConectado = true;
+		usuario[idNuevoUsuario].nombreDeUsuario = nombre;
 		cantidadDeUsuariosActuales++;
 	}
 
@@ -103,25 +89,15 @@ int AsignadorDeUsuarios::crearUsuarioYObtenerId(string nombre){
 }
 
 void AsignadorDeUsuarios::eliminarUsuario(int idUsuario){
-
-	estaTomadaLaId[idUsuario] = false;
+	while(!usuario[idUsuario].colaDeMensajesDeUsuario->empty()){
+		usuario[idUsuario].colaDeMensajesDeUsuario->pop();
+	}
+	usuario[idUsuario].estaAsignado = false;
+	usuario[idUsuario].estaConectado = false;
 	cantidadDeUsuariosActuales--;
-
-	// Seteo ese usuario como no conectado.
-	std::list<Usuario*>::iterator it;
-	for (it = usuarios.begin(); it != usuarios.end(); it++) {
-		
-		if((*it)->id == idUsuario)
-			(*it)->conectado = false;
-	}
-
-	// Elimino la cola de mensajes para ese id
-	for(int i = 0; i < colaDeMensajesDeUsuario[idUsuario].size(); i++){
-		colaDeMensajesDeUsuario[idUsuario].pop();
-	}
 }
 std::queue<EstadoAvionXml*>* AsignadorDeUsuarios::obtenerColaDeUsuario(int idUsuario){
-	return &colaDeMensajesDeUsuario[idUsuario];
+	return usuario[idUsuario].colaDeMensajesDeUsuario;
 }
 
 int AsignadorDeUsuarios::cantidadDeUsuarios(){

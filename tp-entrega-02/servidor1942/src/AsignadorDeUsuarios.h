@@ -6,9 +6,10 @@ using namespace std;
 
 //Esta clase esta hecha para crear, eliminar y brindar la dirección a las colas de cada usuario (Cliente que se le acepto la conexion)
 struct Usuario {
-	int id;
 	string nombreDeUsuario;
-	bool conectado;
+	bool estaAsignado;
+	bool estaConectado;
+	std::queue<EstadoAvionXml*>* colaDeMensajesDeUsuario;
 };
 class AsignadorDeUsuarios
 {
@@ -26,9 +27,8 @@ public:
 	bool estaConectado(string nombreDeUsuario);
 	int reconectar(string nombreDeUsuario);
 private:
-	std::queue<EstadoAvionXml*>* colaDeMensajesDeUsuario;
-	bool* estaTomadaLaId;
-	std::list<Usuario*> usuarios;
+	Usuario* usuario;
+	int idUsuarioLlamado(string nombre);
 	int cantidadMaximaDeUsuarios;
 	int obtenerUnaIdLibre();
 };
