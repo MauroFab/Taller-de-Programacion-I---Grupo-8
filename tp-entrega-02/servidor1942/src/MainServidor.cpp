@@ -276,6 +276,18 @@ void waitThread (SDL_Thread* h) {  // wait para todos los threadsockets
 	SDL_WaitThread(h, NULL);
 }
 //----------------------------------------------------------------------------
+void MainServidor::enviarMensajeDeConexionAceptadaAl(SOCKET* socket){
+	char buffEnvio[MAX_BUFFER];
+	int size = 0;
+	MensajeXml mensajeEnvio;
+	MensajeXml mensajeUsuario; 
+	mensajeEnvio.setValor(FAKE_MENSAJE_01, strlen(FAKE_MENSAJE_01));
+	mensajeEnvio.setTipo(TIPO_STRING);
+	mensajeEnvio.calculateSizeBytes();
+	size = Protocolo::codificar(mensajeEnvio,buffEnvio);
+	size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
+	MensajeSeguro::enviar(*socket, buffEnvio, size);
+}
 
 int MainServidor::recibirConexiones(void*){
 
@@ -340,18 +352,8 @@ int MainServidor::recibirConexiones(void*){
 
 						idYPunteroAlSocket.id = usuarios->reconectar(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
-
-						mensajeEnvio.setValor(FAKE_MENSAJE_01, strlen(FAKE_MENSAJE_01));
-
-						mensajeEnvio.setTipo(TIPO_STRING);
-
-						mensajeEnvio.calculateSizeBytes();
-
-						size = Protocolo::codificar(mensajeEnvio,buffEnvio);
-
-						size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
-
-						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
+						enviarMensajeDeConexionAceptadaAl(socketConexion);
+						
 						Protocolo::codificar(*(new EstadoAvionXml(-1,0,0,0)), buffEnvio);
 						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
@@ -372,17 +374,7 @@ int MainServidor::recibirConexiones(void*){
 							Log::getInstance()->info("Se ha alcanzado el limite de usuarios.");
 						}
 
-						mensajeEnvio.setValor(FAKE_MENSAJE_01, strlen(FAKE_MENSAJE_01));
-
-						mensajeEnvio.setTipo(TIPO_STRING);
-
-						mensajeEnvio.calculateSizeBytes();
-
-						size = Protocolo::codificar(mensajeEnvio,buffEnvio);
-
-						size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
-
-						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
+						enviarMensajeDeConexionAceptadaAl(socketConexion);
 
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);

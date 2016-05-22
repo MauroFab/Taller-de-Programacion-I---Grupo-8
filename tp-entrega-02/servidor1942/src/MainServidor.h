@@ -49,6 +49,7 @@ private:
 	ServidorXml * servidorXml;
 	void MainServidor::grabarEnElLogLaDesconexion(int len);
 	bool seguimosConectados(int len);
+	void enviarMensajeDeConexionAceptadaAl(SOCKET* socket);
 public:
 	bool seDebeCerrarElServidor;
 	std::queue<MensajeConId*> colaDeMensaje;
