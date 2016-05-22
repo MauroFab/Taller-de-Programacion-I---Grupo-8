@@ -86,8 +86,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\common\MensajeSeguro.cpp" />
+    <ClCompile Include="..\common\model\AvionModel.cpp" />
     <ClCompile Include="..\common\model\ElementoModel.cpp" />
     <ClCompile Include="..\common\observer\Observable.cpp" />
+    <ClCompile Include="..\common\view\AvionView.cpp" />
     <ClCompile Include="..\common\view\ElementoView.cpp" />
     <ClCompile Include="..\common\xml\AvionXml.cpp" />
     <ClCompile Include="..\common\xml\ClienteXml.cpp" />
@@ -103,7 +105,6 @@
     <ClCompile Include="..\common\StringUtil.cpp" />
     <ClCompile Include="..\common\xml\VentanaXml.cpp" />
     <ClCompile Include="..\juego\Avion.cpp" />
-    <ClCompile Include="..\juego\ConfiguracionAvionXML.cpp" />
     <ClCompile Include="..\juego\ConfiguracionJuegoXML.cpp" />
     <ClCompile Include="..\juego\ConfiguracionProyectilXML.cpp" />
     <ClCompile Include="..\juego\ElementoDelMapa.cpp" />
@@ -126,9 +127,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\MensajeSeguro.h" />
+    <ClInclude Include="..\common\model\AvionModel.h" />
     <ClInclude Include="..\common\model\ElementoModel.h" />
     <ClInclude Include="..\common\observer\Observable.h" />
     <ClInclude Include="..\common\observer\Observador.h" />
+    <ClInclude Include="..\common\view\AvionView.h" />
     <ClInclude Include="..\common\view\ElementoView.h" />
     <ClInclude Include="..\common\xml\AvionXml.h" />
     <ClInclude Include="..\common\xml\ClienteXml.h" />
@@ -144,7 +147,6 @@
     <ClInclude Include="..\common\StringUtil.h" />
     <ClInclude Include="..\common\xml\VentanaXml.h" />
     <ClInclude Include="..\juego\Avion.h" />
-    <ClInclude Include="..\juego\ConfiguracionAvionXML.h" />
     <ClInclude Include="..\juego\ConfiguracionJuegoXML.h" />
     <ClInclude Include="..\juego\ConfiguracionProyectilXML.h" />
     <ClInclude Include="..\juego\ElementoDelMapa.h" />

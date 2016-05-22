@@ -144,9 +144,6 @@
     <ClCompile Include="..\juego\Textura.cpp">
       <Filter>Archivos de código fuente\Juego\Modelo</Filter>
     </ClCompile>
-    <ClCompile Include="..\juego\ConfiguracionAvionXML.cpp">
-      <Filter>Archivos de código fuente\Juego\Configuracion</Filter>
-    </ClCompile>
     <ClCompile Include="..\juego\ConfiguracionJuegoXML.cpp">
       <Filter>Archivos de código fuente\Juego\Configuracion</Filter>
     </ClCompile>
@@ -175,6 +172,12 @@
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="..\common\model\ElementoModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\model\AvionModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\view\AvionView.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
@@ -254,9 +257,6 @@
     <ClInclude Include="src\MainCliente.h">
       <Filter>Archivos de encabezado\Conexion</Filter>
     </ClInclude>
-    <ClInclude Include="..\juego\ConfiguracionAvionXML.h">
-      <Filter>Archivos de encabezado\Juego\Configuracion</Filter>
-    </ClInclude>
     <ClInclude Include="..\juego\ConfiguracionJuegoXML.h">
       <Filter>Archivos de encabezado\Juego\Configuracion</Filter>
     </ClInclude>
@@ -294,6 +294,12 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\common\model\ElementoModel.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\model\AvionModel.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\view\AvionView.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

@@ -87,5 +87,5 @@ list<EstadoProyectilXml*> EstadoAvionXml::getEstadosProyectiles(){
 }
 
 void EstadoAvionXml::toString(TCadena1000 cadena){
-	sprintf(cadena,"\n% sizeBytes=%d,id=%d,frame=%d,posX=%d,posY=%d", "MovimientoXml:",sizeBytes,id,frame,posX, posY);
+	sprintf(cadena,"\nEstadoAvionXml: sizeBytes=%d,id=%d,frame=%d,posX=%d,posY=%d",sizeBytes,id,frame,posX, posY);
 }
