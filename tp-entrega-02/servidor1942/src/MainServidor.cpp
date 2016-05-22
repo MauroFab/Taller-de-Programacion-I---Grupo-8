@@ -277,7 +277,6 @@ void waitThread (SDL_Thread* h) {  // wait para todos los threadsockets
 }
 //----------------------------------------------------------------------------
 
-
 int MainServidor::recibirConexiones(void*){
 
 	struct sockaddr_in local;
@@ -305,23 +304,7 @@ int MainServidor::recibirConexiones(void*){
 				printf("Nueva conexion aceptada\n"); 
 				Log::getInstance()->info("Nueva conexion acceptada");
 
-				// aca chequear los errores por si desconectamos el servidor, cerrando su conexion
-				idYPunteroAlSocket.id = usuarios->crearUsuarioYObtenerId();
-				printf("La cantidad de clientes conectados es: %d\n",usuarios->cantidadDeUsuarios()); 
-				printf("La id del nuevo usuario es: %d\n",idYPunteroAlSocket.id); 
-
-				if(usuarios->puedoTenerMasUsuarios()){
-					printf("Todavia se pueden tener mas usuarios\n");
-				}else{
-					printf("Se ha alcanzado el limite de usuarios");
-					Log::getInstance()->info("Se ha alcanzado el limite de usuarios.");
-				}
-
-				idYPunteroAlSocket.punteroAlSocket = socketConexion;
-
-
-				// Recibe el mensaje del cliente que contiene el nombre de usuario
-
+				// Antes de crear un usuario realizo las validaciones de nombre de usuario
 				char bufferEntrada[MAX_BUFFER];
 
 				MensajeSeguro::recibir(*socketConexion, bufferEntrada);
@@ -332,26 +315,16 @@ int MainServidor::recibirConexiones(void*){
 
 				char* usuario = mensajeUsuario.getValor();
 
-				bool conectado;
-
-				std::map<string, bool>::iterator it = usuariosConectados.find(usuario);
-
-				if (it == usuariosConectados.end()) {
-					conectado = NULL;
-				} else {
-					conectado = usuariosConectados.at(usuario);
-				}
-
 				// Verifica si está conectado
-
 				MensajeXml mensajeEnvio;
 				int size = 0;
 				char buffEnvio[MAX_BUFFER];
 
-				// Verifica si es la primera vez que se conecta
-				if (conectado != NULL) {
+				// Si ese nombre de usuario existe 
+				if(usuarios->nombreDeUsuarioExistente(usuario)){
 
-					if (conectado) {
+					// Si ya esta conectado lo rechazo
+					if(usuarios->estaConectado(usuario)){
 
 						mensajeEnvio.setValor(FAKE_MENSAJE_03, strlen(FAKE_MENSAJE_03));
 
@@ -361,13 +334,12 @@ int MainServidor::recibirConexiones(void*){
 
 						size = Protocolo::codificar(mensajeEnvio, buffEnvio);
 
-						usuarios->eliminarUsuario(idYPunteroAlSocket.id);
-
 						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
+					}
+					else { // Sino lo reconectamos
 
-					} else {
-
-						usuariosConectados[usuario] = true;
+						idYPunteroAlSocket.id = usuarios->reconectar(usuario);
+						idYPunteroAlSocket.punteroAlSocket = socketConexion;
 
 						mensajeEnvio.setValor(FAKE_MENSAJE_01, strlen(FAKE_MENSAJE_01));
 
@@ -383,31 +355,38 @@ int MainServidor::recibirConexiones(void*){
 
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
-						// colaSockets.push(socketConexion);
-						// algun contendor para los hilos que se crean	
-					}
+					}				
+				}
+				else {
+						idYPunteroAlSocket.id = usuarios->crearUsuarioYObtenerId(usuario);
+						idYPunteroAlSocket.punteroAlSocket = socketConexion;
 
-				} else {
+						printf("La cantidad de clientes conectados es: %d\n",usuarios->cantidadDeUsuarios()); 
+						printf("La id del nuevo usuario es: %d\n",idYPunteroAlSocket.id); 
 
-					usuariosConectados.insert(std::pair<string, bool>(usuario, true));
+						if(usuarios->puedoTenerMasUsuarios()){
+							printf("Todavia se pueden tener mas usuarios\n");
+						}else{
+							printf("Se ha alcanzado el limite de usuarios");
+							Log::getInstance()->info("Se ha alcanzado el limite de usuarios.");
+						}
 
-					mensajeEnvio.setValor(FAKE_MENSAJE_01, strlen(FAKE_MENSAJE_01));
+						mensajeEnvio.setValor(FAKE_MENSAJE_01, strlen(FAKE_MENSAJE_01));
 
-					mensajeEnvio.setTipo(TIPO_STRING);
+						mensajeEnvio.setTipo(TIPO_STRING);
 
-					mensajeEnvio.calculateSizeBytes();
+						mensajeEnvio.calculateSizeBytes();
 
-					size = Protocolo::codificar(mensajeEnvio,buffEnvio);
+						size = Protocolo::codificar(mensajeEnvio,buffEnvio);
 
-					size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
+						size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
 
-					MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
+						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
 
-					vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
-					vectorSockets.push_back(socketConexion);
-					// colaSockets.push(socketConexion);
-					// algun contendor para los hilos que se crean	
-				}	
+						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
+						vectorSockets.push_back(socketConexion);
+				}
+
 			}
 			else{
 				free(socketConexion);
@@ -451,6 +430,7 @@ int MainServidor::recibirConexiones(void*){
 
 	return 0;
 }
+
 
 int MainServidor::consolaDelServidor(void*){
 	char entradaTeclado[20];
