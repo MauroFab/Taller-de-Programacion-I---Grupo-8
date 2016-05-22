@@ -352,7 +352,8 @@ int MainServidor::recibirConexiones(void*){
 						size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
 
 						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
-
+						Protocolo::codificar(*(new EstadoAvionXml(-1,0,0,0)), buffEnvio);
+						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
 					}				
