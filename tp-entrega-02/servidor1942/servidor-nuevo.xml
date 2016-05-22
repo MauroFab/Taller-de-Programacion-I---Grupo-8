@@ -31,16 +31,16 @@
 		<sprite>
 			<id>avion_1</id>
 			<path>avion_1.bmp</path>
-			<cantidad>1</cantidad>
-			<ancho>1</ancho>
-			<alto>1</alto>
+			<cantidad>6</cantidad>
+			<ancho>113</ancho>
+			<alto>195</alto>
 		</sprite>
 		<sprite>
 			<id>avion_2</id>
 			<path>avion_2.bmp</path>
-			<cantidad>1</cantidad>
-			<ancho>1</ancho>
-			<alto>1</alto>
+			<cantidad>6</cantidad>
+			<ancho>102</ancho>
+			<alto>95</alto>
 		</sprite>
 		<sprite>
 			<id>avion_3</id>
@@ -86,7 +86,7 @@
 					<x>50</x>
 					<y>50</y>
 				</posicion>
-			</elemento>			
+			</elemento>
 		</elementos>
 	</escenario>
 	<aviones>
