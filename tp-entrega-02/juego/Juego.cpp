@@ -110,17 +110,26 @@ void Juego::close() {
 
 void Juego::dibujarFondoInicio() {
 
-	FondoInicio fondo("fondoInicio.bmp", gRenderer);
+	bool jugar = false;
+	SDL_Event e;
+	FondoInicio fondo(PATH_FONDO_INICIO, gRenderer);
 
+	// TODO: PENDIENTE INICIAR LA PARTIDA CUANDO TODOS LOS USUARIOS ESTEN CONECTADOS
 	while( !jugar ) {
+/*
+		while( SDL_PollEvent( &e ) != 0 ) {
 
+			if (e.type == SDL_KEYUP)
+				jugar = true;
+		}
+*/
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+		//se limpia la pantalla
 		SDL_RenderClear( gRenderer );
-
 		fondo.render();
-
+		//actualiza la pantalla
 		SDL_RenderPresent( gRenderer );
-	}
+	 }
 }
 
 void Juego::setJugar(){
@@ -152,6 +161,33 @@ int Juego::cargarElementos(ServidorXml * confServidorXml){
 	}
 	return 0;
 }
+//---carga de aviones de la vista
+int Juego::cargarAviones(ServidorXml * confServidorXml){
+	//sprites
+	int cantS = confServidorXml->getCanSprs();
+	SpriteXml ** listaS = confServidorXml->getListaSprites();
+
+	//aviones
+	int cantA = confServidorXml->getCanAvs();
+	AvionXml ** listaA = confServidorXml->getListaAviones();
+	for(int i = 0;i <cantA; i++){
+		AvionXml * avionX = listaA[i];
+		AvionModel * avionModel = new AvionModel(avionX);
+		//se obtiene el id del sprite a buscar
+		int idSp = avionX->getIdSpAvion();
+		int bOut = false;
+		SpriteXml * spriteX = NULL;
+		for (int j = 0;j <cantS && !bOut;j++){
+			spriteX = listaS[j];
+			if (idSp == spriteX->getId()){
+				bOut = true;
+			}
+		}
+		this->listaAvionView[i] = new AvionView(avionModel,spriteX);
+		this->canAvionV++;
+	}
+	return 0;
+}
 
 void Juego::ejecutar(ServidorXml * confServidorXml) {
 
@@ -160,23 +196,23 @@ void Juego::ejecutar(ServidorXml * confServidorXml) {
 		return;
 		
 	cargarElementos(confServidorXml);
+	cargarAviones(confServidorXml);
 
-	dibujarFondoInicio();
+//	dibujarFondoInicio();
 
 	static int tamanioMaximoMapa = 2000;
 	bool quit = false;
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", tamanioMaximoMapa);
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "avion_1.bmp", 6, 113, 195, 10);
-	AvionXml * avionXml_0 = confServidorXml->getListaAviones()[0];
+	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(1, "avion_1.bmp", 6, 113, 195, 10);
+	AvionView * avionView_0 = this->listaAvionView[0];
 	
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(avionXml_0);
-	//ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(2,"avion_2.bmp", 6, 102, 195, 10);
+	ConfiguracionJuegoXML::getInstance()->setCaracteristicasAvion(avionView_0);
 	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("disparo_1.bmp", 1, 11, 25, 1);
 
 	// Test para ver si se grafican otros aviones
 	Graficador::getInstance()->inicializar(gRenderer);
-	Graficador::getInstance()->cargarDatosAvion(2, "avion_2.bmp", 6, 102, 195);
-	//Graficador::getInstance()->cargarDatosAvion(1, "avion_1.bmp", 6, 113,195);
+	//Graficador::getInstance()->cargarDatosAvion(2, "avion_2.bmp", 6, 102, 195);
+	Graficador::getInstance()->cargarDatosAvion(avionView_0);
 	Graficador::getInstance()->cargarDatosProyectil("disparo_1.bmp", 1, 11, 25);
 
 	Mapa::getInstace()->inicializar(gRenderer);
@@ -188,7 +224,7 @@ void Juego::ejecutar(ServidorXml * confServidorXml) {
 //	Mapa::getInstace()->crearIslaEn(300, 800);
 //	Mapa::getInstace()->crearIslaEn(50, 500);
 
-	Avion avion(gRenderer,this->ventanaAncho,this->ventanaAlto);
+	Avion avion(gRenderer,this->ventanaAncho,this->ventanaAlto,this->listaAvionView[0]);
 	/*------------------------------------------------------------------*/
 	
 	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );

@@ -8,6 +8,7 @@
 #include "GraficoAvion.h"
 #include "GraficoProyectil.h"
 #include "Textura.h"
+#include "../common/view/AvionView.h"
 #include <list>
 #include <map>
 
@@ -20,7 +21,7 @@ public:
 	~Graficador(void);
 
 	void inicializar(SDL_Renderer* renderer);
-	void cargarDatosAvion(int id, std::string pathAvion, int cantFotogramas, int ancho, int alto);
+	void cargarDatosAvion(AvionView * avionView);
 	void cargarDatosProyectil(std::string pathProyectil, int cantFotogramas, int ancho, int alto);
 	void graficarAviones(std::map<int,EstadoAvion*> listaAviones);
 
@@ -33,9 +34,7 @@ private:
 	std::map<int, GraficoAvion*> graficosAvion;
 
 	GraficoProyectil* graficoProyectil;
-
 	Graficador(void);
-
 	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
 };
 

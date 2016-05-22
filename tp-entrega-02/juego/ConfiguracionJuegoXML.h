@@ -2,8 +2,8 @@
 #ifndef _CONFIGURACIONJUEGOXML_H_
 #define _CONFIGURACIONJUEGOXML_H_
 
-#include "../common/xml/AvionXml.h"
-#include "ConfiguracionAvionXML.h"
+#include "../common/view/AvionView.h"
+//#include "ConfiguracionAvionXML.h"
 #include "ConfiguracionProyectilXML.h"
 
 class ConfiguracionJuegoXML {
@@ -15,11 +15,11 @@ public:
 	virtual ~ConfiguracionJuegoXML(void);
 
 	void setCaracteristicasMapa(std::string fondo, int tamanioMaximoFondo);
-	void setCaracteristicasAvion(int id, std::string avion, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad);
-	void setCaracteristicasAvion(AvionXml * avionXml);
+//	void setCaracteristicasAvion(int id, std::string avion, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad);
+	void setCaracteristicasAvion(AvionView * avionView);
 	void setCaracteristicasProyectil(std::string proyectil, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad);
 
-	ConfiguracionAvionXML* getConfiguracionAvion();
+	AvionView* getConfiguracionAvion();
 	ConfiguracionProyectilXML* getConfiguracionProyectil();
 	std::string getPathFondo();
 	int getTamanioMaximoFondo();
@@ -37,7 +37,7 @@ private:
 	std::string pathImagenFondo;
 	int tamanioMaximoFondo;
 
-	ConfiguracionAvionXML* configAvion;
+	AvionView* configAvion;
 	ConfiguracionProyectilXML* configProyectil;
 };
 

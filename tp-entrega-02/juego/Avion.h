@@ -16,14 +16,14 @@
 #include "Textura.h"
 #include "Proyectil.h"
 #include "ConfiguracionJuegoXML.h"
-#include "ConfiguracionAvionXML.h"
 #include "EstadoAvion.h"
 #include "EstadoProyectil.h"
+#include "../common/view/AvionView.h"
 #include <list>
 
 class Avion {
     public:
-		Avion(SDL_Renderer* renderer,int ventanaAncho,int ventanaAlto);
+		Avion(SDL_Renderer* renderer,int ventanaAncho,int ventanaAlto,AvionView * avionView);
 		~Avion();
 		bool handleEvent( SDL_Event& e );
 		void mover();
@@ -38,17 +38,17 @@ class Avion {
 		int ventanaAncho;
 		int ventanaAlto;
 		int frame;
-		int cantDeFotogramas;
-		int anchoFotograma;
-		int altoFotograma;
-		int id;
 
 		bool rollFlag;
 		std::list<Proyectil*> proyectiles;
 		// Posicion del avion
-		int posicionX, posicionY;
-		int velocidad;
+		int posicionX;
+		int posicionY;
+//		int velocidad;
 		// Velocidad del avion
-		int velocidadX, velocidadY;
+		int velocidadX;
+		int velocidadY;
+	public:
+		AvionView * avionView; //[AGREGACION] NO eliminar
 };
 #endif //_AVION_H_

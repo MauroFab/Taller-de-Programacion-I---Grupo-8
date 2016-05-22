@@ -20,8 +20,11 @@
 #include "../common/xml/ServidorXml.h"
 
 #define MAX_ELEM_VIEW	20
+#define MAX_AVION_VIEW	4
 #include "../common/view/ElementoView.h"
 #include "../common/model/ElementoModel.h"
+#include "../common/view/AvionView.h"
+#include "../common/model/AvionModel.h"
 
 using namespace std;
 
@@ -31,6 +34,8 @@ class Juego : public Observable, public ICargable
 public:
 	ElementoView * listaElemView[MAX_ELEM_VIEW];
 	int canElemV;
+	AvionView * listaAvionView[MAX_AVION_VIEW];
+	int canAvionV;
 public:
 
 	static Juego* getInstance();
@@ -47,8 +52,10 @@ public:
 	void close();
 	void actualizarMovimientos(EstadoAvion* estadoAvion);
 	void setJugar();
-	//---carga de elementos
+	//---carga de elementos de la vista
 	int cargarElementos(ServidorXml * confServidorXml);
+	//---carga de aviones de la vista
+	int cargarAviones(ServidorXml * confServidorXml);
 
 private:
 
