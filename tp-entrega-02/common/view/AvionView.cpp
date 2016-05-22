@@ -10,7 +10,7 @@ AvionView::AvionView()
 	this->posicion.w = 0;
 	this->posicion.h = 0;	
 }
-AvionView::AvionView(AvionModel * avionModel,SpriteXml * spriteXml))
+AvionView::AvionView(AvionModel * avionModel,SpriteXml * spriteXml)
 {
 	this->avionModel = avionModel;
 	this->spriteXml = spriteXml;

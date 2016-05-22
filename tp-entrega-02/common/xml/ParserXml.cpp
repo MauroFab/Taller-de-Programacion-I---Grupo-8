@@ -155,7 +155,7 @@ void ParserXml::cargarXmlCliente(int argc, char* argv[]){
 
 	int codErr = XML_ERROR_FILE_NOT_FOUND;
 	//solo si es 2 intenta levantar sino asumo error
-	if (cantargs == 2){
+	if (cantargs >= 2){
 		strcpy(ruta, argv[1]);
 		printf("\n argumento %s\n", ruta);
 		codErr = this->levantarXMLCliente(ruta);
