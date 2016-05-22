@@ -4,6 +4,10 @@
  */
 class BalaModel
 {
+//private:
+public:
+	int id;
+	int velBala;
 public:
 	BalaModel();
 	virtual ~BalaModel();

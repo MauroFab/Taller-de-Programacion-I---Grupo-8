@@ -1,9 +1,7 @@
 #ifndef _ELEMENTOMODEL_H_
 #define _ELEMENTOMODEL_H_
-
 /* @autor cbenez
  */
-
 #include "../xml/ElementoXml.h"
 
 class ElementoModel
