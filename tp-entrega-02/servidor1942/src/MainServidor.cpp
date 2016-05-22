@@ -280,12 +280,34 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(SOCKET* socket){
 	char buffEnvio[MAX_BUFFER];
 	int size = 0;
 	MensajeXml mensajeEnvio;
-	MensajeXml mensajeUsuario; 
 	mensajeEnvio.setValor(FAKE_MENSAJE_01, strlen(FAKE_MENSAJE_01));
 	mensajeEnvio.setTipo(TIPO_STRING);
 	mensajeEnvio.calculateSizeBytes();
 	size = Protocolo::codificar(mensajeEnvio,buffEnvio);
 	size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
+	MensajeSeguro::enviar(*socket, buffEnvio, size);
+}
+
+void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket){
+	char buffEnvio[MAX_BUFFER];
+	int size = 0;
+	char* strMsj = FAKE_MENSAJE_02;
+	MensajeXml mensaje;
+	mensaje.setValor(strMsj,strlen(strMsj));;
+	mensaje.calculateSizeBytes();
+	mensaje.setTipo(TIPO_STRING);
+	int sizeEnvio = Protocolo::codificar(mensaje,buffEnvio);
+	MensajeSeguro::enviar(*socket, buffEnvio, sizeEnvio);
+}
+
+void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket){
+	char buffEnvio[MAX_BUFFER];
+	int size = 0;
+	MensajeXml mensajeEnvio;
+	mensajeEnvio.setValor(FAKE_MENSAJE_03, strlen(FAKE_MENSAJE_03));
+	mensajeEnvio.setTipo(TIPO_STRING);
+	mensajeEnvio.calculateSizeBytes();
+	size = Protocolo::codificar(mensajeEnvio, buffEnvio);
 	MensajeSeguro::enviar(*socket, buffEnvio, size);
 }
 
@@ -337,18 +359,8 @@ int MainServidor::recibirConexiones(void*){
 
 					// Si ya esta conectado lo rechazo
 					if(usuarios->estaConectado(usuario)){
-
-						mensajeEnvio.setValor(FAKE_MENSAJE_03, strlen(FAKE_MENSAJE_03));
-
-						mensajeEnvio.setTipo(TIPO_STRING);
-
-						mensajeEnvio.calculateSizeBytes();
-
-						size = Protocolo::codificar(mensajeEnvio, buffEnvio);
-
-						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
-					}
-					else { // Sino lo reconectamos
+						enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(socketConexion);
+					} else { // Sino lo reconectamos
 
 						idYPunteroAlSocket.id = usuarios->reconectar(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
@@ -389,24 +401,16 @@ int MainServidor::recibirConexiones(void*){
 			// Si se supero la cantidad maxima de usuarios enviamos un mensaje al cliente informado que ha sido rechazado
 
 			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
-
+			
 			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
 
 			if (*socketConexion != INVALID_SOCKET) {
 
 				//VER: Mensaje conexion rechazada
-				char* strMsj = FAKE_MENSAJE_02;
-				MensajeXml mensaje;
-				mensaje.setValor(strMsj,strlen(strMsj));
-				char buffEnvio[MAX_BUFFER];
-				mensaje.calculateSizeBytes();
-				mensaje.setTipo(TIPO_STRING);
-				int sizeEnvio = Protocolo::codificar(mensaje,buffEnvio);
-				MensajeSeguro::enviar(*socketConexion, buffEnvio, sizeEnvio);
-
+				enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(socketConexion);
 				Log::getInstance()->info("Se informa al cliente que se rechaza la conexion ya que se ha alcanzado el limite de usuarios.");
-
 				vectorSockets.push_back(socketConexion);
+
 			}
 			else{
 				free(socketConexion);
@@ -480,6 +484,7 @@ int MainServidor::mainPrincipal(){
 	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 
 	while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
+		//Cuando estoy lleno, le aviso a todos los jugadores que la partida comienza
 		if(!usuarios->puedoTenerMasUsuarios()){
 			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
 				colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);

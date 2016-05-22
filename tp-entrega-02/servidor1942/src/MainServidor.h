@@ -50,6 +50,8 @@ private:
 	void MainServidor::grabarEnElLogLaDesconexion(int len);
 	bool seguimosConectados(int len);
 	void enviarMensajeDeConexionAceptadaAl(SOCKET* socket);
+	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
+	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);
 public:
 	bool seDebeCerrarElServidor;
 	std::queue<MensajeConId*> colaDeMensaje;
