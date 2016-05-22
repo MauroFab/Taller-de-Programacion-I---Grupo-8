@@ -96,6 +96,15 @@ void AsignadorDeUsuarios::eliminarUsuario(int idUsuario){
 	usuario[idUsuario].estaConectado = false;
 	cantidadDeUsuariosActuales--;
 }
+
+void AsignadorDeUsuarios::desconectarUsuario(int idUsuario){
+	int id;
+	while(!usuario[idUsuario].colaDeMensajesDeUsuario->empty()){
+		usuario[idUsuario].colaDeMensajesDeUsuario->pop();
+	}
+	usuario[idUsuario].estaConectado = false;
+	cantidadDeUsuariosActuales--;
+}
 std::queue<EstadoAvionXml*>* AsignadorDeUsuarios::obtenerColaDeUsuario(int idUsuario){
 	return usuario[idUsuario].colaDeMensajesDeUsuario;
 }

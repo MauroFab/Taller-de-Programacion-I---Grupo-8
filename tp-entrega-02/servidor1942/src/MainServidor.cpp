@@ -254,7 +254,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido)
 
 	SDL_WaitThread(threadDeEnvioDeMensajes, NULL);
 	delete seCerroLaConexion;
-	usuarios->eliminarUsuario(id);
+	usuarios->desconectarUsuario(id);
 
 	printf("La cantidad de clientes conectados es: %i\n",usuarios->cantidadDeUsuarios()); 
 	Log::getInstance()->info("La cantidad de clientes conectados es: " + usuarios->cantidadDeUsuarios());

@@ -57,13 +57,13 @@ int Protocolo::decodificar(char * buffer,MensajeXml *mensajeXml){
 	memcpy(&lenValor,buffer + offset,sizeof(char));
 	offset += sizeof(char);
 	
-	valor = new char[lenValor +1];
-	memcpy(valor,buffer + offset,lenValor);
-	offset += lenValor;
-	//solo para string
-//	if (tipo == TIPO_STRING)
-	valor[lenValor] = '\0';
-	
+
+	if(lenValor >= 0){ //Si la cadena tiene tamaño negativo no tiene sentido
+		valor = new char[lenValor +1];
+		memcpy(valor,buffer + offset,lenValor);
+		offset += lenValor;
+		valor[lenValor] = '\0';
+	}
 	mensajeXml->setId(id);
 	mensajeXml->setTipo(tipo);
 	mensajeXml->setValor(valor,lenValor);

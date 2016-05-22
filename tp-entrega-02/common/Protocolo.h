@@ -25,7 +25,7 @@
 #define FAKE_MENSAJE_04 "Comenzar Juego"
 //si este flag existe, entonces se muestran todos los mensajes de debug del protocolo
 //se comenta o descomenta esta linea
-#define FAKE_DEBUG_PROTO 1 
+//#define FAKE_DEBUG_PROTO 1 
 
 class Protocolo
 {
