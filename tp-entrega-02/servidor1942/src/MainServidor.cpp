@@ -435,7 +435,7 @@ int MainServidor::recibirConexiones(void*){
 		else {
 			// Si se supero la cantidad maxima de usuarios enviamos un mensaje al cliente informado que ha sido rechazado
 
-			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
+			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); 
 			
 			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
 
@@ -543,14 +543,10 @@ int MainServidor::mainPrincipal(){
 			printf("Recibido del usuario:%i", mensajeConId->id);
 			printf(" Movimiento id: %d frame: %d x: %d y: %d\n",mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
 
-			// Log info
 			stringstream mensajeLog; 
 			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: id: " << mensajeConId->estadoAvionXml.getId() << " frame: " <<  mensajeConId->estadoAvionXml.getFrame() << " x: " << mensajeConId->estadoAvionXml.getPosX() << " y: " << mensajeConId->estadoAvionXml.getPosY();
 			mensajeLog << " SizeBytes:" << mensajeConId->estadoAvionXml.getSizeBytes();
 			Log::getInstance()->debug(mensajeLog.str());
-
-			//TODO OJO aca deberia hacerse el delete sino perdera memoria
-			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
 
 			//Para todos los usuarios
 			for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
