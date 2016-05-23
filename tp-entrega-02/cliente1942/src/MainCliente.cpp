@@ -152,7 +152,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 				EstadoAvionXml * stAvionXml = new EstadoAvionXml();
 				Protocolo::decodificar(bufferEntrada,stAvionXml);
 
-				if(stAvionXml->getId() > 0){
+				if(stAvionXml->getId() >= 0){
 
 					EstadoAvion* estadoAvion = new EstadoAvion(stAvionXml->getId(), stAvionXml->getFrame(), stAvionXml->getPosX(), stAvionXml->getPosY());
 
@@ -248,7 +248,7 @@ int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE		
 	cargarNombreDeUsuario();
 #else
-	this->nombreDeUsuario.assign("cliente-B");
+	this->nombreDeUsuario.assign("cliente-A");
 #endif	
 
 	if(conectado == true){
