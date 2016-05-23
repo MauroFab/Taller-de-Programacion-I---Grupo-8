@@ -31,14 +31,14 @@
 		<sprite>
 			<id>avion_1</id>
 			<path>avion_1.bmp</path>
-			<cantidad>6</cantidad>
+			<cantidad>7</cantidad>
 			<ancho>113</ancho>
 			<alto>195</alto>
 		</sprite>
 		<sprite>
 			<id>avion_2</id>
 			<path>avion_2.bmp</path>
-			<cantidad>6</cantidad>
+			<cantidad>7</cantidad>
 			<ancho>102</ancho>
 			<alto>195</alto>
 		</sprite>
