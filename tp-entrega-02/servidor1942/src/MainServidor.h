@@ -93,6 +93,7 @@ public:
 	int avisarATodos(void*);
 	int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
 	void enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* socket);
+	void enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);	
 	int mainPrincipal();

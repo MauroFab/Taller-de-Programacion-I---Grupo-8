@@ -265,13 +265,14 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
 
 		}else{
-
+			if(!esElPrimerMensaje){
 			grabarEnElLogLaDesconexion(len);
 			// El frame 42 es el grisado
 			stAvionXml->setFrame(42);
 			stAvionXml->eliminarProyectiles();
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
 			delete stAvionXml;
+			}
 		}
 	}
 
@@ -342,6 +343,15 @@ void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuar
 	MensajeSeguro::enviar(*socket, buffEnvio, size);
 }
 
+void MainServidor::enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(SOCKET* socket){
+
+	char buffEnvio[MAX_BUFFER];
+	int size = 0;
+	EstadoAvionXml* estadoEmpezoLaPartida = new EstadoAvionXml(-1,0,0,0);
+	estadoEmpezoLaPartida->calculateSizeBytes();
+	size =Protocolo::codificar(*estadoEmpezoLaPartida, buffEnvio);
+	MensajeSeguro::enviar(*socket, buffEnvio, size);
+}
 int MainServidor::recibirConexiones(void*){
 
 	struct sockaddr_in local;
@@ -384,7 +394,7 @@ int MainServidor::recibirConexiones(void*){
 				// Verifica si está conectado
 				MensajeXml mensajeEnvio;
 				int size = 0;
-				char buffEnvio[MAX_BUFFER];
+				
 
 				// Si ese nombre de usuario existe 
 				if(usuarios->nombreDeUsuarioExistente(usuario)){
@@ -393,18 +403,18 @@ int MainServidor::recibirConexiones(void*){
 					if(usuarios->estaConectado(usuario)){
 						enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(socketConexion);
 					} else { // Sino lo reconectamos
-
+						std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
+						char buffEnvio[MAX_BUFFER];
 						idYPunteroAlSocket.id = usuarios->reconectar(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
 						enviarMensajeDeConexionAceptadaAl(idYPunteroAlSocket.id, socketConexion);
-						
-						Protocolo::codificar(*(new EstadoAvionXml(-1,0,0,0)), buffEnvio);
-						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
+						enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(socketConexion);
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
 					}				
 				}
 				else {
+						
 						idYPunteroAlSocket.id = usuarios->crearUsuarioYObtenerId(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
 
@@ -553,7 +563,7 @@ int MainServidor::mainPrincipal(){
 			for (int i = 0; i < usuarios->cantidadDeUsuarios(); i++) {
 
 				if(i != mensajeConId->id){
-
+			
 					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
 					EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
 
