@@ -30,8 +30,8 @@ using std::ofstream;
 #include "../../common/Protocolo.h"
 #include "../../common/MensajeSeguro.h"
 
-class MainServidor {
-
+class MainServidor
+{
 private:
 
 	/*Atributos*/
@@ -44,9 +44,11 @@ private:
 
 	static bool instanceFlag;
     static MainServidor *single;
+	AsignadorDeUsuarios *usuarios;
 
 	int puerto;
-	AsignadorDeUsuarios *usuarios;
+	MainServidor();
+	
 	ServidorXml * servidorXml; //se almancena todo el modelo parseado
 	bool seDebeCerrarElServidor;
 	std::queue<MensajeConId*> colaDeMensaje;
@@ -58,8 +60,26 @@ private:
 
 	/*Funciones*/
 
-	MainServidor();
+	
 
+
+
+public:
+
+	/*Funciones*/
+
+	static MainServidor* getInstance();
+	virtual ~MainServidor();
+	void parsearArchivoXml(int argc, char* argv[]);		
+
+	/*Funciones estatáticas ultilizadas como puntero a función*/
+
+	static int fun_atenderCliente(void* punteroAlSocketRecibido);
+	static int fun_recibirConexiones(void*);
+	static int fun_consola(void*);
+	static int fun_avisarATodos(void*);
+	static int fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
+	
 	SOCKET obtenerSocketInicializado(sockaddr_in &local);
 	
 	void ponerAEscuchar(SOCKET sock);
@@ -74,24 +94,8 @@ private:
 	int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
 	void enviarMensajeDeConexionAceptadaAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
-	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);
-
-public:
-
-	/*Funciones*/
-
-	static MainServidor* getInstance();
-	void parsearArchivoXml(int argc, char* argv[]);
+	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);	
 	int mainPrincipal();
-	virtual ~MainServidor();
-
-	/*Funciones estatáticas ultilizadas como puntero a función*/
-
-	static int fun_atenderCliente(void* punteroAlSocketRecibido);
-	static int fun_recibirConexiones(void*);
-	static int fun_consola(void*);
-	static int fun_avisarATodos(void*);
-	static int fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
 };
 
 #endif //_MAINSERVIDOR_H_

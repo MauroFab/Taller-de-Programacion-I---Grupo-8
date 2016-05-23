@@ -15,8 +15,8 @@ Juego::Juego(){
 	this->ventanaAncho = 0;
 	this->ventanaAlto = 0;	
 	//TODO los siguientes datos no se estan usando, deberian ser atributo no variables en otro metodo
-	SDL_Window* gWindow = NULL;
-	SDL_Renderer* gRenderer = NULL;
+//	SDL_Window* gWindow = NULL;
+//	SDL_Renderer* gRenderer = NULL;
 	mut = SDL_CreateMutex();
 	jugar=false;
 	//inicializar elementos de la vista
@@ -41,8 +41,6 @@ int Juego::readServidorXml(ServidorXml * servidorXml){
 
 int Juego::readFrom(IGenericaVO * objetoXML){
 	ServidorXml * tempServidorXml = (ServidorXml*)objetoXML;
-	//carga la cantidad total de aviones 
-	int canAvs = tempServidorXml->getCanAvs();
 	//carga las dimensiones de la ventana
 	this->ventanaAncho = tempServidorXml->getVentanaXmlCopy()->getAncho();
 	this->ventanaAlto = tempServidorXml->getVentanaXmlCopy()->getAlto();
@@ -111,7 +109,7 @@ void Juego::close() {
 void Juego::dibujarFondoInicio() {
 
 	bool jugar = false;
-	SDL_Event e;
+//	SDL_Event e;
 	FondoInicio fondo(PATH_FONDO_INICIO, gRenderer);
 
 	// TODO: PENDIENTE INICIAR LA PARTIDA CUANDO TODOS LOS USUARIOS ESTEN CONECTADOS
@@ -312,6 +310,6 @@ void Juego::notificarMovimiento(EstadoAvion* estadoAvion){
 
 	argv.push_back(estadoAvion);
 
-	notificar(0, &argv[0]);
+	notificar(&argv[0]);
 }
 

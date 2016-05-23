@@ -5,7 +5,7 @@ class Observador {
 
 public:
 	Observador() { };
-	virtual void actualizar(int argc, void* argv[]) = 0;
+	virtual void actualizar(void* argv[]) = 0;
 	virtual ~Observador() { };
 
 };

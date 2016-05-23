@@ -14,7 +14,7 @@ private:
 public:
 	Observable();
 	void agregarObservador(Observador* obs);
-	void notificar(int argc, void* argv[]);
+	void notificar(void* argv[]);
 	virtual ~Observable();
 };
 

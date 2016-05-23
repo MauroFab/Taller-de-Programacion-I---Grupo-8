@@ -61,5 +61,5 @@ int EstadoProyectilXml::getPosY(){
 }
 
 void EstadoProyectilXml::toString(TCadena1000 cadena){
-	sprintf(cadena,"\n sizeBytes=%d,frame=%d,posX=%d,posY=%d", "EstadoProyectilXml:",sizeBytes,frame,posX, posY);
+	sprintf(cadena,"\nEstadoProyectilXml: sizeBytes=%d,frame=%d,posX=%d,posY=%d", sizeBytes,frame,posX, posY);
 }

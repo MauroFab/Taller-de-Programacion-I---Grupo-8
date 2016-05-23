@@ -43,6 +43,24 @@ MainServidor* MainServidor::getInstance(){
 	}
 }
 
+void MainServidor::parsearArchivoXml(int argc, char* argv[]){
+	ParserXml parserx;
+	parserx.cargarXmlServidor(argc,argv);
+	int res = parserx.validarXmlArchivoServidor();
+	if (res < 0){
+		printf("\nERROR: Error semantico\n");
+		parserx.cargarXmlServidor(0,argv);
+	}
+
+	//luego de la carga crea los datos a partir del XML
+	this->servidorXml = parserx.createDataServidorXml(); //luego de la carga crea los datos a partir del XML
+	static int cantidadDeClientesMaxima = servidorXml->getCantidadMaximaClientes();
+	this->puerto = servidorXml->getPuerto();
+	this->usuarios = new AsignadorDeUsuarios(cantidadDeClientesMaxima);
+	this->seDebeCerrarElServidor = false;
+	// luego de usarlo se debe borrar
+	//	delete servidorXml;	
+}
 
 /*-------- Funciones de destrucción de Threads y Sockects --------*/
 
@@ -65,23 +83,28 @@ void waitThread (SDL_Thread* h) {
 /*-------- Funciones estáticas para la llamada de las mismas como puntero a función --------*/
 
 int MainServidor::fun_atenderCliente(void* punteroAlSocketRecibido){
-	return MainServidor::getInstance()->atenderCliente(punteroAlSocketRecibido);	
+	MainServidor * instan = MainServidor::getInstance();
+	return instan->atenderCliente(punteroAlSocketRecibido);	
 }
 
 int MainServidor::fun_recibirConexiones(void* punteroAlSocketRecibido){
-	return  MainServidor::getInstance()->recibirConexiones(punteroAlSocketRecibido);	
+	MainServidor * instan = MainServidor::getInstance();
+	return instan->recibirConexiones(punteroAlSocketRecibido);	
 }
 
 int MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido){
-	return MainServidor::getInstance()->revisarSiHayMensajesParaElClienteYEnviarlos(idYPunteroAlSocketRecibido);	
+	MainServidor * instan = MainServidor::getInstance();
+	return instan->revisarSiHayMensajesParaElClienteYEnviarlos(idYPunteroAlSocketRecibido);	
 }
 
 int MainServidor::fun_consola(void* punteroAlSocketRecibido){
-	return MainServidor::getInstance()->consola(punteroAlSocketRecibido);	
+	MainServidor * instan = MainServidor::getInstance();
+	return instan->consola(punteroAlSocketRecibido);	
 }
 
 int MainServidor::fun_avisarATodos(void* data){
-	return MainServidor::getInstance()->avisarATodos(data);	
+	MainServidor * instan = MainServidor::getInstance();
+	return instan->avisarATodos(data);	
 }
 
 
@@ -105,8 +128,8 @@ SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
 
 	//asociamos el socket al puerto
 	if (bind(sock, (SOCKADDR*) &local, sizeof(local))==-1){
-		printf("Error en el bind\n");
-		Log::getInstance()->error("Asociando el socket al puerto.");
+		printf("error en el bind\n");
+		Log::getInstance()->error(" asociando el socket al puerto.");
 	}
 
 	return sock;
@@ -115,46 +138,9 @@ SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
 void MainServidor::ponerAEscuchar(SOCKET sock){
 
 	if (listen(sock,2)==-1){
-		printf("Error en el listen\n");
-		Log::getInstance()->error(" Al iniciar el listen.");
+		printf("error en el listen\n");
+		Log::getInstance()->error(" al iniciar el listen.");
 	}
-}
-
-void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id, EstadoAvionXml* pMsj){
-
-	SDL_mutexP(mut);
-	MensajeConId* mensajeConId = new MensajeConId;
-	mensajeConId->id = id;	
-	mensajeConId->mensaje = buffer;
-	//-------------
-	//ojo que aquie se llama al operador (=) no es copia de punteros
-	mensajeConId->mensajeXml = *pMsj;
-	//-------------
-	colaDeMensaje.push(mensajeConId);
-	SDL_mutexV(mut);
-}
-
-void MainServidor::grabarEnElLogLaDesconexion(int len){
-
-	if (len == 0){
-		Log::getInstance()->info( "Se ha desconectado el server");
-	}
-	else if (len < 0){
-		// Si es -1 hay un error en la conexion
-		int error = WSAGetLastError();
-
-		if(error == WSAENOTCONN || error == WSAECONNRESET){
-			Log::getInstance()->error( "Se ha desconectado inesperadamente el server");
-		}
-		else if (error == WSAENETDOWN)
-			Log::getInstance()->error( "Red caida");
-		else
-			Log::getInstance()->error( "Error de conexion");
-	}
-}
-
-bool MainServidor::seguimosConectados(int len){
-	return(len > 0);
 }
 
 int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointer) {
@@ -198,6 +184,44 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 
 	return 0;
 }
+
+void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id, EstadoAvionXml* pMsj){
+
+	SDL_mutexP(mut);
+	MensajeConId* mensajeConId = new MensajeConId;
+	mensajeConId->id = id;	
+	mensajeConId->mensaje = buffer;
+	//-------------
+	//ojo que aquie se llama al operador (=) no es copia de punteros
+	mensajeConId->mensajeXml = *pMsj;
+	//-------------
+	colaDeMensaje.push(mensajeConId);
+	SDL_mutexV(mut);
+}
+
+void MainServidor::grabarEnElLogLaDesconexion(int len){
+
+	if (len == 0){
+		Log::getInstance()->info( "Se ha desconectado el server");
+	}
+	else if (len < 0){
+		// Si es -1 hay un error en la conexion
+		int error = WSAGetLastError();
+
+		if(error == WSAENOTCONN || error == WSAECONNRESET){
+			Log::getInstance()->error( "Se ha desconectado inesperadamente el server");
+		}
+		else if (error == WSAENETDOWN)
+			Log::getInstance()->error( "Red caida");
+		else
+			Log::getInstance()->error( "Error de conexion");
+	}
+}
+
+bool MainServidor::seguimosConectados(int len){
+	return(len > 0);
+}
+
 
 int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 
@@ -552,22 +576,3 @@ int MainServidor::mainPrincipal(){
 	return 0;
 }
 
-void MainServidor::parsearArchivoXml(int argc, char* argv[]){
-
-	ParserXml parserx;
-
-	parserx.cargarXmlServidor(argc,argv);
-
-	int res = parserx.validarXmlArchivoServidor();
-
-	if (res < 0){
-		printf("\nERROR: Error semantico\n");
-		parserx.cargarXmlServidor(0,argv);
-	}
-
-	this->servidorXml = parserx.createDataServidorXml(); //luego de la carga crea los datos a partir del XML
-	static int cantidadDeClientesMaxima = servidorXml->getCantidadMaximaClientes();
-	this->puerto = servidorXml->getPuerto();
-	this->usuarios = new AsignadorDeUsuarios(cantidadDeClientesMaxima);
-	this->seDebeCerrarElServidor = false;
-}
