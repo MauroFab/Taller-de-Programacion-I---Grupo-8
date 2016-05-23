@@ -1,3 +1,4 @@
+#include "../../common/StringUtil.h"
 #include "MainServidor.h"
 
 bool MainServidor::instanceFlag = false;
@@ -292,8 +293,9 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 	return 0;
 }
 
-void MainServidor::enviarMensajeDeConexionAceptadaAl(SOCKET* socket){
+void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* socket){
 
+	// Mensaje de conexion exitosa
 	char buffEnvio[MAX_BUFFER];
 	int size = 0;
 	MensajeXml mensajeEnvio;
@@ -301,7 +303,17 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(SOCKET* socket){
 	mensajeEnvio.setTipo(TIPO_STRING);
 	mensajeEnvio.calculateSizeBytes();
 	size = Protocolo::codificar(mensajeEnvio,buffEnvio);
+
+	// ID del usuario
+	string idString = StringUtil::intToString(idUsuario);
+	mensajeEnvio.setValor((char*)idString.c_str(), strlen(idString.c_str()));
+	mensajeEnvio.setTipo(TIPO_STRING);
+	mensajeEnvio.calculateSizeBytes();
+	size += Protocolo::codificar(mensajeEnvio,buffEnvio + size);
+
+	// XML de configuracion 
 	size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
+
 	MensajeSeguro::enviar(*socket, buffEnvio, size);
 }
 
@@ -384,7 +396,7 @@ int MainServidor::recibirConexiones(void*){
 
 						idYPunteroAlSocket.id = usuarios->reconectar(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
-						enviarMensajeDeConexionAceptadaAl(socketConexion);
+						enviarMensajeDeConexionAceptadaAl(idYPunteroAlSocket.id, socketConexion);
 						
 						Protocolo::codificar(*(new EstadoAvionXml(-1,0,0,0)), buffEnvio);
 						MensajeSeguro::enviar(*socketConexion, buffEnvio, size);
@@ -406,7 +418,7 @@ int MainServidor::recibirConexiones(void*){
 							Log::getInstance()->info("Se ha alcanzado el limite de usuarios.");
 						}
 
-						enviarMensajeDeConexionAceptadaAl(socketConexion);
+						enviarMensajeDeConexionAceptadaAl(idYPunteroAlSocket.id, socketConexion);
 
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);

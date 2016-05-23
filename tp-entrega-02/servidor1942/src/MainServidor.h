@@ -92,7 +92,7 @@ public:
 	int consola(void*);
 	int avisarATodos(void*);
 	int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
-	void enviarMensajeDeConexionAceptadaAl(SOCKET* socket);
+	void enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);	
 	int mainPrincipal();

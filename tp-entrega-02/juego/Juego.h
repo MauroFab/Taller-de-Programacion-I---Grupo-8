@@ -57,11 +57,14 @@ public:
 	//---carga de aviones de la vista
 	int cargarAviones(ServidorXml * confServidorXml);
 
+	void setIdJugador(int idJugador);
+
 private:
 
 	static bool instanceFlag;
 	static Juego* instance;
 	Juego();
+	int idJugador;
 	int ventanaAncho;
 	int ventanaAlto;
 	bool jugar; // para avisar que debe de inciar el juego

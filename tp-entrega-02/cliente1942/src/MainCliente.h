@@ -65,8 +65,8 @@ private:
 //	int c;
 //	int len;
 	bool conectado;
-	bool serverDesconectado;
-	bool cerrarConexion;
+	static bool serverDesconectado;
+	static bool cerrarConexion;
 
 	//contiene al parser, lo crea y lo borra
 	ParserXml * parserx;

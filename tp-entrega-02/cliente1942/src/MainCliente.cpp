@@ -1,5 +1,8 @@
 #include "MainCliente.h"
 
+bool MainCliente::serverDesconectado = true;
+bool MainCliente::cerrarConexion = true;
+
 MainCliente::MainCliente(){
 //	this->dirXML.assign("");
 //	this->conex = 0;
@@ -13,8 +16,6 @@ MainCliente::MainCliente(){
 	this->servidorXml = new ServidorXml();
 
 	this->nombreDeUsuario = "";
-	this->serverDesconectado = true;
-	this->cerrarConexion = true;
 }
 
 MainCliente::~MainCliente(){
@@ -124,13 +125,10 @@ void MainCliente::grabarEnElLogLaDesconexion(int len){
 }
 
 int MainCliente::recibirMensajes(void* ptrSock){
-	// TODO: HACER CLIENTE ESTATICO
-	bool serverDesconectadoTest = false;
-	bool cerrarConexionTest = false;
 	bool primerMensaje =true;
 	char bufferEntrada[MAX_BUFFER];
 
-	while (!cerrarConexionTest && !serverDesconectadoTest){ 
+	while (!cerrarConexion && !serverDesconectado){ 
 
 		int len=MensajeSeguro::recibir(*((SOCKET*)ptrSock),bufferEntrada); //recibimos los datos que envie
 
@@ -177,9 +175,10 @@ int MainCliente::recibirMensajes(void* ptrSock){
 			//--------------------------------
 		}else{
 			grabarEnElLogLaDesconexion(len);
-			serverDesconectadoTest = true;
+			serverDesconectado = true;
 		}
 	}
+
 	return 0;
 }
 
@@ -249,7 +248,7 @@ int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE		
 	cargarNombreDeUsuario();
 #else
-	this->nombreDeUsuario.assign("cliente-C");
+	this->nombreDeUsuario.assign("cliente-B");
 #endif	
 
 	if(conectado == true){
@@ -296,21 +295,24 @@ int MainCliente::conectar(){
 				char * respuesta = mensaXml.getValor();
 
 				if (strcmp(respuesta,FAKE_MENSAJE_01) == 0){
+
 					// Si el server nos envia respuesta es que la conexion ha sido satisfactoria
 					Log::getInstance()->info("El cliente se ha conectado correctamente.");
 					conectado = true;
-					serverDesconectado = false;
+					MainCliente::serverDesconectado = false;
+					MainCliente::cerrarConexion = false;
 
+					offset += Protocolo::decodificar(bufferEntrada + offset,&mensaXml);
+					char* idUsuario = mensaXml.getValor();
+					
 					//se procede a decodificar el resto del mensaje
 					//se decodifica el escenario completo
 					offset += Protocolo::decodificar(bufferEntrada + offset,this->servidorXml);
 
-					//TODO: modifica aca para que el cliente espere el mensaje del servidor y comiense
-					// a cargar el juego
-
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(recibirMensajes, "recibirMensajes", &sock);
 
+					Juego::getInstance()->setIdJugador(atoi(idUsuario));
 					Juego::getInstance()->readServidorXml(this->servidorXml);
 					Juego::getInstance()->agregarObservador(this);
 					Juego::getInstance()->ejecutar(this->servidorXml);
@@ -331,9 +333,7 @@ int MainCliente::conectar(){
 					Log::getInstance()->error(bufferEntrada);
 					printf("Respuesta servidor:> %s\n",FAKE_MENSAJE_03);
 
-					shutdown(sock,2);
-					closesocket(sock);
-					conectado = false;
+					desconectar();
 				}
 			}
 		}
@@ -345,6 +345,8 @@ int MainCliente::desconectar(){
 	shutdown(sock,2);
 	closesocket(sock);
 	conectado=false;
+	MainCliente::cerrarConexion = false;
+
 	// WSACleanup();
 	return 0;
 }

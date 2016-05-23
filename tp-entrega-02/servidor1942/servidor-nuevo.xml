@@ -97,5 +97,12 @@
 		<vueltaSpriteId>avion_1</vueltaSpriteId>
 		<disparosSpriteId>disparo_1</disparosSpriteId>
 	</avion>
+	<avion>
+		<velocidadDesplazamiento>10</velocidadDesplazamiento>
+		<velocidadDisparos>7</velocidadDisparos>
+		<avionSpriteId>avion_2</avionSpriteId>
+		<vueltaSpriteId>avion_2</vueltaSpriteId>
+		<disparosSpriteId>disparo_1</disparosSpriteId>
+	</avion>
 	</aviones>
 </servidor>
