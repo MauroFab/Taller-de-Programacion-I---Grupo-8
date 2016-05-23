@@ -85,6 +85,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\Jugador.cpp" />
     <ClCompile Include="..\common\MensajeSeguro.cpp" />
     <ClCompile Include="..\common\model\AvionModel.cpp" />
     <ClCompile Include="..\common\model\ElementoModel.cpp" />
@@ -126,6 +127,7 @@
     <ClCompile Include="..\common\xml\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\Jugador.h" />
     <ClInclude Include="..\common\MensajeSeguro.h" />
     <ClInclude Include="..\common\model\AvionModel.h" />
     <ClInclude Include="..\common\model\ElementoModel.h" />

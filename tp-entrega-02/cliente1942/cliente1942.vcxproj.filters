@@ -180,6 +180,9 @@
     <ClCompile Include="..\common\view\AvionView.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\Jugador.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -301,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="..\common\view\AvionView.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Jugador.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

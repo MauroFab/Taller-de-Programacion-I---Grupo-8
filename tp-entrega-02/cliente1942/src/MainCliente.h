@@ -61,9 +61,6 @@ private:
 	WSADATA wsa;
 	struct hostent *host;
 	struct sockaddr_in direc;
-//	int conex;
-//	int c;
-//	int len;
 	bool conectado;
 	static bool serverDesconectado;
 	static bool cerrarConexion;

@@ -149,17 +149,17 @@ int MainCliente::recibirMensajes(void* ptrSock){
 
 				//si seguimos conectados
 				//--------------------------------
-				EstadoAvionXml * pMensj = new EstadoAvionXml();
-				Protocolo::decodificar(bufferEntrada,pMensj);
+				EstadoAvionXml * stAvionXml = new EstadoAvionXml();
+				Protocolo::decodificar(bufferEntrada,stAvionXml);
 
-				if(pMensj->getId() > 0){
+				if(stAvionXml->getId() > 0){
 
-					EstadoAvion* estadoAvion = new EstadoAvion(pMensj->getId(), pMensj->getFrame(), pMensj->getPosX(), pMensj->getPosY());
+					EstadoAvion* estadoAvion = new EstadoAvion(stAvionXml->getId(), stAvionXml->getFrame(), stAvionXml->getPosX(), stAvionXml->getPosY());
 
 					// Itero la lista de proyectiles y los agrego al estado avion 
 					std::list<EstadoProyectilXml*>::iterator it;
 
-					std::list<EstadoProyectilXml*> lista = pMensj->getEstadosProyectiles();
+					std::list<EstadoProyectilXml*> lista = stAvionXml->getEstadosProyectiles();
 
 					for (it = lista.begin(); it != lista.end(); it++) {
 						estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
@@ -167,10 +167,10 @@ int MainCliente::recibirMensajes(void* ptrSock){
 
 					Juego::getInstance()->actualizarMovimientos(estadoAvion);
 				}
-				if(pMensj->getId() == -2){
+				if(stAvionXml->getId() == -2){
 					Mapa::getInstace()->reiniciar();
 				}
-				delete pMensj;
+				delete stAvionXml;
 			}
 			//--------------------------------
 		}else{
@@ -311,8 +311,8 @@ int MainCliente::conectar(){
 
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(recibirMensajes, "recibirMensajes", &sock);
-
-					Juego::getInstance()->setIdJugador(atoi(idUsuario));
+					Juego * insJuego = Juego::getInstance();
+					insJuego->getJugador()->setIdCliente(atoi(idUsuario));
 					Juego::getInstance()->readServidorXml(this->servidorXml);
 					Juego::getInstance()->agregarObservador(this);
 					Juego::getInstance()->ejecutar(this->servidorXml);

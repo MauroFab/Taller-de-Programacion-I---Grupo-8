@@ -25,6 +25,7 @@
 #include "../common/model/ElementoModel.h"
 #include "../common/view/AvionView.h"
 #include "../common/model/AvionModel.h"
+#include "../common/Jugador.h"
 
 using namespace std;
 
@@ -56,15 +57,14 @@ public:
 	int cargarElementos(ServidorXml * confServidorXml);
 	//---carga de aviones de la vista
 	int cargarAviones(ServidorXml * confServidorXml);
-
-	void setIdJugador(int idJugador);
-
+	Jugador * getJugador();
+	
 private:
 
 	static bool instanceFlag;
 	static Juego* instance;
 	Juego();
-	int idJugador;
+	Jugador * jugador;//este objeto contiene los datos del jugador, por ahora solo el id_cliente
 	int ventanaAncho;
 	int ventanaAlto;
 	bool jugar; // para avisar que debe de inciar el juego

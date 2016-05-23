@@ -154,7 +154,7 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 
 	int id = idYPunteroAlSocket.id;
 	std::queue<EstadoAvionXml*>* colaDeMensajesParaEnviar;
-	EstadoAvionXml* mensaje;
+	EstadoAvionXml* stAvionXml;
 	bool* seCerroLaConexionPointer = structRecibido.seCerroLaConexion;
 	colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
 
@@ -163,23 +163,23 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 	bool mensajeJugar=true;
 	MensajeXml mensajeEnvio;
 	int size = 0;
-	char bufferEnvio[MAX_BUFFER];
+//	char bufferEnvio[MAX_BUFFER];
 
 	while(!(*seCerroLaConexionPointer)){
 	// enviar el inicio del juego a todos los clientes
 
 		if(!colaDeMensajesParaEnviar->empty()){
-			mensaje = colaDeMensajesParaEnviar->front();
+			stAvionXml = colaDeMensajesParaEnviar->front();
 			SDL_mutexP(mut);
 			colaDeMensajesParaEnviar->pop();
-			if(mensaje->getId() > -3){
+			if(stAvionXml->getId() > -3){
 				SDL_mutexV(mut);
 				char buffEnvio[MAX_BUFFER];
-				mensaje->calculateSizeBytes();
-				int sizeEnvio = Protocolo::codificar(*mensaje,buffEnvio);
+				stAvionXml->calculateSizeBytes();
+				int sizeEnvio = Protocolo::codificar(*stAvionXml,buffEnvio);
 				MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
 			}
-			delete mensaje; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
+			delete stAvionXml; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
 		}
 	}
 
@@ -194,7 +194,7 @@ void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id, Estad
 	mensajeConId->mensaje = buffer;
 	//-------------
 	//ojo que aquie se llama al operador (=) no es copia de punteros
-	mensajeConId->mensajeXml = *pMsj;
+	mensajeConId->estadoAvionXml = *pMsj;
 	//-------------
 	colaDeMensaje.push(mensajeConId);
 	SDL_mutexV(mut);
@@ -253,25 +253,25 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 	bool esElPrimerMensaje = true;
 	while (seguimosConectados(len) && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
 		
-		EstadoAvionXml *pMensj;
+		EstadoAvionXml *stAvionXml;
 		len=MensajeSeguro::recibir(socket,bufferEntrada);
 		
 		if (seguimosConectados(len)){
 			if(!esElPrimerMensaje)
-				delete pMensj;
+				delete stAvionXml;
 			esElPrimerMensaje = false;
-			pMensj = new EstadoAvionXml();
-			Protocolo::decodificar(bufferEntrada,pMensj);
-			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);
+			stAvionXml = new EstadoAvionXml();
+			Protocolo::decodificar(bufferEntrada,stAvionXml);
+			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
 
 		}else{
 
 			grabarEnElLogLaDesconexion(len);
 			// El frame 42 es el grisado
-			pMensj->setFrame(42);
-			pMensj->eliminarProyectiles();
-			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,pMensj);
-			delete pMensj;
+			stAvionXml->setFrame(42);
+			stAvionXml->eliminarProyectiles();
+			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
+			delete stAvionXml;
 		}
 	}
 
@@ -297,24 +297,24 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 
 	// Mensaje de conexion exitosa
 	char buffEnvio[MAX_BUFFER];
-	int size = 0;
+	int offset = 0;
 	MensajeXml mensajeEnvio;
 	mensajeEnvio.setValor(FAKE_MENSAJE_01, strlen(FAKE_MENSAJE_01));
 	mensajeEnvio.setTipo(TIPO_STRING);
 	mensajeEnvio.calculateSizeBytes();
-	size = Protocolo::codificar(mensajeEnvio,buffEnvio);
+	offset = Protocolo::codificar(mensajeEnvio,buffEnvio + offset);
 
 	// ID del usuario
 	string idString = StringUtil::intToString(idUsuario);
 	mensajeEnvio.setValor((char*)idString.c_str(), strlen(idString.c_str()));
 	mensajeEnvio.setTipo(TIPO_STRING);
 	mensajeEnvio.calculateSizeBytes();
-	size += Protocolo::codificar(mensajeEnvio,buffEnvio + size);
+	offset += Protocolo::codificar(mensajeEnvio,buffEnvio + offset);
 
 	// XML de configuracion 
-	size += Protocolo::codificar(*this->servidorXml,buffEnvio + size);
+	offset += Protocolo::codificar(*this->servidorXml,buffEnvio + offset);
 
-	MensajeSeguro::enviar(*socket, buffEnvio, size);
+	MensajeSeguro::enviar(*socket, buffEnvio, offset);
 }
 
 void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket){
@@ -483,10 +483,10 @@ int MainServidor::avisarATodos(void* data){
 		if(i != mensajeConId->id){
 
 			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-			EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getFrame(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+			EstadoAvionXml* stAvionXml = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
 
 			SDL_mutexP(mut);
-			colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
+			colaDeMensajesDelUsuario->push(stAvionXml);
 			SDL_mutexV(mut);
 		}
 	}
@@ -537,12 +537,12 @@ int MainServidor::mainPrincipal(){
 			colaDeMensaje.pop();
 
 			printf("Recibido del usuario:%i", mensajeConId->id);
-			printf(" Movimiento id: %d frame: %d x: %d y: %d\n",mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getFrame(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+			printf(" Movimiento id: %d frame: %d x: %d y: %d\n",mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
 
 			// Log info
 			stringstream mensajeLog; 
-			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: id: " << mensajeConId->mensajeXml.getId() << " frame: " <<  mensajeConId->mensajeXml.getFrame() << " x: " << mensajeConId->mensajeXml.getPosX() << " y: " << mensajeConId->mensajeXml.getPosY();
-			mensajeLog << " SizeBytes:" << mensajeConId->mensajeXml.getSizeBytes();
+			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: id: " << mensajeConId->estadoAvionXml.getId() << " frame: " <<  mensajeConId->estadoAvionXml.getFrame() << " x: " << mensajeConId->estadoAvionXml.getPosX() << " y: " << mensajeConId->estadoAvionXml.getPosY();
+			mensajeLog << " SizeBytes:" << mensajeConId->estadoAvionXml.getSizeBytes();
 			Log::getInstance()->debug(mensajeLog.str());
 
 			//TODO OJO aca deberia hacerse el delete sino perdera memoria
@@ -553,10 +553,10 @@ int MainServidor::mainPrincipal(){
 				if(i != mensajeConId->id){
 
 					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-					EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->mensajeXml.getId(), mensajeConId->mensajeXml.getFrame(), mensajeConId->mensajeXml.getPosX(), mensajeConId->mensajeXml.getPosY());
+					EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
 
 					std::list<EstadoProyectilXml*>::iterator it;
-					std::list<EstadoProyectilXml*> listaP = mensajeConId->mensajeXml.getEstadosProyectiles();
+					std::list<EstadoProyectilXml*> listaP = mensajeConId->estadoAvionXml.getEstadosProyectiles();
 
 					for (it = listaP.begin(); it != listaP.end(); it++) {
 						mensajeDeRespuesta->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));

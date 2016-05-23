@@ -40,7 +40,7 @@
 			<path>avion_2.bmp</path>
 			<cantidad>6</cantidad>
 			<ancho>102</ancho>
-			<alto>95</alto>
+			<alto>195</alto>
 		</sprite>
 		<sprite>
 			<id>avion_3</id>

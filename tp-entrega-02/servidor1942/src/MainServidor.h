@@ -39,7 +39,7 @@ private:
 	struct MensajeConId {
 	    int id;
 		char* mensaje;
-		EstadoAvionXml mensajeXml;
+		EstadoAvionXml estadoAvionXml;
 	};
 
 	static bool instanceFlag;
