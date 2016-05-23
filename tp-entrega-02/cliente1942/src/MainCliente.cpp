@@ -167,6 +167,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 
 					Juego::getInstance()->actualizarMovimientos(estadoAvion);
 				}
+				//Un mensaje con id -2 indica que se reinicio el mapa
 				if(stAvionXml->getId() == -2){
 					Mapa::getInstace()->reiniciar();
 				}
@@ -248,7 +249,7 @@ int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE		
 	cargarNombreDeUsuario();
 #else
-	this->nombreDeUsuario.assign("cliente-A");
+	this->nombreDeUsuario.assign("cliente-B");
 #endif	
 
 	if(conectado == true){

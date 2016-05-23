@@ -251,7 +251,8 @@ void Juego::ejecutar(ServidorXml * confServidorXml) {
 			}
 
 			if( e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_r){
-				//notificarMovimiento(new EstadoAvion(-2,0,0,0));
+				//Ese movimiento indica a los demas clientes que deben reiniciar el mapa
+				notificarMovimiento(new EstadoAvion(-2,0,0,0));
 				Mapa::getInstace()->reiniciar();
 			}
 			// Registrar mov del teclado
