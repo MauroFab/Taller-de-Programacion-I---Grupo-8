@@ -25,6 +25,7 @@ public:
 	int cantidadDeUsuariosActuales;
 	bool nombreDeUsuarioExistente(string nombreDeUsuario);
 	bool estaConectado(string nombreDeUsuario);
+	bool estaConectado(int id);
 	int reconectar(string nombreDeUsuario);
 	void desconectarUsuario(int idUsuario);
 private:

@@ -390,12 +390,7 @@ int MainServidor::recibirConexiones(void*){
 				Protocolo::decodificar(bufferEntrada, &mensajeUsuario);
 
 				char* usuario = mensajeUsuario.getValor();
-
-				// Verifica si está conectado
-				MensajeXml mensajeEnvio;
-				int size = 0;
-				
-
+	
 				// Si ese nombre de usuario existe 
 				if(usuarios->nombreDeUsuarioExistente(usuario)){
 
@@ -403,8 +398,6 @@ int MainServidor::recibirConexiones(void*){
 					if(usuarios->estaConectado(usuario)){
 						enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(socketConexion);
 					} else { // Sino lo reconectamos
-						std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
-						char buffEnvio[MAX_BUFFER];
 						idYPunteroAlSocket.id = usuarios->reconectar(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
 						enviarMensajeDeConexionAceptadaAl(idYPunteroAlSocket.id, socketConexion);
@@ -448,7 +441,6 @@ int MainServidor::recibirConexiones(void*){
 
 			if (*socketConexion != INVALID_SOCKET) {
 
-				//VER: Mensaje conexion rechazada
 				enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(socketConexion);
 				Log::getInstance()->info("Se informa al cliente que se rechaza la conexion ya que se ha alcanzado el limite de usuarios.");
 				vectorSockets.push_back(socketConexion);
@@ -562,7 +554,7 @@ int MainServidor::mainPrincipal(){
 	
 			for (int i = 0; i < usuarios->cantidadDeUsuarios(); i++) {
 
-				if(i != mensajeConId->id){
+				if(i != mensajeConId->id && usuarios->estaConectado(i)){
 			
 					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
 					EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());

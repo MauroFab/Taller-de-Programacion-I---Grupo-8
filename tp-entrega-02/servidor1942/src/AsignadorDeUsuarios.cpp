@@ -45,6 +45,9 @@ bool AsignadorDeUsuarios::estaConectado(string nombre){
 	//Si el usuario no existe devuelve falso
 	return false;
 }
+bool AsignadorDeUsuarios::estaConectado(int id){
+	return (usuario[id].estaConectado);
+}
 int AsignadorDeUsuarios::idUsuarioLlamado(string nombre){
 	for(int i = 0; i< cantidadMaximaDeUsuarios; i++){
 		if(usuario[i].nombreDeUsuario.compare(nombre) == 0){
