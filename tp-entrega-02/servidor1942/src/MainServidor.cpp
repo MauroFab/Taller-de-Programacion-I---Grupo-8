@@ -551,9 +551,11 @@ int MainServidor::mainPrincipal(){
 
 			//TODO OJO aca deberia hacerse el delete sino perdera memoria
 			//antes fallaba pues pone un puntero a un area de memoria fija y eso es incorrecto
-	
-			for (int i = 0; i < usuarios->cantidadDeUsuarios(); i++) {
 
+			//Para todos los usuarios
+			for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
+				//Si el mensaje no vino del usuario i
+				//Si el usuario i esta conectado
 				if(i != mensajeConId->id && usuarios->estaConectado(i)){
 			
 					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
@@ -565,7 +567,6 @@ int MainServidor::mainPrincipal(){
 					for (it = listaP.begin(); it != listaP.end(); it++) {
 						mensajeDeRespuesta->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
 					}
-
 					// SDL_mutexP(mut);
 					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
 					// SDL_mutexV(mut);

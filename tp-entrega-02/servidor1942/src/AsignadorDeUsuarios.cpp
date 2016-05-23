@@ -115,3 +115,7 @@ std::queue<EstadoAvionXml*>* AsignadorDeUsuarios::obtenerColaDeUsuario(int idUsu
 int AsignadorDeUsuarios::cantidadDeUsuarios(){
 	return cantidadDeUsuariosActuales;
 }
+
+int AsignadorDeUsuarios::getCantidadMaximaDeUsuarios(){
+	return cantidadMaximaDeUsuarios;
+}

@@ -28,6 +28,7 @@ public:
 	bool estaConectado(int id);
 	int reconectar(string nombreDeUsuario);
 	void desconectarUsuario(int idUsuario);
+	int getCantidadMaximaDeUsuarios();
 private:
 	Usuario* usuario;
 	int idUsuarioLlamado(string nombre);
