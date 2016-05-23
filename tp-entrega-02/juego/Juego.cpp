@@ -96,7 +96,6 @@ bool Juego::initSDL() {
 }
 
 void Juego::close() {
-
 	SDL_DestroyRenderer( gRenderer );
 	SDL_DestroyWindow( gWindow );
 	gWindow = NULL;
@@ -107,7 +106,6 @@ void Juego::close() {
 }
 
 void Juego::dibujarFondoInicio() {
-
 	bool jugar = false;
 //	SDL_Event e;
 	FondoInicio fondo(PATH_FONDO_INICIO, gRenderer);
@@ -290,26 +288,17 @@ void Juego::ejecutar(ServidorXml * confServidorXml) {
 }
 
 void Juego::actualizarMovimientos(EstadoAvion* estadoAvion){
-
 	SDL_mutexP(mut);
-
 	int idAvion = estadoAvion->getId();
-
 	EstadoAvion* estadoAnterior = Juego::getInstance()->movimientosDeCompetidores[idAvion];
-
 	delete estadoAnterior;
-
 	Juego::getInstance()->movimientosDeCompetidores[idAvion] = estadoAvion;
-
 	SDL_mutexV(mut);
 }
 
 void Juego::notificarMovimiento(EstadoAvion* estadoAvion){
-
 	vector<void*> argv;
-
 	argv.push_back(estadoAvion);
-
 	notificar(&argv[0]);
 }
 
