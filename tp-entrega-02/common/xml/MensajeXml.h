@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string.h>
 using namespace std;
-#include "../IGenericaVO.h"
+#include "../Mensaje.h"
 
 #define TIPO_INT	1
 #define TIPO_DOUBLE	2
@@ -18,12 +18,10 @@ using namespace std;
 #define STR_TIPO_STRING	"STRING"
 #define STR_TIPO_CHAR	"CHAR"
 
-class MensajeXml : public IGenericaVO
+class MensajeXml : public Mensaje
 {
 protected:
-	int sizeBytes;
-	int id;
-	int tipo;
+	int tipoValor;
 	char * valor;
 public:
 	MensajeXml();
@@ -33,12 +31,15 @@ public:
 	//para la misma clase
     MensajeXml & operator = (const MensajeXml & source);
     
+	// Retorna el tipo de mensaje
+	int getTipo();
+
 	int getSizeBytes();
 	void calculateSizeBytes();
 	void setId(int id);
 	int getId();
-	void setTipo(int tipo);
-	int getTipo();
+	void setTipoValor(int tipo);
+	int getTipoValor();
 	char * getValor();
 	void setValor(char * valor,int lenValor);
 	void toString(TCadena1000 cadena);	

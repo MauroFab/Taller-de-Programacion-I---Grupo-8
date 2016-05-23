@@ -85,6 +85,8 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\Mensaje.cpp" />
+    <ClCompile Include="..\common\MensajeFactory.cpp" />
     <ClCompile Include="..\common\MensajeSeguro.cpp" />
     <ClCompile Include="..\common\model\ElementoModel.cpp" />
     <ClCompile Include="..\common\observer\Observable.cpp" />
@@ -125,6 +127,8 @@
     <ClCompile Include="..\common\xml\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\Mensaje.h" />
+    <ClInclude Include="..\common\MensajeFactory.h" />
     <ClInclude Include="..\common\MensajeSeguro.h" />
     <ClInclude Include="..\common\model\ElementoModel.h" />
     <ClInclude Include="..\common\observer\Observable.h" />

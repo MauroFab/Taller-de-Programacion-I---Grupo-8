@@ -2,7 +2,7 @@
 
 EstadoAvionXml::EstadoAvionXml()
 {
-	this->sizeBytes = -1;
+	this->sizeBytes = Mensaje::getSizeBytes();
 	this->id = -1;
 	this->frame = -1;
 	this->posX = -1;
@@ -14,7 +14,7 @@ EstadoAvionXml::EstadoAvionXml(int id,int frame,int posX, int posY){
 	this->frame = frame;
 	this->posX = posX;
 	this->posY = posY;
-	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;
+	this->sizeBytes = Mensaje::getSizeBytes() + sizeof(int) + sizeof(int) + sizeof(int) ;
 }
 
 EstadoAvionXml::~EstadoAvionXml(){
@@ -28,11 +28,14 @@ int EstadoAvionXml::getSizeBytes(){
 }
 
 void EstadoAvionXml::calculateSizeBytes(){
-	this->sizeBytes =  sizeof(int) //sizeBytes
-		+ sizeof(int)  //id
+	this->sizeBytes =  Mensaje::getSizeBytes()
 		+ sizeof(int) //frame
 		+ sizeof(int) //posX
 		+ sizeof(int); //posY
+}
+
+int EstadoAvionXml::getTipo(){
+	return MENSAJE_ESTADO_AVION;
 }
 
 void EstadoAvionXml::setId(int id){

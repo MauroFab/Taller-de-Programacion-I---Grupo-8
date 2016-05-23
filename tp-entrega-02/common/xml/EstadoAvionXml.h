@@ -7,13 +7,11 @@
 using namespace std;
 
 #include "EstadoProyectilXml.h"
-#include "../IGenericaVO.h"
+#include "../Mensaje.h"
 
-class EstadoAvionXml : public IGenericaVO
+class EstadoAvionXml : public Mensaje
 {
 protected:
-	int sizeBytes;
-	int id;
 	int frame;
 	int posX;
 	int posY;
@@ -25,6 +23,9 @@ public:
 	EstadoAvionXml(int id,int tipo, int posX, int posY);
 	virtual ~EstadoAvionXml();
     
+	// Retorna el tipo de mensaje
+	int getTipo();
+
 	int getSizeBytes();
 	void calculateSizeBytes();
 

@@ -19,11 +19,23 @@
     <Filter Include="Archivos de encabezado\Utils">
       <UniqueIdentifier>{ef2ebe2e-883f-4047-9d4b-ea6cc58730ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de código fuente\Paser">
-      <UniqueIdentifier>{04acdd0d-568e-4b21-9342-1da2e56baa62}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de código fuente\Utils">
       <UniqueIdentifier>{1aa850db-e3a6-4cf2-b572-9ed84e9f0e0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Parser">
+      <UniqueIdentifier>{04acdd0d-568e-4b21-9342-1da2e56baa62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Mensajes">
+      <UniqueIdentifier>{cba33257-0369-46a8-91ad-76e607f363c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Mensajes">
+      <UniqueIdentifier>{0e2b1fd0-2948-44cd-8106-f6f994d3ae1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Modelo">
+      <UniqueIdentifier>{f3c6fdf4-ae7e-4160-a518-a17885be9b46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Modelo">
+      <UniqueIdentifier>{573b3c90-bcf3-4070-96d6-7328ff96c973}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -34,43 +46,43 @@
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\AvionXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\ClienteXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\ConexionXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\ElementoXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\EscenarioXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\FondoXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\Log.cpp">
       <Filter>Archivos de código fuente\Utils</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\MensajeXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\ParserXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\ServidorXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\SpriteXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\tinyxml2.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\VentanaXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\StringUtil.cpp">
       <Filter>Archivos de código fuente\Utils</Filter>
@@ -78,17 +90,29 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\Protocolo.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\xml\EstadoAvionXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\EstadoProyectilXml.cpp">
-      <Filter>Archivos de código fuente\Paser</Filter>
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\MensajeSeguro.cpp">
       <Filter>Archivos de código fuente\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Protocolo.cpp">
+      <Filter>Archivos de código fuente\Mensajes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\MensajeFactory.cpp">
+      <Filter>Archivos de código fuente\Mensajes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\EstadoAvion.cpp">
+      <Filter>Archivos de código fuente\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\EstadoProyectil.cpp">
+      <Filter>Archivos de código fuente\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Mensaje.cpp">
+      <Filter>Archivos de código fuente\Mensajes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +120,6 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="src\MainServidor.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\Protocolo.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -154,6 +175,21 @@
     </ClInclude>
     <ClInclude Include="..\common\MensajeSeguro.h">
       <Filter>Archivos de encabezado\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Protocolo.h">
+      <Filter>Archivos de encabezado\Mensajes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\MensajeFactory.h">
+      <Filter>Archivos de encabezado\Mensajes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoAvion.h">
+      <Filter>Archivos de encabezado\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoProyectil.h">
+      <Filter>Archivos de encabezado\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Mensaje.h">
+      <Filter>Archivos de encabezado\Mensajes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

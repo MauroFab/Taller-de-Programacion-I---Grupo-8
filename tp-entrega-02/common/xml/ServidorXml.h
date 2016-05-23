@@ -7,16 +7,14 @@
 #include "VentanaXml.h"
 #include "SpriteXml.h"
 #include "AvionXml.h"
-#include "../IGenericaVO.h"
+#include "../Mensaje.h"
 
 #define MAX_SPRITES	300
 #define MAX_AVIONES	10
 
-class ServidorXml : public IGenericaVO
+class ServidorXml : public Mensaje
 {
 private:
-	int sizeBytes;
-	int id;
 	int cantidadMaximaClientes;
 	int puerto;
 	VentanaXml ventanaXml;
@@ -30,6 +28,10 @@ public:
 	ServidorXml();
 	virtual ~ServidorXml();
 	int getSizeBytes();
+
+	// Retorna el tipo de mensaje
+	int getTipo();
+
 	void calculateSizeBytes();
 	void setId(int id);
 	int getId();

@@ -8,21 +8,77 @@ Protocolo::~Protocolo()
 {
 }
 
+int Protocolo::codificar(Mensaje &mensaje, char* buffer){
+
+	int offset = 0;
+	int tipo = mensaje.getTipo();
+
+	switch(tipo) 
+	{ 
+	   case MENSAJE_TIPO_VALOR:
+		   	offset += codificar((MensajeXml&)(mensaje),buffer);
+		   break;
+	   case MENSAJE_SERVIDOR: 
+		   	offset += codificar((ServidorXml&)mensaje,buffer);
+		   break;
+	   case MENSAJE_ESTADO_AVION: 
+		   	offset += codificar((EstadoAvionXml&)mensaje,buffer);
+		   break;
+	}
+
+	return offset;
+}
+
+int Protocolo::decodificar(char * buffer, Mensaje* mensaje){
+
+	int offset = 0;
+
+	int sizeBytes = -1;
+	int tipoMensaje = -1;
+
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+		
+	memcpy(&tipoMensaje,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	switch(tipoMensaje) 
+	{ 
+	   case MENSAJE_TIPO_VALOR:
+		   	offset = decodificar(buffer,(MensajeXml*)(mensaje));
+		   break;
+	   case MENSAJE_SERVIDOR: 
+		   	offset = decodificar(buffer,(ServidorXml*)mensaje);
+		   break;
+	   case MENSAJE_ESTADO_AVION: 
+		   	offset = decodificar(buffer,(EstadoAvionXml*)mensaje);
+		   break;
+	}
+
+	return offset;
+}
+
 int Protocolo::codificar(MensajeXml &mensajeXml,char * buffer){
+
 	int sizeBytes = mensajeXml.getSizeBytes();
 	int id = mensajeXml.getId();
 	int tipo = mensajeXml.getTipo();
+	int tipoValor = mensajeXml.getTipoValor();
 	//ojo que aqui se copian los punteros, no se debe liberar luego (o hace el destructor)
 	char * valor = mensajeXml.getValor();
 	char lenValor = strlen(mensajeXml.getValor());
 	int offset = 0;
+
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
-	
+
+	memcpy(buffer + offset,&tipo,sizeof(int));
+	offset += sizeof(int);
+
 	memcpy(buffer + offset,&id,sizeof(int));
 	offset += sizeof(int);
 	
-	memcpy(buffer + offset,&tipo,sizeof(int));
+	memcpy(buffer + offset,&tipoValor,sizeof(int));
 	offset += sizeof(int);
 	
 	memcpy(buffer + offset,&lenValor,sizeof(char));
@@ -30,28 +86,35 @@ int Protocolo::codificar(MensajeXml &mensajeXml,char * buffer){
 	
 	memcpy(buffer + offset,valor,lenValor);
 	offset += lenValor;
+
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	mensajeXml.toString(cadena);
 	printf("%s\n",cadena);		
 #endif	
+
 	return offset;
 }
 
 int Protocolo::decodificar(char * buffer,MensajeXml *mensajeXml){
 	int sizeBytes = -1;
-	int id = -1;
 	int tipo = -1;
+	int id = -1;
+	int tipoValor = -1;
 	char * valor = NULL;
 	char lenValor = -1;
 	int offset = 0;
+
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
-	
+
+	memcpy(&tipo,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
 	memcpy(&id,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
-	memcpy(&tipo,buffer + offset,sizeof(int));
+	memcpy(&tipoValor,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
 	memcpy(&lenValor,buffer + offset,sizeof(char));
@@ -65,7 +128,7 @@ int Protocolo::decodificar(char * buffer,MensajeXml *mensajeXml){
 	valor[lenValor] = '\0';
 	
 	mensajeXml->setId(id);
-	mensajeXml->setTipo(tipo);
+	mensajeXml->setTipoValor(tipoValor);
 	mensajeXml->setValor(valor,lenValor);
 	mensajeXml->calculateSizeBytes();
 #ifdef FAKE_DEBUG_PROTO
@@ -675,6 +738,7 @@ int Protocolo::decodificar(char * buffer,EscenarioXml *escenarioXml){
 
 int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 	int sizeBytes = servidorXml.getSizeBytes();
+	int tipo = servidorXml.getTipo();
 	int id = servidorXml.getId();
 	int cantidadMaximaClientes = servidorXml.getCantidadMaximaClientes();
 	int puerto = servidorXml.getPuerto();
@@ -684,7 +748,10 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
-	
+
+	memcpy(buffer + offset,&tipo,sizeof(int));
+	offset += sizeof(int);
+
 	memcpy(buffer + offset,&id,sizeof(int));
 	offset += sizeof(int);
 	
@@ -723,14 +790,19 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	int sizeBytes = -1;
 	int id = -1;
+	int tipo = -1;
 	int cantidadMaximaClientes = -1;
 	int puerto = -1;
 	int canSprs = -1;
 	int canAvs = -1;
 	int offset = 0;
+
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
-	
+
+	memcpy(&tipo,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
 	memcpy(&id,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
@@ -779,6 +851,7 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 int Protocolo::codificar(EstadoAvionXml &estadoAvionXml,char * buffer){
 
 	int sizeBytes = estadoAvionXml.getSizeBytes();
+	int tipo = estadoAvionXml.getTipo();
 	int id = estadoAvionXml.getId();
 	int frame = estadoAvionXml.getFrame(); 
 	int posX = estadoAvionXml.getPosX(); 
@@ -788,7 +861,10 @@ int Protocolo::codificar(EstadoAvionXml &estadoAvionXml,char * buffer){
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
-	
+
+	memcpy(buffer + offset,&tipo,sizeof(int));
+	offset += sizeof(int);
+
 	memcpy(buffer + offset,&id,sizeof(int));
 	offset += sizeof(int);
 	
@@ -825,6 +901,7 @@ int Protocolo::decodificar(char * buffer,EstadoAvionXml *estadoAvionXml){
 
 	int sizeBytes = -1;
 	int id = -1;
+	int tipo = -1;
 	int frame = -1;
 	int posX = -1;
 	int posY = -1;
@@ -833,7 +910,10 @@ int Protocolo::decodificar(char * buffer,EstadoAvionXml *estadoAvionXml){
 	
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
-	
+
+	memcpy(&tipo,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
 	memcpy(&id,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	

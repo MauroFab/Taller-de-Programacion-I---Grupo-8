@@ -63,8 +63,8 @@ private:
 	struct sockaddr_in direc;
 	int conex,c,len;
 	bool conectado;
-	bool serverDesconectado;
-	bool cerrarConexion;
+	static bool serverDesconectado;
+	static bool cerrarConexion;
 
 	//contiene al parser, lo crea y lo borra
 	ParserXml * parserx;

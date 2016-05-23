@@ -90,6 +90,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\common\Log.cpp" />
+    <ClCompile Include="..\common\Mensaje.cpp" />
+    <ClCompile Include="..\common\MensajeFactory.cpp" />
     <ClCompile Include="..\common\MensajeSeguro.cpp" />
     <ClCompile Include="..\common\Protocolo.cpp" />
     <ClCompile Include="..\common\StringUtil.cpp" />
@@ -107,6 +109,8 @@
     <ClCompile Include="..\common\xml\SpriteXml.cpp" />
     <ClCompile Include="..\common\xml\tinyxml2.cpp" />
     <ClCompile Include="..\common\xml\VentanaXml.cpp" />
+    <ClCompile Include="..\juego\EstadoAvion.cpp" />
+    <ClCompile Include="..\juego\EstadoProyectil.cpp" />
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainServidor.cpp" />
@@ -114,6 +118,8 @@
   <ItemGroup>
     <ClInclude Include="..\common\IGenericaVO.h" />
     <ClInclude Include="..\common\Log.h" />
+    <ClInclude Include="..\common\Mensaje.h" />
+    <ClInclude Include="..\common\MensajeFactory.h" />
     <ClInclude Include="..\common\MensajeSeguro.h" />
     <ClInclude Include="..\common\Protocolo.h" />
     <ClInclude Include="..\common\StringUtil.h" />
@@ -131,6 +137,8 @@
     <ClInclude Include="..\common\xml\SpriteXml.h" />
     <ClInclude Include="..\common\xml\tinyxml2.h" />
     <ClInclude Include="..\common\xml\VentanaXml.h" />
+    <ClInclude Include="..\juego\EstadoAvion.h" />
+    <ClInclude Include="..\juego\EstadoProyectil.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />
     <ClInclude Include="src\MainServidor.h" />
   </ItemGroup>

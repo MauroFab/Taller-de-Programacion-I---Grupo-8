@@ -14,9 +14,8 @@ Juego* Juego::getInstance() {
 Juego::Juego(){
 	this->ventanaAncho = 0;
 	this->ventanaAlto = 0;	
-	//TODO los siguientes datos no se estan usando, deberian ser atributo no variables en otro metodo
-	SDL_Window* gWindow = NULL;
-	SDL_Renderer* gRenderer = NULL;
+	gWindow = NULL;
+	gRenderer = NULL;
 	mut = SDL_CreateMutex();
 	jugar=false;
 	//inicializar elementos de la vista

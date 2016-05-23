@@ -1,7 +1,7 @@
 #pragma once
 #include <queue> 
 #include <list>
-#include "../../common/xml/EstadoAvionXml.h"
+#include "../../common/Mensaje.h"
 using namespace std;
 
 //Esta clase esta hecha para crear, eliminar y brindar la dirección a las colas de cada usuario (Cliente que se le acepto la conexion)
@@ -9,7 +9,7 @@ struct Usuario {
 	string nombreDeUsuario;
 	bool estaAsignado;
 	bool estaConectado;
-	std::queue<EstadoAvionXml*>* colaDeMensajesDeUsuario;
+	std::queue<Mensaje*>* colaDeMensajesDeUsuario;
 };
 class AsignadorDeUsuarios
 {
@@ -21,7 +21,7 @@ public:
 	void eliminarUsuario(int idUsuario);
 	int cantidadDeUsuarios();
 	//No tratar de liberar la memoria de la cola pedida, simplemente llamar a eliminarUsuario(int idUsuario) al final
-	std::queue<EstadoAvionXml*>* obtenerColaDeUsuario(int idUsuario);
+	std::queue<Mensaje*>* obtenerColaDeUsuario(int idUsuario);
 	int cantidadDeUsuariosActuales;
 	bool nombreDeUsuarioExistente(string nombreDeUsuario);
 	bool estaConectado(string nombreDeUsuario);

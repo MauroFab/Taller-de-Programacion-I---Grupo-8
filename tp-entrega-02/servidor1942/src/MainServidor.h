@@ -35,7 +35,7 @@ private:
 	struct MensajeConId {
 	     int id;
 		 char* mensaje;
-		 EstadoAvionXml mensajeXml;
+		 Mensaje mensajeXml;
 	};
 	void notificarPorConsolaLaDesconexionInesperada();
     static bool instanceFlag;
@@ -44,7 +44,7 @@ private:
 	int puerto;
     MainServidor();
 	//pMsj mensaje desde el cual se realiza la copia de datos
-	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,EstadoAvionXml* pMsj);
+	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,Mensaje* pMsj);
 	//se almancena todo el modelo parseado
 	ServidorXml * servidorXml;
 	void MainServidor::grabarEnElLogLaDesconexion(int len);

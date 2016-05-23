@@ -25,9 +25,6 @@
     <Filter Include="Archivos de encabezado\Parser">
       <UniqueIdentifier>{41b1d703-7c3b-46e2-9b20-da2faffe1421}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de código fuente\Conexion">
-      <UniqueIdentifier>{33f83c3c-cff6-44b7-9ee4-610e4249f20b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de código fuente\Juego">
       <UniqueIdentifier>{f99dbde3-0140-40da-ba7a-02ca43eb69c0}</UniqueIdentifier>
     </Filter>
@@ -46,9 +43,6 @@
     <Filter Include="Archivos de encabezado\Juego\Graficadores">
       <UniqueIdentifier>{256c0389-80a2-4ea8-a813-ebdd8f24d327}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\Conexion">
-      <UniqueIdentifier>{647045c7-462b-498e-ab70-b89291f371a9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de código fuente\Juego\Configuracion">
       <UniqueIdentifier>{7dad4ffa-ddd8-4691-b3bc-0964d28d6e74}</UniqueIdentifier>
     </Filter>
@@ -60,6 +54,12 @@
     </Filter>
     <Filter Include="Archivos de encabezado\Observador">
       <UniqueIdentifier>{13f802fb-74ba-40ba-b0cc-3c6609fb5c55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Mensaje">
+      <UniqueIdentifier>{33f83c3c-cff6-44b7-9ee4-610e4249f20b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Mensaje">
+      <UniqueIdentifier>{647045c7-462b-498e-ab70-b89291f371a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -109,10 +109,7 @@
       <Filter>Archivos de código fuente\Utils</Filter>
     </ClCompile>
     <ClCompile Include="..\common\Protocolo.cpp">
-      <Filter>Archivos de código fuente\Conexion</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MainCliente.cpp">
-      <Filter>Archivos de código fuente\Conexion</Filter>
+      <Filter>Archivos de código fuente\Mensaje</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\GraficoProyectil.cpp">
       <Filter>Archivos de código fuente\Juego\Graficadores</Filter>
@@ -175,6 +172,15 @@
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="..\common\model\ElementoModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Mensaje.cpp">
+      <Filter>Archivos de código fuente\Mensaje</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\MensajeFactory.cpp">
+      <Filter>Archivos de código fuente\Mensaje</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainCliente.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
@@ -249,10 +255,7 @@
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Protocolo.h">
-      <Filter>Archivos de encabezado\Conexion</Filter>
-    </ClInclude>
-    <ClInclude Include="src\MainCliente.h">
-      <Filter>Archivos de encabezado\Conexion</Filter>
+      <Filter>Archivos de encabezado\Mensaje</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\ConfiguracionAvionXML.h">
       <Filter>Archivos de encabezado\Juego\Configuracion</Filter>
@@ -295,6 +298,15 @@
     </ClInclude>
     <ClInclude Include="..\common\model\ElementoModel.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MainCliente.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Mensaje.h">
+      <Filter>Archivos de encabezado\Mensaje</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\MensajeFactory.h">
+      <Filter>Archivos de encabezado\Mensaje</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

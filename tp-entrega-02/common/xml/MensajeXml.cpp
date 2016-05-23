@@ -3,109 +3,42 @@
  */
 MensajeXml::MensajeXml()
 {
-	this->sizeBytes = -1;
+	this->sizeBytes = Mensaje::getSizeBytes();
 	this->id = -1;
-	this->tipo = -1;
+	this->tipoValor = -1;
 	this->valor = NULL;
 }
+
 MensajeXml::MensajeXml(int id,int tipo,char * valor){
 	this->id = id;
-	this->tipo = tipo;
+	this->tipoValor = tipo;
 	int len = strlen(valor);
 	this->valor = new char[len + 1];
 	strcpy(this->valor,valor);
 	//sizeBytes + id  + tipo + valor[char] * (len + 1)
 	//   int	+ int + int  + char * (len + 1)
-	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(char)*(len + 1);
-
-	//esta validacion esta deprecada
-	/*
-	switch (tipo)
-	{
-		case TIPO_CHAR:{
-			this->valor = new char[1];
-			*((char*)this->valor) = *((char*)valor);
-			//sizeBytes + id  + tipo + valor[char]
-			//   int	+ int + int  + char
-			this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(char);
-		}
-		break;
-		case TIPO_STRING:{
-			int len = strlen((char*)valor);
-			this->valor = new char[len + 1];
-			strcpy((char*)this->valor, (char*)valor);
-			//sizeBytes + id  + tipo + valor[char] * (len + 1)
-			//   int	+ int + int  + char * (len + 1)
-			this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(char)*(len + 1);
-
-		}
-		break;
-		case TIPO_DOUBLE:{
-			this->valor = new double;
-			*((double*)this->valor) = *((double*)valor);
-			//sizeBytes + id  + tipo + valor[double]
-			//   int	+ int + int  + double
-			this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(double);
-		}
-		break;
-		case TIPO_INT:{
-			this->valor = new int;
-			*((int*)this->valor) = *((int*)valor);
-			//sizeBytes + id  + tipo + valor[int]
-			//   int	+ int + int  + int
-			this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int);
-		}
-		break;
-		default:
-		break;
-	}
-	*/
+	this->sizeBytes = Mensaje::getSizeBytes() + sizeof(int) + sizeof(char)*(len + 1);
 }
+
 MensajeXml::MensajeXml(const MensajeXml&mensaje){
 	this->sizeBytes = mensaje.sizeBytes;
 	this->id = mensaje.id;
-	this->tipo = mensaje.tipo;
+	this->tipoValor = mensaje.tipoValor;
 	int lenValor = strlen(mensaje.valor);
 	this->valor = new char[lenValor +1];
 	memcpy(this->valor,mensaje.valor,lenValor +1);
 }
+
 MensajeXml::~MensajeXml()
 {
 	delete [] this->valor;
-/*
-	switch (tipo)
-	{
-		case TIPO_CHAR:{
-			char * p = (char*)this->valor;
-			delete [] p;
-		}
-		break;
-		case TIPO_STRING:{
-			char * p = (char*)this->valor;
-			delete [] p;
-		}
-		break;
-		case TIPO_DOUBLE:{
-			double * p = (double*)this->valor;
-			delete p;
-		}
-		break;
-		case TIPO_INT:{
-			int * p = (int*)this->valor;
-			delete p;
-		}
-		break;
-		default:
-		break;
-	}
-*/
 }
 
 MensajeXml & MensajeXml::operator = (const MensajeXml & source)
 {
 	this->sizeBytes = source.sizeBytes;
 	this->id = source.id;
-	this->tipo = source.tipo;
+	this->tipoValor = source.tipoValor;
 	this->id = source.id;
 	int lenValor = strlen(source.valor);
 	this->valor = new char[lenValor +1];
@@ -123,24 +56,29 @@ int MensajeXml::getSizeBytes(){
  */
 void MensajeXml::calculateSizeBytes(){
 	int len = strlen(this->valor);
-	this->sizeBytes =  sizeof(int) //sizeBytes
-		+ sizeof(int)	//id
-		+ sizeof(int) //tipo
+	this->sizeBytes =  Mensaje::getSizeBytes()
+		+ sizeof(int) //tipo_valor
 		+ sizeof(char) //len_valor
 		//+ sizeof(char)*(len + 1);
 		+ sizeof(char)*(len);//valor
 }
+
+int MensajeXml::getTipo(){
+	return MENSAJE_TIPO_VALOR;
+}
+
 void MensajeXml::setId(int id){
 	this->id = id;
 }
 int MensajeXml::getId(){
 	return this->id;
 }
-void MensajeXml::setTipo(int tipo){
-	this->tipo = tipo;
+void MensajeXml::setTipoValor(int tipo){
+	this->tipoValor = tipo;
 }
-int MensajeXml::getTipo(){
-	return this->tipo;
+
+int MensajeXml::getTipoValor(){
+	return this->tipoValor;
 }
 
 char * MensajeXml::getValor(){
@@ -153,5 +91,5 @@ void MensajeXml::setValor(char * valor,int lenValor){
 }
 
 void MensajeXml::toString(TCadena1000 cadena){
-	sprintf(cadena,"MensajeXml:sizeBytes=%d,id=%d,tipo=%d,valor=%s",sizeBytes,id,tipo,valor);
+	sprintf(cadena,"MensajeXml:sizeBytes=%d,id=%d,tipo valor=%d,valor=%s",sizeBytes,id,tipoValor,valor);
 }

@@ -3,7 +3,7 @@
  */
 ServidorXml::ServidorXml()
 {
-	this->sizeBytes = -1;
+	this->sizeBytes = Mensaje::getSizeBytes();
 	this->id = -1;
 	this->cantidadMaximaClientes = -1;
 	this->puerto = -1;
@@ -39,13 +39,17 @@ int ServidorXml::getSizeBytes(){
  * como NO exite un setSizeBytes() este lo reemplaza
  */
 void ServidorXml::calculateSizeBytes(){
-	this->sizeBytes = sizeof(int) //sizeBytes
-		+ sizeof(int)//id
+	this->sizeBytes = Mensaje::getSizeBytes()
 		+ sizeof(int)//cantidadMaximaClientes
 		+ sizeof(int)//puerto
 		+ sizeof(int)//canSprs
 		+ sizeof(int);//canAvs
 }
+
+int ServidorXml::getTipo(){
+	return MENSAJE_SERVIDOR;
+}
+
 void ServidorXml::setId(int id){
 	this->id = id;
 }

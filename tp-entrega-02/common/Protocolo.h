@@ -14,6 +14,8 @@
 #include "./xml/EstadoAvionXml.h"
 #include "./xml/EstadoProyectilXml.h"
 
+#include "Mensaje.h"
+
 #define MAX_CADENA	300
 //buffer suficientemente grande para todo el escenario (2Kb de datos)
 #define MAX_BUFFER	2048
@@ -25,13 +27,18 @@
 #define FAKE_MENSAJE_04 "Comenzar Juego"
 //si este flag existe, entonces se muestran todos los mensajes de debug del protocolo
 //se comenta o descomenta esta linea
-#define FAKE_DEBUG_PROTO 1 
+//#define FAKE_DEBUG_PROTO 1 
 
 class Protocolo
 {
 public:
 	Protocolo();
 	virtual ~Protocolo();
+
+	static int codificar(Mensaje &mensaje,char * buffer);
+	static int decodificar(char * buffer,Mensaje *mensaje);
+
+private: 
 	/**
 	 * @param mensajeXml mensaje que contiene los datos a convertir en tira de bytes
 	 * @param buffer que contiene la tira de bytes generada
