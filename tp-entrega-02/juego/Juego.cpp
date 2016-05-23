@@ -195,7 +195,7 @@ void Juego::ejecutar(ServidorXml * confServidorXml) {
 	cargarElementos(confServidorXml);
 	cargarAviones(confServidorXml);
 
-//	dibujarFondoInicio();
+ 	dibujarFondoInicio();
 
 	static int tamanioMaximoMapa = 2000;
 	bool quit = false;
