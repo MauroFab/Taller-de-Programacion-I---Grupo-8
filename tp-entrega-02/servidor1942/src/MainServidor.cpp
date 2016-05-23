@@ -511,11 +511,12 @@ int MainServidor::mainPrincipal(){
 
 	Log::getInstance()->debug("Servidor - Main Principal: se inician los thread recibirConexiones");
 
-	bool seHaIniciadoLaPartida = false;
+	
 	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 	//Este codigo conectado evita que el server empiece realmente si no estan todos conectados,
 	//Y ademas manda el mensaje de reconexion
-	/*while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
+	bool seHaIniciadoLaPartida = false;
+	while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
 		
 		//Cuando estoy lleno, le aviso a todos los jugadores que la partida comienza
 		if(!usuarios->puedoTenerMasUsuarios()){
@@ -526,7 +527,7 @@ int MainServidor::mainPrincipal(){
 			seHaIniciadoLaPartida = true;
 		}
 		SDL_Delay(100);
-	}*/
+	}
 
 	while(!seDebeCerrarElServidor) {
 
