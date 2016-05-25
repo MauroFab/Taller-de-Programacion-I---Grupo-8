@@ -103,12 +103,6 @@ int MainServidor::fun_consola(void* punteroAlSocketRecibido){
 	return instan->consola(punteroAlSocketRecibido);	
 }
 
-int MainServidor::fun_avisarATodos(void* data){
-	MainServidor * instan = MainServidor::getInstance();
-	return instan->avisarATodos(data);	
-}
-
-
 /*-------- Funciones privadas --------*/
 
 SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
@@ -402,9 +396,9 @@ int MainServidor::recibirConexiones(void*){
 						enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(socketConexion);
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
-					}				
-				}
-				else {
+					}
+				//Si el nombre de usuario no estaba registrado
+				} else {
 						
 						idYPunteroAlSocket.id = usuarios->crearUsuarioYObtenerId(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
@@ -425,12 +419,10 @@ int MainServidor::recibirConexiones(void*){
 						vectorSockets.push_back(socketConexion);
 				}
 
-			}
-			else{
+			} else {
 				free(socketConexion);
 			}
-		}
-		else {
+		} else {
 			// Si se supero la cantidad maxima de usuarios enviamos un mensaje al cliente informado que ha sido rechazado
 
 			if (*socketConexion != INVALID_SOCKET) {
@@ -439,13 +431,10 @@ int MainServidor::recibirConexiones(void*){
 				Log::getInstance()->info("Se informa al cliente que se rechaza la conexion ya que se ha alcanzado el limite de usuarios.");
 				vectorSockets.push_back(socketConexion);
 
-			}
-			else{
+			}else{
 				free(socketConexion);
 			}
-
 		}
-
 	}while(!seDebeCerrarElServidor);
 
 	for_each (vectorHilos.begin(), vectorHilos.end(), waitThread);
@@ -466,27 +455,6 @@ int MainServidor::consola(void*){
 
 	//cuando cierro la conexion del socketDeEscucha, se crea igual un hilo, no controlo eso.
 	closesocket(socketDeEscucha);
-	return 0;
-}
-
-int MainServidor::avisarATodos(void* data){
-
-	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
-	MensajeConId* mensajeConId=(MensajeConId*)data;
-	
-	for (int i = 0; i < usuarios->cantidadDeUsuarios(); i++) {
-
-		if(i != mensajeConId->id){
-
-			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-			EstadoAvionXml* stAvionXml = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
-
-			SDL_mutexP(mut);
-			colaDeMensajesDelUsuario->push(stAvionXml);
-			SDL_mutexV(mut);
-		}
-	}
-	delete mensajeConId;
 	return 0;
 }
 

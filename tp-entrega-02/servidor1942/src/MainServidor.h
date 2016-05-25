@@ -77,7 +77,6 @@ public:
 	static int fun_atenderCliente(void* punteroAlSocketRecibido);
 	static int fun_recibirConexiones(void*);
 	static int fun_consola(void*);
-	static int fun_avisarATodos(void*);
 	static int fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
 	
 	SOCKET obtenerSocketInicializado(sockaddr_in &local);
@@ -90,7 +89,6 @@ public:
 	int atenderCliente(void* punteroAlSocketRecibido);
 	int recibirConexiones(void*);
 	int consola(void*);
-	int avisarATodos(void*);
 	int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
 	void enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* socket);
 	void enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(SOCKET* socket);
