@@ -64,6 +64,7 @@ private:
 	bool conectado;
 	static bool serverDesconectado;
 	static bool cerrarConexion;
+	int opt;
 
 	//contiene al parser, lo crea y lo borra
 	ParserXml * parserx;
