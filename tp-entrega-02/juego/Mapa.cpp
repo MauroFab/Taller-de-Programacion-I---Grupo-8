@@ -86,7 +86,9 @@ void Mapa::crearElemento(ElementoView * elementoView){
 //se crea el elemento a partir de los datos originales
 	Textura * texturaElemento = new Textura();
 	char * path = elementoView->spriteXml->getPath();
-	texturaElemento->cargarDeArchivo(path,renderer );
+	if(!texturaElemento->cargarDeArchivo(path,renderer)){
+		texturaElemento->cargarDeArchivo("error.bmp",renderer);
+	};
 	ElementoDelMapa* elementoDelMapa;
 	elementoDelMapa = new ElementoDelMapa(elementoView->posicion.x,elementoView->posicion.y, renderer,texturaElemento);
 	elementosDelMapa.push_back(elementoDelMapa);
