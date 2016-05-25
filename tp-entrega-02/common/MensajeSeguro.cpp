@@ -10,7 +10,7 @@ MensajeSeguro::~MensajeSeguro()
 
 int MensajeSeguro::enviar(SOCKET& sock,char * buffer, int size){
 	size_t len=0;
-	size_t tamanio=size;
+	size_t tamanio=(size_t)size;
 	// cout<<"tamanio enviado:"<<tamanio<<endl;
 	len=send(sock,(char*)&tamanio, sizeof(size_t), 0);
 	if(len<=0)

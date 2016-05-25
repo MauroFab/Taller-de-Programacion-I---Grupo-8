@@ -249,7 +249,7 @@ int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE		
 	cargarNombreDeUsuario();
 #else
-	this->nombreDeUsuario.assign("cliente-B");
+	this->nombreDeUsuario.assign("cliente-X");
 #endif	
 
 	if(conectado == true){
@@ -279,7 +279,7 @@ int MainCliente::conectar(){
 
 			MensajeSeguro::enviar(sock, bufferSalida, size);
 
-			// Se recibe la confirmación de la validación del nombre de usuario
+			// Se rerrcibe la confirmación de la validación del nombre de usuario
 
 			int len2 = 2;
 			char bufferEntrada[MAX_BUFFER];
@@ -317,6 +317,11 @@ int MainCliente::conectar(){
 					Juego::getInstance()->readServidorXml(this->servidorXml);
 					Juego::getInstance()->agregarObservador(this);
 					Juego::getInstance()->ejecutar(this->servidorXml);
+					// esto para desconectar al cliente al presionar la x del SDL_window
+					SDL_Delay(1000);
+					 this->salir();
+					this->opt=OPT_SALIR;
+					
 
 				}
 				else if (strcmp(respuesta,FAKE_MENSAJE_02) == 0){
@@ -426,7 +431,7 @@ int MainCliente::enviar(){
 *
 */
 int MainCliente::menu(){
-	int opt = 0;
+	opt = 0;
 	while (opt != OPT_SALIR){
 		// TODO: Por el momento no borro la pantalla asi veo que va llegando 
 		// system("CLS");	
@@ -436,9 +441,9 @@ int MainCliente::menu(){
 		else
 			std::cout<<"Se encuentra: DESCONECTADO" <<std::endl;
 		printf("\n<1> CONECTAR");
-		printf("\n<2> DESCONECTAR");
+		// printf("\n<2> DESCONECTAR");
 		printf("\n<3> SALIR");
-		printf("\n<4> ENVIAR");
+		// printf("\n<4> ENVIAR");
 		printf("\n");
 		string numstring;
 		cin>>numstring;
@@ -453,15 +458,15 @@ int MainCliente::menu(){
 		case OPT_CONECTAR:
 			conectar();
 			break;
-		case OPT_DESCONECTAR:
+	/*	case OPT_DESCONECTAR:
 			desconectar();
-			break;
+			break; */
 		case OPT_SALIR:
 			salir();
 			break;
-		case OPT_ENVIAR:
+	/*	case OPT_ENVIAR:
 			enviar();
-			break;
+			break; */
 		}
 	}
 	return 0;

@@ -576,10 +576,10 @@ int MainServidor::mainPrincipal(){
 	Log::getInstance()->debug("Servidor - Main Principal: esperando que los threads finalicen.");
 
 	SDL_DestroyMutex(mut);
-	SDL_Delay(5000);
+	
 
 	Log::getInstance()->debug("Servidor - Main Principal: se liberaron los recursos.");
-
+	SDL_Delay(2000);
 	return 0;
 }
 
