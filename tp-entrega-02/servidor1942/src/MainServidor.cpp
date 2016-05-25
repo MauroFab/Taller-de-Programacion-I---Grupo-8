@@ -369,12 +369,10 @@ int MainServidor::recibirConexiones(void*){
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
 	
 	do{
+		socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
+
+		*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
 		if(usuarios->puedoTenerMasUsuarios()){ 
-
-			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
-
-			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
-
 			if (*socketConexion != INVALID_SOCKET) {
 
 				printf("Nueva conexion aceptada\n"); 
@@ -434,10 +432,6 @@ int MainServidor::recibirConexiones(void*){
 		}
 		else {
 			// Si se supero la cantidad maxima de usuarios enviamos un mensaje al cliente informado que ha sido rechazado
-
-			socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); 
-			
-			*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
 
 			if (*socketConexion != INVALID_SOCKET) {
 
