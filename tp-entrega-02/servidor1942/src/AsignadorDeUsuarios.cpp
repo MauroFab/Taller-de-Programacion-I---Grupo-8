@@ -61,8 +61,10 @@ int AsignadorDeUsuarios::reconectar(string nombreUsuario){
 	std::list<Usuario*>::iterator it;
 	int id;
 	id = idUsuarioLlamado(nombreUsuario);
-	if(id != -1)
+	if(id != -1){
 		usuario[id].estaConectado = true;
+		cantidadDeUsuariosActuales++;
+	}
 	return id;
 }
 int AsignadorDeUsuarios::obtenerUnaIdLibre(){
