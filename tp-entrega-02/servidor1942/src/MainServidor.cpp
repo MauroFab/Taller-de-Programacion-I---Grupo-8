@@ -222,9 +222,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 
 	int len;
 	char bufferEntrada[MAX_BUFFER];
-	SDL_mutex *mut;
 	SDL_Thread* threadDeEnvioDeMensajes;
-	mut=SDL_CreateMutex();
 	StructDelEnviadorDeMensajes* structParaEnviar = new StructDelEnviadorDeMensajes;
 	bool* seCerroLaConexion = new bool;
 
@@ -550,4 +548,3 @@ int MainServidor::mainPrincipal(){
 	SDL_Delay(2000);
 	return 0;
 }
-
