@@ -24,6 +24,7 @@ EscenarioXml & EscenarioXml::operator = (const EscenarioXml & source)
 {
 	this->ancho = source.ancho;
 	this->alto = source.alto;
+	this->fondoXml = source.fondoXml;
 	this->canElems = source.canElems;
 	for (int i = 0; i < canElems; i++){
 		this->lista[i] = new ElementoXml();

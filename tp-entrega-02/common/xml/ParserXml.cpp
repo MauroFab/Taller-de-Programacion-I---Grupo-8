@@ -1015,10 +1015,10 @@ int ParserXml::validarMensajeXml(XMLElement* elemMensaje,set<int> &setClaves){
 		return -1;
 	if (elemMensaje->LastChild() != elemVALOR)
 		return -1;
+	/*
 	char * valor = (char*)elemVALOR->GetText();
 	int nTipo = convertTipoToInt(tipo);
 	//no se valida el valor
-	/*
 	if (isValidValor(valor,nTipo) < 0)
 		return -1;
 	*/

@@ -2,6 +2,7 @@
 #define _BALAMODEL_H_
 /* @autor cbenez
  */
+ #include "../xml/AvionXml.h"
 class BalaModel
 {
 //private:
@@ -10,6 +11,7 @@ public:
 	int velBala;
 public:
 	BalaModel();
+	BalaModel(AvionXml * avionXml);
 	virtual ~BalaModel();
 };
 
