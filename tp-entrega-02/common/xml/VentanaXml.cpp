@@ -4,7 +4,6 @@
 VentanaXml::VentanaXml()
 {
 	this->sizeBytes = -1;
-	this->id = -1;
 	this->ancho = -1;
 	this->alto = -1;
 	this->velocidadCamara = -1;
@@ -12,7 +11,6 @@ VentanaXml::VentanaXml()
 VentanaXml::VentanaXml(int ancho,int alto,int velocidadCamara)
 {
 	this->sizeBytes = -1;
-	this->id = -1;
 	this->ancho = ancho;
 	this->alto = alto;
 	this->velocidadCamara = velocidadCamara;
@@ -31,17 +29,11 @@ int VentanaXml::getSizeBytes(){
  */
 void VentanaXml::calculateSizeBytes(){
 	this->sizeBytes = sizeof(int) //sizeBytes
-		+ sizeof(int)//id
 		+ sizeof(int)//ancho
 		+ sizeof(int)//alto
 		+ sizeof(int);//velocidadCamara
 }
-void VentanaXml::setId(int id){
-	this->id = id;
-}
-int VentanaXml::getId(){
-	return this->id;
-}
+
 void VentanaXml::setAncho(int ancho){
 	this->ancho = ancho;
 }

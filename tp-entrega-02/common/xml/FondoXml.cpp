@@ -4,7 +4,6 @@
 FondoXml::FondoXml()
 {
 	this->sizeBytes = -1;
-	this->id = -1;
 	this->idSprite = -1;
 	this->strIdSprite = NULL;
 	this->ancho = -1;
@@ -14,14 +13,12 @@ FondoXml::FondoXml()
 FondoXml::FondoXml(int idSprite,char * strIdSprite,int ancho,int alto)
 {
 	this->sizeBytes = -1;
-	this->id = -1;
 	this->idSprite = idSprite;
 	this->strIdSprite = new char[strlen(strIdSprite) + 1];
 	strcpy(this->strIdSprite,strIdSprite);
 	this->ancho = ancho;
 	this->alto = alto;
 }
-
 
 FondoXml::~FondoXml()
 {
@@ -38,17 +35,10 @@ int FondoXml::getSizeBytes(){
  */
 void FondoXml::calculateSizeBytes(){
 	this->sizeBytes = sizeof(int) //sizeBytes
-		+ sizeof(int)//id
 		+ sizeof(char)//len de strIdSprite
 		+ sizeof(char)*(strlen(strIdSprite) + 1)
 		+ sizeof(int)//ancho
 		+ sizeof(int);//alto
-}
-void FondoXml::setId(int id){
-	this->id = id;
-}
-int FondoXml::getId(){
-	return this->id;
 }
 void FondoXml::setIdSprite(int idSprite){
 	this->idSprite = idSprite;

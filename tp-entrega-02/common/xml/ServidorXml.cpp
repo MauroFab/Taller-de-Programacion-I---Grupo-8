@@ -4,7 +4,6 @@
 ServidorXml::ServidorXml()
 {
 	this->sizeBytes = -1;
-	this->id = -1;
 	this->cantidadMaximaClientes = -1;
 	this->puerto = -1;
 //	VentanaXml ventanaXml;
@@ -40,17 +39,10 @@ int ServidorXml::getSizeBytes(){
  */
 void ServidorXml::calculateSizeBytes(){
 	this->sizeBytes = sizeof(int) //sizeBytes
-		+ sizeof(int)//id
 		+ sizeof(int)//cantidadMaximaClientes
 		+ sizeof(int)//puerto
 		+ sizeof(int)//canSprs
 		+ sizeof(int);//canAvs
-}
-void ServidorXml::setId(int id){
-	this->id = id;
-}
-int ServidorXml::getId(){
-	return this->id;
 }
 
 void ServidorXml::setCantidadMaximaClientes(int cantidadMaximaClientes){
@@ -103,6 +95,6 @@ int ServidorXml::getCanAvs(){
 }
 
 void ServidorXml::toString(TCadena1000 cadena){
-	sprintf(cadena,"ServidorXml:sizeBytes=%d,id=%d,cantidadMaximaClientes=%d,puerto=%d,canSprs=%d,canAvs=%d",
-		sizeBytes,id,cantidadMaximaClientes,puerto,canSprs,canAvs);
+	sprintf(cadena,"ServidorXml:sizeBytes=%dcantidadMaximaClientes=%d,puerto=%d,canSprs=%d,canAvs=%d",
+		sizeBytes,cantidadMaximaClientes,puerto,canSprs,canAvs);
 }

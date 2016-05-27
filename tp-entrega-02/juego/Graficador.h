@@ -9,6 +9,7 @@
 #include "GraficoProyectil.h"
 #include "Textura.h"
 #include "../common/view/AvionView.h"
+#include "../common/view/BalaView.h"
 #include <list>
 #include <map>
 
@@ -22,7 +23,7 @@ public:
 
 	void inicializar(SDL_Renderer* renderer);
 	void agregarDatosAvion(AvionView * avionView);
-	void cargarDatosProyectil(std::string pathProyectil, int cantFotogramas, int ancho, int alto);
+	void agregarDatosBala(BalaView * balaView);
 	void graficarAviones(std::map<int,EstadoAvion*> listaAviones);
 	/**
 	 * este metodo renderiza todos los aviones que tenga guardado el mapa interno

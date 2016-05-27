@@ -4,12 +4,13 @@
 
 #include <stdio.h>
 #include "Textura.h"
+#include "../common/view/BalaView.h"
 
 class GraficoProyectil {
 
 public:
 
-	GraficoProyectil(SDL_Renderer* renderer, std::string pathProyectil, int cantFotogramas, int ancho, int alto);
+	GraficoProyectil(SDL_Renderer* renderer, BalaView * balaView);
 	~GraficoProyectil(void);
 
 	SDL_Rect* getCurrentClip(int frame);

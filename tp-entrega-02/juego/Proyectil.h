@@ -4,11 +4,10 @@
 #include <stdio.h>
 #include "Textura.h"
 #include "ConfiguracionJuegoXML.h"
-#include "ConfiguracionProyectilXML.h"
 #include "EstadoProyectil.h"
 //************************
 //esto NOO tiene que estar
-#define FAKE_2_SCREEN_WIDTH 480
+
 #define FAKE_2_SCREEN_HEIGHT 640
 //************************
 class Proyectil {

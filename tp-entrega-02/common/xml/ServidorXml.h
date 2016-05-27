@@ -16,7 +16,6 @@ class ServidorXml : public IGenericaVO
 {
 private:
 	int sizeBytes;
-	int id;
 	int cantidadMaximaClientes;
 	int puerto;
 	VentanaXml ventanaXml;
@@ -31,8 +30,6 @@ public:
 	virtual ~ServidorXml();
 	int getSizeBytes();
 	void calculateSizeBytes();
-	void setId(int id);
-	int getId();
 	void setCantidadMaximaClientes(int cantidadMaximaClientes);
 	int getCantidadMaximaClientes();
 	void setPuerto(int puerto);

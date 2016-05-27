@@ -23,6 +23,7 @@ using std::cerr;
 using std::ofstream;
 
 #include "../../common/Log.h"
+#include "../../common/StringUtil.h"
 #include "asignadorDeUsuarios.h"
 #include "../../common/xml/ParserXml.h"
 #include "../../common/xml/MensajeXml.h"

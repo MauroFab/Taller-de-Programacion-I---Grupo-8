@@ -23,10 +23,11 @@ public:
 	virtual int getSizeBytes() = 0;
 	//calcula y guarda la cantidad de bytes a transmitirse/recibirse, luego de codificar/decodificar
 	virtual void calculateSizeBytes() = 0;
+//TODO no eliminar estos comentarios	
 	//setea el ID del objeto que sera unico para su tipo, ejemplo avion 1,2,3.. elemento 1,2,3
-	virtual void setId(int id) = 0;
+//	virtual void setId(int id) = 0;
 	//obtiene el ID del objeto que sera unico para su tipo, ejemplo avion 1,2,3.. elemento 1,2,3
-	virtual int getId() = 0;
+//	virtual int getId() = 0;
 };
 
 #endif //_IGENERICAVO_H_

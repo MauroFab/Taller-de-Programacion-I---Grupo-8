@@ -449,7 +449,6 @@ int Protocolo::decodificar(char * buffer,ElementoXml *elementoXml){
 
 int Protocolo::codificar(FondoXml &fondoXml,char * buffer){
 	int sizeBytes = fondoXml.getSizeBytes();
-	int id = fondoXml.getId();
 	int idSprite = fondoXml.getIdSprite();
 	char * strIdSprite = fondoXml.getStrIdSprite();
 	char len_strIdSprite = strlen(strIdSprite);
@@ -459,10 +458,7 @@ int Protocolo::codificar(FondoXml &fondoXml,char * buffer){
 	int offset = 0;
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
-	
-	memcpy(buffer + offset,&id,sizeof(int));
-	offset += sizeof(int);
-	
+		
 	memcpy(buffer + offset,&idSprite,sizeof(int));
 	offset += sizeof(int);
 	
@@ -487,7 +483,6 @@ int Protocolo::codificar(FondoXml &fondoXml,char * buffer){
 }
 int Protocolo::decodificar(char * buffer,FondoXml *fondoXml){
 	int sizeBytes = -1;
-	int id = -1;
 	int idSprite = -1;
 	char strIdSprite[MAX_CADENA] = {0};
 	char len_strIdSprite = -1;
@@ -496,10 +491,7 @@ int Protocolo::decodificar(char * buffer,FondoXml *fondoXml){
 	int offset = 0;
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
-	
-	memcpy(&id,buffer + offset,sizeof(int));
-	offset += sizeof(int);
-	
+		
 	memcpy(&idSprite,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
@@ -516,7 +508,6 @@ int Protocolo::decodificar(char * buffer,FondoXml *fondoXml){
 	memcpy(&alto,buffer + offset,sizeof(int));
 	offset += sizeof(int);	
 	
-	fondoXml->setId(id);
 	fondoXml->setIdSprite(idSprite);
 	fondoXml->setStrIdSprite(strIdSprite,len_strIdSprite);
 	fondoXml->setAncho(ancho);
@@ -533,7 +524,6 @@ int Protocolo::decodificar(char * buffer,FondoXml *fondoXml){
 
 int Protocolo::codificar(VentanaXml &ventanaXml,char * buffer){
 	int sizeBytes = ventanaXml.getSizeBytes();
-	int id = ventanaXml.getId();
 	int ancho = ventanaXml.getAncho(); 
 	int alto = ventanaXml.getAlto(); 
 	int velocidadCamara = ventanaXml.getVelocidadCamara();
@@ -541,10 +531,7 @@ int Protocolo::codificar(VentanaXml &ventanaXml,char * buffer){
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
-	
-	memcpy(buffer + offset,&id,sizeof(int));
-	offset += sizeof(int);
-	
+		
 	memcpy(buffer + offset,&ancho,sizeof(int));
 	offset += sizeof(int);
 	
@@ -563,17 +550,13 @@ int Protocolo::codificar(VentanaXml &ventanaXml,char * buffer){
 
 int Protocolo::decodificar(char * buffer,VentanaXml *ventanaXml){
 	int sizeBytes = -1;
-	int id = -1;
 	int ancho = -1;
 	int alto = -1;
 	int velocidadCamara = -1;
 	int offset = 0;
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
-	
-	memcpy(&id,buffer + offset,sizeof(int));
-	offset += sizeof(int);
-	
+		
 	memcpy(&ancho,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
@@ -583,7 +566,6 @@ int Protocolo::decodificar(char * buffer,VentanaXml *ventanaXml){
 	memcpy(&velocidadCamara,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
-	ventanaXml->setId(id);
 	ventanaXml->setAncho(ancho);
 	ventanaXml->setAlto(alto);
 	ventanaXml->setVelocidadCamara(velocidadCamara);
@@ -684,7 +666,6 @@ int Protocolo::decodificar(char * buffer,EscenarioXml *escenarioXml){
 
 int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 	int sizeBytes = servidorXml.getSizeBytes();
-	int id = servidorXml.getId();
 	int cantidadMaximaClientes = servidorXml.getCantidadMaximaClientes();
 	int puerto = servidorXml.getPuerto();
 	int canSprs = servidorXml.getCanSprs(); 
@@ -693,10 +674,7 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
-	
-	memcpy(buffer + offset,&id,sizeof(int));
-	offset += sizeof(int);
-	
+		
 	memcpy(buffer + offset,&cantidadMaximaClientes,sizeof(int));
 	offset += sizeof(int);
 	
@@ -731,7 +709,6 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 }
 int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	int sizeBytes = -1;
-	int id = -1;
 	int cantidadMaximaClientes = -1;
 	int puerto = -1;
 	int canSprs = -1;
@@ -739,10 +716,7 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	int offset = 0;
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
-	
-	memcpy(&id,buffer + offset,sizeof(int));
-	offset += sizeof(int);
-	
+		
 	memcpy(&cantidadMaximaClientes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
@@ -773,7 +747,6 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 		servidorXml->addAvion(avX,idx);
 	}
 	//-----------	
-	servidorXml->setId(id);
 	servidorXml->setCantidadMaximaClientes(cantidadMaximaClientes);
 	servidorXml->setPuerto(puerto);
 	servidorXml->calculateSizeBytes();
@@ -955,6 +928,12 @@ int Protocolo::codificar(Posicion &posicion, char* buffer) {
 
 	memcpy(buffer + offset,&posY,sizeof(int));
 	offset += sizeof(int);
+	
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	posicion.toString(cadena);
+	printf("%s\n",cadena);	
+#endif	
 
 	return offset;
 }
@@ -979,6 +958,12 @@ int Protocolo::decodificar(char* buffer, Posicion* posicion) {
 	posicion->setPosY(posY);
 
 	posicion->calculateSizeBytes();
+
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	posicion->toString(cadena);
+	printf("%s\n",cadena);	
+#endif	
 
 	return offset;
 }

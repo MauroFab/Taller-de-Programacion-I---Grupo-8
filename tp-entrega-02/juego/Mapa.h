@@ -5,15 +5,17 @@
 #include "ElementoDelMapa.h"
 #include "ConfiguracionJuegoXML.h"
 #include "../common/view/ElementoView.h"
+#include "../common/view/FondoView.h"
 #include <list>
 using namespace std;
+#define FONDO_DEFAULT "fondoDefault.bmp"
 
 class Mapa
 {
 public:
 	static Mapa* getInstace();
 
-	void inicializar(SDL_Renderer* renderer);
+	void inicializar(SDL_Renderer* renderer,FondoView * fondoView);
 	void reiniciar();
 	~Mapa();
 	void dibujarFondoYElementos();

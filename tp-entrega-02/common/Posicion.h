@@ -1,7 +1,11 @@
 #ifndef _POSICION_H_
 #define _POSICION_H_
-
-class Posicion {
+#include <stdio.h>
+#include <iostream>
+#include <string.h>
+using namespace std;
+#include "IGenericaVO.h"
+class Posicion  : public IGenericaVO{
 
 private:
 
@@ -29,6 +33,8 @@ public:
 	int getSizeBytes();
 
 	void calculateSizeBytes();
+	
+	void toString(TCadena1000 cadena);
 };
 
 #endif //_POSICION_H_

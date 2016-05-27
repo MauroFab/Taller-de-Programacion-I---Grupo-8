@@ -11,7 +11,6 @@ class VentanaXml : public IGenericaVO
 {
 private:
 	int sizeBytes;
-	int id;
 	int ancho;
 	int alto;
 	int velocidadCamara;
@@ -21,8 +20,6 @@ public:
 	virtual ~VentanaXml();
 	int getSizeBytes();
 	void calculateSizeBytes();
-	void setId(int id);
-	int getId();
 	void setAncho(int ancho);
 	int getAncho();
 	void setAlto(int alto);

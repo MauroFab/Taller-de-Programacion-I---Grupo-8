@@ -38,7 +38,7 @@ int MensajeSeguro::recibir(SOCKET& sock,char* buffer){
 	// por ahora seguira igual
 	len=0;
 	size_t acum=0;
-	while(acum<tamanio){
+	while(acum!=tamanio){
 		len=recv(sock,buffer+acum,tamanio,0);
 		if(len<=0)
 			return len;

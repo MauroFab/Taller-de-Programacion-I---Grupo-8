@@ -1,18 +1,19 @@
 #include "GraficoProyectil.h"
 
-GraficoProyectil::GraficoProyectil(SDL_Renderer* renderer, std::string pathProyectil, int cantFotogramas, int ancho, int alto) {
-	textura = new Textura();
-	fotogramas = new SDL_Rect[cantFotogramas];
-	cantidadFotogramas = cantFotogramas;
-	if( !textura->cargarDeArchivo( pathProyectil, renderer ) ) {
+GraficoProyectil::GraficoProyectil(SDL_Renderer* renderer, BalaView * balaView){
+	this->textura = new Textura();	
+	this->cantidadFotogramas = balaView->spriteXml->getCantidad();
+	this->fotogramas = new SDL_Rect[this->cantidadFotogramas];
+	char * pathProyectil = balaView->spriteXml->getPath();
+	if( !textura->cargarDeArchivo(pathProyectil , renderer ) ) {
 		printf( "Failed to load missil animation texture!\n" );
 	} else {
 		for (int i = 0; i < cantidadFotogramas; i++) {
 			SDL_Rect fotograma;
-			fotograma.x = ancho * i;
+			fotograma.x = balaView->spriteXml->getAncho() * i;
 			fotograma.y = 0;
-			fotograma.w = ancho;
-			fotograma.h = alto;
+			fotograma.w = balaView->spriteXml->getAncho();
+			fotograma.h = balaView->spriteXml->getAlto();
 			fotogramas[ i ] = fotograma;
 		}
 	}

@@ -25,8 +25,8 @@ void Graficador::agregarDatosAvion(AvionView * avionView) {
 	GraficoAvion* grafico = new GraficoAvion(renderer, avionView);
 	mapaGraficosAvion.insert(std::pair<int, GraficoAvion*>(avionView->avionModel->id, grafico));
 }
-void Graficador::cargarDatosProyectil(std::string pathProyectil, int cantFotogramas, int ancho, int alto) {
-	graficoProyectil = new GraficoProyectil(renderer, pathProyectil, cantFotogramas, ancho, alto);
+void Graficador::agregarDatosBala(BalaView * balaView) {
+	graficoProyectil = new GraficoProyectil(renderer,balaView);
 }
 void Graficador::graficarAviones(std::map<int,EstadoAvion*> listaAviones) {
 	std::map<int, EstadoAvion*>::iterator it;

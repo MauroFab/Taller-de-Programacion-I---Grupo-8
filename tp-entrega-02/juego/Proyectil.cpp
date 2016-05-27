@@ -7,18 +7,19 @@ Proyectil::Proyectil(SDL_Renderer* rendererRecibido) {
 
 	frame = 0;
 
-	ConfiguracionProyectilXML* configProyectil = ConfiguracionJuegoXML::getInstance()->getConfiguracionProyectil();
+//	ConfiguracionProyectilXML* configProyectil = ConfiguracionJuegoXML::getInstance()->getConfiguracionProyectil();
+	BalaView * balaView = ConfiguracionJuegoXML::getInstance()->balaView;
 
-	altoFotograma = configProyectil->getAltoFotograma();
-	anchoFotograma = configProyectil->getAnchoFotograma();
-	cantDeFotogramas = configProyectil->getCantidadDeFotogramas();
-	velocidad = configProyectil->getVelocidad();
+	altoFotograma = balaView->spriteXml->getAlto();
+	anchoFotograma = balaView->spriteXml->getAncho();
+	cantDeFotogramas = balaView->spriteXml->getCantidad();
+	velocidad = balaView->balaModel->velBala;
 	renderer = rendererRecibido;
 
 	texturaProyectil = new Textura();
 	fotogramas = new SDL_Rect[cantDeFotogramas];
-
-	if( !texturaProyectil->cargarDeArchivo( configProyectil->getPathImagen(), renderer ) ) {
+	
+	if( !texturaProyectil->cargarDeArchivo( balaView->spriteXml->getPath(), renderer ) ) {
 		
 		printf( "Failed to load missil animation texture!\n" );
 

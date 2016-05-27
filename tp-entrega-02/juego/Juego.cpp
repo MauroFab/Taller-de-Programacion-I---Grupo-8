@@ -140,16 +140,8 @@ int Juego::cargarElementos(ServidorXml * confServidorXml){
 	for(int i = 0;i <cantE; i++){
 		ElementoXml * elemX = listaE[i];
 		ElementoModel * elemModel = new ElementoModel(elemX);
-		//se obtiene el id del sprite a buscar
-		int idSp = elemX->getIdSprite();
-		int bOut = false;
-		SpriteXml * spriteX = NULL;
-		for (int j = 0;j <cantS && !bOut;j++){
-			spriteX = listaS[j];
-			if (idSp == spriteX->getId()){
-				bOut = true;
-			}
-		}
+		//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
+		SpriteXml * spriteX = SpriteXml::findSpriteById(elemX->getIdSprite(),listaS,cantS);
 		this->listaElemView[i] = new ElementoView(elemModel,spriteX);
 		this->canElemV++;
 	}
@@ -167,20 +159,38 @@ int Juego::cargarAviones(ServidorXml * confServidorXml){
 	for(int i = 0;i <cantA; i++){
 		AvionXml * avionX = listaA[i];
 		AvionModel * avionModel = new AvionModel(avionX);
-		//se obtiene el id del sprite a buscar
-		int idSp = avionX->getIdSpAvion();
-		int bOut = false;
-		SpriteXml * spriteX = NULL;
-		for (int j = 0;j <cantS && !bOut;j++){
-			spriteX = listaS[j];
-			if (idSp == spriteX->getId()){
-				bOut = true;
-			}
-		}
+		//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
+		SpriteXml * spriteX = SpriteXml::findSpriteById(avionX->getIdSpAvion(),listaS,cantS);
 		this->listaAvionView[i] = new AvionView(avionModel,spriteX);
 		this->canAvionV++;
 	}
 	return 0;
+}
+int Juego::cargarFondo(ServidorXml * confServidorXml,int altoFondo){
+	FondoXml * fondoXml = confServidorXml->getEscenarioXmlCopy()->getFondoXmlCopy();
+	FondoModel * fondoModel = new FondoModel(fondoXml);
+	//sprites
+	int cantS = confServidorXml->getCanSprs();
+	SpriteXml ** listaS = confServidorXml->getListaSprites();
+	//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
+	SpriteXml * spriteX = SpriteXml::findSpriteById(fondoXml->getIdSprite(),listaS,cantS);
+	this->fondoView = new FondoView(fondoModel,spriteX);
+	this->fondoView->altoFondo = altoFondo;
+	return 0;
+}
+
+BalaView*  Juego::cargarBala(ServidorXml * confServidorXml){
+	//del 1er avion se toman los datos de una bala
+	AvionXml ** listaA = confServidorXml->getListaAviones();	
+	AvionXml * avionXml_0 = listaA[0];
+	BalaModel * balaModel = new BalaModel(avionXml_0);
+	//sprites
+	int cantS = confServidorXml->getCanSprs();
+	SpriteXml ** listaS = confServidorXml->getListaSprites();
+	//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
+	SpriteXml * spriteX = SpriteXml::findSpriteById(avionXml_0->getIdSpBala(),listaS,cantS);
+	AvionView * avionV_0 = this->listaAvionView[0];
+	return new BalaView(balaModel,spriteX);
 }
 Jugador * Juego::getJugador(){
 	return this->jugador;
@@ -192,17 +202,17 @@ void Juego::ejecutar(ServidorXml * confServidorXml) {
 	if(!initSDL())
 		return;
 		
+	static int tamanioMaximoMapa = 2000;
 	cargarElementos(confServidorXml);
 	cargarAviones(confServidorXml);
+	cargarFondo(confServidorXml,tamanioMaximoMapa);
+	BalaView * balaView = cargarBala(confServidorXml);
 
  	dibujarFondoInicio();
 
-	static int tamanioMaximoMapa = 2000;
 	bool quit = false;
 
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasMapa("bg.bmp", tamanioMaximoMapa);
-	
-	ConfiguracionJuegoXML::getInstance()->setCaracteristicasProyectil("disparo_1.bmp", 1, 11, 25, 1);
+	// CaracteristicasProyectil("disparo_1.bmp", 1, 11, 25, 1);
 
 	Graficador * instGraficador = Graficador::getInstance();
 	// Test para ver si se grafican otros aviones
@@ -213,19 +223,19 @@ void Juego::ejecutar(ServidorXml * confServidorXml) {
 		AvionView * avionV = this->listaAvionView[v];
 		instGraficador->agregarDatosAvion(avionV);
 	}	
-	Graficador::getInstance()->cargarDatosProyectil("disparo_1.bmp", 1, 11, 25);
+	//Graficador::getInstance()->agregarDatosBala("disparo_1.bmp", 1, 11, 25);
+	ConfiguracionJuegoXML::getInstance()->setBalaView(balaView);
+	Graficador::getInstance()->agregarDatosBala(balaView);
 
-	Mapa::getInstace()->inicializar(gRenderer);
+	Mapa::getInstace()->inicializar(gRenderer,this->fondoView);
 
 	for(int e = 0; e < this->canElemV; e++){
 		ElementoView * elemV = this->listaElemView[e];
 		Mapa::getInstace()->crearElemento(elemV);
 	}
-
 	int id_cliente = this->jugador->getIdCliente();
 	Avion avion(gRenderer,this->ventanaAncho,this->ventanaAlto,this->listaAvionView[id_cliente]);
 	avion.setPosicion(this->jugador->getPosicion());
-
 	/*------------------------------------------------------------------*/
 	
 	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );

@@ -25,6 +25,9 @@
 #include "../common/model/ElementoModel.h"
 #include "../common/view/AvionView.h"
 #include "../common/model/AvionModel.h"
+#include "../common/view/FondoView.h"
+#include "../common/model/FondoModel.h"
+#include "../common/view/BalaView.h"
 #include "../common/Jugador.h"
 
 using namespace std;
@@ -37,6 +40,9 @@ public:
 	int canElemV;
 	AvionView * listaAvionView[MAX_AVION_VIEW];
 	int canAvionV;
+	FondoView * fondoView;
+	//por ahora solo 1(UNA) bala, pero deberian ser N balas, 1 por avion
+//	BalaView * balaView;
 public:
 
 	static Juego* getInstance();
@@ -57,10 +63,13 @@ public:
 	int cargarElementos(ServidorXml * confServidorXml);
 	//---carga de aviones de la vista
 	int cargarAviones(ServidorXml * confServidorXml);
+	//realiza la carga del fondo la 1era vez
+	int cargarFondo(ServidorXml * confServidorXml,int altoFondo);
+	//realiza la carga de una bala tipo, con la velocidad del 1er avion
+	BalaView * cargarBala(ServidorXml * confServidorXml);
 	Jugador * getJugador();
 	
 private:
-
 	static bool instanceFlag;
 	static Juego* instance;
 	Juego();

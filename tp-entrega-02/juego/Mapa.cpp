@@ -12,16 +12,16 @@ Mapa* Mapa::getInstace() {
     return instance;
 }
 
-void Mapa::inicializar(SDL_Renderer* rendererRecibido) {
-
+void Mapa::inicializar(SDL_Renderer* rendererRecibido,FondoView * fondoView) {
+	char * pathFondo = fondoView->spriteXml->getPath();
 	ConfiguracionJuegoXML* configJuego = ConfiguracionJuegoXML::getInstance();
 
-	tamanioMaximoMapa = configJuego->getTamanioMaximoFondo();
+	tamanioMaximoMapa = fondoView->altoFondo;
 	renderer = rendererRecibido;
 
 	texturaMapa= new Textura();
-	if( !texturaMapa->cargarDeArchivo( configJuego->getPathFondo(),renderer ) ){
-		texturaMapa->cargarDeArchivo( "fondoDefault.bmp",renderer );
+	if( !texturaMapa->cargarDeArchivo(pathFondo,renderer ) ){
+		texturaMapa->cargarDeArchivo( FONDO_DEFAULT,renderer );
 	}
 	/*
 	texturaIsla= new Textura();

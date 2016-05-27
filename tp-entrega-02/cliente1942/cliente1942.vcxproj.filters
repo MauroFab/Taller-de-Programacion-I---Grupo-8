@@ -147,9 +147,6 @@
     <ClCompile Include="..\juego\ConfiguracionJuegoXML.cpp">
       <Filter>Archivos de código fuente\Juego\Configuracion</Filter>
     </ClCompile>
-    <ClCompile Include="..\juego\ConfiguracionProyectilXML.cpp">
-      <Filter>Archivos de código fuente\Juego\Configuracion</Filter>
-    </ClCompile>
     <ClCompile Include="..\juego\Juego.cpp">
       <Filter>Archivos de código fuente\Juego\Modelo</Filter>
     </ClCompile>
@@ -185,6 +182,18 @@
     </ClCompile>
     <ClCompile Include="..\common\Posicion.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\view\FondoView.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\view\BalaView.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\model\BalaModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\model\FondoModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,9 +275,6 @@
     <ClInclude Include="..\juego\ConfiguracionJuegoXML.h">
       <Filter>Archivos de encabezado\Juego\Configuracion</Filter>
     </ClInclude>
-    <ClInclude Include="..\juego\ConfiguracionProyectilXML.h">
-      <Filter>Archivos de encabezado\Juego\Configuracion</Filter>
-    </ClInclude>
     <ClInclude Include="..\juego\Juego.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
@@ -313,6 +319,18 @@
     </ClInclude>
     <ClInclude Include="..\common\Posicion.h">
       <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\view\FondoView.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\view\BalaView.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\model\BalaModel.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\model\FondoModel.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

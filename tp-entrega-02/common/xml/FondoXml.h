@@ -12,7 +12,6 @@ class FondoXml : public IGenericaVO
 {
 private:
 	int sizeBytes;
-	int id;
 	int idSprite;//spriteId:id numerico del sprite
 	char * strIdSprite;//spriteId:cadena q contiene el nombre
 	int ancho;
@@ -23,8 +22,6 @@ public:
 	virtual ~FondoXml();
 	int getSizeBytes();
 	void calculateSizeBytes();
-	void setId(int id);
-	int getId();
 	void setIdSprite(int idSprite);
 	int getIdSprite();
 	void setStrIdSprite(char * strIdSprite,int len_strIdSprite);

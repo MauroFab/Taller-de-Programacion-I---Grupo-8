@@ -7,7 +7,6 @@ class FondoModel
 {
 //private:	
 public:
-	int id;
 	int posicionY;//indica la posicion actual sobre el eje de las Y
 public:
 	FondoModel();

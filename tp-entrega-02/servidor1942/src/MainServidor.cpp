@@ -1,4 +1,3 @@
-#include "../../common/StringUtil.h"
 #include "MainServidor.h"
 
 bool MainServidor::instanceFlag = false;
@@ -156,7 +155,7 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 	//-----------------------------
 	bool mensajeJugar=true;
 	MensajeXml mensajeEnvio;
-	int size = 0;
+//	int size = 0;
 //	char bufferEnvio[MAX_BUFFER];
 
 	while(!(*seCerroLaConexionPointer)){
@@ -337,7 +336,7 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket){
 
 	char buffEnvio[MAX_BUFFER];
-	int size = 0;
+//	int size = 0;
 	char* strMsj = FAKE_MENSAJE_02;
 	MensajeXml mensaje;
 	mensaje.setValor(strMsj,strlen(strMsj));;

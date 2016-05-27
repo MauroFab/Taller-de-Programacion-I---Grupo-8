@@ -42,3 +42,6 @@ void Posicion::calculateSizeBytes() {
 		+ sizeof(int) //posX
 		+ sizeof(int); //posY
 }
+void Posicion::toString(TCadena1000 cadena){
+	sprintf(cadena,"Posicion:x=%d,y=%d",x,y);
+}

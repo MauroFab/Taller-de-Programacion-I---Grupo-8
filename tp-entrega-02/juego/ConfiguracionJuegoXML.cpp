@@ -18,25 +18,6 @@ ConfiguracionJuegoXML* ConfiguracionJuegoXML::getInstance() {
     return instance;
 }
 
-void ConfiguracionJuegoXML::setCaracteristicasMapa(std::string fondo, int tamanioMaximoMapa) {
-	pathImagenFondo = fondo;
-	tamanioMaximoFondo = tamanioMaximoMapa;
-}
-
-void ConfiguracionJuegoXML::setCaracteristicasProyectil(std::string proyectil, int cantFotogramas, int anchoFotograma, int altoFotograma, int velocidad) {
-
-	configProyectil = new ConfiguracionProyectilXML(proyectil, cantFotogramas, anchoFotograma, altoFotograma, velocidad);
-}
-
-
-ConfiguracionProyectilXML* ConfiguracionJuegoXML::getConfiguracionProyectil() {
-	return configProyectil;
-}
-
-std::string ConfiguracionJuegoXML::getPathFondo() {
-	return pathImagenFondo;
-}
-
-int ConfiguracionJuegoXML::getTamanioMaximoFondo() {
-	return tamanioMaximoFondo;
+void ConfiguracionJuegoXML::setBalaView(BalaView * balaView){
+	this->balaView = balaView;
 }
