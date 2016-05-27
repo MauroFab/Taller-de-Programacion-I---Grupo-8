@@ -19,6 +19,7 @@
 #include "EstadoAvion.h"
 #include "EstadoProyectil.h"
 #include "../common/view/AvionView.h"
+#include "../common/Posicion.h"
 #include <list>
 
 class Avion {
@@ -30,6 +31,7 @@ class Avion {
 		void render();
 		EstadoAvion* getEstado();
 		std::list<EstadoProyectil*> getEstadoProyectiles();
+		void setPosicion(Posicion pos);
     private:
 		SDL_Rect *fotogramas;
 		Textura* texturaAvion;

@@ -13,6 +13,7 @@
 #include "./xml/VentanaXml.h"
 #include "./xml/EstadoAvionXml.h"
 #include "./xml/EstadoProyectilXml.h"
+#include "Posicion.h"
 
 #define MAX_CADENA	300
 //buffer suficientemente grande para todo el escenario (2Kb de datos)
@@ -73,6 +74,9 @@ public:
 	static int decodificar(char * buffer,EstadoAvionXml *estadoProyectilXml);
 	static int codificar(EstadoProyectilXml &estadoProyectilXml,char * buffer);
 	static int decodificar(char * buffer,EstadoProyectilXml *estadoProyectil);
+
+	static int codificar(Posicion &posicion, char* buffer);
+	static int decodificar(char* buffer, Posicion* posicion);
 };
 
 #endif //_PROTOCOLO_H_

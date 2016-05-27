@@ -305,24 +305,31 @@ int MainCliente::conectar(){
 
 					offset += Protocolo::decodificar(bufferEntrada + offset,&mensaXml);
 					char* idUsuario = mensaXml.getValor();
-					
+
+					Posicion posicion;
+
+					// Se decodifica la posicion inicial desde donde arranca el avión
+					offset += Protocolo::decodificar(bufferEntrada + offset, &posicion);
+
 					//se procede a decodificar el resto del mensaje
 					//se decodifica el escenario completo
 					offset += Protocolo::decodificar(bufferEntrada + offset,this->servidorXml);
 
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(recibirMensajes, "recibirMensajes", &sock);
+
 					Juego * insJuego = Juego::getInstance();
 					insJuego->getJugador()->setIdCliente(atoi(idUsuario));
+					insJuego->getJugador()->setPosicionAvion(posicion);
+
 					Juego::getInstance()->readServidorXml(this->servidorXml);
 					Juego::getInstance()->agregarObservador(this);
 					Juego::getInstance()->ejecutar(this->servidorXml);
+
 					// esto para desconectar al cliente al presionar la x del SDL_window
 					SDL_Delay(1000);
-					 this->salir();
+					this->salir();
 					this->opt=OPT_SALIR;
-					
-
 				}
 				else if (strcmp(respuesta,FAKE_MENSAJE_02) == 0){
 					// El server envia un mensaje al superar la cantidad de clientes

@@ -254,6 +254,14 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 			esElPrimerMensaje = false;
 			stAvionXml = new EstadoAvionXml();
 			Protocolo::decodificar(bufferEntrada,stAvionXml);
+
+			// Se actualiza la posicion del avión en el asignador de usuarios
+			Posicion posicion;
+
+			posicion.setPosX(stAvionXml->getPosX());
+			posicion.setPosY(stAvionXml->getPosY());
+			usuarios->setPosicionAUsuario(id, posicion);
+
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
 
 		}else{
@@ -303,6 +311,15 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 	mensajeEnvio.setTipo(TIPO_STRING);
 	mensajeEnvio.calculateSizeBytes();
 	offset += Protocolo::codificar(mensajeEnvio,buffEnvio + offset);
+
+	// Posicion de inicio
+	Posicion* pos;
+	Posicion posAEnviar;
+	pos = usuarios->getPosicionDeUsuario(idUsuario);
+	posAEnviar.setPosX(pos->getPosX());
+	posAEnviar.setPosY(pos->getPosY());
+	posAEnviar.calculateSizeBytes();
+	offset += Protocolo::codificar(posAEnviar, buffEnvio + offset);
 
 	// XML de configuracion 
 	offset += Protocolo::codificar(*this->servidorXml,buffEnvio + offset);

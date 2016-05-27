@@ -90,6 +90,9 @@
     <ClCompile Include="..\common\MensajeSeguro.cpp">
       <Filter>Archivos de código fuente\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\Posicion.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AsignadorDeUsuarios.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="..\common\MensajeSeguro.h">
       <Filter>Archivos de encabezado\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Posicion.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

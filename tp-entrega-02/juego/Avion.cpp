@@ -5,8 +5,6 @@ Avion::Avion(SDL_Renderer* rendererRecibido,int ventanaAncho,int ventanaAlto,Avi
 	this->ventanaAncho = ventanaAncho;
 	this->ventanaAlto = ventanaAlto;
 	this->avionView = avionView;
-    posicionX = FAKE_POS_X;
-    posicionY = FAKE_POS_Y;
 
     velocidadX = 0;
     velocidadY = 0;
@@ -57,6 +55,12 @@ Avion::~Avion() {
 		delete (*it);
 	}
 	//NO se hace DELETE de AvionView, pues es [AGREGACION]
+}
+
+void Avion::setPosicion(Posicion pos) {
+
+	this->posicionX = pos.getPosX();
+	this->posicionY = pos.getPosY();
 }
 
 bool Avion::handleEvent( SDL_Event& e ){

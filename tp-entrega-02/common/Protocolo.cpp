@@ -930,3 +930,46 @@ int Protocolo::decodificar(char * buffer,EstadoProyectilXml *estadoProyectilXml)
 #endif
 	return offset;
 }
+
+int Protocolo::codificar(Posicion &posicion, char* buffer) {
+
+	int sizeBytes = posicion.getSizeBytes();
+	int posX = posicion.getPosX();
+	int posY = posicion.getPosY();
+	int offset = 0;
+
+	memcpy(buffer + offset,&sizeBytes,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&posX,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&posY,sizeof(int));
+	offset += sizeof(int);
+
+	return offset;
+}
+
+int Protocolo::decodificar(char* buffer, Posicion* posicion) {
+
+	int sizeBytes = -1;
+	int posX = -1;
+	int posY = -1;
+	int offset = 0;
+
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&posX,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&posY,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	posicion->setPosX(posX);
+	posicion->setPosY(posY);
+
+	posicion->calculateSizeBytes();
+
+	return offset;
+}

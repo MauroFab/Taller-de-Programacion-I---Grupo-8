@@ -23,6 +23,7 @@
 #include "../../common/Protocolo.h"
 #include "../../common/observer/Observador.h"
 #include "../../common/MensajeSeguro.h"
+#include "../../common/Posicion.h"
 
 #include "../../juego/Juego.h"
 #include "../../juego/EstadoAvion.h"

@@ -2,6 +2,7 @@
 #include <queue> 
 #include <list>
 #include "../../common/xml/EstadoAvionXml.h"
+#include "../../common/Posicion.h"
 using namespace std;
 
 //Esta clase esta hecha para crear, eliminar y brindar la dirección a las colas de cada usuario (Cliente que se le acepto la conexion)
@@ -10,7 +11,9 @@ struct Usuario {
 	bool estaAsignado;
 	bool estaConectado;
 	std::queue<EstadoAvionXml*>* colaDeMensajesDeUsuario;
+	Posicion* posicion;
 };
+
 class AsignadorDeUsuarios
 {
 public:
@@ -29,6 +32,9 @@ public:
 	int reconectar(string nombreDeUsuario);
 	void desconectarUsuario(int idUsuario);
 	int getCantidadMaximaDeUsuarios();
+	Posicion* getPosicionDeUsuario(int idUsuario);
+	void setPosicionAUsuario(int idUsuario, Posicion pos);
+
 private:
 	Usuario* usuario;
 	int idUsuarioLlamado(string nombre);

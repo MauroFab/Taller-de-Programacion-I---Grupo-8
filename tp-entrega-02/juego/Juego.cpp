@@ -221,8 +221,11 @@ void Juego::ejecutar(ServidorXml * confServidorXml) {
 		ElementoView * elemV = this->listaElemView[e];
 		Mapa::getInstace()->crearElemento(elemV);
 	}
+
 	int id_cliente = this->jugador->getIdCliente();
 	Avion avion(gRenderer,this->ventanaAncho,this->ventanaAlto,this->listaAvionView[id_cliente]);
+	avion.setPosicion(this->jugador->getPosicion());
+
 	/*------------------------------------------------------------------*/
 	
 	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );

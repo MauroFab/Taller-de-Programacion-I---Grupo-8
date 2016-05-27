@@ -8,15 +8,14 @@ AsignadorDeUsuarios::AsignadorDeUsuarios(int usuariosMaximos){
 		usuario[i].estaConectado = false;
 		usuario[i].estaAsignado = false;
 		usuario[i].colaDeMensajesDeUsuario = new std::queue<EstadoAvionXml*>;
+		usuario[i].posicion = new Posicion(200, 400);
 	}
 }
-
 
 AsignadorDeUsuarios::~AsignadorDeUsuarios(void)
 {
 
 }
-
 
 bool AsignadorDeUsuarios::puedoTenerMasUsuarios(void)
 {
@@ -120,4 +119,16 @@ int AsignadorDeUsuarios::cantidadDeUsuarios(){
 
 int AsignadorDeUsuarios::getCantidadMaximaDeUsuarios(){
 	return cantidadMaximaDeUsuarios;
+}
+
+Posicion* AsignadorDeUsuarios::getPosicionDeUsuario(int idUsuario) {
+	return usuario[idUsuario].posicion;
+}
+
+void AsignadorDeUsuarios::setPosicionAUsuario(int idUsuario, Posicion pos) {
+
+	Posicion* posicion = getPosicionDeUsuario(idUsuario);
+
+	posicion->setPosX(pos.getPosX());
+	posicion->setPosY(pos.getPosY());
 }
