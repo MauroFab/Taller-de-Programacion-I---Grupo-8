@@ -161,19 +161,20 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 
 	while(!(*seCerroLaConexionPointer)){
 	// enviar el inicio del juego a todos los clientes
-
+		SDL_LockMutex(mutColaPrincipal);
 		if(!colaDeMensajesParaEnviar->empty()){
 			stAvionXml = colaDeMensajesParaEnviar->front();
-			SDL_mutexP(mut);
 			colaDeMensajesParaEnviar->pop();
+			SDL_UnlockMutex(mutColaPrincipal);
 			if(stAvionXml->getId() > -3){
-				SDL_mutexV(mut);
 				char buffEnvio[MAX_BUFFER];
 				stAvionXml->calculateSizeBytes();
 				int sizeEnvio = Protocolo::codificar(*stAvionXml,buffEnvio);
 				MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
 			}
 			delete stAvionXml; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
+		}else{//Si la cola estaba vacía, permito que los demas threads usen la cola
+			SDL_UnlockMutex(mutColaPrincipal);
 		}
 	}
 
@@ -182,7 +183,6 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 
 void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id, EstadoAvionXml* pMsj){
 
-	SDL_mutexP(mut);
 	MensajeConId* mensajeConId = new MensajeConId;
 	mensajeConId->id = id;	
 	mensajeConId->mensaje = buffer;
@@ -191,11 +191,10 @@ void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id, Estad
 	mensajeConId->estadoAvionXml = *pMsj;
 	//-------------
 	colaDeMensaje.push(mensajeConId);
-	SDL_mutexV(mut);
 }
 
 void MainServidor::grabarEnElLogLaDesconexion(int len){
-
+	SDL_LockMutex(mutLogger);
 	if (len == 0){
 		Log::getInstance()->info( "Se ha desconectado el server");
 	}
@@ -211,6 +210,7 @@ void MainServidor::grabarEnElLogLaDesconexion(int len){
 		else
 			Log::getInstance()->error( "Error de conexion");
 	}
+	SDL_UnlockMutex(mutLogger);
 }
 
 bool MainServidor::seguimosConectados(int len){
@@ -261,8 +261,9 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 			posicion.setPosX(stAvionXml->getPosX());
 			posicion.setPosY(stAvionXml->getPosY());
 			usuarios->setPosicionAUsuario(id, posicion);
-
+			SDL_LockMutex(mutColaPrincipal);
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
+			SDL_UnlockMutex(mutColaPrincipal);
 
 		}else{
 			if(!esElPrimerMensaje){
@@ -270,7 +271,9 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 			// El frame 42 es el grisado
 			stAvionXml->setFrame(42);
 			stAvionXml->eliminarProyectiles();
+			SDL_LockMutex(mutColaPrincipal);
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
+			SDL_UnlockMutex(mutColaPrincipal);
 			delete stAvionXml;
 			}
 		}
@@ -286,10 +289,14 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 
 	SDL_WaitThread(threadDeEnvioDeMensajes, NULL);
 	delete seCerroLaConexion;
+	SDL_LockMutex(mutColaDeUsuarios);
 	usuarios->desconectarUsuario(id);
-
+	SDL_UnlockMutex(mutColaDeUsuarios);
 	printf("La cantidad de clientes conectados es: %i\n",usuarios->cantidadDeUsuarios()); 
+
+	SDL_LockMutex(mutLogger);
 	Log::getInstance()->info("La cantidad de clientes conectados es: " + usuarios->cantidadDeUsuarios());
+	SDL_UnlockMutex(mutLogger);
 
 	return 0;
 }
@@ -479,8 +486,9 @@ int MainServidor::consola(void*){
 int MainServidor::mainPrincipal(){
 
 	Log::getInstance()->debug("Servidor - Main Principal");
-
-	mut=SDL_CreateMutex();
+	mutColaPrincipal = SDL_CreateMutex();
+	mutColaDeUsuarios = SDL_CreateMutex();
+	mutLogger= SDL_CreateMutex();
 	MensajeConId* mensajeConId;
 
 	printf("\nEscriba 'cerrar' si desea cerrar el servidor\n"); 
@@ -488,7 +496,9 @@ int MainServidor::mainPrincipal(){
 	SDL_Thread* receptor = SDL_CreateThread(MainServidor::fun_recibirConexiones, "recibirConexiones", NULL);
 	SDL_Thread* consola = SDL_CreateThread(MainServidor::fun_consola, "recibirConexiones", NULL);
 
+	SDL_LockMutex(mutLogger);
 	Log::getInstance()->debug("Servidor - Main Principal: se inician los thread recibirConexiones");
+	SDL_UnlockMutex(mutLogger);
 
 	
 	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
@@ -498,6 +508,7 @@ int MainServidor::mainPrincipal(){
 	while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
 		
 		//Cuando estoy lleno, le aviso a todos los jugadores que la partida comienza
+		SDL_LockMutex(mutColaDeUsuarios);
 		if(!usuarios->puedoTenerMasUsuarios()){
 			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
 				colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
@@ -505,27 +516,38 @@ int MainServidor::mainPrincipal(){
 			}
 			seHaIniciadoLaPartida = true;
 		}
+		SDL_UnlockMutex(mutColaDeUsuarios);
 		SDL_Delay(100);
 	}
 
 	while(!seDebeCerrarElServidor) {
 
-		SDL_mutexP(mut);
-
+		
+		SDL_LockMutex(mutColaPrincipal);
 		if(!colaDeMensaje.empty()) {
 			
+
 			mensajeConId = colaDeMensaje.front();
 			colaDeMensaje.pop();
 
+			SDL_UnlockMutex(mutColaPrincipal);
+			//Una vez sacado el elemento de la cola principal, podemos dejar que los demás threads usen normalmente.
+
+			/* Por ahora no me interesa revisar esto.
 			printf("Recibido del usuario:%i", mensajeConId->id);
 			printf(" Movimiento id: %d frame: %d x: %d y: %d\n",mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
 
 			stringstream mensajeLog; 
 			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: id: " << mensajeConId->estadoAvionXml.getId() << " frame: " <<  mensajeConId->estadoAvionXml.getFrame() << " x: " << mensajeConId->estadoAvionXml.getPosX() << " y: " << mensajeConId->estadoAvionXml.getPosY();
 			mensajeLog << " SizeBytes:" << mensajeConId->estadoAvionXml.getSizeBytes();
+
+			SDL_LockMutex(mutLogger);
 			Log::getInstance()->debug(mensajeLog.str());
+			SDL_UnlockMutex(mutLogger);
+			*/
 
 			//Para todos los usuarios
+			SDL_LockMutex(mutColaDeUsuarios);
 			for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
 				//Si el mensaje no vino del usuario i
 				//Si el usuario i esta conectado
@@ -540,15 +562,15 @@ int MainServidor::mainPrincipal(){
 					for (it = listaP.begin(); it != listaP.end(); it++) {
 						mensajeDeRespuesta->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
 					}
-					// SDL_mutexP(mut);
 					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
-					// SDL_mutexV(mut);
 				}
 			}
+			SDL_UnlockMutex(mutColaDeUsuarios);
 			delete mensajeConId;
+			//Si la cola estaba vacía, le permito a los demas threads usarla
+		}else{
+			SDL_UnlockMutex(mutColaPrincipal);
 		}
-
-		SDL_mutexV(mut);
 	}
 
 	Log::getInstance()->info("Se solicito la detención del Server.");
@@ -558,8 +580,9 @@ int MainServidor::mainPrincipal(){
 
 	Log::getInstance()->debug("Servidor - Main Principal: esperando que los threads finalicen.");
 
-	SDL_DestroyMutex(mut);
-	
+	SDL_DestroyMutex(mutColaDeUsuarios);
+	SDL_DestroyMutex(mutColaPrincipal);
+	SDL_DestroyMutex(mutLogger);
 
 	Log::getInstance()->debug("Servidor - Main Principal: se liberaron los recursos.");
 	SDL_Delay(2000);

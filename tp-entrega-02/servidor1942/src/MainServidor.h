@@ -55,7 +55,9 @@ private:
 	std::vector<SDL_Thread*> vectorHilos;
 	std::vector<SOCKET*> vectorSockets;
 	SOCKET socketDeEscucha;
-	SDL_mutex *mut; // el mutex para proteger la cola de mensajes
+	SDL_mutex *mutColaPrincipal; // el mutex para proteger la cola de mensajes
+	SDL_mutex *mutColaDeUsuarios;
+	SDL_mutex *mutLogger;
 
 
 	/*Funciones*/
