@@ -38,6 +38,12 @@ public:
 	int getAncho();
 	void setAlto(int alto);
 	int getAlto();
+	/**
+	 *realiza la busqueda de un sprite segun el nombre indicado 
+	 * @return retorna el sprite que coincide con el nombre
+	 * sino retorna NULL
+	 */
+	static SpriteXml * findSpriteById(int idSprite,SpriteXml ** listSpriteXml,int cantS);
 	
 	void toString(TCadena1000 cadena);
 };

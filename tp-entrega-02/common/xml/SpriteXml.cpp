@@ -97,6 +97,17 @@ void SpriteXml::setAlto(int alto){
 int SpriteXml::getAlto(){
 	return this->alto;
 }
+SpriteXml * SpriteXml::findSpriteById(int idSprite,SpriteXml ** listSpriteXml,int cantS){
+	SpriteXml * spriteX = NULL;
+	int bOut = false;
+	for (int j = 0;j <cantS && !bOut;j++){
+		spriteX = listSpriteXml[j];
+		if (idSprite == spriteX->getId()){
+			bOut = true;
+		}
+	}
+	return spriteX;
+}
 
 void SpriteXml::toString(TCadena1000 cadena){
 	sprintf(cadena,"SpriteXml:id=%d,strId=%s,path=%s,cantidad=%d,ancho=%d,ancho=%d",
