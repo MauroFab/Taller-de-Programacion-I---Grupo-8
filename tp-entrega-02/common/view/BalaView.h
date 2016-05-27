@@ -17,7 +17,8 @@ public:
 //(composicion) posicion actual de este elemento
 	SDL_Rect posicion;
 //indicador de bala activa o inactiva
-	bool activa;	
+	bool activa;
+	
 public:
 	BalaView();
 	BalaView(BalaModel * balaModel,SpriteXml * spriteXml);
