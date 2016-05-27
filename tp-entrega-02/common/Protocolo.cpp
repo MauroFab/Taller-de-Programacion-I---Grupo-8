@@ -450,6 +450,7 @@ int Protocolo::decodificar(char * buffer,ElementoXml *elementoXml){
 int Protocolo::codificar(FondoXml &fondoXml,char * buffer){
 	int sizeBytes = fondoXml.getSizeBytes();
 	int id = fondoXml.getId();
+	int idSprite = fondoXml.getIdSprite();
 	char * strIdSprite = fondoXml.getStrIdSprite();
 	char len_strIdSprite = strlen(strIdSprite);
 	int ancho = fondoXml.getAncho();
@@ -460,6 +461,9 @@ int Protocolo::codificar(FondoXml &fondoXml,char * buffer){
 	offset += sizeof(int);
 	
 	memcpy(buffer + offset,&id,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&idSprite,sizeof(int));
 	offset += sizeof(int);
 	
 	memcpy(buffer + offset,&len_strIdSprite,sizeof(char));
@@ -484,6 +488,7 @@ int Protocolo::codificar(FondoXml &fondoXml,char * buffer){
 int Protocolo::decodificar(char * buffer,FondoXml *fondoXml){
 	int sizeBytes = -1;
 	int id = -1;
+	int idSprite = -1;
 	char strIdSprite[MAX_CADENA] = {0};
 	char len_strIdSprite = -1;
 	int ancho = -1;
@@ -493,6 +498,9 @@ int Protocolo::decodificar(char * buffer,FondoXml *fondoXml){
 	offset += sizeof(int);
 	
 	memcpy(&id,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&idSprite,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	
 	memcpy(&len_strIdSprite,buffer + offset,sizeof(char));
@@ -509,6 +517,7 @@ int Protocolo::decodificar(char * buffer,FondoXml *fondoXml){
 	offset += sizeof(int);	
 	
 	fondoXml->setId(id);
+	fondoXml->setIdSprite(idSprite);
 	fondoXml->setStrIdSprite(strIdSprite,len_strIdSprite);
 	fondoXml->setAncho(ancho);
 	fondoXml->setAlto(alto);
