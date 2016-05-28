@@ -53,8 +53,8 @@
 			<id>disparo_1</id>
 			<path>disparo_1.bmp</path>
 			<cantidad>1</cantidad>
-			<ancho>5</ancho>
-			<alto>7</alto>
+			<ancho>11</ancho>
+			<alto>25</alto>
 		</sprite>
 	</sprites>
 	<escenario>
