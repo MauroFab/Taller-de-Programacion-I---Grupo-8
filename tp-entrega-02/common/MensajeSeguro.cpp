@@ -17,7 +17,7 @@ int MensajeSeguro::enviar(SOCKET& sock,char * buffer, int size){
 		return len;
 	len=0;
 	size_t acum=0;
-	while(acum!=tamanio){
+	while(acum<tamanio){
 		len=send(sock,buffer+acum,tamanio,0);
 		if(len<=0)
 			return len;

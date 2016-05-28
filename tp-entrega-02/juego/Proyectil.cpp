@@ -14,8 +14,8 @@ Proyectil::Proyectil(SDL_Renderer* rendererRecibido) {
 	anchoFotograma = balaView->spriteXml->getAncho();
 	cantDeFotogramas = balaView->spriteXml->getCantidad();
 	velocidad = balaView->balaModel->velBala;
+	velocidadY -= velocidad;
 	renderer = rendererRecibido;
-
 	texturaProyectil = new Textura();
 	fotogramas = new SDL_Rect[cantDeFotogramas];
 	
@@ -57,8 +57,6 @@ bool Proyectil::estaEnPantalla() {
 }
 
 void Proyectil::mover() {
-
-	velocidadY -= velocidad;
 	posicionY += velocidadY;
 }
 
