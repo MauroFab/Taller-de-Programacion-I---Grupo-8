@@ -46,8 +46,8 @@
 			<id>avion_3</id>
 			<path>avion_3.bmp</path>
 			<cantidad>6</cantidad>
-			<ancho>102</ancho>
-			<alto>195</alto>
+			<ancho>115</ancho>
+			<alto>202</alto>
 		</sprite>
 		<sprite>
 			<id>disparo_1</id>
