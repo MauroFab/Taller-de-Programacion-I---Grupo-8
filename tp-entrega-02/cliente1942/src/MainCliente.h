@@ -41,7 +41,7 @@
 //FAKE es de falso, bueno este flag esta para trabajar sin cargar los datos
 //pues servidor y puerto los levanta del XML
 //y que se harcodee nombre cuando esta todo hardcodeado no pasa nada
-#define FAKE_DEBUG_CLIENTE		1
+//#define FAKE_DEBUG_CLIENTE		1
 
 using std::string;
 using std::map;

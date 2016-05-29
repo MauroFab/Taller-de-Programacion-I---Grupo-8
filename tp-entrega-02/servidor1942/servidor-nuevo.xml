@@ -1,5 +1,5 @@
 <servidor>
-	<cantidadMaximaClientes>2</cantidadMaximaClientes>
+	<cantidadMaximaClientes>3</cantidadMaximaClientes>
 	<puerto>15636</puerto>
 	<ventana>
 		<ancho>480</ancho>
@@ -22,8 +22,8 @@
 			<alto>12</alto>
 		</sprite>
 		<sprite>
-			<id>carrier</id>
-			<path>carrier.bmp</path>
+			<id>barco</id>
+			<path>barco.bmp</path>
 			<cantidad>1</cantidad>
 			<ancho>10</ancho>
 			<alto>12</alto>
@@ -45,9 +45,9 @@
 		<sprite>
 			<id>avion_3</id>
 			<path>avion_3.bmp</path>
-			<cantidad>1</cantidad>
-			<ancho>1</ancho>
-			<alto>1</alto>
+			<cantidad>6</cantidad>
+			<ancho>102</ancho>
+			<alto>195</alto>
 		</sprite>
 		<sprite>
 			<id>disparo_1</id>
@@ -62,8 +62,8 @@
 		<alto>1000</alto>
 		<fondo>
 			<spriteId>fondo</spriteId>
-			<ancho>10</ancho>
-			<alto>12</alto>
+			<ancho>0</ancho>
+			<alto>0</alto>
 		</fondo>
 		<elementos>
 			<elemento>
@@ -87,22 +87,36 @@
 					<y>50</y>
 				</posicion>
 			</elemento>
+            <elemento>
+                <spriteId>barco</spriteId>
+                <posicion>
+                    <x>250</x>
+                    <y>250</y>
+                </posicion>
+            </elemento>
 		</elementos>
 	</escenario>
 	<aviones>
 	<avion>
 		<velocidadDesplazamiento>10</velocidadDesplazamiento>
-		<velocidadDisparos>10</velocidadDisparos>
+		<velocidadDisparos>3</velocidadDisparos>
 		<avionSpriteId>avion_1</avionSpriteId>
 		<vueltaSpriteId>avion_1</vueltaSpriteId>
 		<disparosSpriteId>disparo_1</disparosSpriteId>
 	</avion>
 	<avion>
 		<velocidadDesplazamiento>10</velocidadDesplazamiento>
-		<velocidadDisparos>10</velocidadDisparos>
+		<velocidadDisparos>3</velocidadDisparos>
 		<avionSpriteId>avion_2</avionSpriteId>
 		<vueltaSpriteId>avion_2</vueltaSpriteId>
 		<disparosSpriteId>disparo_1</disparosSpriteId>
 	</avion>
+        <avion>
+            <velocidadDesplazamiento>10</velocidadDesplazamiento>
+            <velocidadDisparos>3</velocidadDisparos>
+            <avionSpriteId>avion_3</avionSpriteId>
+            <vueltaSpriteId>avion_3</vueltaSpriteId>
+            <disparosSpriteId>disparo_1</disparosSpriteId>
+        </avion>
 	</aviones>
 </servidor>
