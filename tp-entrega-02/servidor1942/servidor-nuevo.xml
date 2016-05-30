@@ -50,6 +50,13 @@
 			<alto>202</alto>
 		</sprite>
 		<sprite>
+			<id>avion_4</id>
+			<path>avion_4.bmp</path>
+			<cantidad>7</cantidad>
+			<ancho>113</ancho>
+			<alto>195</alto>
+		</sprite>
+		<sprite>
 			<id>disparo_1</id>
 			<path>disparo_1.bmp</path>
 			<cantidad>1</cantidad>
@@ -116,6 +123,13 @@
             <velocidadDisparos>6</velocidadDisparos>
             <avionSpriteId>avion_3</avionSpriteId>
             <vueltaSpriteId>avion_3</vueltaSpriteId>
+            <disparosSpriteId>disparo_1</disparosSpriteId>
+        </avion>
+		<avion>
+            <velocidadDesplazamiento>10</velocidadDesplazamiento>
+            <velocidadDisparos>6</velocidadDisparos>
+            <avionSpriteId>avion_4</avionSpriteId>
+            <vueltaSpriteId>avion_4</vueltaSpriteId>
             <disparosSpriteId>disparo_1</disparosSpriteId>
         </avion>
 	</aviones>
