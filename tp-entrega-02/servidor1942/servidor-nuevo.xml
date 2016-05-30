@@ -97,23 +97,23 @@
 		</elementos>
 	</escenario>
 	<aviones>
-	<avion>
-		<velocidadDesplazamiento>10</velocidadDesplazamiento>
-		<velocidadDisparos>3</velocidadDisparos>
-		<avionSpriteId>avion_1</avionSpriteId>
-		<vueltaSpriteId>avion_1</vueltaSpriteId>
-		<disparosSpriteId>disparo_1</disparosSpriteId>
-	</avion>
-	<avion>
-		<velocidadDesplazamiento>10</velocidadDesplazamiento>
-		<velocidadDisparos>3</velocidadDisparos>
-		<avionSpriteId>avion_2</avionSpriteId>
-		<vueltaSpriteId>avion_2</vueltaSpriteId>
-		<disparosSpriteId>disparo_1</disparosSpriteId>
-	</avion>
+		<avion>
+			<velocidadDesplazamiento>10</velocidadDesplazamiento>
+			<velocidadDisparos>6</velocidadDisparos>
+			<avionSpriteId>avion_1</avionSpriteId>
+			<vueltaSpriteId>avion_1</vueltaSpriteId>
+			<disparosSpriteId>disparo_1</disparosSpriteId>
+		</avion>
+		<avion>
+			<velocidadDesplazamiento>10</velocidadDesplazamiento>
+			<velocidadDisparos>6</velocidadDisparos>
+			<avionSpriteId>avion_2</avionSpriteId>
+			<vueltaSpriteId>avion_2</vueltaSpriteId>
+			<disparosSpriteId>disparo_1</disparosSpriteId>
+		</avion>
         <avion>
             <velocidadDesplazamiento>10</velocidadDesplazamiento>
-            <velocidadDisparos>3</velocidadDisparos>
+            <velocidadDisparos>6</velocidadDisparos>
             <avionSpriteId>avion_3</avionSpriteId>
             <vueltaSpriteId>avion_3</vueltaSpriteId>
             <disparosSpriteId>disparo_1</disparosSpriteId>
