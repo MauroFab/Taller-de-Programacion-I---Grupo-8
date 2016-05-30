@@ -97,6 +97,7 @@ public:
 	void enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);	
+	void informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId);
 	int mainPrincipal();
 };
 

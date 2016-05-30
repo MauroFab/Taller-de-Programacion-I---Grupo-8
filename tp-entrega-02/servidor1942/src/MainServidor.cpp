@@ -489,7 +489,43 @@ int MainServidor::consola(void*){
 	return 0;
 }
 
+void MainServidor::informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId){
 
+		/* no me interesa ahora revisar esto, es demasiada informacion en el log
+			printf("Recibido del usuario:%i", mensajeConId->id);
+			printf(" Movimiento id: %d frame: %d x: %d y: %d\n",mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
+
+			stringstream mensajeLog; 
+			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: id: " << mensajeConId->estadoAvionXml.getId() << " frame: " <<  mensajeConId->estadoAvionXml.getFrame() << " x: " << mensajeConId->estadoAvionXml.getPosX() << " y: " << mensajeConId->estadoAvionXml.getPosY();
+			mensajeLog << " SizeBytes:" << mensajeConId->estadoAvionXml.getSizeBytes();
+
+			SDL_LockMutex(mutLogger);
+			Log::getInstance()->debug(mensajeLog.str());
+			SDL_UnlockMutex(mutLogger);
+		*/
+	
+	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
+	//Para todos los usuarios
+	for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
+				//Si el mensaje no vino del usuario i
+				//Si el usuario i esta conectado
+				
+				if(i != mensajeConId->id && usuarios->estaConectado(i)){
+					SDL_LockMutex(mutColaDeUsuario[i]);
+					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
+					EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
+
+					std::list<EstadoProyectilXml*>::iterator it;
+					std::list<EstadoProyectilXml*> listaP = mensajeConId->estadoAvionXml.getEstadosProyectiles();
+
+					for (it = listaP.begin(); it != listaP.end(); it++) {
+						mensajeDeRespuesta->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+					}
+					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
+					SDL_UnlockMutex(mutColaDeUsuario[i]);
+				}
+	}
+}
 /*-------- Funciones publicas --------*/
 
 int MainServidor::mainPrincipal(){
@@ -502,6 +538,7 @@ int MainServidor::mainPrincipal(){
 		mutColaDeUsuario[i] = SDL_CreateMutex();
 	}
 	MensajeConId* mensajeConId;
+	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 
 	printf("\nEscriba 'cerrar' si desea cerrar el servidor\n"); 
 
@@ -513,7 +550,7 @@ int MainServidor::mainPrincipal(){
 	SDL_UnlockMutex(mutLogger);
 
 	
-	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
+	
 	//Este codigo conectado evita que el server empiece realmente si no estan todos conectados,
 	//Y ademas manda el mensaje de reconexion
 	bool seHaIniciadoLaPartida = false;
@@ -532,53 +569,15 @@ int MainServidor::mainPrincipal(){
 		SDL_Delay(100);
 	}
 
+	//Bucle principal sobre el cual se procesan los mensajes
 	while(!seDebeCerrarElServidor) {
-
-		
 		SDL_LockMutex(mutColaPrincipal);
 		if(!colaDeMensaje.empty()) {
-			
-
 			mensajeConId = colaDeMensaje.front();
 			colaDeMensaje.pop();
-
 			SDL_UnlockMutex(mutColaPrincipal);
 			//Una vez sacado el elemento de la cola principal, podemos dejar que los demás threads usen normalmente.
-
-			/* no me interesa ahora revisar esto, es demasiada informacion en el log
-			printf("Recibido del usuario:%i", mensajeConId->id);
-			printf(" Movimiento id: %d frame: %d x: %d y: %d\n",mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
-
-			stringstream mensajeLog; 
-			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: id: " << mensajeConId->estadoAvionXml.getId() << " frame: " <<  mensajeConId->estadoAvionXml.getFrame() << " x: " << mensajeConId->estadoAvionXml.getPosX() << " y: " << mensajeConId->estadoAvionXml.getPosY();
-			mensajeLog << " SizeBytes:" << mensajeConId->estadoAvionXml.getSizeBytes();
-
-			SDL_LockMutex(mutLogger);
-			Log::getInstance()->debug(mensajeLog.str());
-			SDL_UnlockMutex(mutLogger);
-			*/
-
-			//Para todos los usuarios
-			for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
-				//Si el mensaje no vino del usuario i
-				//Si el usuario i esta conectado
-				
-				if(i != mensajeConId->id && usuarios->estaConectado(i)){
-					SDL_LockMutex(mutColaDeUsuario[i]);
-					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-					EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
-
-					std::list<EstadoProyectilXml*>::iterator it;
-					std::list<EstadoProyectilXml*> listaP = mensajeConId->estadoAvionXml.getEstadosProyectiles();
-
-					for (it = listaP.begin(); it != listaP.end(); it++) {
-						mensajeDeRespuesta->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
-					}
-					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
-					SDL_UnlockMutex(mutColaDeUsuario[i]);
-				}
-			}
-			
+			informarATodosLosClientesDelEstadoDelAvion(mensajeConId);
 			delete mensajeConId;
 			//Si la cola estaba vacía, le permito a los demas threads usarla
 		}else{
