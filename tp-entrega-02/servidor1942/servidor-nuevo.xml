@@ -45,7 +45,7 @@
 		<sprite>
 			<id>avion_3</id>
 			<path>avion_3.bmp</path>
-			<cantidad>6</cantidad>
+			<cantidad>7</cantidad>
 			<ancho>115</ancho>
 			<alto>202</alto>
 		</sprite>
