@@ -102,7 +102,7 @@ void AsignadorDeUsuarios::eliminarUsuario(int idUsuario){
 }
 
 void AsignadorDeUsuarios::desconectarUsuario(int idUsuario){
-	int id;
+//	int id;
 	usuario[idUsuario].estaConectado = false;
 	cantidadDeUsuariosActuales--;
 	while(!usuario[idUsuario].colaDeMensajesDeUsuario->empty()){
