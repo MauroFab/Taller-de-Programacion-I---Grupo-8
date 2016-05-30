@@ -196,7 +196,7 @@ Jugador * Juego::getJugador(){
 	return this->jugador;
 }
 
-void Juego::ejecutar(ServidorXml * confServidorXml) {
+void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
 	// Si se pudo iniciar la ventana del juego
 	if(!initSDL())
@@ -227,7 +227,7 @@ void Juego::ejecutar(ServidorXml * confServidorXml) {
 	ConfiguracionJuegoXML::getInstance()->setBalaView(balaView);
 	Graficador::getInstance()->agregarDatosBala(balaView);
 
-	Mapa::getInstace()->inicializar(gRenderer,this->fondoView);
+	Mapa::getInstace()->inicializar(gRenderer,this->fondoView, posicionInicialMapa);
 
 	for(int e = 0; e < this->canElemV; e++){
 		ElementoView * elemV = this->listaElemView[e];

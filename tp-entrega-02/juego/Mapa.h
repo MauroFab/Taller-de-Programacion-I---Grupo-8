@@ -15,13 +15,14 @@ class Mapa
 public:
 	static Mapa* getInstace();
 
-	void inicializar(SDL_Renderer* renderer,FondoView * fondoView);
+	void inicializar(SDL_Renderer* renderer,FondoView * fondoView, int posicionInicial);
 	void reiniciar();
 	~Mapa();
 	void dibujarFondoYElementos();
 	//Las posiciones del mapa empiezan en la 1,1 que es la esquina inferior izquierda.
 	void crearElemento(ElementoView * elementoView);
-
+	int getPosicionMapa();
+	void configurarElMapaConLaPosicion(int pos);
 private:
 
 	static bool instanceFlag;
@@ -32,7 +33,7 @@ private:
 	Textura* texturaMapa;
 	int anchoMapa;
 	int altoMapa;
-	int pixelesAvanzados;
+	int posicionInicial;
 	int scrollingOffset;
 	int tamanioMaximoMapa;
 	SDL_Renderer* renderer;

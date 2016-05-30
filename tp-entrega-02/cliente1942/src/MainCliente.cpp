@@ -249,7 +249,7 @@ int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE		
 	cargarNombreDeUsuario();
 #else
-	this->nombreDeUsuario.assign("cliente-B");
+	this->nombreDeUsuario.assign("cliente-A");
 #endif	
 
 	if(conectado == true){
@@ -311,6 +311,10 @@ int MainCliente::conectar(){
 					// Se decodifica la posicion inicial desde donde arranca el avión
 					offset += Protocolo::decodificar(bufferEntrada + offset, &posicion);
 
+					Posicion posicionMapa;
+					// Se decodifica la posicion del mapa, que tiene solo una componente Y
+					offset += Protocolo::decodificar(bufferEntrada + offset, &posicionMapa);
+
 					//se procede a decodificar el resto del mensaje
 					//se decodifica el escenario completo
 					offset += Protocolo::decodificar(bufferEntrada + offset,this->servidorXml);
@@ -324,7 +328,7 @@ int MainCliente::conectar(){
 
 					Juego::getInstance()->readServidorXml(this->servidorXml);
 					Juego::getInstance()->agregarObservador(this);
-					Juego::getInstance()->ejecutar(this->servidorXml);
+					Juego::getInstance()->ejecutar(this->servidorXml, posicionMapa.getPosY());
 
 					// esto para desconectar al cliente al presionar la x del SDL_window
 					SDL_Delay(1000);

@@ -12,10 +12,13 @@ public:
 private:
 	bool apareceDesdeAfuera(int yMaxPantalla, int yMinPantalla);
 	bool estaEnPantalla(int yMaxPantalla,int  yMinPantalla);
+	bool aparezcoDesdeAfuera;
+	int posicionInicialPantalla;
 	int x;
 	int y;
 	int yInicialParaGraficar;
 	int offset;
+	bool meHanGraficadoAlgunaVez;
 	SDL_Renderer* gRenderer;
 	Textura* textura;
 };

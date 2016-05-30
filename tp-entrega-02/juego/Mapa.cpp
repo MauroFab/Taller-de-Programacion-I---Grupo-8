@@ -12,7 +12,7 @@ Mapa* Mapa::getInstace() {
     return instance;
 }
 
-void Mapa::inicializar(SDL_Renderer* rendererRecibido,FondoView * fondoView) {
+void Mapa::inicializar(SDL_Renderer* rendererRecibido,FondoView * fondoView, int posicionInicial) {
 	char * pathFondo = fondoView->spriteXml->getPath();
 	ConfiguracionJuegoXML* configJuego = ConfiguracionJuegoXML::getInstance();
 
@@ -31,11 +31,10 @@ void Mapa::inicializar(SDL_Renderer* rendererRecibido,FondoView * fondoView) {
 	*/
 	anchoMapa = texturaMapa->getWidth();
 	altoMapa = texturaMapa->getHeight();	
+	this->getInstace()->configurarElMapaConLaPosicion(posicionInicial);
 }
 
 Mapa::Mapa(){
-	
-	pixelesAvanzados = 0;
 	scrollingOffset = 0;
 	cantidadDePixelesQuePasaron = 0;
 }
@@ -92,4 +91,12 @@ void Mapa::crearElemento(ElementoView * elementoView){
 	ElementoDelMapa* elementoDelMapa;
 	elementoDelMapa = new ElementoDelMapa(elementoView->posicion.x,elementoView->posicion.y, renderer,texturaElemento);
 	elementosDelMapa.push_back(elementoDelMapa);
+}
+
+void Mapa::configurarElMapaConLaPosicion(int posicion){
+	cantidadDePixelesQuePasaron = posicion;
+	scrollingOffset = (posicion % altoMapa);
+}
+int Mapa::getPosicionMapa(){
+	return cantidadDePixelesQuePasaron;
 }

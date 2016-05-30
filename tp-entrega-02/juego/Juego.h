@@ -55,7 +55,7 @@ public:
 	//se lee el servidorXML como un objeto generico
 	int readFrom(IGenericaVO * objetoXML);
 
-	void ejecutar(ServidorXml * confServidorXml);
+	void ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa);
 	void close();
 	void actualizarMovimientos(EstadoAvion* estadoAvion);
 	void setJugar();
