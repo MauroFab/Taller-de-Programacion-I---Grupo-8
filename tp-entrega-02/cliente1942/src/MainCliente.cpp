@@ -307,12 +307,11 @@ int MainCliente::conectar(){
 					char* idUsuario = mensaXml.getValor();
 
 					Posicion posicion;
-
 					// Se decodifica la posicion inicial desde donde arranca el avión
 					offset += Protocolo::decodificar(bufferEntrada + offset, &posicion);
 
 					Posicion posicionMapa;
-					// Se decodifica la posicion del mapa, que tiene solo una componente Y
+					// Se decodifica la posicion del mapa, que tiene solo una componente: Y
 					offset += Protocolo::decodificar(bufferEntrada + offset, &posicionMapa);
 
 					//se procede a decodificar el resto del mensaje

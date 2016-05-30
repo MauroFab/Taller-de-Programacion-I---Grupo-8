@@ -319,7 +319,7 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 	mensajeEnvio.calculateSizeBytes();
 	offset += Protocolo::codificar(mensajeEnvio,buffEnvio + offset);
 
-	// Posicion de inicio
+	// Posicion de inicio del avión
 	Posicion* pos;
 	Posicion posAEnviar;
 	pos = usuarios->getPosicionDeUsuario(idUsuario);
@@ -328,10 +328,7 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 	posAEnviar.calculateSizeBytes();
 	offset += Protocolo::codificar(posAEnviar, buffEnvio + offset);
 
-	//Posicion del mapa
-	
-	pos = usuarios->getPosicionDeUsuario(idUsuario);
-
+	//Posicion de inicio del mapa
 	//Por ahora la posicion inicial del mapa (En Y es la que importa) queda hardcodeada en 0
 	//Hay que tomarla de algun cliente
 	Posicion posDelMapa;
@@ -339,6 +336,7 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 	posDelMapa.setPosY(0);
 	posDelMapa.calculateSizeBytes();
 	offset += Protocolo::codificar(posDelMapa, buffEnvio + offset);
+
 	// XML de configuracion 
 	offset += Protocolo::codificar(*this->servidorXml,buffEnvio + offset);
 
