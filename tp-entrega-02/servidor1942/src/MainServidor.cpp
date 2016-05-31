@@ -349,7 +349,14 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 
 	//Si no tengo una posicion del mapa que sirva, pido una
 	Posicion posDelMapa;
-	
+
+	//Si estoy solo yo conectado, no puedo pedirle la posicion del mapa a ningun cliente, asi que
+	//La pongo en 0
+	if(usuarios->cantidadDeUsuarios() == 1 && !seActualizoLaUltimaPosicionDelMapa){
+		posicionDelMapa = 0;
+		seActualizoLaUltimaPosicionDelMapa = true;
+	}
+
 	if(!seActualizoLaUltimaPosicionDelMapa){
 		clienteQueSolitaElEstado = idUsuario;
 		solicitarLaUltimaPosicionDelMapaAUnCliente();
