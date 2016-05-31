@@ -100,7 +100,7 @@ private:
 	void cargarIP();
 	void cargarPuerto();
 
-	virtual void actualizar(void* argv[]);
+	virtual int actualizar(void* argv[]);
 };
 
 #endif //_MAINCLIENTE_H_

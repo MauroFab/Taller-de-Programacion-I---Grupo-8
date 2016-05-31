@@ -75,7 +75,7 @@ int MainCliente::chequearConexion(int len){
 	if (len == 0){
 		printf("\n No llego el mensaje, se desconecto el servidor\n");
 		conectado=false;
-		system("PAUSE");
+		// system("PAUSE");
 		return -1;
 	}
 	else if (len < 0){
@@ -88,7 +88,7 @@ int MainCliente::chequearConexion(int len){
 			printf("\nRed caida\n");
 		else
 			printf("\nError en conexion con el servidor\n");
-		system("PAUSE");
+		// system("PAUSE");
 		return -1;
 	}
 
@@ -520,7 +520,7 @@ int MainCliente::menu(){
 	return 0;
 }
 
-void MainCliente::actualizar(void* argv[]){
+int MainCliente::actualizar(void* argv[]){
 
 	EstadoAvion* mov = (EstadoAvion*)argv[0];
 
@@ -536,9 +536,10 @@ void MainCliente::actualizar(void* argv[]){
 	char * buffEnvio = new char[MAX_BUFFER];
 	int sizeBytesTotalLista = Protocolo::codificar(*msjMov,buffEnvio);
 	// TODO: test
-
-	if(chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista))<0) { //enviar el texto que se ha introducido
-		printf("No se pudo enviar el movimiento");
+	int estado=0;
+	if((estado=chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista)))<0) { //enviar el texto que se ha introducido
+		printf("No se pudo enviar el movimiento, el cliente termina \n");
+		system("PAUSE");
 		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
 	}
 
@@ -548,4 +549,5 @@ void MainCliente::actualizar(void* argv[]){
 	delete[] buffEnvio;
 	delete msjMov;
 	delete mov;
+	return estado;
 }

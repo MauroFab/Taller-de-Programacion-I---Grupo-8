@@ -304,7 +304,8 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
 			if( e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_r){
 				//Ese movimiento indica a los demas clientes que deben reiniciar el mapa
-				notificarMovimiento(new EstadoAvion(-2,0,0,0));
+				if(notificarMovimiento(new EstadoAvion(-2,0,0,0))<0)
+				quit=true;
 				//Mapa::getInstace()->reiniciar();
 			}
 			// Registrar mov del teclado
@@ -320,8 +321,8 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
 		Avion::getInstance()->mover();
 
-		notificarMovimiento(Avion::getInstance()->getEstado());
-
+		if(notificarMovimiento(Avion::getInstance()->getEstado())<0)
+		quit = true;
 		//Render sprite
 		Avion::getInstance()->render();
 
@@ -345,9 +346,9 @@ void Juego::actualizarMovimientos(EstadoAvion* estadoAvion){
 	SDL_mutexV(mut);
 }
 
-void Juego::notificarMovimiento(EstadoAvion* estadoAvion){
+int Juego::notificarMovimiento(EstadoAvion* estadoAvion){
 	vector<void*> argv;
 	argv.push_back(estadoAvion);
-	notificar(&argv[0]);
+	return notificar(&argv[0]);
 }
 
