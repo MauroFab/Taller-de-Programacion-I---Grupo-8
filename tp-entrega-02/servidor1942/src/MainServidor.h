@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <queue>     
+#include <queue>
 #include <vector>
 #include <algorithm>
 #include <sstream>
@@ -51,10 +51,10 @@ private:
 	int posicionDelMapa;
 	bool seActualizoLaUltimaPosicionDelMapa;
 	void solicitarLaUltimaPosicionDelMapaAUnCliente();
-	
+
 	int puerto;
 	MainServidor();
-	
+
 	ServidorXml * servidorXml; //se almancena todo el modelo parseado
 	bool seDebeCerrarElServidor;
 	std::queue<MensajeConId*> colaDeMensaje;
@@ -65,20 +65,13 @@ private:
 	SDL_mutex **mutColaDeUsuario;
 	SDL_mutex *mutLogger;
 
-
-	/*Funciones*/
-
-	
-
-
-
 public:
 
 	/*Funciones*/
 
 	static MainServidor* getInstance();
 	virtual ~MainServidor();
-	void parsearArchivoXml(int argc, char* argv[]);		
+	void parsearArchivoXml(int argc, char* argv[]);
 
 	/*Funciones estatáticas ultilizadas como puntero a función*/
 
@@ -86,9 +79,9 @@ public:
 	static int fun_recibirConexiones(void*);
 	static int fun_consola(void*);
 	static int fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
-	
+
 	SOCKET obtenerSocketInicializado(sockaddr_in &local);
-	
+
 	void ponerAEscuchar(SOCKET sock);
 	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,EstadoAvionXml* pMsj);
 	void grabarEnElLogLaDesconexion(int len);
@@ -106,9 +99,15 @@ public:
 	int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
 	void enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* socket);
 	void actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvionXml* estadoAvion);
+	/**
+	 * crea un MensajeXml temporalmente que luego enviar por un socket
+	 * @param  socket socket del cliente al que se enviara el mensajeXML
+	 * @param mensajeStr cadena de texto que contiene el mensaje a enviar
+	 */
+	void sendMensajeXml(SOCKET* socket,char * mensajeStr);
 	void enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
-	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);	
+	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);
 	void informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId);
 	void informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa();
 	int mainPrincipal();
