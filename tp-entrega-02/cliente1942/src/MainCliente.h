@@ -85,6 +85,7 @@ public:
 	int conectar();
 	int desconectar();
 	int salir();
+	int terminarElCliente();
 	int enviar();
 
 private:

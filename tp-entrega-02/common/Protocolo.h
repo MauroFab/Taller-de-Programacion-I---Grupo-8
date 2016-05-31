@@ -20,10 +20,10 @@
 #define MAX_BUFFER	4096
 //TODO corregir
 
-#define FAKE_MENSAJE_01 "Conexion aceptada."
-#define FAKE_MENSAJE_02	"Conexion rechazada. Se ha superado la cantidad maxima de conexiones. Vuelva a intentar mas tarde."
-#define FAKE_MENSAJE_03 "Nombre de usuario existente y conectado en este momento. Vuelva a intentar con otro."
-#define FAKE_MENSAJE_04 "Comenzar Juego"
+#define MSJ_CONEX_ACEPT "Conexion aceptada."
+#define MSJ_SUPERO_MAX	"Conexion rechazada. Se ha superado la cantidad maxima de conexiones. Vuelva a intentar mas tarde."
+#define MSJ_USR_YA_CONECT "Nombre de usuario existente y conectado en este momento. Vuelva a intentar con otro."
+#define MSJ_COMENZAR_JUEGO "Comenzar Juego"
 //si este flag existe, entonces se muestran todos los mensajes de debug del protocolo
 //se comenta o descomenta esta linea
 //#define FAKE_DEBUG_PROTO 1

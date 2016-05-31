@@ -281,7 +281,7 @@ int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE		
 	cargarNombreDeUsuario();
 #else
-	this->nombreDeUsuario.assign("cliente-A");
+	this->nombreDeUsuario.assign("cliente-F");
 #endif	
 
 	if(conectado == true){
@@ -327,7 +327,7 @@ int MainCliente::conectar(){
 				int offset = Protocolo::decodificar(bufferEntrada,&mensaXml);
 				char * respuesta = mensaXml.getValor();
 
-				if (strcmp(respuesta,FAKE_MENSAJE_01) == 0){
+				if (strcmp(respuesta,MSJ_CONEX_ACEPT) == 0){
 
 					// Si el server nos envia respuesta es que la conexion ha sido satisfactoria
 					Log::getInstance()->info("El cliente se ha conectado correctamente.");
@@ -361,26 +361,23 @@ int MainCliente::conectar(){
 					Juego::getInstance()->agregarObservador(this);
 					Juego::getInstance()->initSDL();
 					Juego::getInstance()->ejecutar(this->servidorXml, posicionMapa.getPosY());
-
-					// esto para desconectar al cliente al presionar la x del SDL_window
-					SDL_Delay(1000);
-					this->salir();
-					this->opt=OPT_SALIR;
+					// se termina el programa cuando el usuario hace click en x del SDL_window
+				terminarElCliente();
 				}
-				else if (strcmp(respuesta,FAKE_MENSAJE_02) == 0){
+				else if (strcmp(respuesta,MSJ_SUPERO_MAX) == 0){
 					// El server envia un mensaje al superar la cantidad de clientes
 
 					Log::getInstance()->error(bufferEntrada);
-					printf("Respuesta servidor:> %s\n",FAKE_MENSAJE_02);
+					printf("Respuesta servidor:> %s\n",MSJ_SUPERO_MAX);
 
 					shutdown(sock,2);
 					closesocket(sock);
 				}
-				else if (strcmp(respuesta, FAKE_MENSAJE_03) == 0) {
+				else if (strcmp(respuesta, MSJ_USR_YA_CONECT) == 0) {
 					// El server ya tiene un usuario igual y está conectado
 
 					Log::getInstance()->error(bufferEntrada);
-					printf("Respuesta servidor:> %s\n",FAKE_MENSAJE_03);
+					printf("Respuesta servidor:> %s\n",MSJ_USR_YA_CONECT);
 
 					desconectar();
 				}
@@ -389,7 +386,13 @@ int MainCliente::conectar(){
 	}
 	return 0;
 }
-
+int MainCliente::terminarElCliente(){
+	
+	SDL_Delay(1000);
+	this->salir();
+	this->opt=OPT_SALIR;
+	return 0;
+}
 int MainCliente::desconectar(){
 	shutdown(sock,2);
 	closesocket(sock);
@@ -407,6 +410,7 @@ int MainCliente::salir(){
 	return 0;
 }
 
+/*
 int MainCliente::enviar(){
 	if(!conectado){
 		Log::getInstance()->info(" Debe conectarse para enviar/recibir mensajes.");
@@ -468,6 +472,7 @@ int MainCliente::enviar(){
 	system("PAUSE");
 	return 0;
 }
+/*
 
 /**
 * muestra el menu y direcciona a las opciones

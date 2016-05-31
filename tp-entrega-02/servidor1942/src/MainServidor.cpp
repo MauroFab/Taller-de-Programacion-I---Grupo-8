@@ -297,7 +297,7 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 	char buffEnvio[MAX_BUFFER];
 	int offset = 0;
 	MensajeXml mensajeEnvio;
-	mensajeEnvio.setValor(FAKE_MENSAJE_01, strlen(FAKE_MENSAJE_01));
+	mensajeEnvio.setValor(MSJ_CONEX_ACEPT, strlen(MSJ_CONEX_ACEPT));
 	mensajeEnvio.setTipo(TIPO_STRING);
 	mensajeEnvio.calculateSizeBytes();
 	offset = Protocolo::codificar(mensajeEnvio,buffEnvio + offset);
@@ -360,11 +360,11 @@ void MainServidor::sendMensajeXml(SOCKET* socket,char * mensajeStr){
 }
 
 void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket){
-	sendMensajeXml(socket,FAKE_MENSAJE_02);
+	sendMensajeXml(socket,MSJ_SUPERO_MAX);
 }
 
 void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket){
-	sendMensajeXml(socket,FAKE_MENSAJE_03);
+	sendMensajeXml(socket,MSJ_USR_YA_CONECT);
 }
 
 void MainServidor::enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(SOCKET* socket){
@@ -431,7 +431,7 @@ int MainServidor::recibirConexiones(void*){
 				}else if(!usuarios->puedoTenerUsuariosNuevos()){
 					//Este no es el mensaje adecuado, habria que poner un mensaje del estilo
 					//La partida esta llena
-					enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(socketConexion);
+					enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(socketConexion);
 				}
 			} else {
 				free(socketConexion);
