@@ -17,9 +17,17 @@ AsignadorDeUsuarios::~AsignadorDeUsuarios(void)
 
 }
 
-bool AsignadorDeUsuarios::puedoTenerMasUsuarios(void)
+bool AsignadorDeUsuarios::elServidorEstaLleno(void)
 {
-	return (cantidadDeUsuariosActuales < cantidadMaximaDeUsuarios);
+	return (cantidadDeUsuariosActuales >= cantidadMaximaDeUsuarios);
+}
+bool AsignadorDeUsuarios::puedoTenerUsuariosNuevos(){
+	int cantidadDeUsuariosQueSeCrearon = 0;
+	for(int i = 0; i< cantidadMaximaDeUsuarios; i++){
+		if(usuario[i].estaAsignado)
+			cantidadDeUsuariosQueSeCrearon++;
+	}
+	return (cantidadDeUsuariosQueSeCrearon < cantidadMaximaDeUsuarios);
 }
 
 bool AsignadorDeUsuarios::nombreDeUsuarioExistente(string nombreDeUsuarioRecibido){
@@ -80,7 +88,7 @@ int AsignadorDeUsuarios::crearUsuarioYObtenerId(string nombre){
 	
 	int idNuevoUsuario = -1;
 	
-	if (puedoTenerMasUsuarios()){
+	if (!elServidorEstaLleno()){
 
 		idNuevoUsuario = obtenerUnaIdLibre();
 		usuario[idNuevoUsuario].estaAsignado = true;

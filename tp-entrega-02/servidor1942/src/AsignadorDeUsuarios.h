@@ -19,7 +19,7 @@ class AsignadorDeUsuarios
 public:
 	AsignadorDeUsuarios(int usuariosMaximos);
     ~AsignadorDeUsuarios();
-	bool puedoTenerMasUsuarios();
+	bool elServidorEstaLleno();
 	int crearUsuarioYObtenerId(string usuario);
 	void eliminarUsuario(int idUsuario);
 	int cantidadDeUsuarios();
@@ -34,8 +34,9 @@ public:
 	int getCantidadMaximaDeUsuarios();
 	Posicion* getPosicionDeUsuario(int idUsuario);
 	void setPosicionAUsuario(int idUsuario, Posicion pos);
-
+	bool puedoTenerUsuariosNuevos();
 private:
+	
 	Usuario* usuario;
 	int idUsuarioLlamado(string nombre);
 	int cantidadMaximaDeUsuarios;

@@ -423,6 +423,7 @@ void MainServidor::enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(SOCKET* socket)
 	size =Protocolo::codificar(*estadoEmpezoLaPartida, buffEnvio);
 	MensajeSeguro::enviar(*socket, buffEnvio, size);
 }
+
 int MainServidor::recibirConexiones(void*){
 
 	struct sockaddr_in local;
@@ -443,7 +444,7 @@ int MainServidor::recibirConexiones(void*){
 		socketConexion=(SOCKET*)malloc(sizeof(SOCKET)); // se usa malloc porque de otra forma siempre usas el mismo socket
 
 		*socketConexion=accept(socketDeEscucha,(sockaddr*)&local,&len);
-		if(usuarios->puedoTenerMasUsuarios()){ 
+		if(!usuarios->elServidorEstaLleno()){ 
 			if (*socketConexion != INVALID_SOCKET) {
 
 				printf("Nueva conexion aceptada\n"); 
@@ -474,8 +475,8 @@ int MainServidor::recibirConexiones(void*){
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
 					}
-				//Si el nombre de usuario no estaba registrado
-				} else {
+				//Si el nombre de usuario no estaba registrado y puedo tener mas usuarios, creo uno
+				} else if(usuarios->puedoTenerUsuariosNuevos()) {
 						
 						idYPunteroAlSocket.id = usuarios->crearUsuarioYObtenerId(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
@@ -483,7 +484,7 @@ int MainServidor::recibirConexiones(void*){
 						printf("La cantidad de clientes conectados es: %d\n",usuarios->cantidadDeUsuarios()); 
 						printf("La id del nuevo usuario es: %d\n",idYPunteroAlSocket.id); 
 
-						if(usuarios->puedoTenerMasUsuarios()){
+						if(!usuarios->elServidorEstaLleno()){
 							printf("Todavia se pueden tener mas usuarios\n");
 						}else{
 							printf("Se ha alcanzado el limite de usuarios");
@@ -494,6 +495,8 @@ int MainServidor::recibirConexiones(void*){
 
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
+				}else if(!usuarios->puedoTenerUsuariosNuevos()){
+					enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(socketConexion);
 				}
 
 			} else {
@@ -636,7 +639,7 @@ int MainServidor::mainPrincipal(){
 		//Acá volvemos a aclarar que sigue estando actualizada
 		seActualizoLaUltimaPosicionDelMapa = true;
 		//Cuando estoy lleno, le aviso a todos los jugadores que la partida comienza
-		if(!usuarios->puedoTenerMasUsuarios()){
+		if(usuarios->elServidorEstaLleno()){
 			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
 				SDL_LockMutex(mutColaDeUsuario[i]);
 				colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
