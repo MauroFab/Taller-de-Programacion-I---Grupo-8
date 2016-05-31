@@ -51,7 +51,7 @@ private:
 	int posicionDelMapa;
 	bool seActualizoLaUltimaPosicionDelMapa;
 	void solicitarLaUltimaPosicionDelMapaAUnCliente();
-
+	
 	int puerto;
 	MainServidor();
 	
@@ -98,7 +98,8 @@ public:
 	bool esUnMensajeIndicandoQueNecesitoUnEstadoMapa(MensajeConId* mensajeConId);
 	bool esUnEstadoMapa(EstadoAvionXml* estadoAvionXml);
 	bool esUnEstadoAvion(EstadoAvionXml* estadoAvionXml);
-
+	bool esUnMensajeIndicandoQueSeDebeReiniciarElMapa(MensajeConId* estadoAvionXml);
+	bool indicaUnReinicioDelMapa(EstadoAvionXml* estadoAvionXml);
 	int atenderCliente(void* punteroAlSocketRecibido);
 	int recibirConexiones(void*);
 	int consola(void*);

@@ -228,6 +228,10 @@ bool MainServidor::esUnMensajeDeUnEstadoAvion(MensajeConId* mensajeConId){
 bool MainServidor::esUnEstadoMapa(EstadoAvionXml* estadoAvionXml){
 	return(estadoAvionXml->getId() == -3);
 }
+
+bool MainServidor::indicaUnReinicioDelMapa(EstadoAvionXml* estadoAvionXml){
+	return(estadoAvionXml->getId() == -2);
+}
 int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 
 	int len;
@@ -274,6 +278,10 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 			} else if(esUnEstadoMapa(stAvionXml)){
 				posicionDelMapa = stAvionXml->getPosY();
 				seActualizoLaUltimaPosicionDelMapa = true;
+			} else if(indicaUnReinicioDelMapa(stAvionXml)){
+				SDL_LockMutex(mutColaPrincipal);
+				guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
+				SDL_UnlockMutex(mutColaPrincipal);
 			}
 		}else if(!esElPrimerMensajeDelEstadoDeUnAvion){
 			grabarEnElLogLaDesconexion(len);
@@ -587,6 +595,10 @@ void MainServidor::informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa(){
 		SDL_UnlockMutex(mutColaDeUsuario[i]);
 	}
 }
+
+bool MainServidor::esUnMensajeIndicandoQueSeDebeReiniciarElMapa(MensajeConId* mensajeConId){
+	return(mensajeConId->estadoAvionXml.getId() == -2);
+}
 /*-------- Funciones publicas --------*/
 
 int MainServidor::mainPrincipal(){
@@ -644,7 +656,7 @@ int MainServidor::mainPrincipal(){
 			colaDeMensaje.pop();
 			SDL_UnlockMutex(mutColaPrincipal);
 			//Una vez sacado el elemento de la cola principal, podemos dejar que los demás threads usen normalmente.
-			if(esUnMensajeDeUnEstadoAvion(mensajeConId)){
+			if(esUnMensajeDeUnEstadoAvion(mensajeConId) || esUnMensajeIndicandoQueSeDebeReiniciarElMapa(mensajeConId)){
 				informarATodosLosClientesDelEstadoDelAvion(mensajeConId);
 			}else if(esUnMensajeIndicandoQueNecesitoUnEstadoMapa(mensajeConId)){
 				informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa();
