@@ -440,17 +440,6 @@ int MainServidor::consola(void*){
 	return 0;
 }
 void MainServidor::informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId){
-		/* no me interesa ahora revisar esto, es demasiada informacion en el log
-			printf("Recibido del usuario:%i", mensajeConId->id);
-			printf(" Movimiento id: %d frame: %d x: %d y: %d\n",mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
-			stringstream mensajeLog;
-			mensajeLog << "Usuario " << mensajeConId->id << " Movimiento: id: " << mensajeConId->estadoAvionXml.getId() << " frame: " <<  mensajeConId->estadoAvionXml.getFrame() << " x: " << mensajeConId->estadoAvionXml.getPosX() << " y: " << mensajeConId->estadoAvionXml.getPosY();
-			mensajeLog << " SizeBytes:" << mensajeConId->estadoAvionXml.getSizeBytes();
-			SDL_LockMutex(mutLogger);
-			Log::getInstance()->debug(mensajeLog.str());
-			SDL_UnlockMutex(mutLogger);
-		*/
-
 	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 	//Para todos los usuarios
 	for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
@@ -460,13 +449,13 @@ void MainServidor::informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mens
 				if(i != mensajeConId->id && usuarios->estaConectado(i)){
 					SDL_LockMutex(mutColaDeUsuario[i]);
 					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-					EstadoAvionXml* mensajeDeRespuesta = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
+					EstadoAvionXml* pEstadoAvionXml = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
 					std::list<EstadoProyectilXml*>::iterator it;
 					std::list<EstadoProyectilXml*> listaP = mensajeConId->estadoAvionXml.getEstadosProyectiles();
 					for (it = listaP.begin(); it != listaP.end(); it++) {
-						mensajeDeRespuesta->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+						pEstadoAvionXml->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
 					}
-					colaDeMensajesDelUsuario->push(mensajeDeRespuesta);
+					colaDeMensajesDelUsuario->push(pEstadoAvionXml);
 					SDL_UnlockMutex(mutColaDeUsuario[i]);
 				}
 	}
