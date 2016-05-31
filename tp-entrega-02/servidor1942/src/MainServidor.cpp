@@ -496,6 +496,8 @@ int MainServidor::recibirConexiones(void*){
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
 				}else if(!usuarios->puedoTenerUsuariosNuevos()){
+					//Este no es el mensaje adecuado, habria que poner un mensaje del estilo
+					//La partida esta llena
 					enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(socketConexion);
 				}
 
