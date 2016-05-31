@@ -47,6 +47,11 @@ private:
     static MainServidor *single;
 	AsignadorDeUsuarios *usuarios;
 
+	int clienteQueSolitaElEstado;
+	int posicionDelMapa;
+	bool seActualizoLaUltimaPosicionDelMapa;
+	void solicitarLaUltimaPosicionDelMapaAUnCliente();
+
 	int puerto;
 	MainServidor();
 	
@@ -87,17 +92,24 @@ public:
 	void ponerAEscuchar(SOCKET sock);
 	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,EstadoAvionXml* pMsj);
 	void grabarEnElLogLaDesconexion(int len);
+
 	bool seguimosConectados(int len);
+	bool esUnMensajeDeUnEstadoAvion(MensajeConId* mensajeConId);
+	bool esUnMensajeIndicandoQueNecesitoUnEstadoMapa(MensajeConId* mensajeConId);
+	bool esUnEstadoMapa(EstadoAvionXml* estadoAvionXml);
+	bool esUnEstadoAvion(EstadoAvionXml* estadoAvionXml);
 
 	int atenderCliente(void* punteroAlSocketRecibido);
 	int recibirConexiones(void*);
 	int consola(void*);
 	int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
 	void enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* socket);
+	void actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvionXml* estadoAvion);
 	void enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);	
 	void informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId);
+	void informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa();
 	int mainPrincipal();
 };
 

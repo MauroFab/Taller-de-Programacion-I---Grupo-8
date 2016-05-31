@@ -165,12 +165,10 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 			stAvionXml = colaDeMensajesParaEnviar->front();
 			colaDeMensajesParaEnviar->pop();
 			SDL_UnlockMutex(mutColaDeUsuario[id]);
-			if(stAvionXml->getId() > -3){
-				char buffEnvio[MAX_BUFFER];
-				stAvionXml->calculateSizeBytes();
-				int sizeEnvio = Protocolo::codificar(*stAvionXml,buffEnvio);
-				MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
-			}
+			char buffEnvio[MAX_BUFFER];
+			stAvionXml->calculateSizeBytes();
+			int sizeEnvio = Protocolo::codificar(*stAvionXml,buffEnvio);
+			MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
 			delete stAvionXml; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
 		}else{//Si la cola estaba vacía, permito que los demas threads usen la cola
 			SDL_UnlockMutex(mutColaDeUsuario[id]);
@@ -215,8 +213,21 @@ void MainServidor::grabarEnElLogLaDesconexion(int len){
 bool MainServidor::seguimosConectados(int len){
 	return(len > 0);
 }
-
-
+bool MainServidor::esUnEstadoAvion(EstadoAvionXml* estadoAvionXml){
+	return(estadoAvionXml->getId() >= 0);
+}
+void MainServidor::actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvionXml* estadoAvion){
+	Posicion posicion;
+	posicion.setPosX(estadoAvion->getPosX());
+	posicion.setPosY(estadoAvion->getPosY());
+	usuarios->setPosicionAUsuario(id, posicion);
+}
+bool MainServidor::esUnMensajeDeUnEstadoAvion(MensajeConId* mensajeConId){
+	return(mensajeConId->estadoAvionXml.getId() != -3);
+}
+bool MainServidor::esUnEstadoMapa(EstadoAvionXml* estadoAvionXml){
+	return(estadoAvionXml->getId() == -3);
+}
 int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 
 	int len;
@@ -241,32 +252,30 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 	structParaEnviar->seCerroLaConexion = seCerroLaConexion;
 	threadDeEnvioDeMensajes = SDL_CreateThread(MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos, "mensajesParaElCliente", (void*) structParaEnviar);
 
-	bool esElPrimerMensaje = true;
+	bool esElPrimerMensajeDelEstadoDeUnAvion = true;
 	while (seguimosConectados(len) && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
 		
 		EstadoAvionXml *stAvionXml;
 		len=MensajeSeguro::recibir(socket,bufferEntrada);
 		
 		if (seguimosConectados(len)){
-			if(!esElPrimerMensaje)
+			if(!esElPrimerMensajeDelEstadoDeUnAvion)
 				delete stAvionXml;
-			esElPrimerMensaje = false;
+			
 			stAvionXml = new EstadoAvionXml();
 			Protocolo::decodificar(bufferEntrada,stAvionXml);
 
-			// Se actualiza la posicion del avión en el asignador de usuarios
-			Posicion posicion;
-
-			posicion.setPosX(stAvionXml->getPosX());
-			posicion.setPosY(stAvionXml->getPosY());
-			usuarios->setPosicionAUsuario(id, posicion);
-
-			SDL_LockMutex(mutColaPrincipal);
-			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
-			SDL_UnlockMutex(mutColaPrincipal);
-
-		}else{
-			if(!esElPrimerMensaje){
+			if(esUnEstadoAvion(stAvionXml)){
+				esElPrimerMensajeDelEstadoDeUnAvion = false;
+				actualizarLaUltimaPosicionDelUsuario(id, stAvionXml);
+				SDL_LockMutex(mutColaPrincipal);
+				guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
+				SDL_UnlockMutex(mutColaPrincipal);
+			} else if(esUnEstadoMapa(stAvionXml)){
+				posicionDelMapa = stAvionXml->getPosY();
+				seActualizoLaUltimaPosicionDelMapa = true;
+			}
+		}else if(!esElPrimerMensajeDelEstadoDeUnAvion){
 			grabarEnElLogLaDesconexion(len);
 			// El frame 42 es el grisado
 			stAvionXml->setFrame(42);
@@ -275,7 +284,6 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
 			SDL_UnlockMutex(mutColaPrincipal);
 			delete stAvionXml;
-			}
 		}
 	}
 
@@ -300,7 +308,18 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 
 	return 0;
 }
-
+void MainServidor::solicitarLaUltimaPosicionDelMapaAUnCliente(){
+	EstadoAvionXml *stAvionXml;
+	stAvionXml = new EstadoAvionXml();
+	char bufferEntrada[MAX_BUFFER];
+	SDL_LockMutex(mutColaPrincipal);
+	//Necesito enviar un mensaje para pedir la ultima posicion,
+	//Por ahora un -3 en la id le indicara al cliente que necesito la ultima posicion
+	stAvionXml->setId(-3);
+	guardarElMensajeEnLaColaPrincipal(bufferEntrada, -3,stAvionXml);
+	SDL_UnlockMutex(mutColaPrincipal);
+	delete stAvionXml;
+}
 void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* socket){
 
 	// Mensaje de conexion exitosa
@@ -328,15 +347,27 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 	posAEnviar.calculateSizeBytes();
 	offset += Protocolo::codificar(posAEnviar, buffEnvio + offset);
 
-	//Posicion de inicio del mapa
-	//Por ahora la posicion inicial del mapa (En Y es la que importa) queda hardcodeada en 0
-	//Hay que tomarla de algun cliente
+	//Si no tengo una posicion del mapa que sirva, pido una
 	Posicion posDelMapa;
+	
+	if(!seActualizoLaUltimaPosicionDelMapa){
+		clienteQueSolitaElEstado = idUsuario;
+		solicitarLaUltimaPosicionDelMapaAUnCliente();
+	}
+	//Espero a tener una posicion del mapa en el juego actual
+	while(!seActualizoLaUltimaPosicionDelMapa){
+		
+	}
+	//Si la posicion del mapa ya se uso, ya no sirve para otro cliente, asi que pongo que no esta actualizada
+	seActualizoLaUltimaPosicionDelMapa = false;
+
+	//Codifico la posicion y la envio
 	posDelMapa.setPosX(0);
-	posDelMapa.setPosY(0);
+	posDelMapa.setPosY(posicionDelMapa);
 	posDelMapa.calculateSizeBytes();
 	offset += Protocolo::codificar(posDelMapa, buffEnvio + offset);
 
+	
 	// XML de configuracion 
 	offset += Protocolo::codificar(*this->servidorXml,buffEnvio + offset);
 
@@ -526,6 +557,29 @@ void MainServidor::informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mens
 				}
 	}
 }
+
+
+bool MainServidor::esUnMensajeIndicandoQueNecesitoUnEstadoMapa(MensajeConId* mensajeConId){
+	return(mensajeConId->estadoAvionXml.getId() == -3);
+}
+
+
+void MainServidor::informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa(){
+	bool encontreUnClienteConectado = false;
+	if(usuarios->cantidadDeUsuarios() > 0){
+		int i = -1;
+		
+		while(!encontreUnClienteConectado){
+			i++;
+			if(i != clienteQueSolitaElEstado){
+				encontreUnClienteConectado = usuarios->estaConectado(i);
+			}
+		}
+		SDL_LockMutex(mutColaDeUsuario[i]);
+		usuarios->obtenerColaDeUsuario(i)->push(new EstadoAvionXml(-3,0,0,0));
+		SDL_UnlockMutex(mutColaDeUsuario[i]);
+	}
+}
 /*-------- Funciones publicas --------*/
 
 int MainServidor::mainPrincipal(){
@@ -534,6 +588,9 @@ int MainServidor::mainPrincipal(){
 	mutColaPrincipal = SDL_CreateMutex();
 	mutLogger= SDL_CreateMutex();
 	mutColaDeUsuario = new SDL_mutex*[usuarios->getCantidadMaximaDeUsuarios()];
+	posicionDelMapa = 0;
+	seActualizoLaUltimaPosicionDelMapa = true;
+
 	for(int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++){
 		mutColaDeUsuario[i] = SDL_CreateMutex();
 	}
@@ -555,7 +612,10 @@ int MainServidor::mainPrincipal(){
 	//Y ademas manda el mensaje de reconexion
 	bool seHaIniciadoLaPartida = false;
 	while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
-		
+		//La ultima posicion del mapa es siempre la misma, la 0
+		//Cada vez que se conecta alguien pone que ya no es la ultima
+		//Acá volvemos a aclarar que sigue estando actualizada
+		seActualizoLaUltimaPosicionDelMapa = true;
 		//Cuando estoy lleno, le aviso a todos los jugadores que la partida comienza
 		if(!usuarios->puedoTenerMasUsuarios()){
 			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
@@ -568,7 +628,7 @@ int MainServidor::mainPrincipal(){
 		}
 		SDL_Delay(100);
 	}
-
+	seActualizoLaUltimaPosicionDelMapa = false;
 	//Bucle principal sobre el cual se procesan los mensajes
 	while(!seDebeCerrarElServidor) {
 		SDL_LockMutex(mutColaPrincipal);
@@ -577,7 +637,11 @@ int MainServidor::mainPrincipal(){
 			colaDeMensaje.pop();
 			SDL_UnlockMutex(mutColaPrincipal);
 			//Una vez sacado el elemento de la cola principal, podemos dejar que los demás threads usen normalmente.
-			informarATodosLosClientesDelEstadoDelAvion(mensajeConId);
+			if(esUnMensajeDeUnEstadoAvion(mensajeConId)){
+				informarATodosLosClientesDelEstadoDelAvion(mensajeConId);
+			}else if(esUnMensajeIndicandoQueNecesitoUnEstadoMapa(mensajeConId)){
+				informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa();
+			}
 			delete mensajeConId;
 			//Si la cola estaba vacía, le permito a los demas threads usarla
 		}else{

@@ -171,6 +171,14 @@ int MainCliente::recibirMensajes(void* ptrSock){
 				if(stAvionXml->getId() == -2){
 					Mapa::getInstace()->reiniciar();
 				}
+				if(stAvionXml->getId() == -3){
+					int size;
+					char buffEnvio[MAX_BUFFER];
+					EstadoAvionXml* estadoMapa = new EstadoAvionXml(-3,0,0,Mapa::getInstace()->getPosicionMapa());
+					estadoMapa->calculateSizeBytes();
+					size = Protocolo::codificar(*estadoMapa, buffEnvio);
+					MensajeSeguro::enviar(*((SOCKET*)ptrSock), buffEnvio, size);
+				}
 				delete stAvionXml;
 			}
 			//--------------------------------
