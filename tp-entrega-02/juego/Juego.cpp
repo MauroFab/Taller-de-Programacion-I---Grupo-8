@@ -212,8 +212,6 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
 	bool quit = false;
 
-	// CaracteristicasProyectil("disparo_1.bmp", 1, 11, 25, 1);
-
 	Graficador * instGraficador = Graficador::getInstance();
 	// Test para ver si se grafican otros aviones
 	instGraficador->inicializar(gRenderer);
@@ -285,7 +283,7 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
 //ESTA LINEA debe readptarse pues el modelo requiere actualizacion, en lugar de enviar movimientos
 //se deben enviar "posiciones"
-		instGraficador->graficarAvionesAll();
+//		instGraficador->graficarAvionesAll();
 		//Render sprite
 		avion.render();
 
