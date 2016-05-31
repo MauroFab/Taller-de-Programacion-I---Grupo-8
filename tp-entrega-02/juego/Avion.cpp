@@ -1,6 +1,18 @@
 #include "Avion.h"
 
-Avion::Avion(SDL_Renderer* rendererRecibido,int ventanaAncho,int ventanaAlto,AvionView * avionView) {
+bool Avion::instanceFlag = false;
+Avion* Avion::instance = NULL;
+
+Avion* Avion::getInstance() {
+
+	if(!instanceFlag){
+        instance = new Avion();
+        instanceFlag = true;
+    }
+    return instance;
+}
+
+void Avion::inicializar(SDL_Renderer* rendererRecibido,int ventanaAncho,int ventanaAlto,AvionView * avionView) {
 
 	this->ventanaAncho = ventanaAncho;
 	this->ventanaAlto = ventanaAlto;
@@ -12,24 +24,16 @@ Avion::Avion(SDL_Renderer* rendererRecibido,int ventanaAncho,int ventanaAlto,Avi
 	frame = 0;
 	rollFlag = false;
 
-///	AvionView* configAvion = ConfiguracionJuegoXML::getInstance()->getConfiguracionAvion();
-
-//	altoFotograma = configAvion->getAltoFotograma();
-//	anchoFotograma = configAvion->getAnchoFotograma();
-//	cantDeFotogramas = configAvion->getCantidadDeFotogramas();
-//	velocidad = configAvion->getVelocidad();
-//	id = configAvion->getId();
 	renderer = rendererRecibido;
 
-	texturaAvion = new Textura();
+	if (fotogramas != NULL) {
+		delete [] fotogramas;
+	}
 	fotogramas = new SDL_Rect[avionView->spriteXml->getCantidad()];
 
 	if( !texturaAvion->cargarDeArchivo( avionView->spriteXml->getPath(), renderer ) )
 	{
 		texturaAvion->cargarDeArchivo("avionNoEncontrado.bmp", renderer);
-//		cantDeFotogramas = 1;
-//		altoFotograma = texturaAvion->getHeight();
-//		anchoFotograma = texturaAvion->getWidth();
 	}
 		for(int i=0; i < avionView->spriteXml->getCantidad(); i++){
 
@@ -42,6 +46,12 @@ Avion::Avion(SDL_Renderer* rendererRecibido,int ventanaAncho,int ventanaAlto,Avi
 
 			fotogramas[ i ] = fotograma;
 	}
+}
+
+Avion::Avion() {
+
+	fotogramas = NULL;
+	texturaAvion = new Textura();
 }
 
 Avion::~Avion() {

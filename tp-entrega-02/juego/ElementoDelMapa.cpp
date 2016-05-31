@@ -12,6 +12,7 @@ ElementoDelMapa::ElementoDelMapa(int xInicial, int yInicial, SDL_Renderer* gRend
 }
 
 ElementoDelMapa::~ElementoDelMapa(void){
+	delete textura;
 }
 
 void ElementoDelMapa::reiniciar(){

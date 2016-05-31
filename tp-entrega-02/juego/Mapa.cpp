@@ -32,6 +32,13 @@ void Mapa::inicializar(SDL_Renderer* rendererRecibido,FondoView * fondoView, int
 	anchoMapa = texturaMapa->getWidth();
 	altoMapa = texturaMapa->getHeight();	
 	this->getInstace()->configurarElMapaConLaPosicion(posicionInicial);
+
+	if (!elementosDelMapa.empty()) {
+		std::list<ElementoDelMapa*>::iterator it;
+		for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
+			delete (*it);
+		elementosDelMapa.clear();
+	}
 }
 
 Mapa::Mapa(){

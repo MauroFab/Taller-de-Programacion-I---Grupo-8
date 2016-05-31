@@ -23,8 +23,11 @@
 #include <list>
 
 class Avion {
+
     public:
-		Avion(SDL_Renderer* renderer,int ventanaAncho,int ventanaAlto,AvionView * avionView);
+
+		static Avion* getInstance();
+
 		~Avion();
 		bool handleEvent( SDL_Event& e );
 		void mover();
@@ -32,7 +35,14 @@ class Avion {
 		EstadoAvion* getEstado();
 		std::list<EstadoProyectil*> getEstadoProyectiles();
 		void setPosicion(Posicion pos);
+		void inicializar(SDL_Renderer* renderer,int ventanaAncho,int ventanaAlto,AvionView * avionView);
+
     private:
+
+		static bool instanceFlag;
+		static Avion* instance;
+		Avion();
+
 		SDL_Rect *fotogramas;
 		Textura* texturaAvion;
 		SDL_Renderer* renderer;

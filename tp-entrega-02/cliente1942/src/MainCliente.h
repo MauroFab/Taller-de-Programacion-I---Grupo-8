@@ -50,6 +50,10 @@ using std::pair;
 class MainCliente : public Observador
 {
 private:
+
+	static bool instanceFlag;
+    static MainCliente *single;
+
 	SOCKET sock;
 
 	//este atributo contiene los mensajes a enviar al servidor
@@ -70,7 +74,8 @@ private:
 	//se almancena todo el modelo parseado
 	ServidorXml * servidorXml;
 public:
-	MainCliente();
+	
+	static MainCliente* getInstance();
 	virtual ~MainCliente();
 	void parsearArchivoXml(int argc, char* argv[]);
 	ParserXml * getParserXml();
@@ -81,12 +86,14 @@ public:
 	int desconectar();
 	int salir();
 	int enviar();
-private:
 
+private:
+	MainCliente();
 	SDL_Thread* receptor;
 	int inicializarConexion();
 	static void grabarEnElLogLaDesconexion(int len);
-	static int recibirMensajes(void*);
+	static int fun_recibirMensajes(void*);
+	int recibirMensajes(void*);
 	void cargarNombreDeUsuario();
 	void cargarIpYPuerto();
 	void cargarIP();

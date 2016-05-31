@@ -5,11 +5,11 @@
 #include "MainCliente.h"
 
 int main(int argc, char* argv[]){
-	MainCliente mainCliente;
+	MainCliente* mainCliente = MainCliente::getInstance();
 #ifdef FAKE_DEBUG_CLIENTE		
-	mainCliente.parsearArchivoXml(argc,argv);
+	mainCliente->parsearArchivoXml(argc,argv);
 #endif		
 
-	mainCliente.menu();
+	mainCliente->menu();
 	return 0;
 }

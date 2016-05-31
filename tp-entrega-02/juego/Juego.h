@@ -54,7 +54,9 @@ public:
 	int readServidorXml(ServidorXml * servidorXml);
 	//se lee el servidorXML como un objeto generico
 	int readFrom(IGenericaVO * objetoXML);
-
+	//este metodo realiza la inicializacion de la configuracion grafica de SDL
+	bool initSDL();
+	void reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa);
 	void ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa);
 	void close();
 	void actualizarMovimientos(EstadoAvion* estadoAvion);
@@ -77,8 +79,9 @@ private:
 	int ventanaAncho;
 	int ventanaAlto;
 	bool jugar; // para avisar que debe de inciar el juego
-	//este metodo realiza la inicializacion de la configuracion grafica de SDL
-	bool initSDL();
+	bool seReinicio;
+	int cantidadDeVecesQueSeReinicio;
+
 	//este metodo dibuja un fondo incial
 	//pero su tamaño esta harcodeado, deberia sacarse
 	void dibujarFondoInicio();

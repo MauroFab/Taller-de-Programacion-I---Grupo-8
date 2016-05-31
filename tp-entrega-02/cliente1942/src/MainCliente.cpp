@@ -1,7 +1,23 @@
 #include "MainCliente.h"
 
+bool MainCliente::instanceFlag = false;
+MainCliente* MainCliente::single = NULL;
+
 bool MainCliente::serverDesconectado = true;
 bool MainCliente::cerrarConexion = true;
+
+
+MainCliente* MainCliente::getInstance(){
+
+	if(! instanceFlag){
+		single = new MainCliente();
+		instanceFlag = true;
+		return single;
+	}
+	else{
+		return single;
+	}
+}
 
 MainCliente::MainCliente(){
 //	this->dirXML.assign("");
@@ -124,6 +140,10 @@ void MainCliente::grabarEnElLogLaDesconexion(int len){
 	}
 }
 
+int MainCliente::fun_recibirMensajes(void* ptrSock) {
+	return MainCliente::getInstance()->recibirMensajes(ptrSock);
+}
+
 int MainCliente::recibirMensajes(void* ptrSock){
 	bool primerMensaje =true;
 	char bufferEntrada[MAX_BUFFER];
@@ -150,7 +170,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 				//si seguimos conectados
 				//--------------------------------
 				EstadoAvionXml * stAvionXml = new EstadoAvionXml();
-				Protocolo::decodificar(bufferEntrada,stAvionXml);
+				int offset = Protocolo::decodificar(bufferEntrada,stAvionXml);
 
 				if(stAvionXml->getId() >= 0){
 
@@ -169,7 +189,11 @@ int MainCliente::recibirMensajes(void* ptrSock){
 				}
 				//Un mensaje con id -2 indica que se reinicio el mapa
 				if(stAvionXml->getId() == -2){
-					Mapa::getInstace()->reiniciar();
+
+					Protocolo::decodificar(bufferEntrada + offset, this->servidorXml);
+					Juego::getInstance()->reiniciar(this->servidorXml, 0);
+
+					//Mapa::getInstace()->reiniciar();
 				}
 				if(stAvionXml->getId() == -3){
 					int size;
@@ -327,7 +351,7 @@ int MainCliente::conectar(){
 					offset += Protocolo::decodificar(bufferEntrada + offset,this->servidorXml);
 
 					// Creo un hilo para escuchar los mensajes
-					receptor=SDL_CreateThread(recibirMensajes, "recibirMensajes", &sock);
+					receptor=SDL_CreateThread(fun_recibirMensajes, "recibirMensajes", &sock);
 
 					Juego * insJuego = Juego::getInstance();
 					insJuego->getJugador()->setIdCliente(atoi(idUsuario));
@@ -335,6 +359,7 @@ int MainCliente::conectar(){
 
 					Juego::getInstance()->readServidorXml(this->servidorXml);
 					Juego::getInstance()->agregarObservador(this);
+					Juego::getInstance()->initSDL();
 					Juego::getInstance()->ejecutar(this->servidorXml, posicionMapa.getPosY());
 
 					// esto para desconectar al cliente al presionar la x del SDL_window

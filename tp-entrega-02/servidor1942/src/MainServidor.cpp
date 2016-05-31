@@ -32,7 +32,9 @@ MainServidor* MainServidor::getInstance(){
 		return single;
 	}
 }
-void MainServidor::parsearArchivoXml(int argc, char* argv[]){
+
+int MainServidor::parsearXML(int argc, char* argv[]) {
+
 	ParserXml parserx;
 	parserx.cargarXmlServidor(argc,argv);
 	int res = parserx.validarXmlArchivoServidor();
@@ -40,15 +42,31 @@ void MainServidor::parsearArchivoXml(int argc, char* argv[]){
 		printf("\nERROR: Error semantico\n");
 		parserx.cargarXmlServidor(0,argv);
 	}
+
 	//luego de la carga crea los datos a partir del XML
 	this->servidorXml = parserx.createDataServidorXml(); //luego de la carga crea los datos a partir del XML
-	static int cantidadDeClientesMaxima = servidorXml->getCantidadMaximaClientes();
+	int cantidadDeClientesMaxima = servidorXml->getCantidadMaximaClientes();
 	this->puerto = servidorXml->getPuerto();
+
+	return cantidadDeClientesMaxima;
+}
+
+void MainServidor::parsearArchivoXmlReinicio() {
+
+	parsearXML(this->argc, this->argv);
+}
+
+void MainServidor::parsearArchivoXml(int argc, char* argv[]){
+	
+	this->argc = argc;
+	this->argv = argv;
+
+	int cantidadDeClientesMaxima = parsearXML(argc, argv);
+
 	this->usuarios = new AsignadorDeUsuarios(cantidadDeClientesMaxima);
 	this->seDebeCerrarElServidor = false;
-	// luego de usarlo se debe borrar
-	//	delete servidorXml;
 }
+
 /*-------- Funciones de destrucción de Threads y Sockects --------*/
 void freeSockets (SOCKET* s) {
 	Log::getInstance()->debug("Liberando recursos del socket.");
@@ -124,6 +142,13 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 			char buffEnvio[MAX_BUFFER];
 			stAvionXml->calculateSizeBytes();
 			int sizeEnvio = Protocolo::codificar(*stAvionXml,buffEnvio);
+
+			if(indicaUnReinicioDelMapa(stAvionXml)) {
+
+				parsearArchivoXmlReinicio();
+				sizeEnvio += Protocolo::codificar(*(this->servidorXml), buffEnvio + sizeEnvio);
+			}
+
 			MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
 			delete stAvionXml; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
 		}else{//Si la cola estaba vacía, permito que los demas threads usen la cola
@@ -173,7 +198,7 @@ void MainServidor::actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvionXml* 
 	usuarios->setPosicionAUsuario(id, posicion);
 }
 bool MainServidor::esUnMensajeDeUnEstadoAvion(MensajeConId* mensajeConId){
-	return(mensajeConId->estadoAvionXml.getId() != -3);
+	return(mensajeConId->estadoAvionXml.getId() >= 0);
 }
 bool MainServidor::esUnEstadoMapa(EstadoAvionXml* estadoAvionXml){
 	return(estadoAvionXml->getId() == -3);
@@ -248,7 +273,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 	SDL_LockMutex(mutColaDeUsuario[id]);
 	usuarios->desconectarUsuario(id);
 	SDL_UnlockMutex(mutColaDeUsuario[id]);
-	printf("La cantidad de clientes conectados es: %i\n",usuarios->cantidadDeUsuarios());
+	printf("\nLa cantidad de clientes conectados es: %i\n",usuarios->cantidadDeUsuarios());
 	SDL_LockMutex(mutLogger);
 	Log::getInstance()->info("La cantidad de clientes conectados es: " + usuarios->cantidadDeUsuarios());
 	SDL_UnlockMutex(mutLogger);
@@ -484,6 +509,24 @@ void MainServidor::informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa(){
 bool MainServidor::esUnMensajeIndicandoQueSeDebeReiniciarElMapa(MensajeConId* mensajeConId){
 	return(mensajeConId->estadoAvionXml.getId() == -2);
 }
+
+void MainServidor::informarATodosLosClientesDelReinicioDelEscenario(MensajeConId* mensajeConId) {
+
+	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
+	//Para todos los usuarios
+	for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
+		
+		//Si el usuario i esta conectado
+		if(usuarios->estaConectado(i)){
+			SDL_LockMutex(mutColaDeUsuario[i]);
+			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
+			EstadoAvionXml* pEstadoAvionXml = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
+			colaDeMensajesDelUsuario->push(pEstadoAvionXml);
+			SDL_UnlockMutex(mutColaDeUsuario[i]);
+		}
+	}
+}
+
 /*-------- Funciones publicas --------*/
 int MainServidor::mainPrincipal(){
 	Log::getInstance()->debug("Servidor - Main Principal");
@@ -534,8 +577,10 @@ int MainServidor::mainPrincipal(){
 			colaDeMensaje.pop();
 			SDL_UnlockMutex(mutColaPrincipal);
 			//Una vez sacado el elemento de la cola principal, podemos dejar que los demás threads usen normalmente.
-			if(esUnMensajeDeUnEstadoAvion(mensajeConId) || esUnMensajeIndicandoQueSeDebeReiniciarElMapa(mensajeConId)){
+			if(esUnMensajeDeUnEstadoAvion(mensajeConId)){
 				informarATodosLosClientesDelEstadoDelAvion(mensajeConId);
+			}else if(esUnMensajeIndicandoQueSeDebeReiniciarElMapa(mensajeConId)){
+				informarATodosLosClientesDelReinicioDelEscenario(mensajeConId);
 			}else if(esUnMensajeIndicandoQueNecesitoUnEstadoMapa(mensajeConId)){
 				informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa();
 			}

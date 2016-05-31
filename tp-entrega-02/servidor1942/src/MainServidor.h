@@ -37,6 +37,9 @@ private:
 
 	/*Atributos*/
 
+	int argc; 
+	char* *argv;
+
 	struct MensajeConId {
 	    int id;
 		char* mensaje;
@@ -64,6 +67,12 @@ private:
 	SDL_mutex *mutColaPrincipal; // el mutex para proteger la cola de mensajes
 	SDL_mutex **mutColaDeUsuario;
 	SDL_mutex *mutLogger;
+
+	/*Funciones*/
+
+	void parsearArchivoXmlReinicio();
+
+	int parsearXML(int argc, char* argv[]);
 
 public:
 
@@ -109,6 +118,7 @@ public:
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);
 	void informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId);
+	void informarATodosLosClientesDelReinicioDelEscenario(MensajeConId* mensajeConId);
 	void informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa();
 	int mainPrincipal();
 };
