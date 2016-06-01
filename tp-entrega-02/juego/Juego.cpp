@@ -41,7 +41,14 @@ Juego::~Juego(){
 	for(int i = 0; i < MAX_ELEM_VIEW; i++){
 		if (this->listaElemView[i] != NULL)
 			delete this->listaElemView[i];
-	}	
+	}
+	this->canElemV = 0;
+	//liberar aviones de la vista
+	for(int i = 0; i < MAX_AVION_VIEW; i++){
+		if (this->listaAvionView[i] != NULL)
+			delete this->listaAvionView[i];
+	}
+	this->canAvionV = 0;
 }
 
 int Juego::readServidorXml(ServidorXml * servidorXml){
@@ -57,7 +64,7 @@ int Juego::readFrom(IGenericaVO * objetoXML){
 }
 
 // Inicializacion
-bool Juego::initSDL() {
+bool Juego::initSDL(char * nomClien) {
 	//Initialization flag
 	bool success = true;
 
@@ -72,7 +79,11 @@ bool Juego::initSDL() {
 			printf( "Warning: Linear texture filtering not enabled!" );
 		}
 		//Create window
-		gWindow = SDL_CreateWindow( "1942", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->ventanaAncho, this->ventanaAlto, SDL_WINDOW_SHOWN );
+		string titulo;
+		titulo.append("1942-[");
+		titulo.append(nomClien);
+		titulo.append("]");
+		gWindow = SDL_CreateWindow(titulo.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->ventanaAncho, this->ventanaAlto, SDL_WINDOW_SHOWN );
 		if( gWindow == NULL ){
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
 			success = false;
@@ -140,12 +151,14 @@ int Juego::cargarElementos(ServidorXml * confServidorXml){
 	int cantE = confServidorXml->getEscenarioXmlCopy()->getCanElems();
 	ElementoXml ** listaE = confServidorXml->getEscenarioXmlCopy()->getListaElementos();
 	for(int i = 0;i <cantE; i++){
-		ElementoXml * elemX = listaE[i];
-		ElementoModel * elemModel = new ElementoModel(elemX);
+		ElementoXml * elemX = listaE[i];		
 		//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
 		SpriteXml * spriteX = SpriteXml::findSpriteById(elemX->getIdSprite(),listaS,cantS);
-		this->listaElemView[i] = new ElementoView(elemModel,spriteX);
-		this->canElemV++;
+		if (spriteX != NULL){	//solo en caso de encontrarlo
+			ElementoModel * elemModel = new ElementoModel(elemX);
+			this->listaElemView[i] = new ElementoView(elemModel,spriteX);
+			this->canElemV++;
+		}
 	}
 	return 0;
 }
@@ -156,21 +169,25 @@ int Juego::cargarAviones(ServidorXml * confServidorXml){
 	SpriteXml ** listaS = confServidorXml->getListaSprites();
 
 	//aviones
-	int cantA;
+	int cantA = confServidorXml->getCanAvs();
+	/*
 	if (!seReinicio) {
 		cantA = confServidorXml->getCanAvs();
 	} else {
 		this->cantidadDeVecesQueSeReinicio++;
 		cantA = confServidorXml->getCanAvs()-(4*this->cantidadDeVecesQueSeReinicio);
 	}
+	*/
 	AvionXml ** listaA = confServidorXml->getListaAviones();
 	for(int i = 0;i <cantA; i++){
-		AvionXml * avionX = listaA[i];
-		AvionModel * avionModel = new AvionModel(avionX);
+		AvionXml * avionX = listaA[i];		
 		//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
 		SpriteXml * spriteX = SpriteXml::findSpriteById(avionX->getIdSpAvion(),listaS,cantS);
-		this->listaAvionView[i] = new AvionView(avionModel,spriteX);
-		this->canAvionV++;
+		if (spriteX != NULL){	//solo en caso de encontrarlo
+			AvionModel * avionModel = new AvionModel(avionX);
+			this->listaAvionView[i] = new AvionView(avionModel,spriteX);
+			this->canAvionV++;		
+		}
 	}
 	return 0;
 }
@@ -204,14 +221,46 @@ BalaView*  Juego::cargarBala(ServidorXml * confServidorXml){
 Jugador * Juego::getJugador(){
 	return this->jugador;
 }
+//operaciones de reset
+//se encarga del reset de los elementos liberando la memoria usada por los objetos
+//tanto de la view como de los que estos contienen
+int Juego::resetElementos(){
+	//liberar elementos de la vista
+	for(int i = 0; i < MAX_ELEM_VIEW; i++){
+		if (this->listaElemView[i] != NULL){
+			delete this->listaElemView[i];
+			this->listaElemView[i] = NULL;
+		}
+			
+	}
+	this->canElemV = 0;	
+	return 0;
+}
+//se encarga del reset de los aviones liberando la memoria usada por los objetos
+//tanto de la view como de los que estos contienen
+int Juego::resetAviones(){
+	//liberar aviones de la vista
+	for(int i = 0; i < MAX_AVION_VIEW; i++){
+		if (this->listaAvionView[i] != NULL){
+			delete this->listaAvionView[i];
+			this->listaAvionView[i] = NULL;
+		}			
+	}
+	this->canAvionV = 0;	
+	return 0;
+}
+
+
 //Se que no es correcto proteger todo el metodo con un mutex, peroooo el señor
 // hilo recibir_mensajes esta tocando cosas que solo el hilo main deberia de tocar
 // el hilo recibir_mensajes solo deberia de notificar los cambios.
 void Juego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	SDL_mutexP(mut);
 	seReinicio = true;
-	this->canAvionV = 0;
-	this->canElemV = 0;
+	//this->canElemV = 0;//
+	resetElementos();
+	//this->canAvionV = 0;//
+	resetAviones();
 	static int tamanioMaximoMapa = 2000;
 	cargarElementos(confServidorXml);
 	cargarAviones(confServidorXml);
@@ -318,7 +367,7 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 		//Clear screen
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 		SDL_RenderClear( gRenderer );
-	
+
 		SDL_mutexP(mut);
 		//Render background
 		Mapa::getInstace()->dibujarFondoYElementos();
