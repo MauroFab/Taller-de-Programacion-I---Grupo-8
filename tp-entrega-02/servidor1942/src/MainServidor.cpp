@@ -53,8 +53,11 @@ int MainServidor::parsearXML(int argc, char* argv[]) {
 
 void MainServidor::parsearArchivoXmlReinicio() {
 	//al reiniciar debe liberar la memoria del servidorXml
-	if (this->servidorXml != NULL)
-		delete this->servidorXml;
+	if (this->servidorXml != NULL){
+		//BUG-000 PARCHE ERROR
+		//delete this->servidorXml;
+		this->servidorXml = NULL;
+	}
 	parsearXML(this->argc, this->argv);
 }
 
@@ -146,8 +149,10 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 			int sizeEnvio = Protocolo::codificar(*stAvionXml,buffEnvio);
 
 			if(indicaUnReinicioDelMapa(stAvionXml)) {
-
+				//para esta operacion de reinicion no debe ejecutarse en forma simultanea
+				SDL_LockMutex(mutColaDeUsuario[id]);
 				parsearArchivoXmlReinicio();
+				SDL_UnlockMutex(mutColaDeUsuario[id]);
 				sizeEnvio += Protocolo::codificar(*(this->servidorXml), buffEnvio + sizeEnvio);
 			}
 
