@@ -23,4 +23,8 @@ BalaView::BalaView(BalaModel * balaModel,SpriteXml * spriteXml){
 }
 BalaView::~BalaView()
 {
+	//solo se libera el model
+	if (this->balaModel != NULL){
+		delete this->balaModel;
+	}
 }

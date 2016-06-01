@@ -22,8 +22,8 @@ ElementoView::ElementoView(ElementoModel * elementoModel,SpriteXml * spriteXml){
 
 ElementoView::~ElementoView()
 {
+	//solo se libera el model
 	if (this->elementoModel != NULL){
 		delete this->elementoModel;
-	}
-	
+	}	
 }

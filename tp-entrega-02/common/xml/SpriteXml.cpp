@@ -104,9 +104,10 @@ SpriteXml * SpriteXml::findSpriteById(int idSprite,SpriteXml ** listSpriteXml,in
 		spriteX = listSpriteXml[j];
 		if (idSprite == spriteX->getId()){
 			bOut = true;
+			return spriteX;
 		}
 	}
-	return spriteX;
+	return NULL;
 }
 
 void SpriteXml::toString(TCadena1000 cadena){

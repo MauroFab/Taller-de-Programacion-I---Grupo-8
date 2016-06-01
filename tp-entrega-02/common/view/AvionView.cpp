@@ -23,4 +23,8 @@ AvionView::AvionView(AvionModel * avionModel,SpriteXml * spriteXml)
 
 AvionView::~AvionView()
 {
+	//solo se libera el model
+	if (this->avionModel != NULL){
+		delete this->avionModel;
+	}
 }
