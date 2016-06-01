@@ -41,7 +41,7 @@
 //FAKE es de falso, bueno este flag esta para trabajar sin cargar los datos
 //pues servidor y puerto los levanta del XML
 //y que se harcodee nombre cuando esta todo hardcodeado no pasa nada
-#define FAKE_DEBUG_CLIENTE		1
+//#define FAKE_DEBUG_CLIENTE		1
 
 using std::string;
 using std::map;
@@ -86,7 +86,12 @@ public:
 	int desconectar();
 	int salir();
 	int terminarElCliente();
-	int enviar();
+//	int enviar();
+	/**
+	 * se encarga de liberar la memoria del servidorXML
+	 * y volver a alocar memoria para el nuevo servidorXML
+	 */
+	void recreateServidorXml();
 
 private:
 	MainCliente();
