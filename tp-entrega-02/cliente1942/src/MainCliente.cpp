@@ -214,62 +214,42 @@ int MainCliente::recibirMensajes(void* ptrSock){
 }
 
 void MainCliente::cargarIP() {
-
 	system("CLS");
-
 	printf("\n%s\n", "------------------------------------------------------------------------");
-
 	printf("Ingrese IP\n");
-
 	string ip = "";
-
 	while (strcmp(ip.c_str(), "") == 0) {
 		cin>>ip;
 	}
-
 	this->ip = ip;
 }
 
 void MainCliente::cargarPuerto() {
-
 	system("CLS");
-
 	printf("\n%s\n", "------------------------------------------------------------------------");
-
 	printf("Ingrese Puerto\n");
-
 	string puerto = "";
-
 	while (strcmp(puerto.c_str(), "") == 0) {
 		cin>>puerto;
 	}
-
 	this->port = puerto;
 }
 
 void MainCliente::cargarIpYPuerto() {
-
 	cargarIP();
 	cargarPuerto();
 }
 
 void MainCliente::cargarNombreDeUsuario() {
-
 	system("CLS");
-
 	printf("\n%s\n", "------------------------------------------------------------------------");
-
 	printf("Ingrese su nombre de usuario\n");
-
 	string nombreDeUsuario = "";
-
 	while (strcmp(nombreDeUsuario.c_str(), "") == 0) {
 		cin>>nombreDeUsuario;
 	}
-
 	this->nombreDeUsuario = nombreDeUsuario;
 }
-
 
 int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE
