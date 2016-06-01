@@ -186,7 +186,8 @@ int MainCliente::recibirMensajes(void* ptrSock){
 				}
 				//Un mensaje con id -2 indica que se reinicio el mapa
 				if(stAvionXml->getId() == -2){
-
+					//se debe recrear el servidor pues el anterior ya no sirve
+					recreateServidorXml();
 					Protocolo::decodificar(bufferEntrada + offset, this->servidorXml);
 					Juego::getInstance()->reiniciar(this->servidorXml, 0);
 
@@ -356,7 +357,7 @@ int MainCliente::conectar(){
 
 					Juego::getInstance()->readServidorXml(this->servidorXml);
 					Juego::getInstance()->agregarObservador(this);
-					Juego::getInstance()->initSDL();
+					Juego::getInstance()->initSDL((char*)this->nombreDeUsuario.c_str());
 					Juego::getInstance()->ejecutar(this->servidorXml, posicionMapa.getPosY());
 					// se termina el programa cuando el usuario hace click en x del SDL_window
 				terminarElCliente();
@@ -469,7 +470,18 @@ int MainCliente::enviar(){
 	system("PAUSE");
 	return 0;
 }
-/*
+*/
+
+/**
+ * se encarga de liberar la memoria del servidorXML
+ * y volver a alocar memoria para el nuevo servidorXML
+ */
+void MainCliente::recreateServidorXml(){
+	if (this->servidorXml != NULL){
+		delete this->servidorXml;
+		this->servidorXml = new ServidorXml();
+	}
+}
 
 /**
 * muestra el menu y direcciona a las opciones
