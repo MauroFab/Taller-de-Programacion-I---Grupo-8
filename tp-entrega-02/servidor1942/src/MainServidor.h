@@ -31,6 +31,10 @@ using std::ofstream;
 #include "../../common/Protocolo.h"
 #include "../../common/MensajeSeguro.h"
 
+//funciondes de hilos de SDL
+void freeSocketsSDL (SOCKET* s);
+void waitThreadSDL (SDL_Thread* h);
+
 class MainServidor
 {
 private:
@@ -91,7 +95,7 @@ public:
 
 	SOCKET obtenerSocketInicializado(sockaddr_in &local);
 
-	void ponerAEscuchar(SOCKET sock);
+	void escucharSocket(SOCKET sock);
 	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,EstadoAvionXml* pMsj);
 	void grabarEnElLogLaDesconexion(int len);
 
@@ -104,9 +108,20 @@ public:
 	bool indicaUnReinicioDelMapa(EstadoAvionXml* estadoAvionXml);
 	int atenderCliente(void* punteroAlSocketRecibido);
 	int recibirConexiones(void*);
-	int consola(void*);
+	/**
+	 * este metodo se encarga esperar a capturar las teclas de la consola
+	 * cuando recibe el mensaje de cierre, cierra el socket global
+	 * 
+	 * @param 
+	 */
+	int waitTeclasConsola(void*);
 	int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
-	void enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* socket);
+	/**
+	 * este metodo envia todo el modelo xml al socket del cliente
+	 * @param idCliente id del cliente
+	 * @param socket socket_escucha del cliente asociado al id idCliente
+	 */
+	void enviarModeloXmlxConexionAceptadaAl(int idCliente, SOCKET* socket);
 	void actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvionXml* estadoAvion);
 	/**
 	 * crea un MensajeXml temporalmente que luego enviar por un socket
@@ -114,7 +129,18 @@ public:
 	 * @param mensajeStr cadena de texto que contiene el mensaje a enviar
 	 */
 	void sendMensajeXml(SOCKET* socket,char * mensajeStr);
-	void enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(SOCKET* socket);
+	/**
+	 * recibe un MensajeXml creado fuera del metodo y luego lo carga con datos
+	 * obtenidos desde el socket
+	 * @param socket socket del cliente sobre el que se recibe el mensajeXML
+	 * @param mensajeRecib MensajeXml que contiene la salida cargada desde el socket
+	 */
+	void receiveMensajeXml(SOCKET* socket,MensajeXml * mensajeRecib);
+	/**
+	 * este metodo envia el estado INICIAL del juego/de la partida
+	 * @param socket socket del cliente usado para enviar el estado del avion
+	 */
+	void enviarEstadoAvionXmlxQueYaEmpezoElJuego(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);
 	void informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId);

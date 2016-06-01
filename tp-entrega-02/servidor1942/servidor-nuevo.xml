@@ -1,5 +1,5 @@
 <servidor>
-	<cantidadMaximaClientes>2</cantidadMaximaClientes>
+	<cantidadMaximaClientes>1</cantidadMaximaClientes>
 	<puerto>15636</puerto>
 	<ventana>
 		<ancho>480</ancho>
@@ -17,13 +17,6 @@
 		<sprite>
 			<id>isla</id>
 			<path>isla.bmp</path>
-			<cantidad>1</cantidad>
-			<ancho>10</ancho>
-			<alto>12</alto>
-		</sprite>
-		<sprite>
-			<id>barco</id>
-			<path>barco.bmp</path>
 			<cantidad>1</cantidad>
 			<ancho>10</ancho>
 			<alto>12</alto>

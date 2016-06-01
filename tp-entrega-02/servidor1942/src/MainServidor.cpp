@@ -52,7 +52,9 @@ int MainServidor::parsearXML(int argc, char* argv[]) {
 }
 
 void MainServidor::parsearArchivoXmlReinicio() {
-
+	//al reiniciar debe liberar la memoria del servidorXml
+	if (this->servidorXml != NULL)
+		delete this->servidorXml;
 	parsearXML(this->argc, this->argv);
 }
 
@@ -68,11 +70,11 @@ void MainServidor::parsearArchivoXml(int argc, char* argv[]){
 }
 
 /*-------- Funciones de destrucción de Threads y Sockects --------*/
-void freeSockets (SOCKET* s) {
+void freeSocketsSDL (SOCKET* s) {
 	Log::getInstance()->debug("Liberando recursos del socket.");
 	free(s);
 }
-void waitThread (SDL_Thread* h) {
+void waitThreadSDL (SDL_Thread* h) {
 	printf("wait al Thread \n");
 	Log::getInstance()->debug("Esperando que el thread finalice.");
 	SDL_WaitThread(h, NULL);
@@ -93,7 +95,7 @@ int MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunte
 }
 int MainServidor::fun_consola(void* punteroAlSocketRecibido){
 	MainServidor * instan = MainServidor::getInstance();
-	return instan->consola(punteroAlSocketRecibido);
+	return instan->waitTeclasConsola(punteroAlSocketRecibido);
 }
 /*-------- Funciones privadas --------*/
 SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
@@ -114,7 +116,7 @@ SOCKET MainServidor::obtenerSocketInicializado(sockaddr_in &local){
 	}
 	return sock;
 }
-void MainServidor::ponerAEscuchar(SOCKET sock){
+void MainServidor::escucharSocket(SOCKET sock){
 	if (listen(sock,2)==-1){
 		printf("error en el listen\n");
 		Log::getInstance()->error(" al iniciar el listen.");
@@ -292,7 +294,7 @@ void MainServidor::solicitarLaUltimaPosicionDelMapaAUnCliente(){
 	delete stAvionXml;
 }
 
-void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* socket){
+void MainServidor::enviarModeloXmlxConexionAceptadaAl(int idCliente, SOCKET* socket){
 	// Mensaje de conexion exitosa
 	char buffEnvio[MAX_BUFFER];
 	int offset = 0;
@@ -302,7 +304,7 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 	mensajeEnvio.calculateSizeBytes();
 	offset = Protocolo::codificar(mensajeEnvio,buffEnvio + offset);
 	// ID del usuario
-	string idString = StringUtil::intToString(idUsuario);
+	string idString = StringUtil::intToString(idCliente);
 	mensajeEnvio.setValor((char*)idString.c_str(), strlen(idString.c_str()));
 	mensajeEnvio.setTipo(TIPO_STRING);
 	mensajeEnvio.calculateSizeBytes();
@@ -310,7 +312,7 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 	// Posicion de inicio del avión
 	Posicion* pos;
 	Posicion posAEnviar;
-	pos = usuarios->getPosicionDeUsuario(idUsuario);
+	pos = usuarios->getPosicionDeUsuario(idCliente);
 	posAEnviar.setPosX(pos->getPosX());
 	posAEnviar.setPosY(pos->getPosY());
 	posAEnviar.calculateSizeBytes();
@@ -324,7 +326,7 @@ void MainServidor::enviarMensajeDeConexionAceptadaAl(int idUsuario, SOCKET* sock
 		seActualizoLaUltimaPosicionDelMapa = true;
 	}
 	if(!seActualizoLaUltimaPosicionDelMapa){
-		clienteQueSolitaElEstado = idUsuario;
+		clienteQueSolitaElEstado = idCliente;
 		solicitarLaUltimaPosicionDelMapaAUnCliente();
 	}
 	//Espero a tener una posicion del mapa en el juego actual
@@ -358,6 +360,17 @@ void MainServidor::sendMensajeXml(SOCKET* socket,char * mensajeStr){
 	int sizeEnvio = Protocolo::codificar(mensajeEnvio,buffEnvio);
 	MensajeSeguro::enviar(*socket, buffEnvio, sizeEnvio);
 }
+/**
+ * recibe un MensajeXml creado fuera del metodo y luego lo carga con datos
+ * obtenidos desde el socket
+ * @param socket socket del cliente sobre el que se recibe el mensajeXML
+ * @param mensajeRecib MensajeXml que contiene la salida cargada desde el socket
+ */
+void MainServidor::receiveMensajeXml(SOCKET* socket,MensajeXml * mensajeRecib){
+	char bufferEntrada[MAX_BUFFER];
+	MensajeSeguro::recibir(*socket, bufferEntrada);
+	int sizeRecib = Protocolo::decodificar(bufferEntrada, mensajeRecib);
+}
 
 void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket){
 	sendMensajeXml(socket,MSJ_SUPERO_MAX);
@@ -366,21 +379,26 @@ void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl
 void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket){
 	sendMensajeXml(socket,MSJ_USR_YA_CONECT);
 }
-
-void MainServidor::enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(SOCKET* socket){
+/**
+ * este metodo envia el estado INICIAL del juego/de la partida
+ * @param socket socket del cliente usado para enviar el estado del avion
+ */
+void MainServidor::enviarEstadoAvionXmlxQueYaEmpezoElJuego(SOCKET* socket){
 	char buffEnvio[MAX_BUFFER];
-	EstadoAvionXml estadoEmpezoLaPartida(-1,0,0,0);
-	estadoEmpezoLaPartida.calculateSizeBytes();
-	int sizeEnvio = Protocolo::codificar(estadoEmpezoLaPartida, buffEnvio);
+	//indica el estado inicial de la partida
+	EstadoAvionXml estadoAvionXmlInicial(-1,0,0,0);
+	estadoAvionXmlInicial.calculateSizeBytes();
+	int sizeEnvio = Protocolo::codificar(estadoAvionXmlInicial, buffEnvio);
 	MensajeSeguro::enviar(*socket, buffEnvio, sizeEnvio);
 }
+
 int MainServidor::recibirConexiones(void*){
 	struct sockaddr_in local;
 	SOCKET* socketConexion;
 	int len = sizeof(struct sockaddr);
 	IdYPunteroAlSocket idYPunteroAlSocket;
 	socketDeEscucha = obtenerSocketInicializado(local);
-	ponerAEscuchar(socketDeEscucha);
+	escucharSocket(socketDeEscucha);
 	Log::getInstance()->debug("En espera de conexiones");
 	printf("En espera de conexiones\n");
 	printf("[Cuando se vaya recibiendo texto aparecera en pantalla]\n");
@@ -393,10 +411,8 @@ int MainServidor::recibirConexiones(void*){
 				printf("Nueva conexion aceptada\n");
 				Log::getInstance()->info("Nueva conexion acceptada");
 				// Antes de crear un usuario realizo las validaciones de nombre de usuario
-				char bufferEntrada[MAX_BUFFER];
-				MensajeSeguro::recibir(*socketConexion, bufferEntrada);
 				MensajeXml mensajeUsuario;
-				Protocolo::decodificar(bufferEntrada, &mensajeUsuario);
+				receiveMensajeXml(socketConexion,&mensajeUsuario);
 				char* usuario = mensajeUsuario.getValor();
 
 				// Si ese nombre de usuario existe
@@ -407,14 +423,13 @@ int MainServidor::recibirConexiones(void*){
 					} else { // Sino lo reconectamos
 						idYPunteroAlSocket.id = usuarios->reconectar(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
-						enviarMensajeDeConexionAceptadaAl(idYPunteroAlSocket.id, socketConexion);
-						enviarUnMensajeAvisandoleQueYaEmpezoElJuegoAl(socketConexion);
+						enviarModeloXmlxConexionAceptadaAl(idYPunteroAlSocket.id, socketConexion);
+						enviarEstadoAvionXmlxQueYaEmpezoElJuego(socketConexion);
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
 					}
 				//Si el nombre de usuario no estaba registrado y puedo tener mas usuarios, creo uno
 				} else if(usuarios->puedoTenerUsuariosNuevos()) {
-
 						idYPunteroAlSocket.id = usuarios->crearUsuarioYObtenerId(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
 						printf("La cantidad de clientes conectados es: %d\n",usuarios->cantidadDeUsuarios());
@@ -425,7 +440,7 @@ int MainServidor::recibirConexiones(void*){
 							printf("Se ha alcanzado el limite de usuarios");
 							Log::getInstance()->info("Se ha alcanzado el limite de usuarios.");
 						}
-						enviarMensajeDeConexionAceptadaAl(idYPunteroAlSocket.id, socketConexion);
+						enviarModeloXmlxConexionAceptadaAl(idYPunteroAlSocket.id, socketConexion);
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
 				}else if(!usuarios->puedoTenerUsuariosNuevos()){
@@ -447,12 +462,11 @@ int MainServidor::recibirConexiones(void*){
 			}
 		}
 	}while(!seDebeCerrarElServidor);
-	for_each (vectorHilos.begin(), vectorHilos.end(), waitThread);
-	for_each (vectorSockets.begin(), vectorSockets.end(), freeSockets);
+	for_each (vectorHilos.begin(), vectorHilos.end(), waitThreadSDL);
+	for_each (vectorSockets.begin(), vectorSockets.end(), freeSocketsSDL);
 	return 0;
 }
-int MainServidor::consola(void*){
-
+int MainServidor::waitTeclasConsola(void*){
 	char entradaTeclado[20];
 
 	do {
@@ -461,7 +475,7 @@ int MainServidor::consola(void*){
 
 	seDebeCerrarElServidor = true;
 	//cuando cierro la conexion del socketDeEscucha, se crea igual un hilo, no controlo eso.
-	closesocket(socketDeEscucha);
+	closesocket(this->socketDeEscucha);
 	return 0;
 }
 void MainServidor::informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId){
