@@ -204,9 +204,11 @@ BalaView*  Juego::cargarBala(ServidorXml * confServidorXml){
 Jugador * Juego::getJugador(){
 	return this->jugador;
 }
-
+//Se que no es correcto proteger todo el metodo con un mutex, peroooo el señor
+// hilo recibir_mensajes esta tocando cosas que solo el hilo main deberia de tocar
+// el hilo recibir_mensajes solo deberia de notificar los cambios.
 void Juego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa) {
-
+	SDL_mutexP(mut);
 	seReinicio = true;
 	this->canAvionV = 0;
 	this->canElemV = 0;
@@ -239,6 +241,7 @@ void Juego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	Avion::getInstance()->setPosicion(this->jugador->getPosicion());
 
 	Mapa::getInstace()->reiniciar();
+	SDL_mutexV(mut);
 }
 
 void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
@@ -315,7 +318,8 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 		//Clear screen
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 		SDL_RenderClear( gRenderer );
-
+	
+		SDL_mutexP(mut);
 		//Render background
 		Mapa::getInstace()->dibujarFondoYElementos();
 
@@ -326,7 +330,7 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 		//Render sprite
 		Avion::getInstance()->render();
 
-		SDL_mutexP(mut);
+		
 		Graficador::getInstance()->graficarAviones(movimientosDeCompetidores);
 		SDL_mutexV(mut);
 
