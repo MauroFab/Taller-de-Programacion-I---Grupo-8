@@ -20,9 +20,6 @@ MainCliente* MainCliente::getInstance(){
 }
 
 MainCliente::MainCliente(){
-//	this->dirXML.assign("");
-//	this->conex = 0;
-//	this->len = 0;
 	this->conectado = false;
 	// aca deberia de obtener el ip, port y cargar los mensajes en el map
 	this->ip = "";
@@ -148,7 +145,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 	bool primerMensaje =true;
 	char bufferEntrada[MAX_BUFFER];
 
-	while (!cerrarConexion && !serverDesconectado){ 
+	while (!cerrarConexion && !serverDesconectado){
 
 		int len=MensajeSeguro::recibir(*((SOCKET*)ptrSock),bufferEntrada); //recibimos los datos que envie
 
@@ -176,7 +173,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 
 					EstadoAvion* estadoAvion = new EstadoAvion(stAvionXml->getId(), stAvionXml->getFrame(), stAvionXml->getPosX(), stAvionXml->getPosY());
 
-					// Itero la lista de proyectiles y los agrego al estado avion 
+					// Itero la lista de proyectiles y los agrego al estado avion
 					std::list<EstadoProyectilXml*>::iterator it;
 
 					std::list<EstadoProyectilXml*> lista = stAvionXml->getEstadosProyectiles();
@@ -274,15 +271,15 @@ void MainCliente::cargarNombreDeUsuario() {
 
 
 int MainCliente::conectar(){
-#ifndef FAKE_DEBUG_CLIENTE	
+#ifndef FAKE_DEBUG_CLIENTE
 	cargarIpYPuerto();
-#endif	
-	inicializarConexion(); 
-#ifndef FAKE_DEBUG_CLIENTE		
+#endif
+	inicializarConexion();
+#ifndef FAKE_DEBUG_CLIENTE
 	cargarNombreDeUsuario();
 #else
 	this->nombreDeUsuario.assign("cliente-W");
-#endif	
+#endif
 
 	if(conectado == true){
 		Log::getInstance()->warn(" el cliente ya se encuentra conectado.");
@@ -387,7 +384,7 @@ int MainCliente::conectar(){
 	return 0;
 }
 int MainCliente::terminarElCliente(){
-	
+
 	SDL_Delay(1000);
 	this->salir();
 	this->opt=OPT_SALIR;
@@ -455,7 +452,7 @@ int MainCliente::enviar(){
 			enc=1;
 			// usar el socket y enviar el mensaje
 			//recibir un mensaje
-			//TODO 
+			//TODO
 			if(chequearConexion(len2 = MensajeSeguro::recibir(sock,bufferEntrada)) < 0)
 				return -1;
 			MensajeXml mensajeIN;
@@ -481,8 +478,8 @@ int MainCliente::enviar(){
 int MainCliente::menu(){
 	opt = 0;
 	while (opt != OPT_SALIR){
-		// TODO: Por el momento no borro la pantalla asi veo que va llegando 
-		// system("CLS");	
+		// TODO: Por el momento no borro la pantalla asi veo que va llegando
+		// system("CLS");
 		printf("\n%s\n", "------------------------------------------------------------------------");
 		if(conectado)
 			std::cout<<"Se encuentra: CONECTADO" <<std::endl;
@@ -525,7 +522,7 @@ int MainCliente::actualizar(void* argv[]){
 	EstadoAvion* mov = (EstadoAvion*)argv[0];
 
 	EstadoAvionXml* msjMov = new EstadoAvionXml(mov->getId(), mov->getFrame(), mov->getPosX(), mov->getPosY());
-	
+
 	std::list<EstadoProyectil*>::iterator it;
 	std::list<EstadoProyectil*> listaP = mov->getEstadosProyectiles();
 
@@ -543,7 +540,7 @@ int MainCliente::actualizar(void* argv[]){
 		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
 	}
 
-	//Recuerdo que este metodo es solo para cuando los proyectiels esten en 
+	//Recuerdo que este metodo es solo para cuando los proyectiels esten en
 	//memoria dinamica
 	msjMov->liberarMemoriaProyectiles();
 	delete[] buffEnvio;
