@@ -54,8 +54,11 @@ public:
 	int readServidorXml(ServidorXml * servidorXml);
 	//se lee el servidorXML como un objeto generico
 	int readFrom(IGenericaVO * objetoXML);
-	//este metodo realiza la inicializacion de la configuracion grafica de SDL
-	bool initSDL();
+	/**
+	 * este metodo realiza la inicializacion de la configuracion grafica de SDL
+	 * @param nomClien  nombre del cliente usado en el titulo de la ventana
+	 */
+	bool initSDL(char * nomClien);
 	void reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa);
 	void ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa);
 	void close();
@@ -70,6 +73,13 @@ public:
 	//realiza la carga de una bala tipo, con la velocidad del 1er avion
 	BalaView * cargarBala(ServidorXml * confServidorXml);
 	Jugador * getJugador();
+	//operaciones de reset
+	//se encarga del reset de los elementos liberando la memoria usada por los objetos
+	//tanto de la view como de los que estos contienen
+	int resetElementos();
+	//se encarga del reset de los aviones liberando la memoria usada por los objetos
+	//tanto de la view como de los que estos contienen
+	int resetAviones();
 	
 private:
 	static bool instanceFlag;
