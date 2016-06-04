@@ -170,14 +170,6 @@ int Juego::cargarAviones(ServidorXml * confServidorXml){
 
 	//aviones
 	int cantA = confServidorXml->getCanAvs();
-	/*
-	if (!seReinicio) {
-		cantA = confServidorXml->getCanAvs();
-	} else {
-		this->cantidadDeVecesQueSeReinicio++;
-		cantA = confServidorXml->getCanAvs()-(4*this->cantidadDeVecesQueSeReinicio);
-	}
-	*/
 	AvionXml ** listaA = confServidorXml->getListaAviones();
 	for(int i = 0;i <cantA; i++){
 		AvionXml * avionX = listaA[i];		
@@ -231,7 +223,6 @@ int Juego::resetElementos(){
 			delete this->listaElemView[i];
 			this->listaElemView[i] = NULL;
 		}
-			
 	}
 	this->canElemV = 0;	
 	return 0;
@@ -250,16 +241,14 @@ int Juego::resetAviones(){
 	return 0;
 }
 
-
 //Se que no es correcto proteger todo el metodo con un mutex, peroooo el señor
 // hilo recibir_mensajes esta tocando cosas que solo el hilo main deberia de tocar
 // el hilo recibir_mensajes solo deberia de notificar los cambios.
 void Juego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa) {
+	
 	SDL_mutexP(mut);
 	seReinicio = true;
-	//this->canElemV = 0;//
 	resetElementos();
-	//this->canAvionV = 0;//
 	resetAviones();
 	static int tamanioMaximoMapa = 2000;
 	cargarElementos(confServidorXml);
@@ -273,8 +262,8 @@ void Juego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	for(int v = 0; v < this->canAvionV; v++){
 		AvionView * avionV = this->listaAvionView[v];
 		Graficador::getInstance()->agregarDatosAvion(avionV);
-	}	
-	//Graficador::getInstance()->agregarDatosBala("disparo_1.bmp", 1, 11, 25);
+	}
+
 	ConfiguracionJuegoXML::getInstance()->setBalaView(balaView);
 	Graficador::getInstance()->agregarDatosBala(balaView);
 
@@ -358,7 +347,6 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 				//Ese movimiento indica a los demas clientes que deben reiniciar el mapa
 				if(notificarMovimiento(new EstadoAvion(-2,0,0,0))<0)
 				quit=true;
-				//Mapa::getInstace()->reiniciar();
 			}
 			// Registrar mov del teclado
 			Avion::getInstance()->handleEvent( e );
@@ -379,7 +367,6 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 		//Render sprite
 		Avion::getInstance()->render();
 
-		
 		Graficador::getInstance()->graficarAviones(movimientosDeCompetidores);
 		SDL_mutexV(mut);
 

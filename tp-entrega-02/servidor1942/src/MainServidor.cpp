@@ -617,7 +617,6 @@ int MainServidor::mainPrincipal(){
 		SDL_DestroyMutex(mutColaDeUsuario[i]);
 	}
 	delete mutColaDeUsuario;
-	//SDL_DestroyMutex(mutColaDeUsuario[i]);
 	SDL_DestroyMutex(mutColaPrincipal);
 	SDL_DestroyMutex(mutLogger);
 	Log::getInstance()->debug("Servidor - Main Principal: se liberaron los recursos.");

@@ -24,7 +24,6 @@ MainCliente::MainCliente(){
 	// aca deberia de obtener el ip, port y cargar los mensajes en el map
 	this->ip = "";
 	this->port = -1;
-	// si usan el principal comentar inicializar()
 	this->parserx = new ParserXml();
 	this->servidorXml = new ServidorXml();
 
@@ -46,7 +45,6 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 		Log::getInstance()->error("ERROR: Error semantico.");
 		getParserXml()->cargarXmlCliente(0,argv);
 	}
-	//else{
 	//luego de la carga crea los datos a partir del XML
 	ClienteXml * clienteXml = getParserXml()->createDataClienteXml();
 	//se cargan los datos desde el cliente
@@ -57,10 +55,8 @@ void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 	char cadena[10];
 	sprintf(cadena,"%d",puerto);
 	this->port.assign(cadena);
-//	std::cout<< port<<std::endl;
 	// luego de usarlo se debe borrar
 	delete clienteXml;
-	//	}
 }
 
 ParserXml * MainCliente::getParserXml(){
@@ -72,7 +68,6 @@ int MainCliente::chequearConexion(int len){
 	if (len == 0){
 		printf("\n No llego el mensaje, se desconecto el servidor\n");
 		conectado=false;
-		// system("PAUSE");
 		return -1;
 	}
 	else if (len < 0){
@@ -85,7 +80,6 @@ int MainCliente::chequearConexion(int len){
 			printf("\nRed caida\n");
 		else
 			printf("\nError en conexion con el servidor\n");
-		// system("PAUSE");
 		return -1;
 	}
 
@@ -190,8 +184,6 @@ int MainCliente::recibirMensajes(void* ptrSock){
 					recreateServidorXml();
 					Protocolo::decodificar(bufferEntrada + offset, this->servidorXml);
 					Juego::getInstance()->reiniciar(this->servidorXml, 0);
-
-					//Mapa::getInstace()->reiniciar();
 				}
 				if(stAvionXml->getId() == -3){
 					int size;
@@ -263,8 +255,8 @@ int MainCliente::conectar(){
 #endif
 
 	if(conectado == true){
-		Log::getInstance()->warn(" el cliente ya se encuentra conectado.");
-		printf("ya se encuentra conectado \n"); //WARN?
+		Log::getInstance()->warn("El cliente ya se encuentra conectado.");
+		printf("Ya se encuentra conectado \n");
 	}
 	else{
 		//Intentamos establecer la conexión
@@ -388,70 +380,6 @@ int MainCliente::salir(){
 	return 0;
 }
 
-/*
-int MainCliente::enviar(){
-	if(!conectado){
-		Log::getInstance()->info(" Debe conectarse para enviar/recibir mensajes.");
-		printf("Debe conectarse para enviar/recibir mensajes. \n");
-		system("PAUSE");
-		return -1;
-	}
-
-	char bufferEntrada[MAX_BUFFER];
-	int id=-1,enc=0, len2 =2;
-	int encRecibido = 0;
-	printf("Para salir escriba 0 \n");
-
-	// se deberian de cargar los mensajes desde el XML
-	//TODO se cambia esto y se realiza en forma temprana, es decir a penas parsea
-	//pues esto se realiza luego de parsear que carga la lista de mensajes del cliente
-	//cargarIDMensajes();
-	while(enc!=1){
-		printf("Ingrese el ID del mensaje: ");
-		string numstring;
-		cin>>numstring;
-		id=atoi(numstring.c_str());
-		if(id==0)
-			return 0;
-		std::map<int,MensajeXml*>::iterator it;
-		it=mapMensajes.find(id);
-		if(it==mapMensajes.end()){
-			printf("Mensaje no encontrado\n");
-			enc=0;
-		}else{
-			//----------------
-			//se envia de a uno los mensajes, por eso no hace falta un dato para la cantidad
-			//total de mensajes (ahora trivial canMjs=1)
-			MensajeXml* pMsj = it->second;
-			char * buffEnvio = new char[MAX_BUFFER];
-			int sizeBytesTotalLista = Protocolo::codificar(*pMsj,buffEnvio);
-			//----------------
-			if(chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista))<0) //enviar el texto que se ha introducido
-				return -1;
-			Log::getInstance()->debug(it->second->getValor());
-			std::cout<< "Enviando:> ID:" << it->first << " => " << it->second->getValor();
-			enc=1;
-			// usar el socket y enviar el mensaje
-			//recibir un mensaje
-			//TODO
-			if(chequearConexion(len2 = MensajeSeguro::recibir(sock,bufferEntrada)) < 0)
-				return -1;
-			MensajeXml mensajeIN;
-			Protocolo::decodificar(bufferEntrada,&mensajeIN);
-
-			//bufferEntrada[len2] =0;
-			Log::getInstance()->debug(mensajeIN.getValor());
-			printf(" || respuesta servidor:> %s\n",mensajeIN.getValor());
-			delete pMsj;
-			delete buffEnvio;
-		}
-
-	}
-	system("PAUSE");
-	return 0;
-}
-*/
-
 /**
  * se encarga de liberar la memoria del servidorXML
  * y volver a alocar memoria para el nuevo servidorXML
@@ -478,32 +406,18 @@ int MainCliente::menu(){
 		else
 			std::cout<<"Se encuentra: DESCONECTADO" <<std::endl;
 		printf("\n<1> CONECTAR");
-		// printf("\n<2> DESCONECTAR");
 		printf("\n<3> SALIR");
-		// printf("\n<4> ENVIAR");
 		printf("\n");
 		string numstring;
 		cin>>numstring;
-		// scanf("%d",&id);
-		//if(!esUnNumero(numstring)){
-		//	cout<<"recuerde los valores tienen que ser numericos"<<endl;
-		//	system("PAUSE");
-		//}else{
 		opt=atoi(numstring.c_str());
-		//scanf("%d",&opt);
 		switch (opt){
 		case OPT_CONECTAR:
 			conectar();
 			break;
-	/*	case OPT_DESCONECTAR:
-			desconectar();
-			break; */
 		case OPT_SALIR:
 			salir();
 			break;
-	/*	case OPT_ENVIAR:
-			enviar();
-			break; */
 		}
 	}
 	return 0;

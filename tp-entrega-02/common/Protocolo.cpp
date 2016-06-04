@@ -8,6 +8,36 @@ Protocolo::~Protocolo()
 {
 }
 
+int Protocolo::validarMensaje(MensajeXml& mensaje) {
+	
+	char* valor = mensaje.getValor();
+	int tipoDato = mensaje.getTipo();
+
+	int codigoError = ParserXml::isValidValor(valor, tipoDato);
+	
+	if (codigoError < 0) {
+
+		if (tipoDato == TIPO_INT) {
+			
+			if (ParserXml::isValidDouble(valor) == 0) return -1;
+			if (ParserXml::isValidChar(valor) == 0) return -2;
+			return -3;
+
+		} else if (tipoDato == TIPO_CHAR) {
+
+			if (ParserXml::isValidDouble(valor) == 0) return -4;
+			return -5;
+
+		} else if (tipoDato == TIPO_DOUBLE) {
+
+			if (ParserXml::isValidChar(valor) == 0) return -6;
+			return -7;
+		}
+	}
+
+	return codigoError;
+}
+
 int Protocolo::codificar(MensajeXml &mensajeXml,char * buffer){
 	int sizeBytes = mensajeXml.getSizeBytes();
 	int id = mensajeXml.getId();
@@ -77,53 +107,6 @@ int Protocolo::decodificar(char * buffer,MensajeXml *mensajeXml){
 	return offset;
 }
 
-int Protocolo::validarMensaje(MensajeXml& mensaje) {
-	
-	char* valor = mensaje.getValor();
-	int tipoDato = mensaje.getTipo();
-
-	int codigoError = ParserXml::isValidValor(valor, tipoDato);
-	
-	if (codigoError < 0) {
-
-		if (tipoDato == TIPO_INT) {
-			
-			if (ParserXml::isValidDouble(valor) == 0) return -1;
-			if (ParserXml::isValidChar(valor) == 0) return -2;
-			return -3;
-
-		} else if (tipoDato == TIPO_CHAR) {
-
-			if (ParserXml::isValidDouble(valor) == 0) return -4;
-			return -5;
-
-		} else if (tipoDato == TIPO_DOUBLE) {
-
-			if (ParserXml::isValidChar(valor) == 0) return -6;
-			return -7;
-		}
-	}
-
-	return codigoError;
-}
-/*
-OJO no puede retornar un puntero a algo cuyo ambito finalizo, si se usa puede tirar error
-char* Protocolo::informacionSobreError(int codigoError) {
-	
-	if (codigoError == 1) return "Error: se esperaba un (int) y se recibió un (double)";
-	if (codigoError == 2) return "Error: se esperaba un (int) y se recibió un (char)";
-	if (codigoError == 3) return "Error: se esperaba un (int) y se recibió un (string)";
-
-	if (codigoError == 4) return "Error: se esperaba un (char) y se recibió un (double)";
-	if (codigoError == 5) return "Error: se esperaba un (char) y se recibió un (string)";
-
-	if (codigoError == 6) return "Error: se esperaba un (double) y se recibió un (char)";
-	if (codigoError == 7) return "Error: se esperaba un (double) y se recibió un (string)";
-
-	return "Ok: valor y tipo de dato correctos";
-}
-
-*/
 int Protocolo::codificar(SpriteXml &spriteXml,char * buffer){
 	int sizeBytes = spriteXml.getSizeBytes();
 	int id = spriteXml.getId();
