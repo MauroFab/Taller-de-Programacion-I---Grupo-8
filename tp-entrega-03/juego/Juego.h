@@ -101,7 +101,7 @@ private:
 	SDL_Renderer* gRenderer;
 
 	SDL_mutex *mut; // mutex para proteger la lista de movimientos
-	std::map<int,EstadoAvion*> movimientosDeCompetidores;
+	std::map<int,EstadoAvion*> estadoAviones;
 
 	int notificarMovimiento(EstadoAvion* estadoAvion);
 };

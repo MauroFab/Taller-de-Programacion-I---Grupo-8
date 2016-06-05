@@ -336,8 +336,6 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	//Render background
 	Mapa::getInstace()->dibujarFondoYElementos();
 
-	//Render sprite
-	Avion::getInstance()->render();
 	//se actualiza la pantalla
 	SDL_RenderPresent( gRenderer );
 
@@ -380,11 +378,8 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 		//Notifico los movimientos
 		if(notificarMovimiento(Avion::getInstance()->getEstado())<0)
 		quit = true;
-		//Render sprite
-		Avion::getInstance()->render();
-
 		
-		Graficador::getInstance()->graficarAviones(movimientosDeCompetidores);
+		Graficador::getInstance()->graficarAviones(estadoAviones);
 		SDL_mutexV(mut);
 
 		//Update screen
@@ -397,9 +392,9 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 void Juego::actualizarMovimientos(EstadoAvion* estadoAvion){
 	SDL_mutexP(mut);
 	int idAvion = estadoAvion->getId();
-	EstadoAvion* estadoAnterior = Juego::getInstance()->movimientosDeCompetidores[idAvion];
+	EstadoAvion* estadoAnterior = Juego::getInstance()->estadoAviones[idAvion];
 	delete estadoAnterior;
-	Juego::getInstance()->movimientosDeCompetidores[idAvion] = estadoAvion;
+	Juego::getInstance()->estadoAviones[idAvion] = estadoAvion;
 	SDL_mutexV(mut);
 }
 

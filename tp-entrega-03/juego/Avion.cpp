@@ -78,7 +78,7 @@ void Avion::hacerUnRoll(){
 	rollFlag = true;
 }
 
-void Avion::mover() {
+void Avion::continuarMovimientoDelAvion(){
 	if(!rollFlag){
 		// Mueve el avion hacia la derecha o a la izquierda
 		posicionX += velocidadX;
@@ -95,44 +95,41 @@ void Avion::mover() {
 		if( ( posicionY < 0 ) || ( posicionY + this->avionView->spriteXml->getAlto() > this->ventanaAlto ) ){
 			posicionY -= velocidadY;
 	   }
+	}else{
+		int cantDeFotogramas = this->avionView->spriteXml->getCantidad();
+		if ((frame / cantDeFotogramas) >= cantDeFotogramas - 1){
+			frame = 0;
+			rollFlag = false;
+		}
+			frame++;
 	}
-	if(!proyectiles.empty()){
+}
+
+void Avion::continuarMovimientoDeLosProyectiles(){
+	std::list<Proyectil*>::iterator it;
+	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
+		if ((*it)->estaEnPantalla()) {
+			(*it)->mover();
+		}
+	}
+}
+
+void Avion::eliminarLosProyectilesQueSalieronDeLaPantalla(){
 		Proyectil* ultimoProyectil = proyectiles.front();
 		if(!ultimoProyectil->estaEnPantalla() ){
 			proyectiles.pop_front();
 			delete ultimoProyectil;
 		}
-	}
 }
+void Avion::mover() {
+	continuarMovimientoDelAvion();
+	//Avanzo los proyectiles
+	continuarMovimientoDeLosProyectiles();
+	//Si hay proyectiles
+	if(!proyectiles.empty())
+		eliminarLosProyectilesQueSalieronDeLaPantalla();
 
-void Avion::render()
-{
-	int cantDeFotogramas = this->avionView->spriteXml->getCantidad();
-	if (rollFlag)
-		++frame;
-
-	SDL_Rect* currentClip = &fotogramas[ frame / cantDeFotogramas ];
-
-	if ((frame / cantDeFotogramas) >= cantDeFotogramas - 1){
-		frame = 0;
-		rollFlag = false;
-	}
-
-	std::list<Proyectil*>::iterator it;
-
-	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
-		
-		if ((*it)->estaEnPantalla()) {
-			
-			(*it)->mover();
-			(*it)->render();
-		}
-	}
-
-    // Muestra el avion
-	texturaAvion->render( posicionX, posicionY, renderer, currentClip );
 }
-
 
 EstadoAvion* Avion::getEstado() {
 

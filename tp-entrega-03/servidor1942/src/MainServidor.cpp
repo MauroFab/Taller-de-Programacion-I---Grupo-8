@@ -490,7 +490,7 @@ void MainServidor::informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mens
 				//Si el mensaje no vino del usuario i
 				//Si el usuario i esta conectado
 
-				if(i != mensajeConId->id && usuarios->estaConectado(i)){
+				if(usuarios->estaConectado(i)){
 					SDL_LockMutex(mutColaDeUsuario[i]);
 					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
 					EstadoAvionXml* pEstadoAvionXml = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());

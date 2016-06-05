@@ -31,7 +31,7 @@ class Avion {
 		~Avion();
 
 		void mover();
-		void render();
+
 		EstadoAvion* getEstado();
 		std::list<EstadoProyectil*> getEstadoProyectiles();
 		void setPosicion(Posicion pos);
@@ -53,6 +53,10 @@ class Avion {
 		void hacerUnRoll();
 
     private:
+		
+		void continuarMovimientoDelAvion();
+		void continuarMovimientoDeLosProyectiles();
+		void eliminarLosProyectilesQueSalieronDeLaPantalla();
 		int velocidad;
 		static bool instanceFlag;
 		static Avion* instance;
@@ -75,6 +79,8 @@ class Avion {
 		// Velocidad del avion
 		int velocidadX;
 		int velocidadY;
+private:
+void continuarMovimientoproyectiles(void);
 	public:
 		AvionView * avionView; //[AGREGACION] NO eliminar
 };
