@@ -29,6 +29,10 @@ class Avion {
 
 		~Avion();
 
+		//Se debe llamar para actualizar el movimiento, si hay que hacer un roll,
+		//se sigue haciendo un roll
+		//si se tiene que mover se mueve
+		//Si hay que disparar mas, dispara
 		void mover();
 
 		EstadoAvion* getEstado();
@@ -37,20 +41,22 @@ class Avion {
 		void inicializar(SDL_Renderer* renderer,int ventanaAncho,int ventanaAlto,AvionView * avionView);
 
 		//la velocidad debe ser positiva
-		//Y <- Y +/- delta_Y   donde delta_Y es la velocidad en Y	
+		//Siendo consciente que sumar velocidad a la izquierda es lo mismo que restar a la derecha
+		//Lo dejo por claridad de codigo cuando este pasado el modelo al servidor
 		void darVelocidadHaciaArriba();
 		void quitarVelocidadHaciaArriba();
-		void darVelocidadHaciaAbajo();	//repetido, eliminar
-		void quitarVelocidadHaciaAbajo();//repetido, eliminar
+		void darVelocidadHaciaAbajo();	
+		void quitarVelocidadHaciaAbajo();
 
-		//X <- X +/- delta_X   donde delta_X es la velocidad en X
+		//Idem comentario anterior
 		void darVelocidadHaciaLaDerecha();
 		void quitarVelocidadHaciaLaDerecha();
-		void darVelocidadHaciaLaIzquierda(); //repetido, eliminar
-		void quitarVelocidadHaciaLaIzquierda(); //repetido, eliminar
+		void darVelocidadHaciaLaIzquierda();
+		void quitarVelocidadHaciaLaIzquierda();
 
 		void disparar();
-		//OJO no hace nada, solo indica vuelta=true
+		//Solamente pone un flag en true, esto es todo lo necesario para marcar que se esta haciendo un roll.
+		//Los movimientos se realizan todos con la funcion mover
 		void hacerUnRoll();
 
     private:
