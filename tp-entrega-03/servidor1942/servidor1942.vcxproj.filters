@@ -93,6 +93,9 @@
     <ClCompile Include="..\common\Posicion.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\Evento.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AsignadorDeUsuarios.h">
@@ -159,6 +162,9 @@
       <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Posicion.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Evento.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

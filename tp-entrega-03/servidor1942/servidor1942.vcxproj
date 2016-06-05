@@ -89,6 +89,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\Evento.cpp" />
     <ClCompile Include="..\common\Log.cpp" />
     <ClCompile Include="..\common\MensajeSeguro.cpp" />
     <ClCompile Include="..\common\Posicion.cpp" />
@@ -113,6 +114,7 @@
     <ClCompile Include="src\MainServidor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\Evento.h" />
     <ClInclude Include="..\common\IGenericaVO.h" />
     <ClInclude Include="..\common\Log.h" />
     <ClInclude Include="..\common\MensajeSeguro.h" />

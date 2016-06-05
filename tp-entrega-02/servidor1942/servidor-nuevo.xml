@@ -1,5 +1,5 @@
 <servidor>
-	<cantidadMaximaClientes>2</cantidadMaximaClientes>
+	<cantidadMaximaClientes>1</cantidadMaximaClientes>
 	<puerto>15636</puerto>
 	<ventana>
 		<ancho>480</ancho>
@@ -32,36 +32,36 @@
 			<id>avion_1</id>
 			<path>avion_1.bmp</path>
 			<cantidad>7</cantidad>
-			<ancho>113</ancho>
-			<alto>195</alto>
+			<ancho>39</ancho>
+			<alto>68</alto>
 		</sprite>
 		<sprite>
 			<id>avion_2</id>
 			<path>avion_2.bmp</path>
 			<cantidad>7</cantidad>
-			<ancho>102</ancho>
-			<alto>195</alto>
+			<ancho>37</ancho>
+			<alto>74</alto>
 		</sprite>
 		<sprite>
 			<id>avion_3</id>
 			<path>avion_3.bmp</path>
 			<cantidad>7</cantidad>
-			<ancho>115</ancho>
-			<alto>202</alto>
+			<ancho>39</ancho>
+			<alto>66</alto>
 		</sprite>
 		<sprite>
 			<id>avion_4</id>
 			<path>avion_4.bmp</path>
 			<cantidad>7</cantidad>
-			<ancho>113</ancho>
-			<alto>195</alto>
+			<ancho>40</ancho>
+			<alto>63</alto>
 		</sprite>
 		<sprite>
 			<id>disparo_1</id>
 			<path>disparo_1.bmp</path>
 			<cantidad>1</cantidad>
-			<ancho>11</ancho>
-			<alto>25</alto>
+			<ancho>7</ancho>
+			<alto>16</alto>
 		</sprite>
 	</sprites>
 	<escenario>
