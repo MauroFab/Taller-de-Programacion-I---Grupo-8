@@ -377,7 +377,7 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
 		//Notifico los movimientos
 		if(notificarMovimiento(Avion::getInstance()->getEstado())<0)
-		quit = true;
+			quit = true;
 		
 		Graficador::getInstance()->graficarAviones(estadoAviones);
 		SDL_mutexV(mut);
