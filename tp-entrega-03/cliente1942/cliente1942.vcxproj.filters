@@ -61,6 +61,12 @@
     <Filter Include="Archivos de encabezado\Observador">
       <UniqueIdentifier>{13f802fb-74ba-40ba-b0cc-3c6609fb5c55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de código fuente\Juego\Controlador">
+      <UniqueIdentifier>{8b903f17-177e-4161-b555-7b309248a200}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Juego\Controlador">
+      <UniqueIdentifier>{d994b2cc-d15c-4351-88be-d83993e37712}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -197,6 +203,12 @@
     </ClCompile>
     <ClCompile Include="..\common\evento.cpp">
       <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Controlador.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\Controlador\Controlador.cpp">
+      <Filter>Archivos de código fuente\Juego\Controlador</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +349,9 @@
     </ClInclude>
     <ClInclude Include="..\common\evento.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Controlador\Controlador.h">
+      <Filter>Archivos de encabezado\Juego\Controlador</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

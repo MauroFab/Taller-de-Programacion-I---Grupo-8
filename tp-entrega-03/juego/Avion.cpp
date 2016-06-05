@@ -46,6 +46,7 @@ void Avion::inicializar(SDL_Renderer* rendererRecibido,int ventanaAncho,int vent
 
 			fotogramas[ i ] = fotograma;
 	}
+	velocidad = this->avionView->avionModel->velAvion;
 }
 
 Avion::Avion() {
@@ -73,49 +74,8 @@ void Avion::setPosicion(Posicion pos) {
 	this->posicionY = pos.getPosY();
 }
 
-bool Avion::handleEvent( SDL_Event& e ){
-	bool cambiaEstado = false;
-	int velocidad = this->avionView->avionModel->velAvion;
-
-    // Si se presiona una tecla
-	if( e.type == SDL_KEYDOWN && e.key.repeat == 0){
-        switch( e.key.keysym.sym )
-        {
-			// Ajusta la velocidad
-            case SDLK_UP: velocidadY -= velocidad; cambiaEstado = true; break;
-            case SDLK_DOWN: velocidadY += velocidad; cambiaEstado = true; break;
-            case SDLK_LEFT: velocidadX -= velocidad; cambiaEstado = true; break;
-            case SDLK_RIGHT: velocidadX += velocidad; cambiaEstado = true; break;
-			// Realiza el roll
-			case SDLK_RETURN: rollFlag = true; cambiaEstado = true; break;
-		}
-	}
-    // Si se libero una tecla
-    else if( e.type == SDL_KEYUP && e.key.repeat == 0)
-    {
-        switch( e.key.keysym.sym )
-        {
-			// Ajusta la velocidad
-            case SDLK_UP: velocidadY += velocidad; cambiaEstado = true; break;
-            case SDLK_DOWN: velocidadY -= velocidad; cambiaEstado = true; break;
-            case SDLK_LEFT: velocidadX += velocidad; cambiaEstado = true; break;
-            case SDLK_RIGHT: velocidadX -= velocidad; cambiaEstado = true; break;
-
-			// Realiza un disparo
-			case SDLK_SPACE: {
-
-				if(!rollFlag){
-					Proyectil* proyectil = new Proyectil(renderer);
-					//El centro del proyectil esta en el pixel 5
-					proyectil->setCoordenasDeComienzo(posicionX + (this->avionView->spriteXml->getAncho() / 2) - 5, posicionY - (this->avionView->spriteXml->getAlto()/24));
-					proyectiles.push_back(proyectil);
-					cambiaEstado = true; 
-				}
-
-			} break;
-		}
-	}
-	return cambiaEstado;
+void Avion::hacerUnRoll(){
+	rollFlag = true;
 }
 
 void Avion::mover() {
@@ -173,6 +133,7 @@ void Avion::render()
 	texturaAvion->render( posicionX, posicionY, renderer, currentClip );
 }
 
+
 EstadoAvion* Avion::getEstado() {
 
 	EstadoAvion*  estado =  new EstadoAvion(this->avionView->avionModel->id, frame, posicionX, posicionY); 
@@ -191,4 +152,41 @@ std::list<EstadoProyectil*> Avion::getEstadoProyectiles() {
 		lista.push_back((*it)->getEstado());
 	}
 	return lista;
+}
+
+void Avion::darVelocidadHaciaArriba(){
+	velocidadY -= velocidad;
+}
+void Avion::quitarVelocidadHaciaArriba(){
+	velocidadY += velocidad;
+}
+		
+void Avion::darVelocidadHaciaAbajo(){
+	velocidadY += velocidad;
+}
+void Avion::quitarVelocidadHaciaAbajo(){
+	velocidadY -= velocidad;
+}
+
+void Avion::darVelocidadHaciaLaDerecha(){
+	velocidadX += velocidad;
+}
+void Avion::quitarVelocidadHaciaLaDerecha(){
+	velocidadX -= velocidad;
+}
+
+void Avion::darVelocidadHaciaLaIzquierda(){
+	velocidadX -= velocidad;
+}
+void Avion::quitarVelocidadHaciaLaIzquierda(){
+	velocidadX += velocidad;
+}
+
+void Avion::disparar(){
+	if(!rollFlag){
+		Proyectil* proyectil = new Proyectil(renderer);
+		//El centro del proyectil esta en el pixel 5
+		proyectil->setCoordenasDeComienzo(posicionX + (this->avionView->spriteXml->getAncho() / 2) - 5, posicionY - (this->avionView->spriteXml->getAlto()/24));
+		proyectiles.push_back(proyectil);
+	}
 }

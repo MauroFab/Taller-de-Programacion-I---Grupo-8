@@ -5,6 +5,7 @@
 #include <map>
 #include <SDL2/SDL.h>
 #include <SDL2\SDL_image.h>
+#include "Controlador\Controlador.h"
 
 #define PATH_FONDO_INICIO "fondoInicio.bmp"
 

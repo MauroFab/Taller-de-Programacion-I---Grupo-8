@@ -29,7 +29,7 @@ class Avion {
 		static Avion* getInstance();
 
 		~Avion();
-		bool handleEvent( SDL_Event& e );
+
 		void mover();
 		void render();
 		EstadoAvion* getEstado();
@@ -37,8 +37,23 @@ class Avion {
 		void setPosicion(Posicion pos);
 		void inicializar(SDL_Renderer* renderer,int ventanaAncho,int ventanaAlto,AvionView * avionView);
 
-    private:
+		void darVelocidadHaciaArriba();
+		void quitarVelocidadHaciaArriba();
+		
+		void darVelocidadHaciaAbajo();
+		void quitarVelocidadHaciaAbajo();
 
+		void darVelocidadHaciaLaDerecha();
+		void quitarVelocidadHaciaLaDerecha();
+
+		void darVelocidadHaciaLaIzquierda();
+		void quitarVelocidadHaciaLaIzquierda();
+
+		void disparar();
+		void hacerUnRoll();
+
+    private:
+		int velocidad;
 		static bool instanceFlag;
 		static Avion* instance;
 		Avion();

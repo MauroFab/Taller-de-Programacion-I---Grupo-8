@@ -113,6 +113,7 @@
     <ClCompile Include="..\common\xml\VentanaXml.cpp" />
     <ClCompile Include="..\juego\Avion.cpp" />
     <ClCompile Include="..\juego\ConfiguracionJuegoXML.cpp" />
+    <ClCompile Include="..\juego\Controlador\Controlador.cpp" />
     <ClCompile Include="..\juego\ElementoDelMapa.cpp" />
     <ClCompile Include="..\juego\EstadoAvion.cpp" />
     <ClCompile Include="..\juego\EstadoProyectil.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="..\common\xml\VentanaXml.h" />
     <ClInclude Include="..\juego\Avion.h" />
     <ClInclude Include="..\juego\ConfiguracionJuegoXML.h" />
+    <ClInclude Include="..\juego\Controlador\Controlador.h" />
     <ClInclude Include="..\juego\ElementoDelMapa.h" />
     <ClInclude Include="..\juego\EstadoAvion.h" />
     <ClInclude Include="..\juego\EstadoProyectil.h" />

@@ -341,6 +341,8 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	//se actualiza la pantalla
 	SDL_RenderPresent( gRenderer );
 
+	Controlador controlador(Avion::getInstance());
+
 	/*------------------------------------------------------------------*/
 	SDL_Event e;
 	//Mientras el usuario no desee salir
@@ -360,8 +362,9 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 				quit=true;
 				//Mapa::getInstace()->reiniciar();
 			}
-			// Registrar mov del teclado
-			Avion::getInstance()->handleEvent( e );
+			// Registrar mov del teclado, y por ahora actualizar el modelo en base a eso
+			// Luego solamente notificara el evento al servidor
+			controlador.procesarTeclasPresionadas( e );
 		}
 
 		//Clear screen
@@ -374,6 +377,7 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
 		Avion::getInstance()->mover();
 
+		//Notifico los movimientos
 		if(notificarMovimiento(Avion::getInstance()->getEstado())<0)
 		quit = true;
 		//Render sprite
