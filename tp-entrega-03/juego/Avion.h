@@ -1,4 +1,3 @@
-#pragma once
 #ifndef _AVION_H_
 #define _AVION_H_
 
@@ -37,19 +36,21 @@ class Avion {
 		void setPosicion(Posicion pos);
 		void inicializar(SDL_Renderer* renderer,int ventanaAncho,int ventanaAlto,AvionView * avionView);
 
+		//la velocidad debe ser positiva
+		//Y <- Y +/- delta_Y   donde delta_Y es la velocidad en Y	
 		void darVelocidadHaciaArriba();
 		void quitarVelocidadHaciaArriba();
-		
-		void darVelocidadHaciaAbajo();
-		void quitarVelocidadHaciaAbajo();
+		void darVelocidadHaciaAbajo();	//repetido, eliminar
+		void quitarVelocidadHaciaAbajo();//repetido, eliminar
 
+		//X <- X +/- delta_X   donde delta_X es la velocidad en X
 		void darVelocidadHaciaLaDerecha();
 		void quitarVelocidadHaciaLaDerecha();
-
-		void darVelocidadHaciaLaIzquierda();
-		void quitarVelocidadHaciaLaIzquierda();
+		void darVelocidadHaciaLaIzquierda(); //repetido, eliminar
+		void quitarVelocidadHaciaLaIzquierda(); //repetido, eliminar
 
 		void disparar();
+		//OJO no hace nada, solo indica vuelta=true
 		void hacerUnRoll();
 
     private:

@@ -74,10 +74,6 @@ void Avion::setPosicion(Posicion pos) {
 	this->posicionY = pos.getPosY();
 }
 
-void Avion::hacerUnRoll(){
-	rollFlag = true;
-}
-
 void Avion::continuarMovimientoDelAvion(){
 	if(!rollFlag){
 		// Mueve el avion hacia la derecha o a la izquierda
@@ -150,7 +146,7 @@ std::list<EstadoProyectil*> Avion::getEstadoProyectiles() {
 	}
 	return lista;
 }
-
+//BUG-000 aca hay un error pues plantea que se suma la misma velocidad en ambas coordenadas
 void Avion::darVelocidadHaciaArriba(){
 	velocidadY -= velocidad;
 }
@@ -186,4 +182,8 @@ void Avion::disparar(){
 		proyectil->setCoordenasDeComienzo(posicionX + (this->avionView->spriteXml->getAncho() / 2) - 5, posicionY - (this->avionView->spriteXml->getAlto()/24));
 		proyectiles.push_back(proyectil);
 	}
+}
+
+void Avion::hacerUnRoll(){
+	rollFlag = true;
 }
