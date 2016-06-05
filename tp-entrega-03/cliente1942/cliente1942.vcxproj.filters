@@ -195,6 +195,9 @@
     <ClCompile Include="..\common\model\FondoModel.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\evento.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -330,6 +333,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\common\model\FondoModel.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\evento.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

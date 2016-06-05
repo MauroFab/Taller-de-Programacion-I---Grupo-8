@@ -4,8 +4,7 @@ Protocolo::Protocolo()
 {
 }
 
-Protocolo::~Protocolo()
-{
+Protocolo::~Protocolo(){
 }
 
 int Protocolo::codificar(MensajeXml &mensajeXml,char * buffer){
@@ -958,6 +957,48 @@ int Protocolo::decodificar(char* buffer, Posicion* posicion) {
 	posicion->setPosY(posY);
 
 	posicion->calculateSizeBytes();
+
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	posicion->toString(cadena);
+	printf("%s\n",cadena);	
+#endif	
+
+	return offset;
+}
+
+int Protocolo::codificar(Evento &evento, char* buffer) {
+
+	int sizeBytes = evento.getSizeBytes();
+	int offset = 0;
+	int numeroDeevento = evento.getNumeroDeEvento();
+
+	memcpy(buffer + offset,&sizeBytes,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&numeroDeevento,sizeof(int));
+	offset += sizeof(int);
+	#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	posicion->toString(cadena);
+	printf("%s\n",cadena);	
+	#endif	
+
+	return offset;
+}
+
+int Protocolo::decodificar(char* buffer, Evento* evento) {
+	int sizeBytes = -1;
+	int numeroDeEvento = -1;
+	int offset = 0;
+
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&numeroDeEvento,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	evento->setNumeroDeEvento(numeroDeEvento);
 
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
