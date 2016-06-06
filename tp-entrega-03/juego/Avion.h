@@ -43,12 +43,14 @@ class Avion {
 		//la velocidad debe ser positiva
 		//Siendo consciente que sumar velocidad a la izquierda es lo mismo que restar a la derecha
 		//Lo dejo por claridad de codigo cuando este pasado el modelo al servidor
+		//Y <- Y +/- delta_Y   donde delta_Y es la velocidad en Y
 		void darVelocidadHaciaArriba();
 		void quitarVelocidadHaciaArriba();
 		void darVelocidadHaciaAbajo();	
 		void quitarVelocidadHaciaAbajo();
 
 		//Idem comentario anterior
+		//X <- X +/- delta_X   donde delta_X es la velocidad en X
 		void darVelocidadHaciaLaDerecha();
 		void quitarVelocidadHaciaLaDerecha();
 		void darVelocidadHaciaLaIzquierda();
@@ -57,6 +59,7 @@ class Avion {
 		void disparar();
 		//Solamente pone un flag en true, esto es todo lo necesario para marcar que se esta haciendo un roll.
 		//Los movimientos se realizan todos con la funcion mover
+		//OJO no hace nada, solo indica vuelta=true
 		void hacerUnRoll();
 
     private:
