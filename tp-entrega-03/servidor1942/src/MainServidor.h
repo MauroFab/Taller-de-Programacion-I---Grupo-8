@@ -72,10 +72,16 @@ private:
 	SDL_mutex **mutColaDeUsuario;
 	SDL_mutex *mutLogger;
 
-	/*Funciones*/
-
-	void parsearArchivoXmlReinicio();
-
+	/**
+	 * recarga el archivo XML y lo vuelve a parsear
+	 * borra el anterior ServidorXml
+	 * y crea otra instancia de ServidorXml
+	 */
+	void recargarServidorXml();
+	/**
+	 * crea la instancia de  ServidorXml
+	 * @return retorna la cantidadDeClientesMaxima
+	 */
 	int parsearXML(int argc, char* argv[]);
 
 public:
@@ -86,7 +92,7 @@ public:
 	virtual ~MainServidor();
 	void parsearArchivoXml(int argc, char* argv[]);
 
-	/*Funciones estatáticas ultilizadas como puntero a función*/
+	/*Funciones estaticas ultilizadas como puntero a funcion*/
 
 	static int fun_atenderCliente(void* punteroAlSocketRecibido);
 	static int fun_recibirConexiones(void*);
@@ -99,7 +105,12 @@ public:
 	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,EstadoAvionXml* pMsj);
 	void grabarEnElLogLaDesconexion(int len);
 
-	bool seguimosConectados(int len);
+	/**
+	 * @param sizeBytesIn cantidad de bytes de la conexion
+	 * @return true si es positivo
+	 * false en otro caso
+	 */
+	bool isHayBytes(int sizeBytesIn);
 	bool esUnMensajeDeUnEstadoAvion(MensajeConId* mensajeConId);
 	bool esUnMensajeIndicandoQueNecesitoUnEstadoMapa(MensajeConId* mensajeConId);
 	bool esUnEstadoMapa(EstadoAvionXml* estadoAvionXml);

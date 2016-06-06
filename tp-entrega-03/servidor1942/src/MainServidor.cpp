@@ -51,14 +51,14 @@ int MainServidor::parsearXML(int argc, char* argv[]) {
 	return cantidadDeClientesMaxima;
 }
 
-void MainServidor::parsearArchivoXmlReinicio() {
+void MainServidor::recargarServidorXml() {
 	//al reiniciar debe liberar la memoria del servidorXml
 	if (this->servidorXml != NULL){
 		//BUG-000 PARCHE ERROR
 		//delete this->servidorXml;
 		this->servidorXml = NULL;
 	}
-	parsearXML(this->argc, this->argv);
+	int cantidadDeClientesMaxima = parsearXML(this->argc, this->argv);
 }
 
 void MainServidor::parsearArchivoXml(int argc, char* argv[]){
@@ -130,11 +130,10 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 	IdYPunteroAlSocket idYPunteroAlSocket = structRecibido.idYPunteroAlSocket;
 	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
 	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
-	int id = idYPunteroAlSocket.id;
-	std::queue<EstadoAvionXml*>* colaDeMensajesParaEnviar;
+	int id = idYPunteroAlSocket.id;	
 	EstadoAvionXml* stAvionXml;
 	bool* seCerroLaConexionPointer = structRecibido.seCerroLaConexion;
-	colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
+	std::queue<EstadoAvionXml*>* colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
 	printf("Se esta preparando para enviar mensajes al usuario: %i\n",id);
 	//-----------------------------
 	while(!(*seCerroLaConexionPointer)){
@@ -151,7 +150,7 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 			if(indicaUnReinicioDelMapa(stAvionXml)) {
 				//para esta operacion de reinicion no debe ejecutarse en forma simultanea
 				SDL_LockMutex(mutColaDeUsuario[id]);
-				parsearArchivoXmlReinicio();
+				recargarServidorXml();
 				SDL_UnlockMutex(mutColaDeUsuario[id]);
 				sizeEnvio += Protocolo::codificar(*(this->servidorXml), buffEnvio + sizeEnvio);
 			}
@@ -192,8 +191,8 @@ void MainServidor::grabarEnElLogLaDesconexion(int len){
 	}
 	SDL_UnlockMutex(mutLogger);
 }
-bool MainServidor::seguimosConectados(int len){
-	return(len > 0);
+bool MainServidor::isHayBytes(int sizeBytesIn){
+	return(sizeBytesIn > 0);
 }
 bool MainServidor::esUnEstadoAvion(EstadoAvionXml* estadoAvionXml){
 	return(estadoAvionXml->getId() >= 0);
@@ -213,8 +212,7 @@ bool MainServidor::esUnEstadoMapa(EstadoAvionXml* estadoAvionXml){
 bool MainServidor::indicaUnReinicioDelMapa(EstadoAvionXml* estadoAvionXml){
 	return(estadoAvionXml->getId() == -2);
 }
-int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
-	int len;
+int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {	
 	char bufferEntrada[MAX_BUFFER];
 	SDL_Thread* threadDeEnvioDeMensajes;
 	StructDelEnviadorDeMensajes* structParaEnviar = new StructDelEnviadorDeMensajes;
@@ -228,24 +226,24 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 	IdYPunteroAlSocket idYPunteroAlSocket = *((IdYPunteroAlSocket*) idYPunteroAlSocketRecibido);
 	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
 	int id = idYPunteroAlSocket.id;
-	len = sizeof(struct sockaddr);
+	int sizeBytesIn = 1;
 	structParaEnviar->idYPunteroAlSocket = idYPunteroAlSocket;
 	structParaEnviar->seCerroLaConexion = seCerroLaConexion;
-	threadDeEnvioDeMensajes = SDL_CreateThread(MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos, "mensajesParaElCliente", (void*) structParaEnviar);
-	bool esElPrimerMensajeDelEstadoDeUnAvion = true;
-	while (seguimosConectados(len) && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
+	threadDeEnvioDeMensajes = SDL_CreateThread(MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos, "mensajesParaElCliente", (void*) structParaEnviar);	
+	bool b1erEstadoAvionXml = true;	//flag para parchar la 1er lectura de un mensaje
+	while (isHayBytes(sizeBytesIn) && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
 
 		EstadoAvionXml *stAvionXml;
-		len=MensajeSeguro::recibir(socket,bufferEntrada);
+		sizeBytesIn = MensajeSeguro::recibir(socket,bufferEntrada);
 
-		if (seguimosConectados(len)){
-			if(!esElPrimerMensajeDelEstadoDeUnAvion)
+		if (isHayBytes(sizeBytesIn)){
+			if(!b1erEstadoAvionXml)
 				delete stAvionXml;
 
 			stAvionXml = new EstadoAvionXml();
 			Protocolo::decodificar(bufferEntrada,stAvionXml);
 			if(esUnEstadoAvion(stAvionXml)){
-				esElPrimerMensajeDelEstadoDeUnAvion = false;
+				b1erEstadoAvionXml = false;
 				actualizarLaUltimaPosicionDelUsuario(id, stAvionXml);
 				SDL_LockMutex(mutColaPrincipal);
 				guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
@@ -258,8 +256,8 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 				guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
 				SDL_UnlockMutex(mutColaPrincipal);
 			}
-		}else if(!esElPrimerMensajeDelEstadoDeUnAvion){
-			grabarEnElLogLaDesconexion(len);
+		}else if(!b1erEstadoAvionXml){
+			grabarEnElLogLaDesconexion(sizeBytesIn);
 			// El frame 42 es el grisado
 			stAvionXml->setFrame(42);
 			stAvionXml->eliminarProyectiles();
@@ -487,21 +485,21 @@ void MainServidor::informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mens
 	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 	//Para todos los usuarios
 	for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
-				//Si el mensaje no vino del usuario i
-				//Si el usuario i esta conectado
+		//Si el mensaje no vino del usuario i
+		//Si el usuario i esta conectado
 
-				if(usuarios->estaConectado(i)){
-					SDL_LockMutex(mutColaDeUsuario[i]);
-					colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-					EstadoAvionXml* pEstadoAvionXml = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
-					std::list<EstadoProyectilXml*>::iterator it;
-					std::list<EstadoProyectilXml*> listaP = mensajeConId->estadoAvionXml.getEstadosProyectiles();
-					for (it = listaP.begin(); it != listaP.end(); it++) {
-						pEstadoAvionXml->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
-					}
-					colaDeMensajesDelUsuario->push(pEstadoAvionXml);
-					SDL_UnlockMutex(mutColaDeUsuario[i]);
-				}
+		if(usuarios->estaConectado(i)){
+			SDL_LockMutex(mutColaDeUsuario[i]);
+			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
+			EstadoAvionXml* pEstadoAvionXml = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
+			std::list<EstadoProyectilXml*>::iterator it;
+			std::list<EstadoProyectilXml*> listaP = mensajeConId->estadoAvionXml.getEstadosProyectiles();
+			for (it = listaP.begin(); it != listaP.end(); it++) {
+				pEstadoAvionXml->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+			}
+			colaDeMensajesDelUsuario->push(pEstadoAvionXml);
+			SDL_UnlockMutex(mutColaDeUsuario[i]);
+		}
 	}
 }
 
