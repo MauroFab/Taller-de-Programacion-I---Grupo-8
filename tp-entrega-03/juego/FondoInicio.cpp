@@ -1,6 +1,5 @@
 #include "FondoInicio.h"
 
-
 FondoInicio::FondoInicio(std::string pathFondo, SDL_Renderer* renderer) {
 
 	this->renderer = renderer;

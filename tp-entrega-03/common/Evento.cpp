@@ -1,6 +1,5 @@
 #include "Evento.h"
 
-
 Evento::Evento(int numeroDeEvento){
 	this->numeroDeEvento = numeroDeEvento;
 }

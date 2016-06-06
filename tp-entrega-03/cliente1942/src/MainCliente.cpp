@@ -420,9 +420,9 @@ int MainCliente::menu(){
 	return 0;
 }
 
-int MainCliente::actualizar(void* argv[]){
+int MainCliente::actualizar(void* listEstadoAvion[]){
 
-	EstadoAvion* mov = (EstadoAvion*)argv[0];
+	EstadoAvion* mov = (EstadoAvion*)listEstadoAvion[0];
 
 	EstadoAvionXml* msjMov = new EstadoAvionXml(mov->getId(), mov->getFrame(), mov->getPosX(), mov->getPosY());
 

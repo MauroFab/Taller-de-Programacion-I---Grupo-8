@@ -103,7 +103,7 @@ private:
 	void cargarIP();
 	void cargarPuerto();
 
-	virtual int actualizar(void* argv[]);
+	virtual int actualizar(void* listEstadoAvion[]);
 };
 
 #endif //_MAINCLIENTE_H_

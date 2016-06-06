@@ -17,14 +17,14 @@ void Observable::agregarObservador(Observador* obs) {
 	SDL_mutexV(mutObs);
 }
 
-int Observable::notificar(void* argv[]) {
+int Observable::notificar(void* listObs[]) {
 
 	SDL_mutexP(mutObs);
 	int estado=0;
 	vector<Observador*>::iterator it;
 	for (it = this->observadores.begin(); it != this->observadores.end(); it++) {
 		
-		if((*it)->actualizar(argv)<0)
+		if((*it)->actualizar(listObs)<0)
 		estado=-1;
 	}
 	SDL_mutexV(mutObs);
