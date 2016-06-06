@@ -14,7 +14,6 @@
 
 #include "Textura.h"
 #include "Proyectil.h"
-//#include "ConfiguracionJuegoXML.h"
 #include "EstadoAvion.h"
 #include "EstadoProyectil.h"
 #include "../common/view/AvionView.h"
@@ -63,7 +62,7 @@ class Avion {
 		void hacerUnRoll();
 
     private:
-		
+
 		void continuarMovimientoDelAvion();
 		void continuarMovimientoDeLosProyectiles();
 		void eliminarLosProyectilesQueSalieronDeLaPantalla();
