@@ -13,7 +13,6 @@ public:
 	static int enviar(SOCKET& sock,char * buffer, int tamanio);
 	static int recibir(SOCKET& sock,char* buffer);
 
-
 };
 
 #endif //_MENSAJESEGURO_H_

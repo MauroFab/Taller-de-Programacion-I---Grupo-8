@@ -5,7 +5,6 @@
 class EstadoProyectil {
 
 public:
-
 	EstadoProyectil(int frame, int posX, int posY);
 	~EstadoProyectil(void);
 
@@ -18,7 +17,6 @@ public:
 	void setPosY(int y);
 
 private:
-
 	int frame;
 	int x;
 	int y;

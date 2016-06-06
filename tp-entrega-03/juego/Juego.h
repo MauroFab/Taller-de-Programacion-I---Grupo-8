@@ -9,7 +9,6 @@
 
 #define PATH_FONDO_INICIO "fondoInicio.bmp"
 
-#include "Movimiento.h"
 #include "Avion.h"
 #include "Mapa.h"
 #include "ConfiguracionJuegoXML.h"
@@ -35,7 +34,7 @@ using namespace std;
 
 class Juego : public Observable, public ICargable
 {
-//private:	
+//private:
 public:
 	ElementoView * listaElemView[MAX_ELEM_VIEW];
 	int canElemV;
@@ -81,7 +80,7 @@ public:
 	//se encarga del reset de los aviones liberando la memoria usada por los objetos
 	//tanto de la view como de los que estos contienen
 	int resetAviones();
-	
+
 private:
 	static bool instanceFlag;
 	static Juego* instance;
@@ -96,7 +95,7 @@ private:
 	//este metodo dibuja un fondo incial
 	//pero su tamaño esta harcodeado, deberia sacarse
 	void dibujarFondoInicio();
-	
+
 	SDL_Window* gWindow;
 	SDL_Renderer* gRenderer;
 

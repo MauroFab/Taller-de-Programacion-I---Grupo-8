@@ -2,7 +2,6 @@
 #ifndef _GRAFICADOR_H_
 #define _GRAFICADOR_H_
 
-#include "Movimiento.h"
 #include "EstadoAvion.h"
 #include "EstadoProyectil.h"
 #include "GraficoAvion.h"

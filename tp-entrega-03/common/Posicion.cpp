@@ -1,7 +1,6 @@
 #include "Posicion.h"
 
 Posicion::Posicion(int x, int y) {
-
     this->x = x;
     this->y = y;
 	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int);
@@ -12,16 +11,13 @@ Posicion::Posicion() {
 }
 
 Posicion::~Posicion() {
-
 }
 
 int Posicion::getPosX() {
-
     return this->x;
 }
 
 int Posicion::getPosY() {
-
     return this->y;
 }
 

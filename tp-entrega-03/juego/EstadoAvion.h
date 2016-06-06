@@ -3,10 +3,16 @@
 #define _ESTADOAVION_H_
 
 #include "EstadoProyectil.h"
-
 #include <list>
 
 class EstadoAvion {
+private:
+
+	int id;
+	int frame;
+	int x;
+	int y;
+	std::list<EstadoProyectil*> estadosProyectiles;
 
 public:
 	
@@ -26,12 +32,5 @@ public:
 	void setEstadoProyectiles(std::list<EstadoProyectil*> lista);
 	void agregarEstadoProyectil(EstadoProyectil* estadoProyectil);
 
-private:
-
-	int id;
-	int frame;
-	int x;
-	int y;
-	std::list<EstadoProyectil*> estadosProyectiles;
 };
 #endif //_ESTADOAVION_H_
