@@ -46,15 +46,15 @@ class Avion {
 		//Y <- Y +/- delta_Y   donde delta_Y es la velocidad en Y
 		void darVelocidadHaciaArriba();
 		void quitarVelocidadHaciaArriba();
-		void darVelocidadHaciaAbajo();	
-		void quitarVelocidadHaciaAbajo();
+		void darVelocidadHaciaAbajo();	//repetido, eliminar
+		void quitarVelocidadHaciaAbajo();//repetido, eliminar
 
 		//Idem comentario anterior
 		//X <- X +/- delta_X   donde delta_X es la velocidad en X
 		void darVelocidadHaciaLaDerecha();
 		void quitarVelocidadHaciaLaDerecha();
-		void darVelocidadHaciaLaIzquierda();
-		void quitarVelocidadHaciaLaIzquierda();
+		void darVelocidadHaciaLaIzquierda(); //repetido, eliminar
+		void quitarVelocidadHaciaLaIzquierda(); //repetido, eliminar
 
 		void disparar();
 		//Solamente pone un flag en true, esto es todo lo necesario para marcar que se esta haciendo un roll.
