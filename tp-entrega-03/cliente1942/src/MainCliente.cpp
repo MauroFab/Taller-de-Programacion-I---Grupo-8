@@ -6,7 +6,6 @@ MainCliente* MainCliente::single = NULL;
 bool MainCliente::serverDesconectado = true;
 bool MainCliente::cerrarConexion = true;
 
-
 MainCliente* MainCliente::getInstance(){
 
 	if(! instanceFlag){
@@ -26,7 +25,6 @@ MainCliente::MainCliente(){
 	this->port = -1;
 	this->parserx = new ParserXml();
 	this->servidorXml = new ServidorXml();
-//	this->nombreDeUsuario = "";
 }
 
 MainCliente::~MainCliente(){
@@ -238,12 +236,12 @@ int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE
 	cargarNombreDeUsuario(insJuego->getJugador());
 #else
-	this->nombreDeUsuario.assign("cliente-W");
+	insJuego->getJugador()->nombreDeUsuario.assign("Cliente-W");
 #endif
 
 	if(conectado == true){
 		Log::getInstance()->warn(" el cliente ya se encuentra conectado.");
-		printf("ya se encuentra conectado \n"); //WARN?
+		printf("ya se encuentra conectado \n");
 	}
 	else{
 		//Intentamos establecer la conexión
