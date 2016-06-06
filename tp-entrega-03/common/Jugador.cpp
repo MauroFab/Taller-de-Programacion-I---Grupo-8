@@ -3,6 +3,7 @@
 Jugador::Jugador()
 {
 	this->idCliente = -1;
+	this->nombreDeUsuario.assign("");
 }
 
 Jugador::~Jugador()

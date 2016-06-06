@@ -56,10 +56,8 @@ Avion::Avion() {
 }
 
 Avion::~Avion() {
-
 	delete [] fotogramas;
 	texturaAvion->liberar();
-
 	std::list<Proyectil*>::iterator it;
 
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
@@ -133,7 +131,7 @@ EstadoAvion* Avion::getEstado() {
 	std::list<EstadoProyectil*> lista;
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
-		estado->agregarEstadoProyectil((*it)->getEstado());
+		estado->agregarEstadoProyectil((*it)->createEstado());
 	}
 	return estado;
 }
@@ -142,7 +140,7 @@ std::list<EstadoProyectil*> Avion::getEstadoProyectiles() {
 	std::list<EstadoProyectil*> lista;
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
-		lista.push_back((*it)->getEstado());
+		lista.push_back((*it)->createEstado());
 	}
 	return lista;
 }
@@ -177,7 +175,7 @@ void Avion::quitarVelocidadHaciaLaIzquierda(){
 
 void Avion::disparar(){
 	if(!rollFlag){
-		Proyectil* proyectil = new Proyectil(renderer);
+		Proyectil* proyectil = new Proyectil(renderer,this->balaView);
 		//El centro del proyectil esta en el pixel 5
 		proyectil->setCoordenasDeComienzo(posicionX + (this->avionView->spriteXml->getAncho() / 2) - 5, posicionY - (this->avionView->spriteXml->getAlto()/24));
 		proyectiles.push_back(proyectil);

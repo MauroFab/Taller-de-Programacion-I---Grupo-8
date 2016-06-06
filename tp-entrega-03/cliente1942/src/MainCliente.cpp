@@ -26,7 +26,7 @@ MainCliente::MainCliente(){
 	this->port = -1;
 	this->parserx = new ParserXml();
 	this->servidorXml = new ServidorXml();
-	this->nombreDeUsuario = "";
+//	this->nombreDeUsuario = "";
 }
 
 MainCliente::~MainCliente(){
@@ -63,7 +63,6 @@ ParserXml * MainCliente::getParserXml(){
 }
 
 int MainCliente::chequearConexion(int len){
-
 	if (len == 0){
 		printf("\n No llego el mensaje, se desconecto el servidor\n");
 		conectado=false;
@@ -137,11 +136,8 @@ int MainCliente::fun_recibirMensajes(void* ptrSock) {
 int MainCliente::recibirMensajes(void* ptrSock){
 	bool primerMensaje =true;
 	char bufferEntrada[MAX_BUFFER];
-
 	while (!cerrarConexion && !serverDesconectado){
-
 		int len=MensajeSeguro::recibir(*((SOCKET*)ptrSock),bufferEntrada); //recibimos los datos que envie
-
 		if (len>0){
 			// espero el mensaje del server, comenzar el juego para desbloquear SDL
 			if(primerMensaje){
@@ -156,25 +152,17 @@ int MainCliente::recibirMensajes(void* ptrSock){
 					primerMensaje=false;
 				}
 			} else {
-
 				//si seguimos conectados
-				//--------------------------------
 				EstadoAvionXml * stAvionXml = new EstadoAvionXml();
 				int offset = Protocolo::decodificar(bufferEntrada,stAvionXml);
-
 				if(stAvionXml->getId() >= 0){
-
 					EstadoAvion* estadoAvion = new EstadoAvion(stAvionXml->getId(), stAvionXml->getFrame(), stAvionXml->getPosX(), stAvionXml->getPosY());
-
 					// Itero la lista de proyectiles y los agrego al estado avion
 					std::list<EstadoProyectilXml*>::iterator it;
-
 					std::list<EstadoProyectilXml*> lista = stAvionXml->getEstadosProyectiles();
-
 					for (it = lista.begin(); it != lista.end(); it++) {
 						estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
 					}
-
 					Juego::getInstance()->actualizarMovimientos(estadoAvion);
 				}
 				//Un mensaje con id -2 indica que se reinicio el mapa
@@ -194,13 +182,12 @@ int MainCliente::recibirMensajes(void* ptrSock){
 				}
 				delete stAvionXml;
 			}
-			//--------------------------------
-		}else{
+		}
+		else{
 			grabarEnElLogLaDesconexion(len);
 			serverDesconectado = true;
 		}
 	}
-
 	return 0;
 }
 
@@ -231,7 +218,7 @@ void MainCliente::cargarIpYPuerto() {
 	cargarPuerto();
 }
 
-void MainCliente::cargarNombreDeUsuario() {
+void MainCliente::cargarNombreDeUsuario(Jugador * jugador) {
 	system("CLS");
 	printf("\n%s\n", "------------------------------------------------------------------------");
 	printf("Ingrese su nombre de usuario\n");
@@ -239,16 +226,17 @@ void MainCliente::cargarNombreDeUsuario() {
 	while (strcmp(nombreDeUsuario.c_str(), "") == 0) {
 		cin>>nombreDeUsuario;
 	}
-	this->nombreDeUsuario = nombreDeUsuario;
+	jugador->nombreDeUsuario.assign(nombreDeUsuario);
 }
 
 int MainCliente::conectar(){
+	Juego * insJuego = Juego::getInstance();
 #ifndef FAKE_DEBUG_CLIENTE
 	cargarIpYPuerto();
 #endif
 	inicializarConexion();
 #ifndef FAKE_DEBUG_CLIENTE
-	cargarNombreDeUsuario();
+	cargarNombreDeUsuario(insJuego->getJugador());
 #else
 	this->nombreDeUsuario.assign("cliente-W");
 #endif
@@ -270,22 +258,17 @@ int MainCliente::conectar(){
 		else{
 			// Se envia un mensaje al servidor para que valide el nombre de usuario
 			MensajeXml mensajeUsuario;
-			mensajeUsuario.setValor((char*)this->nombreDeUsuario.c_str(), strlen((this->nombreDeUsuario).c_str()));
+			mensajeUsuario.setValor((char*)insJuego->getJugador()->nombreDeUsuario.c_str(), strlen(insJuego->getJugador()->nombreDeUsuario.c_str()));
 			mensajeUsuario.setTipo(TIPO_STRING);
 			mensajeUsuario.calculateSizeBytes();
 
 			char bufferSalida [MAX_BUFFER];
-
 			int size = Protocolo::codificar(mensajeUsuario, bufferSalida);
-
 			MensajeSeguro::enviar(sock, bufferSalida, size);
-
-			// Se rerrcibe la confirmación de la validación del nombre de usuario
-
-			int len2 = 2;
 			char bufferEntrada[MAX_BUFFER];
 
-			len2 = MensajeSeguro::recibir(sock,bufferEntrada);
+			// Se rerrcibe la confirmación de la validación del nombre de usuario
+			int len2 = MensajeSeguro::recibir(sock,bufferEntrada);
 
 			if (len2 <= 0){// Es un error
 				chequearConexion(len2);
@@ -321,17 +304,16 @@ int MainCliente::conectar(){
 
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(fun_recibirMensajes, "recibirMensajes", &sock);
-
-					Juego * insJuego = Juego::getInstance();
+					
 					insJuego->getJugador()->setIdCliente(atoi(idUsuario));
 					insJuego->getJugador()->setPosicionAvion(posicion);
 
 					Juego::getInstance()->readServidorXml(this->servidorXml);
 					Juego::getInstance()->agregarObservador(this);
-					Juego::getInstance()->initSDL((char*)this->nombreDeUsuario.c_str());
+					Juego::getInstance()->initSDL((char*)insJuego->getJugador()->nombreDeUsuario.c_str());
 					Juego::getInstance()->ejecutar(this->servidorXml, posicionMapa.getPosY());
 					// se termina el programa cuando el usuario hace click en x del SDL_window
-				terminarElCliente();
+					terminarElCliente();
 				}
 				else if (strcmp(respuesta,MSJ_SUPERO_MAX) == 0){
 					// El server envia un mensaje al superar la cantidad de clientes
@@ -347,7 +329,6 @@ int MainCliente::conectar(){
 
 					Log::getInstance()->error(bufferEntrada);
 					printf("Respuesta servidor:> %s\n",MSJ_USR_YA_CONECT);
-
 					desconectar();
 				}
 			}
@@ -421,11 +402,9 @@ int MainCliente::menu(){
 }
 
 int MainCliente::actualizar(void* listEstadoAvion[]){
-
+	//solo se usa el 1er elemento de la lista
 	EstadoAvion* mov = (EstadoAvion*)listEstadoAvion[0];
-
 	EstadoAvionXml* msjMov = new EstadoAvionXml(mov->getId(), mov->getFrame(), mov->getPosX(), mov->getPosY());
-
 	std::list<EstadoProyectil*>::iterator it;
 	std::list<EstadoProyectil*> listaP = mov->getEstadosProyectiles();
 
@@ -436,8 +415,8 @@ int MainCliente::actualizar(void* listEstadoAvion[]){
 	char * buffEnvio = new char[MAX_BUFFER];
 	int sizeBytesTotalLista = Protocolo::codificar(*msjMov,buffEnvio);
 	// TODO: test
-	int estado=0;
-	if((estado=chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista)))<0) { //enviar el texto que se ha introducido
+	int estado = chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista));
+	if(estado < 0) { //enviar el texto que se ha introducido
 		printf("No se pudo enviar el movimiento, el cliente termina \n");
 		system("PAUSE");
 		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.

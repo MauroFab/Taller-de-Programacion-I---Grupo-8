@@ -49,12 +49,6 @@
     <Filter Include="Archivos de encabezado\Conexion">
       <UniqueIdentifier>{647045c7-462b-498e-ab70-b89291f371a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de código fuente\Juego\Configuracion">
-      <UniqueIdentifier>{7dad4ffa-ddd8-4691-b3bc-0964d28d6e74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\Juego\Configuracion">
-      <UniqueIdentifier>{bcba8b38-7070-442d-8aae-ef797437bcb6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de código fuente\Observador">
       <UniqueIdentifier>{011561b0-fb3b-476c-99fd-6cb2d10ea4ce}</UniqueIdentifier>
     </Filter>
@@ -150,9 +144,6 @@
     <ClCompile Include="..\juego\Textura.cpp">
       <Filter>Archivos de código fuente\Juego\Modelo</Filter>
     </ClCompile>
-    <ClCompile Include="..\juego\ConfiguracionJuegoXML.cpp">
-      <Filter>Archivos de código fuente\Juego\Configuracion</Filter>
-    </ClCompile>
     <ClCompile Include="..\juego\Juego.cpp">
       <Filter>Archivos de código fuente\Juego\Modelo</Filter>
     </ClCompile>
@@ -202,9 +193,6 @@
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="..\common\evento.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Controlador.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\Controlador\Controlador.cpp">
@@ -286,9 +274,6 @@
     </ClInclude>
     <ClInclude Include="src\MainCliente.h">
       <Filter>Archivos de encabezado\Conexion</Filter>
-    </ClInclude>
-    <ClInclude Include="..\juego\ConfiguracionJuegoXML.h">
-      <Filter>Archivos de encabezado\Juego\Configuracion</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\Juego.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>

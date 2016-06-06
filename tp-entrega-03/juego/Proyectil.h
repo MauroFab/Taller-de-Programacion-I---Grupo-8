@@ -3,8 +3,8 @@
 #define _PROYECTIL_H_
 #include <stdio.h>
 #include "Textura.h"
-#include "ConfiguracionJuegoXML.h"
 #include "EstadoProyectil.h"
+#include "../common/view/BalaView.h"
 //************************
 //esto NOO tiene que estar
 
@@ -14,13 +14,17 @@ class Proyectil {
 	public:
 		static const int ANCHO_PROYECTIL = 11;
 		static const int ALTO_PROYECTIL = 25;
-		Proyectil(SDL_Renderer* rendererRecibido);
+		Proyectil(SDL_Renderer* rendererRecibido,BalaView * balaView);
 		virtual ~Proyectil(void);
 		bool estaEnPantalla();
 		void mover();
 		void render();
 		void setCoordenasDeComienzo(int posX, int posY);
-		EstadoProyectil* getEstado();
+		/**
+		 * esta funcion crea nuevos estados
+		 * @return un nuevo estado 
+		 */
+		EstadoProyectil* createEstado();
 	private:
 		SDL_Rect *fotogramas;
 		Textura* texturaProyectil;

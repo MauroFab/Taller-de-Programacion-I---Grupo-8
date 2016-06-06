@@ -11,7 +11,6 @@
 
 #include "Avion.h"
 #include "Mapa.h"
-#include "ConfiguracionJuegoXML.h"
 #include "Graficador.h"
 #include "FondoInicio.h"
 #include "../common/observer/Observable.h"
@@ -42,7 +41,7 @@ public:
 	int canAvionV;
 	FondoView * fondoView;
 	//por ahora solo 1(UNA) bala, pero deberian ser N balas, 1 por avion
-//	BalaView * balaView;
+	BalaView * balaView;
 public:
 
 	static Juego* getInstance();

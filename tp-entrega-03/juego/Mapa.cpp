@@ -14,8 +14,6 @@ Mapa* Mapa::getInstace() {
 
 void Mapa::inicializar(SDL_Renderer* rendererRecibido,FondoView * fondoView, int posicionInicial) {
 	char * pathFondo = fondoView->spriteXml->getPath();
-	ConfiguracionJuegoXML* configJuego = ConfiguracionJuegoXML::getInstance();
-
 	tamanioMaximoMapa = fondoView->altoFondo;
 	renderer = rendererRecibido;
 
@@ -23,12 +21,6 @@ void Mapa::inicializar(SDL_Renderer* rendererRecibido,FondoView * fondoView, int
 	if( !texturaMapa->cargarDeArchivo(pathFondo,renderer ) ){
 		texturaMapa->cargarDeArchivo( FONDO_DEFAULT,renderer );
 	}
-	/*
-	texturaIsla= new Textura();
-	if( !texturaIsla->cargarDeArchivo( configJuego->getPathIsla(),renderer) ){
-		texturaIsla->cargarDeArchivo( "signoInterrogacion.bmp",renderer );
-	}
-	*/
 	anchoMapa = texturaMapa->getWidth();
 	altoMapa = texturaMapa->getHeight();	
 	this->getInstace()->configurarElMapaConLaPosicion(posicionInicial);

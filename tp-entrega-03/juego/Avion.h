@@ -14,7 +14,7 @@
 
 #include "Textura.h"
 #include "Proyectil.h"
-#include "ConfiguracionJuegoXML.h"
+//#include "ConfiguracionJuegoXML.h"
 #include "EstadoAvion.h"
 #include "EstadoProyectil.h"
 #include "../common/view/AvionView.h"
@@ -93,5 +93,7 @@ private:
 void continuarMovimientoproyectiles(void);
 	public:
 		AvionView * avionView; //[AGREGACION] NO eliminar
+		BalaView * balaView; //[AGREGACION] NO eliminar
 };
 #endif //_AVION_H_
+

@@ -3,7 +3,6 @@
 #define _MAPA_H_
 #include "Textura.h"
 #include "ElementoDelMapa.h"
-#include "ConfiguracionJuegoXML.h"
 #include "../common/view/ElementoView.h"
 #include "../common/view/FondoView.h"
 #include <list>

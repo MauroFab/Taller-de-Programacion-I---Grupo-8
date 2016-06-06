@@ -15,10 +15,10 @@ class Jugador
 private:
 	int idCliente;
 	Posicion poscion;
-
 public:
 	Jugador();
 	virtual ~Jugador();
+	string nombreDeUsuario;
 
 	void setIdCliente(int idCliente);
 	int getIdCliente();
