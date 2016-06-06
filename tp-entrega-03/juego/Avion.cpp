@@ -1,69 +1,26 @@
 #include "Avion.h"
 
-bool Avion::instanceFlag = false;
-Avion* Avion::instance = NULL;
-
-Avion* Avion::getInstance() {
-
-	if(!instanceFlag){
-        instance = new Avion();
-        instanceFlag = true;
-    }
-    return instance;
-}
-
-void Avion::inicializar(SDL_Renderer* rendererRecibido,int ventanaAncho,int ventanaAlto,AvionView * avionView) {
+Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* balaView) {
 
 	this->ventanaAncho = ventanaAncho;
 	this->ventanaAlto = ventanaAlto;
-	this->avionView = avionView;
-
+	this->altoAvion = avionView->spriteXml->getAlto();
+	this->anchoAvion = avionView->spriteXml->getAncho();
+	this->velocidad = avionView->avionModel->velAvion;
     velocidadX = 0;
     velocidadY = 0;
-
+	cantDeFotogramas = avionView->spriteXml->getCantidad();
 	frame = 0;
 	rollFlag = false;
-
-	renderer = rendererRecibido;
-
-	if (fotogramas != NULL) {
-		delete [] fotogramas;
-	}
-	fotogramas = new SDL_Rect[avionView->spriteXml->getCantidad()];
-
-	if( !texturaAvion->cargarDeArchivo( avionView->spriteXml->getPath(), renderer ) )
-	{
-		texturaAvion->cargarDeArchivo("avionNoEncontrado.bmp", renderer);
-	}
-		for(int i=0; i < avionView->spriteXml->getCantidad(); i++){
-
-			SDL_Rect fotograma;
-
-			fotograma.x = avionView->spriteXml->getAncho()*i;//anchoFotograma * i;
-			fotograma.y = 0;
-			fotograma.w = avionView->spriteXml->getAncho();//anchoFotograma;
-			fotograma.h = avionView->spriteXml->getAlto();//altoFotograma;
-
-			fotogramas[ i ] = fotograma;
-	}
-	velocidad = this->avionView->avionModel->velAvion;
-}
-
-Avion::Avion() {
-
-	fotogramas = NULL;
-	texturaAvion = new Textura();
+	id = avionView->avionModel->id;
+	this->balaView = balaView;
 }
 
 Avion::~Avion() {
-	delete [] fotogramas;
-	texturaAvion->liberar();
 	std::list<Proyectil*>::iterator it;
-
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
 		delete (*it);
 	}
-	//NO se hace DELETE de AvionView, pues es [AGREGACION]
 }
 
 void Avion::setPosicion(Posicion pos) {
@@ -78,7 +35,7 @@ void Avion::continuarMovimientoDelAvion(){
 		posicionX += velocidadX;
 
 		// Para que no se salga de la pantalla en X
-		if( ( posicionX < 0 ) || ( posicionX + this->avionView->spriteXml->getAncho() > this->ventanaAncho ) ){
+		if( ( posicionX < 0 ) || ( posicionX + anchoAvion > this->ventanaAncho ) ){
 			posicionX -= velocidadX;
 		}
 
@@ -86,11 +43,10 @@ void Avion::continuarMovimientoDelAvion(){
 		posicionY += velocidadY;
 
 		// Para que no se salga de la pantalla en Y
-		if( ( posicionY < 0 ) || ( posicionY + this->avionView->spriteXml->getAlto() > this->ventanaAlto ) ){
+		if( ( posicionY < 0 ) || ( posicionY + altoAvion > this->ventanaAlto ) ){
 			posicionY -= velocidadY;
 	   }
 	}else{
-		int cantDeFotogramas = this->avionView->spriteXml->getCantidad();
 		if ((frame / cantDeFotogramas) >= cantDeFotogramas - 1){
 			frame = 0;
 			rollFlag = false;
@@ -127,7 +83,7 @@ void Avion::mover() {
 
 EstadoAvion* Avion::getEstado() {
 
-	EstadoAvion*  estado =  new EstadoAvion(this->avionView->avionModel->id, frame, posicionX, posicionY); 
+	EstadoAvion*  estado =  new EstadoAvion(id, frame, posicionX, posicionY); 
 	std::list<EstadoProyectil*> lista;
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
@@ -175,9 +131,9 @@ void Avion::quitarVelocidadHaciaLaIzquierda(){
 
 void Avion::disparar(){
 	if(!rollFlag){
-		Proyectil* proyectil = new Proyectil(renderer,this->balaView);
+		Proyectil* proyectil = new Proyectil(this->balaView);
 		//El centro del proyectil esta en el pixel 5
-		proyectil->setCoordenasDeComienzo(posicionX + (this->avionView->spriteXml->getAncho() / 2) - 5, posicionY - (this->avionView->spriteXml->getAlto()/24));
+		proyectil->setCoordenasDeComienzo(posicionX + (anchoAvion / 2) - 5, posicionY - (altoAvion/24));
 		proyectiles.push_back(proyectil);
 	}
 }

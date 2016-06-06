@@ -81,6 +81,7 @@ public:
 	int resetAviones();
 
 private:
+	Avion* miAvion;
 	static bool instanceFlag;
 	static Juego* instance;
 	Juego();

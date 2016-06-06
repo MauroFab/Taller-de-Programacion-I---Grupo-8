@@ -14,11 +14,10 @@ class Proyectil {
 	public:
 		static const int ANCHO_PROYECTIL = 11;
 		static const int ALTO_PROYECTIL = 25;
-		Proyectil(SDL_Renderer* rendererRecibido,BalaView * balaView);
+		Proyectil(BalaView * balaView);
 		virtual ~Proyectil(void);
 		bool estaEnPantalla();
 		void mover();
-		void render();
 		void setCoordenasDeComienzo(int posX, int posY);
 		/**
 		 * esta funcion crea nuevos estados
@@ -26,9 +25,6 @@ class Proyectil {
 		 */
 		EstadoProyectil* createEstado();
 	private:
-		SDL_Rect *fotogramas;
-		Textura* texturaProyectil;
-		SDL_Renderer* renderer;
 		int frame;
 		int cantDeFotogramas;
 		int anchoFotograma;

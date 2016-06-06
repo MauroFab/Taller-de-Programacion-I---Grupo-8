@@ -287,9 +287,9 @@ void Juego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	}
 
 	int id_cliente = this->jugador->getIdCliente();
-	Avion::getInstance()->balaView = balaView;
-	Avion::getInstance()->inicializar(gRenderer,this->ventanaAncho,this->ventanaAlto,this->listaAvionView[id_cliente]);
-	Avion::getInstance()->setPosicion(this->jugador->getPosicion());
+	delete miAvion;
+	miAvion = new Avion(this->ventanaAncho, this->ventanaAlto,this->listaAvionView[id_cliente], balaView);
+	miAvion->setPosicion(this->jugador->getPosicion());
 
 	Mapa::getInstace()->reiniciar();
 	SDL_mutexV(mut);
@@ -327,9 +327,8 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	}
 
 	int id_cliente = this->jugador->getIdCliente();
-	Avion::getInstance()->balaView = balaView;
-	Avion::getInstance()->inicializar(gRenderer,this->ventanaAncho,this->ventanaAlto,this->listaAvionView[id_cliente]);
-	Avion::getInstance()->setPosicion(this->jugador->getPosicion());
+	miAvion = new Avion(this->ventanaAncho,this->ventanaAlto,listaAvionView[id_cliente], balaView);
+	miAvion->setPosicion(this->jugador->getPosicion());
 
 	/*------------------------------------------------------------------*/
 
@@ -343,7 +342,7 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	//se actualiza la pantalla
 	SDL_RenderPresent( gRenderer );
 
-	Controlador controlador(Avion::getInstance());
+	Controlador controlador(miAvion);
 
 	/*------------------------------------------------------------------*/
 	SDL_Event e;
@@ -377,10 +376,10 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 		//Render background
 		Mapa::getInstace()->dibujarFondoYElementos();
 
-		Avion::getInstance()->mover();
+		miAvion->mover();
 
 		//Notifico los movimientos
-		if(notificarMovimiento(Avion::getInstance()->getEstado())<0)
+		if(notificarMovimiento(miAvion->getEstado())<0)
 			quit = true;
 
 		Graficador::getInstance()->graficarAviones(estadoAviones);
