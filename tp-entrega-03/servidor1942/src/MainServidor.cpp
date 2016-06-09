@@ -554,19 +554,22 @@ void MainServidor::crearAviones(){
 	int anchoDeLaVentana, altoDeLaVentana;
 	anchoDeLaVentana = servidorXml->getVentanaXmlCopy()->getAncho();
 	altoDeLaVentana = servidorXml->getVentanaXmlCopy()->getAlto();
+
 	for(int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++){
-		AvionView* avionView;
-		AvionModel* avionModel;
+		SpriteXml* spriteBala;
 		BalaView* balaView;
 		BalaModel* balaModel;
+		//Todo lo relacionado a la bala se saca del avion 0
+		//No se usa uno solo para poder liberar la memoria por separado al eliminar el avion
+		spriteBala = SpriteXml::findSpriteById(avionXml[0]->getIdSpBala(),spriteXml,servidorXml->getCanSprs());
+		balaModel = new BalaModel(avionXml[0]);
+		balaView = new BalaView(balaModel, spriteBala);
+		AvionView* avionView;
+		AvionModel* avionModel;
 		SpriteXml* spriteAvion;
-		SpriteXml* spriteBala;
 		spriteAvion = SpriteXml::findSpriteById(avionXml[i]->getIdSpAvion(),spriteXml,servidorXml->getCanSprs());
-		spriteBala = SpriteXml::findSpriteById(avionXml[i]->getIdSpBala(),spriteXml,servidorXml->getCanSprs());
 		avionModel = new AvionModel(avionXml[i]);
 		avionView = new AvionView(avionModel, spriteAvion);
-		balaModel = new BalaModel(avionXml[i]);
-		balaView = new BalaView(balaModel, spriteBala);
 		avion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, avionView, balaView);
 	}
 
