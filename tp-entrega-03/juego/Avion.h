@@ -19,7 +19,7 @@
 #include "../common/view/AvionView.h"
 #include "../common/Posicion.h"
 #include <list>
-
+#include "../common/Evento.h"
 class Avion {
 
     public:
@@ -37,6 +37,11 @@ class Avion {
 		std::list<EstadoProyectil*> getEstadoProyectiles();
 		void setPosicion(Posicion pos);
 
+		//Este metodo llama a uno de los de abajo de acuerdo al evento que recibe
+		void realizarAccionEnBaseA(Evento* evento);
+
+		//Todos estos metodos seguramente seran puestos como privados mas adelante, y  son los usados por el metodo
+		//realizarAccionEnBaseA(Evento* evento)
 		void darVelocidadHaciaArriba();
 		void quitarVelocidadHaciaArriba();
 		void darVelocidadHaciaAbajo();	

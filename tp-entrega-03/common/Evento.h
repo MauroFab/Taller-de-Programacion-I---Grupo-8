@@ -15,8 +15,11 @@ const int soltadaLaTeclaDeMovimientoHaciaAbajo = 8;
 const int apretadaLaTeclaDeDisparo= 9;
 const int soltadaLaTeclaDeDisparo = 10;
 
-const int apretadaLaTeclaDeReinicio= 11;
-const int soltadaLaTeclaDeReinicio = 12;
+const int apretadaLaTeclaDeRoll = 11;
+const int soltadaLaTeclaDeRoll = 12;
+
+const int apretadaLaTeclaDeReinicio= 13;
+const int soltadaLaTeclaDeReinicio = 14;
 
 class Evento
 {

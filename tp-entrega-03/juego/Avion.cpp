@@ -100,6 +100,42 @@ std::list<EstadoProyectil*> Avion::getEstadoProyectiles() {
 	}
 	return lista;
 }
+
+void Avion::realizarAccionEnBaseA(Evento* evento){
+	switch(evento->getNumeroDeEvento()){
+    case apretadaLaTeclaDeMovimientoHaciaIzquierda  :
+		this->darVelocidadHaciaLaIzquierda();
+       break;
+    case soltadaLaTeclaDeMovimientoHaciaIzquierda   :
+		this->quitarVelocidadHaciaLaIzquierda();
+       break; 
+	case apretadaLaTeclaDeMovimientoHaciaDerecha   :
+		this->darVelocidadHaciaLaDerecha();
+       break; 
+	case soltadaLaTeclaDeMovimientoHaciaDerecha    :
+		this->quitarVelocidadHaciaLaDerecha();
+       break; 
+	case apretadaLaTeclaDeMovimientoHaciaArriba   :
+		this->darVelocidadHaciaArriba();
+       break; 
+	case soltadaLaTeclaDeMovimientoHaciaArriba  :
+		this->quitarVelocidadHaciaArriba();
+       break; 
+	case apretadaLaTeclaDeMovimientoHaciaAbajo  :
+		this->darVelocidadHaciaAbajo();
+       break; 
+	case soltadaLaTeclaDeMovimientoHaciaAbajo  :
+		this->quitarVelocidadHaciaAbajo();
+       break; 
+	case apretadaLaTeclaDeDisparo :
+		this->disparar();
+       break; 
+	case apretadaLaTeclaDeRoll  :
+		this->hacerUnRoll();
+       break; 
+}
+
+
 //BUG-000 aca hay un error pues plantea que se suma la misma velocidad en ambas coordenadas
 void Avion::darVelocidadHaciaArriba(){
 	velocidadY -= velocidad;

@@ -572,7 +572,6 @@ void MainServidor::crearAviones(){
 		avionView = new AvionView(avionModel, spriteAvion);
 		avion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, avionView, balaView);
 	}
-
 }
 /*-------- Funciones publicas --------*/
 int MainServidor::mainPrincipal(){

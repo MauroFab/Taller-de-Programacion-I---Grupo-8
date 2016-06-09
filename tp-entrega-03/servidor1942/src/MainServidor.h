@@ -172,6 +172,7 @@ public:
 	//Crea los aviones basandose en el servidorXml
 	//Y los pone en aviones, el atributo del mainServidor
 	//En futuros cambios quedaran encapsulados adentro del juego
+	//Nota: No define la posicion inicial de los aviones.
 	void crearAviones();
 	int mainPrincipal();
 };
