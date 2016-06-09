@@ -543,7 +543,34 @@ void MainServidor::informarATodosLosClientesDelReinicioDelEscenario(MensajeConId
 		}
 	}
 }
+void MainServidor::crearAviones(){
+	avion = new Avion*;
+	AvionXml** avionXml;
+	avionXml = servidorXml->getListaAviones();
+	avionXml = servidorXml->getListaAviones();
+	SpriteXml** spriteXml;
+	spriteXml = servidorXml->getListaSprites();
 
+	int anchoDeLaVentana, altoDeLaVentana;
+	anchoDeLaVentana = servidorXml->getVentanaXmlCopy()->getAncho();
+	altoDeLaVentana = servidorXml->getVentanaXmlCopy()->getAlto();
+	for(int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++){
+		AvionView* avionView;
+		AvionModel* avionModel;
+		BalaView* balaView;
+		BalaModel* balaModel;
+		SpriteXml* spriteAvion;
+		SpriteXml* spriteBala;
+		spriteAvion = SpriteXml::findSpriteById(avionXml[i]->getIdSpAvion(),spriteXml,servidorXml->getCanSprs());
+		spriteBala = SpriteXml::findSpriteById(avionXml[i]->getIdSpBala(),spriteXml,servidorXml->getCanSprs());
+		avionModel = new AvionModel(avionXml[i]);
+		avionView = new AvionView(avionModel, spriteAvion);
+		balaModel = new BalaModel(avionXml[i]);
+		balaView = new BalaView(balaModel, spriteBala);
+		avion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, avionView, balaView);
+	}
+
+}
 /*-------- Funciones publicas --------*/
 int MainServidor::mainPrincipal(){
 	Log::getInstance()->debug("Servidor - Main Principal");
@@ -552,6 +579,7 @@ int MainServidor::mainPrincipal(){
 	mutColaDeUsuario = new SDL_mutex*[usuarios->getCantidadMaximaDeUsuarios()];
 	posicionDelMapa = 0;
 	seActualizoLaUltimaPosicionDelMapa = true;
+	crearAviones();
 	for(int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++){
 		mutColaDeUsuario[i] = SDL_CreateMutex();
 	}

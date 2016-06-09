@@ -30,6 +30,11 @@ using std::ofstream;
 #include "../../common/xml/EstadoAvionXml.h"
 #include "../../common/Protocolo.h"
 #include "../../common/MensajeSeguro.h"
+#include "../../juego/Avion.h"
+#include "../../common/view/AvionView.h"
+#include "../../common/view/BalaView.h"
+#include "../../common/model/AvionModel.h"
+#include "../../common/model/BalaModel.h"
 
 //funciondes de hilos de SDL
 void freeSocketsSDL (SOCKET* s);
@@ -54,11 +59,17 @@ private:
     static MainServidor *single;
 	AsignadorDeUsuarios *usuarios;
 
+	//Temporalmente voy a tener los aviones de los jugadores directamente en el servidor, 
+	//Luego deberan ir incluidos dentro del juego en algun otro lugar
+	Avion** avion;
+
+
 	int clienteQueSolitaElEstado;
 	int posicionDelMapa;
 	bool seActualizoLaUltimaPosicionDelMapa;
 	void solicitarLaUltimaPosicionDelMapaAUnCliente();
 
+	
 	int puerto;
 	MainServidor();
 
@@ -157,6 +168,11 @@ public:
 	void informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId);
 	void informarATodosLosClientesDelReinicioDelEscenario(MensajeConId* mensajeConId);
 	void informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa();
+
+	//Crea los aviones basandose en el servidorXml
+	//Y los pone en aviones, el atributo del mainServidor
+	//En futuros cambios quedaran encapsulados adentro del juego
+	void crearAviones();
 	int mainPrincipal();
 };
 
