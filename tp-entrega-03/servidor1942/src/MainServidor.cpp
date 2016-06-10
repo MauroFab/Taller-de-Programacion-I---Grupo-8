@@ -575,8 +575,7 @@ int MainServidor::mainPrincipal(){
 	esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
 	avisarATodosLosUsuariosQueComenzoLaPartida();
 
-
-	//Bucle principal sobre el cual se procesan los mensajes
+	//Bucle principal
 	while(!seDebeCerrarElServidor) {
 
 		comunicarEventosRecibidosAlJuego();
