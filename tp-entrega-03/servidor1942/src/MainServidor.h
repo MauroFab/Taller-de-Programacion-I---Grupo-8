@@ -169,8 +169,14 @@ public:
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);
 	void informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId);
+
+	//Los reinicios del mapa estan desactivados por ahora, estos metodos no se usan
 	void informarATodosLosClientesDelReinicioDelEscenario(MensajeConId* mensajeConId);
 	void informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa();
+
+	void esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
+	void avisarATodosLosUsuariosQueComenzoLaPartida();
+
 
 	//Crea los aviones basandose en el servidorXml
 	//Y los pone en aviones, el atributo del mainServidor

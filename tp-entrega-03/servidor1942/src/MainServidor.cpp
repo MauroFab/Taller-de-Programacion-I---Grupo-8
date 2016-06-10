@@ -493,6 +493,25 @@ void MainServidor::informarATodosLosClientesDelReinicioDelEscenario(MensajeConId
 		}
 	}
 }
+
+void MainServidor::esperarAQueTodosLosUsuariosEstenConectadosParaContinuar(){
+	bool seHaIniciadoLaPartida = false;
+	while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
+		if(usuarios->elServidorEstaLleno())
+			seHaIniciadoLaPartida = true;
+		SDL_Delay(100);
+	}
+}
+
+void MainServidor::avisarATodosLosUsuariosQueComenzoLaPartida(){
+	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
+	for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
+		SDL_LockMutex(mutColaDeUsuario[i]);
+		colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
+		colaDeMensajesDelUsuario->push(new EstadoAvionXml(-1,0,0,0));
+		SDL_UnlockMutex(mutColaDeUsuario[i]);
+	}
+}
 /*-------- Funciones publicas --------*/
 int MainServidor::mainPrincipal(){
 	Log::getInstance()->debug("Servidor - Main Principal");
@@ -513,26 +532,14 @@ int MainServidor::mainPrincipal(){
 	SDL_UnlockMutex(mutLogger);
 	juego = new ModeloDelJuego(servidorXml, usuarios->getCantidadMaximaDeUsuarios());
 
-	//Este codigo conectado evita que el server empiece realmente si no estan todos conectados,
-	//Y ademas manda el mensaje de reconexion
-	bool seHaIniciadoLaPartida = false;
-	while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
-		//Cuando estoy lleno, le aviso a todos los jugadores que la partida comienza
-		if(usuarios->elServidorEstaLleno()){
-			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
-				SDL_LockMutex(mutColaDeUsuario[i]);
-				colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-				colaDeMensajesDelUsuario->push(new EstadoAvionXml(-1,0,0,0));
-				SDL_UnlockMutex(mutColaDeUsuario[i]);
-			}
-			seHaIniciadoLaPartida = true;
-		}
-		SDL_Delay(100);
-	}
+	esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
+	avisarATodosLosUsuariosQueComenzoLaPartida();
+
 	MensajeConIdRecibido* mensajeConIdRecibido;
 	//Bucle principal sobre el cual se procesan los mensajes
 	while(!seDebeCerrarElServidor) {
 		SDL_LockMutex(mutColaPrincipal);
+		
 		if(!colaDeMensaje.empty()) {
 			int idDelQueMandoElMensaje;
 			mensajeConIdRecibido = colaDeMensaje.front();
