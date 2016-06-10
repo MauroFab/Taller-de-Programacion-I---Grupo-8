@@ -133,8 +133,8 @@ void Avion::realizarAccionEnBaseA(Evento* evento){
 	case apretadaLaTeclaDeRoll  :
 		this->hacerUnRoll();
        break; 
+	}
 }
-
 
 //BUG-000 aca hay un error pues plantea que se suma la misma velocidad en ambas coordenadas
 void Avion::darVelocidadHaciaArriba(){
