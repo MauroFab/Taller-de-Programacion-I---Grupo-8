@@ -40,8 +40,7 @@ class Avion {
 		//Este metodo llama a uno de los de abajo de acuerdo al evento que recibe
 		void realizarAccionEnBaseA(Evento* evento);
 
-		//Todos estos metodos seguramente seran puestos como privados mas adelante, y  son los usados por el metodo
-		//realizarAccionEnBaseA(Evento* evento)
+    private:
 		void darVelocidadHaciaArriba();
 		void quitarVelocidadHaciaArriba();
 		void darVelocidadHaciaAbajo();	
@@ -54,8 +53,6 @@ class Avion {
 
 		void disparar();
 		void hacerUnRoll();
-
-    private:
 
 		void continuarMovimientoDelAvion();
 		void continuarMovimientoDeLosProyectiles();
