@@ -5,6 +5,8 @@
 class EstadoProyectil {
 
 public:
+	//No usar el constructor sin parametos por fuera del protocolo
+	EstadoProyectil();
 	EstadoProyectil(int frame, int posX, int posY);
 	~EstadoProyectil(void);
 
@@ -16,6 +18,7 @@ public:
 	void setPosX(int x);
 	void setPosY(int y);
 
+	int getSizeBytes();
 private:
 	int frame;
 	int x;

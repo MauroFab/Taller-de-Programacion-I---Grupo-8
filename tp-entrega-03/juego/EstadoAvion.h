@@ -13,9 +13,10 @@ private:
 	int x;
 	int y;
 	std::list<EstadoProyectil*> estadosProyectiles;
-
-public:
 	
+	int calcularSizeBytes();
+public:
+	EstadoAvion();
 	EstadoAvion(int id, int frame, int posX, int posY);
 	~EstadoAvion(void);
 
@@ -25,6 +26,7 @@ public:
 	int getPosY();
 	std::list<EstadoProyectil*> EstadoAvion::getEstadosProyectiles();
 
+	int getSizeBytes();
 	void setId(int id);
 	void setFrame(int frame);
 	void setPosX(int posX);

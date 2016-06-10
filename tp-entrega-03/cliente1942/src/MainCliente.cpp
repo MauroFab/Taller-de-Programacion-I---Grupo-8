@@ -151,26 +151,27 @@ int MainCliente::recibirMensajes(void* ptrSock){
 				}
 			} else {
 				//si seguimos conectados
-				EstadoAvionXml * stAvionXml = new EstadoAvionXml();
-				int offset = Protocolo::decodificar(bufferEntrada,stAvionXml);
-				if(stAvionXml->getId() >= 0){
-					EstadoAvion* estadoAvion = new EstadoAvion(stAvionXml->getId(), stAvionXml->getFrame(), stAvionXml->getPosX(), stAvionXml->getPosY());
+				EstadoAvion * stAvion = new EstadoAvion();
+				int offset = Protocolo::decodificar(bufferEntrada,stAvion);
+				if(stAvion->getId() >= 0){
+					EstadoAvion* estadoAvion = new EstadoAvion(stAvion->getId(), stAvion->getFrame(), stAvion->getPosX(), stAvion->getPosY());
 					// Itero la lista de proyectiles y los agrego al estado avion
-					std::list<EstadoProyectilXml*>::iterator it;
-					std::list<EstadoProyectilXml*> lista = stAvionXml->getEstadosProyectiles();
+					std::list<EstadoProyectil*>::iterator it;
+					std::list<EstadoProyectil*> lista = stAvion->getEstadosProyectiles();
 					for (it = lista.begin(); it != lista.end(); it++) {
 						estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
 					}
 					Juego::getInstance()->actualizarMovimientos(estadoAvion);
 				}
 				//Un mensaje con id -2 indica que se reinicio el mapa
-				if(stAvionXml->getId() == -2){
+				//Todo esto no esta siendo usado por ahora
+				if(stAvion->getId() == -2){
 					//se debe recrear el servidor pues el anterior ya no sirve
 					recreateServidorXml();
 					Protocolo::decodificar(bufferEntrada + offset, this->servidorXml);
 					Juego::getInstance()->reiniciar(this->servidorXml, 0);
 				}
-				if(stAvionXml->getId() == -3){
+				if(stAvion->getId() == -3){
 					int size;
 					char buffEnvio[MAX_BUFFER];
 					EstadoAvionXml* estadoMapa = new EstadoAvionXml(-3,0,0,Mapa::getInstace()->getPosicionMapa());
@@ -178,7 +179,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 					size = Protocolo::codificar(*estadoMapa, buffEnvio);
 					MensajeSeguro::enviar(*((SOCKET*)ptrSock), buffEnvio, size);
 				}
-				delete stAvionXml;
+				delete stAvion;
 			}
 		}
 		else{

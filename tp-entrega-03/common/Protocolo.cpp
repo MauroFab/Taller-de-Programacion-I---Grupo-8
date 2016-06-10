@@ -850,6 +850,98 @@ int Protocolo::decodificar(char * buffer,EstadoAvionXml *estadoAvionXml){
 	return offset;
 }
 
+int Protocolo::codificar(EstadoAvion &estadoAvion,char * buffer){
+
+	int sizeBytes = estadoAvion.getSizeBytes();
+	int id = estadoAvion.getId();
+	int frame = estadoAvion.getFrame(); 
+	int posX = estadoAvion.getPosX(); 
+	int posY = estadoAvion.getPosY();
+	int sizeProyectiles = estadoAvion.getEstadosProyectiles().size();
+	int offset = 0;
+
+	memcpy(buffer + offset,&sizeBytes,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&id,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&frame,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&posX,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&posY,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&sizeProyectiles,sizeof(int));
+	offset += sizeof(int);
+
+	std::list<EstadoProyectil*>::iterator it;
+
+	std::list<EstadoProyectil*> lista = estadoAvion.getEstadosProyectiles();
+
+	for (it = lista.begin(); it != lista.end(); it++) {
+		EstadoProyectil* estadoProyectil = (*it);
+		offset += codificar(*estadoProyectil,buffer + offset);
+	}
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	estadoAvionXml.toString(cadena);
+	printf("%s\n",cadena);		
+#endif
+	return offset;
+
+}
+
+int Protocolo::decodificar(char * buffer,EstadoAvion* estadoAvion){
+
+	int sizeBytes = -1;
+	int id = -1;
+	int frame = -1;
+	int posX = -1;
+	int posY = -1;
+	int sizeProyectiles = -1;
+	int offset = 0;
+	
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&id,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&frame,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&posX,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&posY,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+		
+	estadoAvion->setId(id);
+	estadoAvion->setFrame(frame);
+	estadoAvion->setPosX(posX);
+	estadoAvion->setPosY(posY);
+	
+	memcpy(&sizeProyectiles,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	for (int i = 0; i < sizeProyectiles;i++){
+		EstadoProyectil* estadoProyectil = new EstadoProyectil();
+		offset += decodificar(buffer + offset,estadoProyectil);
+		estadoAvion->agregarEstadoProyectil(estadoProyectil);
+	}
+
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	estadoAvionXml->toString(cadena);
+	printf("%s\n",cadena);	
+#endif
+	return offset;
+}
+
 int Protocolo::codificar(EstadoProyectilXml &estadoProyectilXml,char * buffer){
 
 	int sizeBytes = estadoProyectilXml.getSizeBytes();
@@ -908,6 +1000,65 @@ int Protocolo::decodificar(char * buffer,EstadoProyectilXml *estadoProyectilXml)
 	TCadena1000 cadena;
 	estadoProyectilXml->toString(cadena);
 	printf("%s\n",cadena);	
+#endif
+	return offset;
+}
+
+int Protocolo::decodificar(char* buffer,EstadoProyectil *estadoProyectil){
+
+	int sizeBytes = -1;
+	int frame = -1;
+	int posX = -1;
+	int posY = -1;
+	int offset = 0;
+	
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&frame,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&posX,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&posY,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+		
+	estadoProyectil->setFrame(frame);
+	estadoProyectil->setPosX(posX);
+	estadoProyectil->setPosY(posY);
+
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	estadoProyectilXml->toString(cadena);
+	printf("%s\n",cadena);	
+#endif
+	return offset;
+}
+int Protocolo::codificar(EstadoProyectil &estadoProyectil,char * buffer){
+
+	int sizeBytes = estadoProyectil.getSizeBytes();
+	int frame = estadoProyectil.getFrame(); 
+	int posX = estadoProyectil.getPosX(); 
+	int posY = estadoProyectil.getPosY();
+	int offset = 0;
+
+	memcpy(buffer + offset,&sizeBytes,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&frame,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&posX,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&posY,sizeof(int));
+	offset += sizeof(int);
+
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	estadoProyectilXml.toString(cadena);
+	printf("%s\n",cadena);		
 #endif
 	return offset;
 }

@@ -1,5 +1,8 @@
 #include "EstadoAvion.h"
 
+EstadoAvion::EstadoAvion() {
+
+}
 EstadoAvion::EstadoAvion(int id, int frame, int posX, int posY) {
 
 	this->id = id;
@@ -67,4 +70,14 @@ void EstadoAvion::setEstadoProyectiles(std::list<EstadoProyectil*> lista) {
 	for (it = lista.begin(); it != lista.end(); it++) {
 		this->estadosProyectiles.push_back(*it);
 	}
+}
+
+int EstadoAvion::getSizeBytes(){
+	int tamanioTotal = 
+	     sizeof(int) //sizeBytes
+		+ sizeof(int)  //id
+		+ sizeof(int) //frame
+		+ sizeof(int) //posX
+		+ sizeof(int); //posY
+	return tamanioTotal;
 }
