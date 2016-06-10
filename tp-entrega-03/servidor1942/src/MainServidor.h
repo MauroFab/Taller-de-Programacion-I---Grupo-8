@@ -178,6 +178,7 @@ public:
 	void avisarATodosLosUsuariosQueComenzoLaPartida();
 
 	void comunicarEventosRecibidosAlJuego();
+	//Por ahora comunica estadoAviones, deberia comunicar el estado juego
 	void comunicarElNuevoEstadoDelJuegoALosClientes();
 	//Crea los aviones basandose en el servidorXml
 	//Y los pone en aviones, el atributo del mainServidor

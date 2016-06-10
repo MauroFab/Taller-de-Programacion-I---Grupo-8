@@ -581,6 +581,7 @@ int MainServidor::mainPrincipal(){
 
 		comunicarEventosRecibidosAlJuego();
 		juego->avanzarElTiempo();
+		//Por ahora comuncia estado aviones, deberia comunicar un estadoJuego
 		comunicarElNuevoEstadoDelJuegoALosClientes();
 		
 		//Sin el delay el server va mucho mas rapido que lo que grafica el cliente
