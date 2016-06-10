@@ -146,7 +146,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 					// Si el server nos envia respuesta que debemos iniciar el juego
 					Log::getInstance()->info("Comenzar el juego");
 					cout<<"Comenzar el juego"<<endl;
-					Juego::getInstance()->setJugar();
+					VistaJuego::getInstance()->setJugar();
 					primerMensaje=false;
 				}
 			} else {
@@ -161,7 +161,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 					for (it = lista.begin(); it != lista.end(); it++) {
 						estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
 					}
-					Juego::getInstance()->actualizarMovimientos(estadoAvion);
+					VistaJuego::getInstance()->actualizarMovimientos(estadoAvion);
 				}
 				//Un mensaje con id -2 indica que se reinicio el mapa
 				//Todo esto no esta siendo usado por ahora
@@ -169,7 +169,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 					//se debe recrear el servidor pues el anterior ya no sirve
 					recreateServidorXml();
 					Protocolo::decodificar(bufferEntrada + offset, this->servidorXml);
-					Juego::getInstance()->reiniciar(this->servidorXml, 0);
+					VistaJuego::getInstance()->reiniciar(this->servidorXml, 0);
 				}
 				if(stAvion->getId() == -3){
 					int size;
@@ -229,7 +229,7 @@ void MainCliente::cargarNombreDeUsuario(Jugador * jugador) {
 }
 
 int MainCliente::conectar(){
-	Juego * insJuego = Juego::getInstance();
+	VistaJuego * insJuego = VistaJuego::getInstance();
 #ifndef FAKE_DEBUG_CLIENTE
 	cargarIpYPuerto();
 #endif
@@ -307,10 +307,10 @@ int MainCliente::conectar(){
 					insJuego->getJugador()->setIdCliente(atoi(idUsuario));
 					insJuego->getJugador()->setPosicionAvion(posicion);
 
-					Juego::getInstance()->readServidorXml(this->servidorXml);
-					Juego::getInstance()->agregarObservadorAlControlador(this);
-					Juego::getInstance()->initSDL((char*)insJuego->getJugador()->nombreDeUsuario.c_str());
-					Juego::getInstance()->ejecutar(this->servidorXml, posicionMapa.getPosY());
+					VistaJuego::getInstance()->readServidorXml(this->servidorXml);
+					VistaJuego::getInstance()->agregarObservadorAlControlador(this);
+					VistaJuego::getInstance()->initSDL((char*)insJuego->getJugador()->nombreDeUsuario.c_str());
+					VistaJuego::getInstance()->ejecutar(this->servidorXml, posicionMapa.getPosY());
 					// se termina el programa cuando el usuario hace click en x del SDL_window
 					terminarElCliente();
 				}

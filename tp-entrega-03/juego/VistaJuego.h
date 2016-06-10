@@ -1,5 +1,5 @@
-#ifndef _JUEGO_H_
-#define _JUEGO_H_
+#ifndef _VISTAJUEGO_H_
+#define _VISTAJUEGO_H_
 
 #include <vector>
 #include <map>
@@ -30,9 +30,8 @@
 
 using namespace std;
 
-class Juego : public ICargable
+class VistaJuego : public ICargable
 {
-//private:
 public:
 	ElementoView * listaElemView[MAX_ELEM_VIEW];
 	int canElemV;
@@ -43,8 +42,8 @@ public:
 	BalaView * balaView;
 public:
 
-	static Juego* getInstance();
-	~Juego();
+	static VistaJuego* getInstance();
+	~VistaJuego();
 	/**
 	 * @param servidorXml contiene toda la configuracion tanto del servidor como del escenario
 	 * este metodo carga los datos desde el servidorXml hacia el juego
@@ -83,8 +82,8 @@ public:
 private:
 	Controlador* controlador;
 	static bool instanceFlag;
-	static Juego* instance;
-	Juego();
+	static VistaJuego* instance;
+	VistaJuego();
 	Jugador * jugador;//este objeto contiene los datos del jugador, por ahora solo el id_cliente
 	int ventanaAncho;
 	int ventanaAlto;
@@ -103,4 +102,4 @@ private:
 	std::map<int,EstadoAvion*> estadoAviones;
 };
 
-#endif //_JUEGO_H_
+#endif //_VISTAJUEGO_H_

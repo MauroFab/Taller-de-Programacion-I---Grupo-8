@@ -28,17 +28,8 @@
     <Filter Include="Archivos de código fuente\Conexion">
       <UniqueIdentifier>{33f83c3c-cff6-44b7-9ee4-610e4249f20b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de código fuente\Juego">
-      <UniqueIdentifier>{f99dbde3-0140-40da-ba7a-02ca43eb69c0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de encabezado\Juego">
       <UniqueIdentifier>{eb98eb7d-a54c-4011-9cbf-752d12dc704a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de código fuente\Juego\Modelo">
-      <UniqueIdentifier>{a8dba11e-d0f9-4771-a2b5-29a91ee35af3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de código fuente\Juego\Graficadores">
-      <UniqueIdentifier>{1671ec93-e35a-4758-a15d-820560736f25}</UniqueIdentifier>
     </Filter>
     <Filter Include="Archivos de encabezado\Juego\Modelo">
       <UniqueIdentifier>{5989d33f-0ff2-4154-9610-10c61cdc1766}</UniqueIdentifier>
@@ -55,11 +46,20 @@
     <Filter Include="Archivos de encabezado\Observador">
       <UniqueIdentifier>{13f802fb-74ba-40ba-b0cc-3c6609fb5c55}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de código fuente\Juego\Controlador">
-      <UniqueIdentifier>{8b903f17-177e-4161-b555-7b309248a200}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de encabezado\Juego\Controlador">
       <UniqueIdentifier>{d994b2cc-d15c-4351-88be-d83993e37712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\VistaJuego">
+      <UniqueIdentifier>{f99dbde3-0140-40da-ba7a-02ca43eb69c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\VistaJuego\Modelo">
+      <UniqueIdentifier>{a8dba11e-d0f9-4771-a2b5-29a91ee35af3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\VistaJuego\Graficadores">
+      <UniqueIdentifier>{1671ec93-e35a-4758-a15d-820560736f25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\VistaJuego\Controlador">
+      <UniqueIdentifier>{8b903f17-177e-4161-b555-7b309248a200}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -115,40 +115,37 @@
       <Filter>Archivos de código fuente\Conexion</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\GraficoProyectil.cpp">
-      <Filter>Archivos de código fuente\Juego\Graficadores</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\GraficoAvion.cpp">
-      <Filter>Archivos de código fuente\Juego\Graficadores</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\Graficador.cpp">
-      <Filter>Archivos de código fuente\Juego\Graficadores</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\Avion.cpp">
-      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\ElementoDelMapa.cpp">
-      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\EstadoAvion.cpp">
-      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\EstadoProyectil.cpp">
-      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\Mapa.cpp">
-      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\Proyectil.cpp">
-      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\Textura.cpp">
-      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\juego\Juego.cpp">
-      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\FondoInicio.cpp">
-      <Filter>Archivos de código fuente\Juego\Modelo</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\common\observer\Observable.cpp">
       <Filter>Archivos de código fuente\Observador</Filter>
@@ -175,10 +172,10 @@
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="..\common\Jugador.cpp">
-      <Filter>Archivos de código fuente\Juego</Filter>
+      <Filter>Archivos de código fuente\VistaJuego</Filter>
     </ClCompile>
     <ClCompile Include="..\common\Posicion.cpp">
-      <Filter>Archivos de código fuente\Juego</Filter>
+      <Filter>Archivos de código fuente\VistaJuego</Filter>
     </ClCompile>
     <ClCompile Include="..\common\view\FondoView.cpp">
       <Filter>Archivos de código fuente</Filter>
@@ -196,7 +193,10 @@
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\Controlador\Controlador.cpp">
-      <Filter>Archivos de código fuente\Juego\Controlador</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Controlador</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaJuego.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,9 +275,6 @@
     <ClInclude Include="src\MainCliente.h">
       <Filter>Archivos de encabezado\Conexion</Filter>
     </ClInclude>
-    <ClInclude Include="..\juego\Juego.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
-    </ClInclude>
     <ClInclude Include="..\juego\FondoInicio.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
@@ -337,6 +334,9 @@
     </ClInclude>
     <ClInclude Include="..\juego\Controlador\Controlador.h">
       <Filter>Archivos de encabezado\Juego\Controlador</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaJuego.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

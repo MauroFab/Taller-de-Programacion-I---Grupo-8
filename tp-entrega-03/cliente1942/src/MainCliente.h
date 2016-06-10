@@ -25,7 +25,7 @@
 #include "../../common/MensajeSeguro.h"
 #include "../../common/Posicion.h"
 
-#include "../../juego/Juego.h"
+#include "../../juego/VistaJuego.h"
 #include "../../juego/EstadoAvion.h"
 #include "../../juego/EstadoProyectil.h"
 
