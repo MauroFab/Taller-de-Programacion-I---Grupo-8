@@ -512,6 +512,22 @@ void MainServidor::avisarATodosLosUsuariosQueComenzoLaPartida(){
 		SDL_UnlockMutex(mutColaDeUsuario[i]);
 	}
 }
+
+void MainServidor::comunicarEventosRecibidosAlJuego(){	
+	MensajeConIdRecibido* mensajeConIdRecibido;
+
+	SDL_LockMutex(mutColaPrincipal);
+
+		while(!colaDeMensaje.empty()) {
+			int idDelQueMandoElMensaje;
+			mensajeConIdRecibido = colaDeMensaje.front();
+			colaDeMensaje.pop();
+			juego->actualizarElJuegoEnBaseA(mensajeConIdRecibido->evento, mensajeConIdRecibido->id);
+			delete mensajeConIdRecibido;
+		}
+
+	SDL_UnlockMutex(mutColaPrincipal);
+}
 /*-------- Funciones publicas --------*/
 int MainServidor::mainPrincipal(){
 	Log::getInstance()->debug("Servidor - Main Principal");
@@ -530,27 +546,19 @@ int MainServidor::mainPrincipal(){
 	SDL_LockMutex(mutLogger);
 	Log::getInstance()->debug("Servidor - Main Principal: se inician los thread recibirConexiones");
 	SDL_UnlockMutex(mutLogger);
+
 	juego = new ModeloDelJuego(servidorXml, usuarios->getCantidadMaximaDeUsuarios());
 
 	esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
 	avisarATodosLosUsuariosQueComenzoLaPartida();
 
-	MensajeConIdRecibido* mensajeConIdRecibido;
+
 	//Bucle principal sobre el cual se procesan los mensajes
 	while(!seDebeCerrarElServidor) {
-		SDL_LockMutex(mutColaPrincipal);
-		
-		if(!colaDeMensaje.empty()) {
-			int idDelQueMandoElMensaje;
-			mensajeConIdRecibido = colaDeMensaje.front();
-			colaDeMensaje.pop();
-			juego->actualizarElJuegoEnBaseA(mensajeConIdRecibido->evento, mensajeConIdRecibido->id);
-			SDL_UnlockMutex(mutColaPrincipal);
-			delete mensajeConIdRecibido;
-		}else{
-			SDL_UnlockMutex(mutColaPrincipal);
-		}
+
+		comunicarEventosRecibidosAlJuego();
 		juego->avanzarElTiempo();
+
 		//Informo a todos los clientes del estado del juego
 		//Por ahora informa de todos los estados aviones
 		for(int i = 0; i < this->usuarios->getCantidadMaximaDeUsuarios(); i++){

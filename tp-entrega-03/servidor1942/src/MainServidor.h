@@ -177,6 +177,7 @@ public:
 	void esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
 	void avisarATodosLosUsuariosQueComenzoLaPartida();
 
+	void comunicarEventosRecibidosAlJuego();
 
 	//Crea los aviones basandose en el servidorXml
 	//Y los pone en aviones, el atributo del mainServidor
