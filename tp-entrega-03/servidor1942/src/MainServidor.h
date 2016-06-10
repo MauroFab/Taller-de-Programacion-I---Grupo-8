@@ -55,6 +55,11 @@ private:
 		EstadoAvionXml estadoAvionXml;
 	};
 
+	struct MensajeConIdRecibido {
+	    int id;
+		Evento* evento;
+	};
+
 	static bool instanceFlag;
     static MainServidor *single;
 	AsignadorDeUsuarios *usuarios;
@@ -67,7 +72,6 @@ private:
 	int clienteQueSolitaElEstado;
 	int posicionDelMapa;
 	bool seActualizoLaUltimaPosicionDelMapa;
-	void solicitarLaUltimaPosicionDelMapaAUnCliente();
 
 	
 	int puerto;
@@ -75,7 +79,7 @@ private:
 
 	ServidorXml * servidorXml; //se almancena todo el modelo parseado
 	bool seDebeCerrarElServidor;
-	std::queue<MensajeConId*> colaDeMensaje;
+	std::queue<MensajeConIdRecibido*> colaDeMensaje;
 	std::vector<SDL_Thread*> vectorHilos;
 	std::vector<SOCKET*> vectorSockets;
 	SOCKET socketDeEscucha;
@@ -113,7 +117,6 @@ public:
 	SOCKET obtenerSocketInicializado(sockaddr_in &local);
 
 	void escucharSocket(SOCKET sock);
-	void guardarElMensajeEnLaColaPrincipal(char* buffer, int id,EstadoAvionXml* pMsj);
 	void grabarEnElLogLaDesconexion(int len);
 
 	/**

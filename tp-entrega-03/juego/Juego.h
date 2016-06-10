@@ -31,7 +31,7 @@
 
 using namespace std;
 
-class Juego : public Observable, public ICargable
+class Juego : public ICargable
 {
 //private:
 public:
@@ -79,8 +79,10 @@ public:
 	//se encarga del reset de los aviones liberando la memoria usada por los objetos
 	//tanto de la view como de los que estos contienen
 	int resetAviones();
+	void agregarObservadorAlControlador(Observador* observador);
 
 private:
+	Controlador* controlador;
 	Avion* miAvion;
 	static bool instanceFlag;
 	static Juego* instance;
@@ -101,8 +103,6 @@ private:
 
 	SDL_mutex *mut; // mutex para proteger la lista de movimientos
 	std::map<int,EstadoAvion*> estadoAviones;
-
-	int notificarMovimiento(EstadoAvion* estadoAvion);
 };
 
 #endif //_JUEGO_H_

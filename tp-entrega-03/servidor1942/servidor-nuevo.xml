@@ -1,5 +1,5 @@
 <servidor>
-	<cantidadMaximaClientes>1</cantidadMaximaClientes>
+	<cantidadMaximaClientes>2</cantidadMaximaClientes>
 	<puerto>15636</puerto>
 	<ventana>
 		<ancho>480</ancho>
@@ -105,28 +105,28 @@
 	</escenario>
 	<aviones>
 		<avion>
-			<velocidadDesplazamiento>10</velocidadDesplazamiento>
-			<velocidadDisparos>6</velocidadDisparos>
+			<velocidadDesplazamiento>5</velocidadDesplazamiento>
+			<velocidadDisparos>5</velocidadDisparos>
 			<avionSpriteId>avion_1</avionSpriteId>
 			<vueltaSpriteId>avion_1</vueltaSpriteId>
 			<disparosSpriteId>disparo_1</disparosSpriteId>
 		</avion>
 		<avion>
-			<velocidadDesplazamiento>10</velocidadDesplazamiento>
-			<velocidadDisparos>6</velocidadDisparos>
+			<velocidadDesplazamiento>5</velocidadDesplazamiento>
+			<velocidadDisparos>5</velocidadDisparos>
 			<avionSpriteId>avion_2</avionSpriteId>
 			<vueltaSpriteId>avion_2</vueltaSpriteId>
 			<disparosSpriteId>disparo_1</disparosSpriteId>
 		</avion>
 		<avion>
-			<velocidadDesplazamiento>10</velocidadDesplazamiento>
+			<velocidadDesplazamiento>5</velocidadDesplazamiento>
 			<velocidadDisparos>6</velocidadDisparos>
 			<avionSpriteId>avion_3</avionSpriteId>
 			<vueltaSpriteId>avion_3</vueltaSpriteId>
 			<disparosSpriteId>disparo_1</disparosSpriteId>
 		</avion>
 		<avion>
-			<velocidadDesplazamiento>10</velocidadDesplazamiento>
+			<velocidadDesplazamiento>5</velocidadDesplazamiento>
 			<velocidadDisparos>6</velocidadDisparos>
 			<avionSpriteId>avion_4</avionSpriteId>
 			<vueltaSpriteId>avion_4</vueltaSpriteId>

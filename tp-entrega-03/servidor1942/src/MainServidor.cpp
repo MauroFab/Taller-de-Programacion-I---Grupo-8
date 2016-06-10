@@ -125,6 +125,7 @@ void MainServidor::escucharSocket(SOCKET sock){
 		Log::getInstance()->error(" al iniciar el listen.");
 	}
 }
+
 int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointer) {
 	StructDelEnviadorDeMensajes structRecibido = *((StructDelEnviadorDeMensajes*) structPointer);
 	IdYPunteroAlSocket idYPunteroAlSocket = structRecibido.idYPunteroAlSocket;
@@ -163,16 +164,7 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 	}
 	return 0;
 }
-void MainServidor::guardarElMensajeEnLaColaPrincipal(char* buffer, int id, EstadoAvionXml* pMsj){
-	MensajeConId* mensajeConId = new MensajeConId;
-	mensajeConId->id = id;
-	mensajeConId->mensaje = buffer;
-	//-------------
-	//ojo que aquie se llama al operador (=) no es copia de punteros
-	mensajeConId->estadoAvionXml = *pMsj;
-	//-------------
-	colaDeMensaje.push(mensajeConId);
-}
+
 void MainServidor::grabarEnElLogLaDesconexion(int len){
 	SDL_LockMutex(mutLogger);
 	if (len == 0){
@@ -212,6 +204,7 @@ bool MainServidor::esUnEstadoMapa(EstadoAvionXml* estadoAvionXml){
 bool MainServidor::indicaUnReinicioDelMapa(EstadoAvionXml* estadoAvionXml){
 	return(estadoAvionXml->getId() == -2);
 }
+
 int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {	
 	char bufferEntrada[MAX_BUFFER];
 	SDL_Thread* threadDeEnvioDeMensajes;
@@ -230,41 +223,20 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 	structParaEnviar->idYPunteroAlSocket = idYPunteroAlSocket;
 	structParaEnviar->seCerroLaConexion = seCerroLaConexion;
 	threadDeEnvioDeMensajes = SDL_CreateThread(MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos, "mensajesParaElCliente", (void*) structParaEnviar);	
-	bool b1erEstadoAvionXml = true;	//flag para parchar la 1er lectura de un mensaje
 	while (isHayBytes(sizeBytesIn) && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
-
-		EstadoAvionXml *stAvionXml;
+		Evento* eventoRecibido;
+		MensajeConIdRecibido* mensajeParaLaColaPrincipal;
 		sizeBytesIn = MensajeSeguro::recibir(socket,bufferEntrada);
-
 		if (isHayBytes(sizeBytesIn)){
-			if(!b1erEstadoAvionXml)
-				delete stAvionXml;
-
-			stAvionXml = new EstadoAvionXml();
-			Protocolo::decodificar(bufferEntrada,stAvionXml);
-			if(esUnEstadoAvion(stAvionXml)){
-				b1erEstadoAvionXml = false;
-				actualizarLaUltimaPosicionDelUsuario(id, stAvionXml);
-				SDL_LockMutex(mutColaPrincipal);
-				guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
-				SDL_UnlockMutex(mutColaPrincipal);
-			} else if(esUnEstadoMapa(stAvionXml)){
-				posicionDelMapa = stAvionXml->getPosY();
-				seActualizoLaUltimaPosicionDelMapa = true;
-			} else if(indicaUnReinicioDelMapa(stAvionXml)){
-				SDL_LockMutex(mutColaPrincipal);
-				guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
-				SDL_UnlockMutex(mutColaPrincipal);
-			}
-		}else if(!b1erEstadoAvionXml){
-			grabarEnElLogLaDesconexion(sizeBytesIn);
-			// El frame 42 es el grisado
-			stAvionXml->setFrame(42);
-			stAvionXml->eliminarProyectiles();
+			//Por temas de lecturas pongo una id de evento 0, luego en el decodificar ira la que corresponde
+			mensajeParaLaColaPrincipal = new MensajeConIdRecibido;
+			eventoRecibido = new Evento(0);
+			Protocolo::decodificar(bufferEntrada,eventoRecibido);
 			SDL_LockMutex(mutColaPrincipal);
-			guardarElMensajeEnLaColaPrincipal(bufferEntrada, id,stAvionXml);
+			mensajeParaLaColaPrincipal->id = id;
+			mensajeParaLaColaPrincipal->evento = eventoRecibido;
+			colaDeMensaje.push(mensajeParaLaColaPrincipal);
 			SDL_UnlockMutex(mutColaPrincipal);
-			delete stAvionXml;
 		}
 	}
 	*seCerroLaConexion = true;
@@ -284,18 +256,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 	SDL_UnlockMutex(mutLogger);
 	return 0;
 }
-void MainServidor::solicitarLaUltimaPosicionDelMapaAUnCliente(){
-	EstadoAvionXml *stAvionXml;
-	stAvionXml = new EstadoAvionXml();
-	char bufferEntrada[MAX_BUFFER];
-	SDL_LockMutex(mutColaPrincipal);
-	//Necesito enviar un mensaje para pedir la ultima posicion,
-	//Por ahora un -3 en la id le indicara al cliente que necesito la ultima posicion
-	stAvionXml->setId(-3);
-	guardarElMensajeEnLaColaPrincipal(bufferEntrada, -3,stAvionXml);
-	SDL_UnlockMutex(mutColaPrincipal);
-	delete stAvionXml;
-}
+	
 
 void MainServidor::enviarModeloXmlxConexionAceptadaAl(int idCliente, SOCKET* socket){
 	// Mensaje de conexion exitosa
@@ -326,18 +287,9 @@ void MainServidor::enviarModeloXmlxConexionAceptadaAl(int idCliente, SOCKET* soc
 	//La pongo en 0
 	if(usuarios->cantidadDeUsuarios() == 1 && !seActualizoLaUltimaPosicionDelMapa){
 		posicionDelMapa = 0;
-		seActualizoLaUltimaPosicionDelMapa = true;
-	}
-	if(!seActualizoLaUltimaPosicionDelMapa){
-		clienteQueSolitaElEstado = idCliente;
-		solicitarLaUltimaPosicionDelMapaAUnCliente();
 	}
 	//Espero a tener una posicion del mapa en el juego actual
-	while(!seActualizoLaUltimaPosicionDelMapa){
-
-	}
 	//Si la posicion del mapa ya se uso, ya no sirve para otro cliente, asi que pongo que no esta actualizada
-	seActualizoLaUltimaPosicionDelMapa = false;
 	//Codifico la posicion y la envio
 	posDelMapa.setPosX(0);
 	posDelMapa.setPosY(posicionDelMapa);
@@ -485,9 +437,7 @@ void MainServidor::informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mens
 	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 	//Para todos los usuarios
 	for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
-		//Si el mensaje no vino del usuario i
 		//Si el usuario i esta conectado
-
 		if(usuarios->estaConectado(i)){
 			SDL_LockMutex(mutColaDeUsuario[i]);
 			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
@@ -599,10 +549,6 @@ int MainServidor::mainPrincipal(){
 	//Y ademas manda el mensaje de reconexion
 	bool seHaIniciadoLaPartida = false;
 	while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
-		//La ultima posicion del mapa es siempre la misma, la 0
-		//Cada vez que se conecta alguien pone que ya no es la ultima
-		//Acá volvemos a aclarar que sigue estando actualizada
-		seActualizoLaUltimaPosicionDelMapa = true;
 		//Cuando estoy lleno, le aviso a todos los jugadores que la partida comienza
 		if(usuarios->elServidorEstaLleno()){
 			for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
@@ -610,32 +556,54 @@ int MainServidor::mainPrincipal(){
 				colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
 				colaDeMensajesDelUsuario->push(new EstadoAvionXml(-1,0,0,0));
 				SDL_UnlockMutex(mutColaDeUsuario[i]);
+				//Y ademas pongo las posiciones de los aviones
+				Posicion posicion(50,50);
+				avion[i]->setPosicion(posicion);
 			}
 			seHaIniciadoLaPartida = true;
 		}
 		SDL_Delay(100);
 	}
-	seActualizoLaUltimaPosicionDelMapa = false;
+	MensajeConIdRecibido* mensajeConIdRecibido;
 	//Bucle principal sobre el cual se procesan los mensajes
 	while(!seDebeCerrarElServidor) {
 		SDL_LockMutex(mutColaPrincipal);
 		if(!colaDeMensaje.empty()) {
-			mensajeConId = colaDeMensaje.front();
+			int idDelQueMandoElMensaje;
+			mensajeConIdRecibido = colaDeMensaje.front();
 			colaDeMensaje.pop();
+			Avion* avionDelQueMandoElMensaje;
+			avionDelQueMandoElMensaje = avion[mensajeConIdRecibido->id];
+			avionDelQueMandoElMensaje->realizarAccionEnBaseA(mensajeConIdRecibido->evento);
 			SDL_UnlockMutex(mutColaPrincipal);
-			//Una vez sacado el elemento de la cola principal, podemos dejar que los demás threads usen normalmente.
-			if(esUnMensajeDeUnEstadoAvion(mensajeConId)){
-				informarATodosLosClientesDelEstadoDelAvion(mensajeConId);
-			}else if(esUnMensajeIndicandoQueSeDebeReiniciarElMapa(mensajeConId)){
-				informarATodosLosClientesDelReinicioDelEscenario(mensajeConId);
-			}else if(esUnMensajeIndicandoQueNecesitoUnEstadoMapa(mensajeConId)){
-				informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa();
-			}
-			delete mensajeConId;
-			//Si la cola estaba vacía, le permito a los demas threads usarla
+			delete mensajeConIdRecibido;
 		}else{
 			SDL_UnlockMutex(mutColaPrincipal);
 		}
+		//Para todos los usuarios conectados deberia ser
+		//Por ahora dejo para todos los usuarios existentes
+		for(int i = 0; i < this->usuarios->getCantidadMaximaDeUsuarios(); i++){
+			avion[i]->mover();
+			EstadoAvion* estadoAvion;
+			estadoAvion = avion[i]->getEstado();
+			MensajeConId* mensajeConId = new MensajeConId;
+			//Se deberia mandar un estado avion directamente
+			EstadoAvionXml* estadoAvionXml = new EstadoAvionXml(i, estadoAvion->getFrame(),estadoAvion->getPosX(),
+																	estadoAvion->getPosY());
+			list<EstadoProyectil*> estadoProyectiles;
+			estadoProyectiles = estadoAvion->getEstadosProyectiles();
+			std::list<EstadoProyectil*>::iterator it;
+			for (it = estadoProyectiles.begin(); it != estadoProyectiles.end(); it++) {
+				estadoAvionXml->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+			}
+																		
+			mensajeConId->id = i;
+			mensajeConId->estadoAvionXml = *estadoAvionXml;
+			informarATodosLosClientesDelEstadoDelAvion(mensajeConId);	
+		}
+		//Sin el delay el server va mucho mas rapido que lo que grafica el cliente
+		//Y el avion se teletransporta de una punta a la otra
+		SDL_Delay(5);
 	}
 	Log::getInstance()->info("Se solicito la detención del Server.");
 	SDL_WaitThread(receptor, NULL);

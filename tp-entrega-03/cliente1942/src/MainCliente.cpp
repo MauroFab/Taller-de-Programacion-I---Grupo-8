@@ -236,7 +236,7 @@ int MainCliente::conectar(){
 #ifndef FAKE_DEBUG_CLIENTE
 	cargarNombreDeUsuario(insJuego->getJugador());
 #else
-	insJuego->getJugador()->nombreDeUsuario.assign("Cliente-W");
+	insJuego->getJugador()->nombreDeUsuario.assign("Cliente-A");
 #endif
 
 	if(conectado == true){
@@ -307,7 +307,7 @@ int MainCliente::conectar(){
 					insJuego->getJugador()->setPosicionAvion(posicion);
 
 					Juego::getInstance()->readServidorXml(this->servidorXml);
-					Juego::getInstance()->agregarObservador(this);
+					Juego::getInstance()->agregarObservadorAlControlador(this);
 					Juego::getInstance()->initSDL((char*)insJuego->getJugador()->nombreDeUsuario.c_str());
 					Juego::getInstance()->ejecutar(this->servidorXml, posicionMapa.getPosY());
 					// se termina el programa cuando el usuario hace click en x del SDL_window
@@ -399,32 +399,16 @@ int MainCliente::menu(){
 	return 0;
 }
 
-int MainCliente::actualizar(void* listEstadoAvion[]){
-	//solo se usa el 1er elemento de la lista
-	EstadoAvion* mov = (EstadoAvion*)listEstadoAvion[0];
-	EstadoAvionXml* msjMov = new EstadoAvionXml(mov->getId(), mov->getFrame(), mov->getPosX(), mov->getPosY());
-	std::list<EstadoProyectil*>::iterator it;
-	std::list<EstadoProyectil*> listaP = mov->getEstadosProyectiles();
-
-	for (it = listaP.begin(); it != listaP.end(); it++) {
-		msjMov->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
-	}
+int MainCliente::actualizar(Evento* evento){
 
 	char * buffEnvio = new char[MAX_BUFFER];
-	int sizeBytesTotalLista = Protocolo::codificar(*msjMov,buffEnvio);
-	// TODO: test
-	int estado = chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista));
-	if(estado < 0) { //enviar el texto que se ha introducido
+	int sizeBytesTotalLista = Protocolo::codificar(*evento,buffEnvio);
+	int estado=0;
+	if((estado=chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista)))<0) { //enviar el texto que se ha introducido
 		printf("No se pudo enviar el movimiento, el cliente termina \n");
 		system("PAUSE");
 		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
 	}
-
-	//Recuerdo que este metodo es solo para cuando los proyectiels esten en
-	//memoria dinamica
-	msjMov->liberarMemoriaProyectiles();
 	delete[] buffEnvio;
-	delete msjMov;
-	delete mov;
 	return estado;
 }

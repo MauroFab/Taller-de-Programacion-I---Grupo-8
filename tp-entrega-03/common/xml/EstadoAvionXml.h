@@ -22,7 +22,7 @@ protected:
 public:
 	
 	EstadoAvionXml();
-	EstadoAvionXml(int id,int tipo, int posX, int posY);
+	EstadoAvionXml(int id,int frame, int posX, int posY);
 	virtual ~EstadoAvionXml();
     
 	int getSizeBytes();

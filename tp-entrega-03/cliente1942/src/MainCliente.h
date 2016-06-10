@@ -109,7 +109,7 @@ private:
 	 * @listEstadoAvion listado de estado de avion
 	 * de la lista SOLO se usa el 1er elemento
 	 */
-	virtual int actualizar(void* listEstadoAvion[]);
+	virtual int actualizar(Evento* eventoRecibido);
 };
 
 #endif //_MAINCLIENTE_H_

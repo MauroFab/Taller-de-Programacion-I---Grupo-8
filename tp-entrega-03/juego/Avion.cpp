@@ -174,6 +174,7 @@ void Avion::disparar(){
 	}
 }
 
+
 void Avion::hacerUnRoll(){
 	rollFlag = true;
 }

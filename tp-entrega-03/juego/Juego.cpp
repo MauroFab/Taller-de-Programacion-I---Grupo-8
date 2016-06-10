@@ -32,6 +32,7 @@ Juego::Juego(){
 	}
 	this->canAvionV = 0;
 	this->balaView = NULL;
+	this->controlador = new Controlador();
 }
 
 Juego::~Juego(){
@@ -342,8 +343,6 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	//se actualiza la pantalla
 	SDL_RenderPresent( gRenderer );
 
-	Controlador controlador(miAvion);
-
 	/*------------------------------------------------------------------*/
 	SDL_Event e;
 	//Mientras el usuario no desee salir
@@ -356,16 +355,8 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
 				quit = true;
 			}
-
-			if( e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_r){
-				//Ese movimiento indica a los demas clientes que deben reiniciar el mapa
-				if(notificarMovimiento(new EstadoAvion(-2,0,0,0))<0)
-				quit=true;
-				//Mapa::getInstace()->reiniciar();
-			}
-			// Registrar mov del teclado, y por ahora actualizar el modelo en base a eso
-			// Luego solamente notificara el evento al servidor
-			controlador.procesarTeclasPresionadas( e );
+			//Notifica al servidor de lo presionado
+			controlador->procesarTeclasPresionadas( e );
 		}
 
 		//Clear screen
@@ -376,11 +367,7 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 		//Render background
 		Mapa::getInstace()->dibujarFondoYElementos();
 
-		miAvion->mover();
-
 		//Notifico los movimientos
-		if(notificarMovimiento(miAvion->getEstado())<0)
-			quit = true;
 
 		Graficador::getInstance()->graficarAviones(estadoAviones);
 		SDL_mutexV(mut);
@@ -401,9 +388,6 @@ void Juego::actualizarMovimientos(EstadoAvion* estadoAvion){
 	SDL_mutexV(mut);
 }
 
-int Juego::notificarMovimiento(EstadoAvion* estadoAvion){
-	vector<void*> argv;
-	argv.push_back(estadoAvion);
-	return notificar(&argv[0]);
+void Juego::agregarObservadorAlControlador(Observador* observador){
+	this->controlador->agregarObservador(observador);
 }
-

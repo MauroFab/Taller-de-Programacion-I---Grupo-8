@@ -21,6 +21,7 @@ const int soltadaLaTeclaDeRoll = 12;
 const int apretadaLaTeclaDeReinicio= 13;
 const int soltadaLaTeclaDeReinicio = 14;
 
+const int seNecesitaLaPosicionDelMapa = 15;
 class Evento
 {
 public:

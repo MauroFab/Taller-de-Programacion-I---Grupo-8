@@ -4,7 +4,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include "Observador.h"
-
+#include "../Evento.h"
 class Observable {
 
 private:
@@ -14,7 +14,7 @@ private:
 public:
 	Observable();
 	void agregarObservador(Observador* obs);
-	int notificar(void* listObs[]);
+	int notificar(Evento* evento);
 	virtual ~Observable();
 };
 
