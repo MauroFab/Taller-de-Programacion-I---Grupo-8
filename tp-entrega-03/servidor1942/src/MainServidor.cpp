@@ -580,10 +580,10 @@ int MainServidor::mainPrincipal(){
 		}else{
 			SDL_UnlockMutex(mutColaPrincipal);
 		}
-		//Para todos los usuarios conectados deberia ser
 		//Por ahora dejo para todos los usuarios existentes
 		for(int i = 0; i < this->usuarios->getCantidadMaximaDeUsuarios(); i++){
-			avion[i]->mover();
+			if(usuarios->estaConectado(i))
+				avion[i]->mover();
 			EstadoAvion* estadoAvion;
 			estadoAvion = avion[i]->getEstado();
 			MensajeConId* mensajeConId = new MensajeConId;
