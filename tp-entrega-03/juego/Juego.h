@@ -9,7 +9,6 @@
 
 #define PATH_FONDO_INICIO "fondoInicio.bmp"
 
-#include "Avion.h"
 #include "Mapa.h"
 #include "Graficador.h"
 #include "FondoInicio.h"
@@ -83,7 +82,6 @@ public:
 
 private:
 	Controlador* controlador;
-	Avion* miAvion;
 	static bool instanceFlag;
 	static Juego* instance;
 	Juego();

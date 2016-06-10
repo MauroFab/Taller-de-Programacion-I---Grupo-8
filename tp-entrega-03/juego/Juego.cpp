@@ -288,9 +288,6 @@ void Juego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	}
 
 	int id_cliente = this->jugador->getIdCliente();
-	delete miAvion;
-	miAvion = new Avion(this->ventanaAncho, this->ventanaAlto,this->listaAvionView[id_cliente], balaView);
-	miAvion->setPosicion(this->jugador->getPosicion());
 
 	Mapa::getInstace()->reiniciar();
 	SDL_mutexV(mut);
@@ -328,8 +325,6 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	}
 
 	int id_cliente = this->jugador->getIdCliente();
-	miAvion = new Avion(this->ventanaAncho,this->ventanaAlto,listaAvionView[id_cliente], balaView);
-	miAvion->setPosicion(this->jugador->getPosicion());
 
 	/*------------------------------------------------------------------*/
 
