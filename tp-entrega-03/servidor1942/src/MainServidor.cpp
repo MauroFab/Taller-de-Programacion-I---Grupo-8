@@ -132,32 +132,32 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
 	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
 	int id = idYPunteroAlSocket.id;	
-	EstadoAvionXml* stAvionXml;
+	EstadoAvion* stAvion;
 	bool* seCerroLaConexionPointer = structRecibido.seCerroLaConexion;
-	std::queue<EstadoAvionXml*>* colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
+	std::queue<EstadoAvion*>* colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
 	printf("Se esta preparando para enviar mensajes al usuario: %i\n",id);
 	//-----------------------------
 	while(!(*seCerroLaConexionPointer)){
 	// enviar el inicio del juego a todos los clientes
 		SDL_LockMutex(mutColaDeUsuario[id]);
 		if(!colaDeMensajesParaEnviar->empty()){
-			stAvionXml = colaDeMensajesParaEnviar->front();
+			stAvion = colaDeMensajesParaEnviar->front();
 			colaDeMensajesParaEnviar->pop();
 			SDL_UnlockMutex(mutColaDeUsuario[id]);
 			char buffEnvio[MAX_BUFFER];
-			stAvionXml->calculateSizeBytes();
-			int sizeEnvio = Protocolo::codificar(*stAvionXml,buffEnvio);
+			int sizeEnvio = Protocolo::codificar(*stAvion,buffEnvio);
 
+			//Fuera de uso, no hay reinicios por ahora
+			/*
 			if(indicaUnReinicioDelMapa(stAvionXml)) {
 				//para esta operacion de reinicion no debe ejecutarse en forma simultanea
 				SDL_LockMutex(mutColaDeUsuario[id]);
 				recargarServidorXml();
 				SDL_UnlockMutex(mutColaDeUsuario[id]);
 				sizeEnvio += Protocolo::codificar(*(this->servidorXml), buffEnvio + sizeEnvio);
-			}
+			}*/
 
 			MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
-			delete stAvionXml; // TODO: probe de nuevo y no estaría rompiendo ... revisar bien!
 		}else{//Si la cola estaba vacía, permito que los demas threads usen la cola
 			SDL_UnlockMutex(mutColaDeUsuario[id]);
 		}
@@ -196,7 +196,7 @@ void MainServidor::actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvionXml* 
 	usuarios->setPosicionAUsuario(id, posicion);
 }
 bool MainServidor::esUnMensajeDeUnEstadoAvion(MensajeConId* mensajeConId){
-	return(mensajeConId->estadoAvionXml.getId() >= 0);
+	return(mensajeConId->estadoAvion->getId() >= 0);
 }
 bool MainServidor::esUnEstadoMapa(EstadoAvionXml* estadoAvionXml){
 	return(estadoAvionXml->getId() == -3);
@@ -434,27 +434,22 @@ int MainServidor::waitTeclasConsola(void*){
 	return 0;
 }
 void MainServidor::informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId){
-	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
+	std::queue<EstadoAvion*>* colaDeMensajesDelUsuario;
 	//Para todos los usuarios
 	for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
 		//Si el usuario i esta conectado
 		if(usuarios->estaConectado(i)){
 			SDL_LockMutex(mutColaDeUsuario[i]);
 			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-			EstadoAvionXml* pEstadoAvionXml = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
-			std::list<EstadoProyectilXml*>::iterator it;
-			std::list<EstadoProyectilXml*> listaP = mensajeConId->estadoAvionXml.getEstadosProyectiles();
-			for (it = listaP.begin(); it != listaP.end(); it++) {
-				pEstadoAvionXml->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
-			}
-			colaDeMensajesDelUsuario->push(pEstadoAvionXml);
+			colaDeMensajesDelUsuario->push(mensajeConId->estadoAvion);
 			SDL_UnlockMutex(mutColaDeUsuario[i]);
 		}
 	}
 }
 
+//Metodo desactivado actualmente
 bool MainServidor::esUnMensajeIndicandoQueNecesitoUnEstadoMapa(MensajeConId* mensajeConId){
-	return(mensajeConId->estadoAvionXml.getId() == -3);
+	return(false);
 }
 
 void MainServidor::informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa(){
@@ -469,26 +464,28 @@ void MainServidor::informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa(){
 			}
 		}
 		SDL_LockMutex(mutColaDeUsuario[i]);
-		usuarios->obtenerColaDeUsuario(i)->push(new EstadoAvionXml(-3,0,0,0));
+		usuarios->obtenerColaDeUsuario(i)->push(new EstadoAvion(-3,0,0,0));
 		SDL_UnlockMutex(mutColaDeUsuario[i]);
 	}
 }
+
+//Sin uso temporalmente
 bool MainServidor::esUnMensajeIndicandoQueSeDebeReiniciarElMapa(MensajeConId* mensajeConId){
-	return(mensajeConId->estadoAvionXml.getId() == -2);
+	return(false);
 }
 
+//Sin uso temporalmente
 void MainServidor::informarATodosLosClientesDelReinicioDelEscenario(MensajeConId* mensajeConId) {
 
-	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
+	std::queue<EstadoAvion*>* colaDeMensajesDelUsuario;
 	//Para todos los usuarios
 	for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
 		
 		//Si el usuario i esta conectado
 		if(usuarios->estaConectado(i)){
 			SDL_LockMutex(mutColaDeUsuario[i]);
-			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-			EstadoAvionXml* pEstadoAvionXml = new EstadoAvionXml(mensajeConId->estadoAvionXml.getId(), mensajeConId->estadoAvionXml.getFrame(), mensajeConId->estadoAvionXml.getPosX(), mensajeConId->estadoAvionXml.getPosY());
-			colaDeMensajesDelUsuario->push(pEstadoAvionXml);
+			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i); 
+			colaDeMensajesDelUsuario->push(mensajeConId->estadoAvion);
 			SDL_UnlockMutex(mutColaDeUsuario[i]);
 		}
 	}
@@ -504,11 +501,11 @@ void MainServidor::esperarAQueTodosLosUsuariosEstenConectadosParaContinuar(){
 }
 
 void MainServidor::avisarATodosLosUsuariosQueComenzoLaPartida(){
-	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
+	std::queue<EstadoAvion*>* colaDeMensajesDelUsuario;
 	for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
 		SDL_LockMutex(mutColaDeUsuario[i]);
 		colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-		colaDeMensajesDelUsuario->push(new EstadoAvionXml(-1,0,0,0));
+		colaDeMensajesDelUsuario->push(new EstadoAvion(-1,0,0,0));
 		SDL_UnlockMutex(mutColaDeUsuario[i]);
 	}
 }
@@ -519,7 +516,6 @@ void MainServidor::comunicarEventosRecibidosAlJuego(){
 	SDL_LockMutex(mutColaPrincipal);
 
 		while(!colaDeMensaje.empty()) {
-			int idDelQueMandoElMensaje;
 			mensajeConIdRecibido = colaDeMensaje.front();
 			colaDeMensaje.pop();
 			juego->actualizarElJuegoEnBaseA(mensajeConIdRecibido->evento, mensajeConIdRecibido->id);
@@ -535,19 +531,9 @@ void MainServidor::comunicarElNuevoEstadoDelJuegoALosClientes(){
 		for(int i = 0; i < this->usuarios->getCantidadMaximaDeUsuarios(); i++){
 			EstadoAvion* estadoAvion;
 			estadoAvion = juego->obtenerEstadoDelAvionDelJugador(i);
-			MensajeConId* mensajeConId = new MensajeConId;
-			//Se deberia mandar un estado avion directamente
-			EstadoAvionXml* estadoAvionXml = new EstadoAvionXml(i, estadoAvion->getFrame(),estadoAvion->getPosX(),
-																	estadoAvion->getPosY());
-			list<EstadoProyectil*> estadoProyectiles;
-			estadoProyectiles = estadoAvion->getEstadosProyectiles();
-			std::list<EstadoProyectil*>::iterator it;
-			for (it = estadoProyectiles.begin(); it != estadoProyectiles.end(); it++) {
-				estadoAvionXml->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
-			}
-																		
+			MensajeConId* mensajeConId = new MensajeConId;													
 			mensajeConId->id = i;
-			mensajeConId->estadoAvionXml = *estadoAvionXml;
+			mensajeConId->estadoAvion = estadoAvion;
 			informarATodosLosClientesDelEstadoDelAvion(mensajeConId);	
 		}
 }
@@ -561,8 +547,6 @@ int MainServidor::mainPrincipal(){
 	for(int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++){
 		mutColaDeUsuario[i] = SDL_CreateMutex();
 	}
-	MensajeConId* mensajeConId;
-	std::queue<EstadoAvionXml*>* colaDeMensajesDelUsuario;
 	printf("\nEscriba 'cerrar' si desea cerrar el servidor\n");
 	SDL_Thread* receptor = SDL_CreateThread(MainServidor::fun_recibirConexiones, "recibirConexiones", NULL);
 	SDL_Thread* consola = SDL_CreateThread(MainServidor::fun_consola, "recibirConexiones", NULL);

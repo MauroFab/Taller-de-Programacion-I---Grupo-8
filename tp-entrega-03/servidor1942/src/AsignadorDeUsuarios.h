@@ -1,7 +1,7 @@
 #pragma once
 #include <queue> 
 #include <list>
-#include "../../common/xml/EstadoAvionXml.h"
+#include "../../juego/EstadoAvion.h"
 #include "../../common/Posicion.h"
 using namespace std;
 
@@ -10,7 +10,7 @@ struct Usuario {
 	string nombreDeUsuario;
 	bool estaAsignado;
 	bool estaConectado;
-	std::queue<EstadoAvionXml*>* colaDeMensajesDeUsuario;
+	std::queue<EstadoAvion*>* colaDeMensajesDeUsuario;
 	Posicion* posicion;
 };
 
@@ -24,7 +24,7 @@ public:
 	void eliminarUsuario(int idUsuario);
 	int cantidadDeUsuarios();
 	//No tratar de liberar la memoria de la cola pedida, simplemente llamar a eliminarUsuario(int idUsuario) al final
-	std::queue<EstadoAvionXml*>* obtenerColaDeUsuario(int idUsuario);
+	std::queue<EstadoAvion*>* obtenerColaDeUsuario(int idUsuario);
 	int cantidadDeUsuariosActuales;
 	bool nombreDeUsuarioExistente(string nombreDeUsuario);
 	bool estaConectado(string nombreDeUsuario);

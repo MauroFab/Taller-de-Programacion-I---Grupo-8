@@ -7,7 +7,7 @@ AsignadorDeUsuarios::AsignadorDeUsuarios(int usuariosMaximos){
 	for(int i = 0; i<usuariosMaximos; i++){
 		usuario[i].estaConectado = false;
 		usuario[i].estaAsignado = false;
-		usuario[i].colaDeMensajesDeUsuario = new std::queue<EstadoAvionXml*>;
+		usuario[i].colaDeMensajesDeUsuario = new std::queue<EstadoAvion*>;
 		usuario[i].posicion = new Posicion(200, 400);
 	}
 }
@@ -117,7 +117,7 @@ void AsignadorDeUsuarios::desconectarUsuario(int idUsuario){
 		usuario[idUsuario].colaDeMensajesDeUsuario->pop();
 	}
 }
-std::queue<EstadoAvionXml*>* AsignadorDeUsuarios::obtenerColaDeUsuario(int idUsuario){
+std::queue<EstadoAvion*>* AsignadorDeUsuarios::obtenerColaDeUsuario(int idUsuario){
 	return usuario[idUsuario].colaDeMensajesDeUsuario;
 }
 
