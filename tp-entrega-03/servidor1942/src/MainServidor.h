@@ -35,6 +35,7 @@ using std::ofstream;
 #include "../../common/view/BalaView.h"
 #include "../../common/model/AvionModel.h"
 #include "../../common/model/BalaModel.h"
+#include "../ModeloDelJuego.h"
 
 //funciondes de hilos de SDL
 void freeSocketsSDL (SOCKET* s);
@@ -64,13 +65,12 @@ private:
     static MainServidor *single;
 	AsignadorDeUsuarios *usuarios;
 
-	//Temporalmente voy a tener los aviones de los jugadores directamente en el servidor, 
-	//Luego deberan ir incluidos dentro del juego en algun otro lugar
-	Avion** avion;
-
+	ModeloDelJuego* juego;
 
 	int clienteQueSolitaElEstado;
 	int posicionDelMapa;
+	//No se deberia usar para nada cuando todo el modelo pase al servidor, 
+	//a menos que dejemos el avance del mapa del lado del cliente
 	bool seActualizoLaUltimaPosicionDelMapa;
 
 	
@@ -176,7 +176,6 @@ public:
 	//Y los pone en aviones, el atributo del mainServidor
 	//En futuros cambios quedaran encapsulados adentro del juego
 	//Nota: No define la posicion inicial de los aviones.
-	void crearAviones();
 	int mainPrincipal();
 };
 

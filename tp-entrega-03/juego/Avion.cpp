@@ -135,7 +135,6 @@ void Avion::realizarAccionEnBaseA(Evento* evento){
        break; 
 	}
 }
-
 //BUG-000 aca hay un error pues plantea que se suma la misma velocidad en ambas coordenadas
 void Avion::darVelocidadHaciaArriba(){
 	velocidadY -= velocidad;
@@ -173,7 +172,6 @@ void Avion::disparar(){
 		proyectiles.push_back(proyectil);
 	}
 }
-
 
 void Avion::hacerUnRoll(){
 	rollFlag = true;

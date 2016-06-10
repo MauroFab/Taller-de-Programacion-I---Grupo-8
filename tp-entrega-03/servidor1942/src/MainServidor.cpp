@@ -493,36 +493,6 @@ void MainServidor::informarATodosLosClientesDelReinicioDelEscenario(MensajeConId
 		}
 	}
 }
-void MainServidor::crearAviones(){
-	avion = new Avion*;
-	AvionXml** avionXml;
-	avionXml = servidorXml->getListaAviones();
-	avionXml = servidorXml->getListaAviones();
-	SpriteXml** spriteXml;
-	spriteXml = servidorXml->getListaSprites();
-
-	int anchoDeLaVentana, altoDeLaVentana;
-	anchoDeLaVentana = servidorXml->getVentanaXmlCopy()->getAncho();
-	altoDeLaVentana = servidorXml->getVentanaXmlCopy()->getAlto();
-
-	for(int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++){
-		SpriteXml* spriteBala;
-		BalaView* balaView;
-		BalaModel* balaModel;
-		//Todo lo relacionado a la bala se saca del avion 0
-		//No se usa uno solo para poder liberar la memoria por separado al eliminar el avion
-		spriteBala = SpriteXml::findSpriteById(avionXml[0]->getIdSpBala(),spriteXml,servidorXml->getCanSprs());
-		balaModel = new BalaModel(avionXml[0]);
-		balaView = new BalaView(balaModel, spriteBala);
-		AvionView* avionView;
-		AvionModel* avionModel;
-		SpriteXml* spriteAvion;
-		spriteAvion = SpriteXml::findSpriteById(avionXml[i]->getIdSpAvion(),spriteXml,servidorXml->getCanSprs());
-		avionModel = new AvionModel(avionXml[i]);
-		avionView = new AvionView(avionModel, spriteAvion);
-		avion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, avionView, balaView);
-	}
-}
 /*-------- Funciones publicas --------*/
 int MainServidor::mainPrincipal(){
 	Log::getInstance()->debug("Servidor - Main Principal");
@@ -530,8 +500,6 @@ int MainServidor::mainPrincipal(){
 	mutLogger= SDL_CreateMutex();
 	mutColaDeUsuario = new SDL_mutex*[usuarios->getCantidadMaximaDeUsuarios()];
 	posicionDelMapa = 0;
-	seActualizoLaUltimaPosicionDelMapa = true;
-	crearAviones();
 	for(int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++){
 		mutColaDeUsuario[i] = SDL_CreateMutex();
 	}
@@ -543,7 +511,7 @@ int MainServidor::mainPrincipal(){
 	SDL_LockMutex(mutLogger);
 	Log::getInstance()->debug("Servidor - Main Principal: se inician los thread recibirConexiones");
 	SDL_UnlockMutex(mutLogger);
-
+	juego = new ModeloDelJuego(servidorXml, usuarios->getCantidadMaximaDeUsuarios());
 
 	//Este codigo conectado evita que el server empiece realmente si no estan todos conectados,
 	//Y ademas manda el mensaje de reconexion
@@ -556,9 +524,6 @@ int MainServidor::mainPrincipal(){
 				colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
 				colaDeMensajesDelUsuario->push(new EstadoAvionXml(-1,0,0,0));
 				SDL_UnlockMutex(mutColaDeUsuario[i]);
-				//Y ademas pongo las posiciones de los aviones
-				Posicion posicion(50,50);
-				avion[i]->setPosicion(posicion);
 			}
 			seHaIniciadoLaPartida = true;
 		}
@@ -572,20 +537,18 @@ int MainServidor::mainPrincipal(){
 			int idDelQueMandoElMensaje;
 			mensajeConIdRecibido = colaDeMensaje.front();
 			colaDeMensaje.pop();
-			Avion* avionDelQueMandoElMensaje;
-			avionDelQueMandoElMensaje = avion[mensajeConIdRecibido->id];
-			avionDelQueMandoElMensaje->realizarAccionEnBaseA(mensajeConIdRecibido->evento);
+			juego->actualizarElJuegoEnBaseA(mensajeConIdRecibido->evento, mensajeConIdRecibido->id);
 			SDL_UnlockMutex(mutColaPrincipal);
 			delete mensajeConIdRecibido;
 		}else{
 			SDL_UnlockMutex(mutColaPrincipal);
 		}
-		//Por ahora dejo para todos los usuarios existentes
+		juego->avanzarElTiempo();
+		//Informo a todos los clientes del estado del juego
+		//Por ahora informa de todos los estados aviones
 		for(int i = 0; i < this->usuarios->getCantidadMaximaDeUsuarios(); i++){
-			if(usuarios->estaConectado(i))
-				avion[i]->mover();
 			EstadoAvion* estadoAvion;
-			estadoAvion = avion[i]->getEstado();
+			estadoAvion = juego->obtenerEstadoDelAvionDelJugador(i);
 			MensajeConId* mensajeConId = new MensajeConId;
 			//Se deberia mandar un estado avion directamente
 			EstadoAvionXml* estadoAvionXml = new EstadoAvionXml(i, estadoAvion->getFrame(),estadoAvion->getPosX(),
