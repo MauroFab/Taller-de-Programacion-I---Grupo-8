@@ -528,6 +528,29 @@ void MainServidor::comunicarEventosRecibidosAlJuego(){
 
 	SDL_UnlockMutex(mutColaPrincipal);
 }
+
+void MainServidor::comunicarElNuevoEstadoDelJuegoALosClientes(){
+	//Informo a todos los clientes del estado del juego
+		//Por ahora informa de todos los estados aviones
+		for(int i = 0; i < this->usuarios->getCantidadMaximaDeUsuarios(); i++){
+			EstadoAvion* estadoAvion;
+			estadoAvion = juego->obtenerEstadoDelAvionDelJugador(i);
+			MensajeConId* mensajeConId = new MensajeConId;
+			//Se deberia mandar un estado avion directamente
+			EstadoAvionXml* estadoAvionXml = new EstadoAvionXml(i, estadoAvion->getFrame(),estadoAvion->getPosX(),
+																	estadoAvion->getPosY());
+			list<EstadoProyectil*> estadoProyectiles;
+			estadoProyectiles = estadoAvion->getEstadosProyectiles();
+			std::list<EstadoProyectil*>::iterator it;
+			for (it = estadoProyectiles.begin(); it != estadoProyectiles.end(); it++) {
+				estadoAvionXml->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
+			}
+																		
+			mensajeConId->id = i;
+			mensajeConId->estadoAvionXml = *estadoAvionXml;
+			informarATodosLosClientesDelEstadoDelAvion(mensajeConId);	
+		}
+}
 /*-------- Funciones publicas --------*/
 int MainServidor::mainPrincipal(){
 	Log::getInstance()->debug("Servidor - Main Principal");
@@ -558,27 +581,8 @@ int MainServidor::mainPrincipal(){
 
 		comunicarEventosRecibidosAlJuego();
 		juego->avanzarElTiempo();
-
-		//Informo a todos los clientes del estado del juego
-		//Por ahora informa de todos los estados aviones
-		for(int i = 0; i < this->usuarios->getCantidadMaximaDeUsuarios(); i++){
-			EstadoAvion* estadoAvion;
-			estadoAvion = juego->obtenerEstadoDelAvionDelJugador(i);
-			MensajeConId* mensajeConId = new MensajeConId;
-			//Se deberia mandar un estado avion directamente
-			EstadoAvionXml* estadoAvionXml = new EstadoAvionXml(i, estadoAvion->getFrame(),estadoAvion->getPosX(),
-																	estadoAvion->getPosY());
-			list<EstadoProyectil*> estadoProyectiles;
-			estadoProyectiles = estadoAvion->getEstadosProyectiles();
-			std::list<EstadoProyectil*>::iterator it;
-			for (it = estadoProyectiles.begin(); it != estadoProyectiles.end(); it++) {
-				estadoAvionXml->agregarEstadoProyectil(new EstadoProyectilXml((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
-			}
-																		
-			mensajeConId->id = i;
-			mensajeConId->estadoAvionXml = *estadoAvionXml;
-			informarATodosLosClientesDelEstadoDelAvion(mensajeConId);	
-		}
+		comunicarElNuevoEstadoDelJuegoALosClientes();
+		
 		//Sin el delay el server va mucho mas rapido que lo que grafica el cliente
 		//Y el avion se teletransporta de una punta a la otra
 		SDL_Delay(5);
