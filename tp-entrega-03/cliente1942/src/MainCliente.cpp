@@ -410,5 +410,6 @@ int MainCliente::actualizar(Evento* evento){
 		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
 	}
 	delete[] buffEnvio;
+	delete evento;
 	return estado;
 }
