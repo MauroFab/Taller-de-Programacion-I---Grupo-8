@@ -405,10 +405,9 @@ int MainCliente::actualizar(Evento* evento){
 	char * buffEnvio = new char[MAX_BUFFER];
 	int sizeBytesTotalLista = Protocolo::codificar(*evento,buffEnvio);
 	int estado=0;
-	if((estado=chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista)))<0) { //enviar el texto que se ha introducido
+	if((estado=chequearConexion(MensajeSeguro::enviar(sock,buffEnvio,sizeBytesTotalLista)))<0) {
 		printf("No se pudo enviar el movimiento, el cliente termina \n");
 		system("PAUSE");
-		// TODO: En este caso si el server esta desconectado deberiamos frenar el jeguo.
 	}
 	delete[] buffEnvio;
 	delete evento;

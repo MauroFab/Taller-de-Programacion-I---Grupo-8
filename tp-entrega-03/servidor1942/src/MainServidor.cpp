@@ -54,8 +54,6 @@ int MainServidor::parsearXML(int argc, char* argv[]) {
 void MainServidor::recargarServidorXml() {
 	//al reiniciar debe liberar la memoria del servidorXml
 	if (this->servidorXml != NULL){
-		//BUG-000 PARCHE ERROR
-		//delete this->servidorXml;
 		this->servidorXml = NULL;
 	}
 	int cantidadDeClientesMaxima = parsearXML(this->argc, this->argv);

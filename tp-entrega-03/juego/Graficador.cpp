@@ -18,8 +18,10 @@ Graficador::~Graficador(void) {
 	}
 	delete graficoProyectil;
 }
-void Graficador::inicializar(SDL_Renderer* renderer) {
+void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto) {
 	this->renderer = renderer;
+	this->ventanaAncho = ventanaAncho;
+	this->ventanaAlto = ventanaAlto;
 }
 void Graficador::agregarDatosAvion(AvionView * avionView) {
 	GraficoAvion* grafico = new GraficoAvion(renderer, avionView);
@@ -30,12 +32,11 @@ void Graficador::agregarDatosBala(BalaView * balaView) {
 }
 void Graficador::graficarAviones(std::map<int,EstadoAvion*> listaAviones) {
 	std::map<int, EstadoAvion*>::iterator it;
-	//BUG-000 Cada tanto el mensaje llega incompleto, con basura, y crashea acá.
 	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
 		GraficoAvion* grafico = mapaGraficosAvion.at(it->second->getId());
 		SDL_Rect* clip = grafico->getCurrentClip(it->second->getFrame());
 		Textura* textura = grafico->getTextura();
-		textura->render(it->second->getPosX(), it->second->getPosY(), renderer, clip);
+		textura->render(it->second->getPosX(), this->ventanaAlto - it->second->getPosY() - textura->getHeight(), renderer, clip);
 		this->graficarProyectiles(it->second->getEstadosProyectiles());
 	}
 }
@@ -46,19 +47,4 @@ void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectile
 		Textura* textura = graficoProyectil->getTextura();
 		textura->render((*it)->getPosX(), (*it)->getPosY(), renderer, clip);
 	}
-}
-
-void Graficador::graficarAvionesAll() {
-	std::map<int, GraficoAvion*>::iterator it;
-	int x = 10;
-	int y = 15;
-	for (it = mapaGraficosAvion.begin(); it != mapaGraficosAvion.end(); it++) {
-		GraficoAvion* grafico = (*it).second;
-		EstadoAvion tempEstadoAvion(-1,0,x,y);
-		SDL_Rect* clip = grafico->getCurrentClip(tempEstadoAvion.getFrame());
-		Textura* textura = grafico->getTextura();
-		textura->render(tempEstadoAvion.getPosX(), tempEstadoAvion.getPosY(), renderer, clip);
-		x += 50;
-		y += 50;		
-	}	
 }

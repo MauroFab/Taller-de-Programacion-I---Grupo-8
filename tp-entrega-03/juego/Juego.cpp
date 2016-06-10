@@ -268,7 +268,7 @@ void Juego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	cargarFondo(confServidorXml,tamanioMaximoMapa);
 	BalaView * balaView = cargarBala(confServidorXml);
 
-	Graficador::getInstance()->inicializar(gRenderer);
+	Graficador::getInstance()->inicializar(gRenderer, this->ventanaAncho, this->ventanaAlto);
 
 	//se cargan los aviones de la vista a la clase que luego los grafica
 	for(int v = 0; v < this->canAvionV; v++){
@@ -308,7 +308,7 @@ void Juego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
 	bool quit = false;
 
-	Graficador::getInstance()->inicializar(gRenderer);
+	Graficador::getInstance()->inicializar(gRenderer, this->ventanaAncho, this->ventanaAlto);
 
 	//se cargan los aviones de la vista a la clase que luego los grafica
 	for(int v = 0; v < this->canAvionV; v++){

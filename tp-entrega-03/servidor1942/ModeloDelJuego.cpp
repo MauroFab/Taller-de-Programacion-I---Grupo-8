@@ -1,12 +1,10 @@
 #include "ModeloDelJuego.h"
 
-
 ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsuarios){
 	this->cantidadMaximaDeUsuarios = cantidadMaximaDeUsuarios;
 	crearAviones(servidorXml);
 	darPosicionInicialAAviones();
 }
-
 
 ModeloDelJuego::~ModeloDelJuego(){
 
@@ -46,8 +44,10 @@ void ModeloDelJuego::crearAviones(ServidorXml* servidorXml){
 void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento){
 	avion[idDelJugadorQueMandoElEvento]->realizarAccionEnBaseA(evento);
 }
+
+// La posición (0,0) es en la esquina inferior izquierda
 void ModeloDelJuego::darPosicionInicialAAviones(){
-	Posicion posicionInicialParaTodos = Posicion(50,50);
+	Posicion posicionInicialParaTodos = Posicion(200,50);
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 		avion[i]->setPosicion(posicionInicialParaTodos);
 	}

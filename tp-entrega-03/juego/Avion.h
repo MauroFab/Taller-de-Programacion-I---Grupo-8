@@ -5,13 +5,6 @@
 #include <SDL2\SDL_image.h>
 #include <stdio.h>
 #include <string>
-
-//************************
-//esto NOO tiene que estar
-#define FAKE_POS_X 200
-#define FAKE_POS_Y 400
-//************************
-
 #include "Textura.h"
 #include "Proyectil.h"
 #include "EstadoAvion.h"
@@ -20,6 +13,7 @@
 #include "../common/Posicion.h"
 #include <list>
 #include "../common/Evento.h"
+
 class Avion {
 
     public:
@@ -36,11 +30,13 @@ class Avion {
 		EstadoAvion* getEstado();
 		std::list<EstadoProyectil*> getEstadoProyectiles();
 		void setPosicion(Posicion pos);
+		// La posicion del avión se toma con respecto al (0,0) que está en la esquina inferior izquierda
 
 		//Este metodo llama a uno de los de abajo de acuerdo al evento que recibe
 		void realizarAccionEnBaseA(Evento* evento);
 
     private:
+
 		void darVelocidadHaciaArriba();
 		void quitarVelocidadHaciaArriba();
 		void darVelocidadHaciaAbajo();	
@@ -72,13 +68,12 @@ class Avion {
 		// Posicion del avion
 		int posicionX;
 		int posicionY;
-//		int velocidad;
 		// Velocidad del avion
 		int velocidadX;
 		int velocidadY;
 		int id;
-private:
-void continuarMovimientoproyectiles(void);
+	private:
+		void continuarMovimientoproyectiles(void);
 	public:
 		BalaView * balaView; //[AGREGACION] NO eliminar
 };

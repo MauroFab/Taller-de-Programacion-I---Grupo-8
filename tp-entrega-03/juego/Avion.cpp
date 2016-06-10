@@ -137,17 +137,16 @@ void Avion::realizarAccionEnBaseA(Evento* evento){
 }
 //BUG-000 aca hay un error pues plantea que se suma la misma velocidad en ambas coordenadas
 void Avion::darVelocidadHaciaArriba(){
-	velocidadY -= velocidad;
+	velocidadY += velocidad;
 }
 void Avion::quitarVelocidadHaciaArriba(){
-	velocidadY += velocidad;
+	velocidadY -= velocidad;
 }
-		
 void Avion::darVelocidadHaciaAbajo(){
-	velocidadY += velocidad;
+	velocidadY -= velocidad;
 }
 void Avion::quitarVelocidadHaciaAbajo(){
-	velocidadY -= velocidad;
+	velocidadY += velocidad;
 }
 
 void Avion::darVelocidadHaciaLaDerecha(){
@@ -156,7 +155,6 @@ void Avion::darVelocidadHaciaLaDerecha(){
 void Avion::quitarVelocidadHaciaLaDerecha(){
 	velocidadX -= velocidad;
 }
-
 void Avion::darVelocidadHaciaLaIzquierda(){
 	velocidadX -= velocidad;
 }
@@ -168,7 +166,7 @@ void Avion::disparar(){
 	if(!rollFlag){
 		Proyectil* proyectil = new Proyectil(this->balaView);
 		//El centro del proyectil esta en el pixel 5
-		proyectil->setCoordenasDeComienzo(posicionX + (anchoAvion / 2) - 5, posicionY - (altoAvion/24));
+		proyectil->setCoordenasDeComienzo(posicionX + (anchoAvion / 2) - 5, this->ventanaAlto - (posicionY + altoAvion));
 		proyectiles.push_back(proyectil);
 	}
 }

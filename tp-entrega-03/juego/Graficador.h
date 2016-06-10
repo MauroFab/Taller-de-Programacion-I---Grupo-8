@@ -20,14 +20,10 @@ public:
 
 	~Graficador(void);
 
-	void inicializar(SDL_Renderer* renderer);
+	void inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto);
 	void agregarDatosAvion(AvionView * avionView);
 	void agregarDatosBala(BalaView * balaView);
 	void graficarAviones(std::map<int,EstadoAvion*> listaAviones);
-	/**
-	 * este metodo renderiza todos los aviones que tenga guardado el mapa interno
-	 */
-	void graficarAvionesAll();
 
 private:
 
@@ -35,6 +31,8 @@ private:
 	static Graficador* instance;
 
 	SDL_Renderer* renderer;
+	int ventanaAncho;
+	int ventanaAlto;
 	std::map<int, GraficoAvion*> mapaGraficosAvion;
 
 	GraficoProyectil* graficoProyectil;
