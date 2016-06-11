@@ -348,8 +348,6 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 		//Render background
 		Mapa::getInstace()->dibujarFondoYElementos();
 
-		//Notifico los movimientos
-
 		Graficador::getInstance()->graficarAviones(estadoAviones);
 		SDL_mutexV(mut);
 
