@@ -1187,5 +1187,18 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 }
 
 int Protocolo::decodificar(char* buffer, EstadoJuego* estadoJuego){
-	return 0;
+	int cantidadDeAviones;
+	int offset = 0;
+	std::list<EstadoAvion*> estadoAviones;
+	//Primero cargo la cantidad de aviones
+	memcpy(&cantidadDeAviones,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	for (int i = 0; i < cantidadDeAviones; i++){
+		EstadoAvion* estadoAvion = new EstadoAvion();
+		offset += decodificar(buffer + offset,estadoAvion);
+		estadoAviones.push_back(estadoAvion);
+	}
+	estadoJuego = new EstadoJuego(estadoAviones);
+	return offset;
 }
