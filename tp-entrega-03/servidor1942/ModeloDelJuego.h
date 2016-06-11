@@ -2,6 +2,7 @@
 #include "../juego/Avion.h"
 #include "../common/Evento.h"
 #include "../common/xml/ServidorXml.h"
+#include "../juego/EstadoJuego.h"
 
 class ModeloDelJuego
 {
@@ -13,6 +14,7 @@ public:
 
 	//Deberia pedir un estado del juego, no de cada uno en particular
 	EstadoAvion* obtenerEstadoDelAvionDelJugador(int id);
+	EstadoJuego* obtenerEstadoDelJuego();
 private:
 	void darPosicionInicialAAviones();
 	Avion** avion;

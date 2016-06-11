@@ -61,3 +61,12 @@ for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 EstadoAvion* ModeloDelJuego::obtenerEstadoDelAvionDelJugador(int id){
 	return avion[id]->getEstado();
 }
+
+EstadoJuego* ModeloDelJuego::obtenerEstadoDelJuego(){
+	std::list<EstadoAvion*> estadoDeAviones;
+	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
+		estadoDeAviones.push_back(avion[i]->getEstado());
+	}
+	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones);
+	return estadoJuego;
+}

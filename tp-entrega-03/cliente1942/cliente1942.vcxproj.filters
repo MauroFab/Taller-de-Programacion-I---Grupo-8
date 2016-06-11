@@ -198,6 +198,9 @@
     <ClCompile Include="..\juego\VistaJuego.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
+    <ClCompile Include="..\juego\EstadoJuego.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -336,6 +339,9 @@
       <Filter>Archivos de encabezado\Juego\Controlador</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\VistaJuego.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoJuego.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>

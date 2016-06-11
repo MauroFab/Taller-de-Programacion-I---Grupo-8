@@ -115,6 +115,7 @@
     <ClCompile Include="..\juego\Controlador\Controlador.cpp" />
     <ClCompile Include="..\juego\ElementoDelMapa.cpp" />
     <ClCompile Include="..\juego\EstadoAvion.cpp" />
+    <ClCompile Include="..\juego\EstadoJuego.cpp" />
     <ClCompile Include="..\juego\EstadoProyectil.cpp" />
     <ClCompile Include="..\juego\FondoInicio.cpp" />
     <ClCompile Include="..\juego\Graficador.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="..\juego\Controlador\Controlador.h" />
     <ClInclude Include="..\juego\ElementoDelMapa.h" />
     <ClInclude Include="..\juego\EstadoAvion.h" />
+    <ClInclude Include="..\juego\EstadoJuego.h" />
     <ClInclude Include="..\juego\EstadoProyectil.h" />
     <ClInclude Include="..\juego\FondoInicio.h" />
     <ClInclude Include="..\juego\Graficador.h" />
