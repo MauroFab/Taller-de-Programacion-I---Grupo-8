@@ -129,6 +129,9 @@
     <ClCompile Include="ModeloDelJuego.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
+    <ClCompile Include="..\juego\EstadoJuego.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AsignadorDeUsuarios.h">
@@ -226,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="ModeloDelJuego.h">
       <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoJuego.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

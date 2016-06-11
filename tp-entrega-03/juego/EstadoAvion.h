@@ -26,7 +26,9 @@ public:
 	int getPosY();
 	std::list<EstadoProyectil*> EstadoAvion::getEstadosProyectiles();
 
+	//No incluye el tamanio de los proyectiles
 	int getSizeBytes();
+
 	void setId(int id);
 	void setFrame(int frame);
 	void setPosX(int posX);

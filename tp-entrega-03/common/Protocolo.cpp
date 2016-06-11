@@ -1159,3 +1159,28 @@ int Protocolo::decodificar(char* buffer, Evento* evento) {
 
 	return offset;
 }
+
+int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
+	//Por ahora el juego no es mas que un conjunto de estadoAviones
+	//Por lo que el tamanio del mensaje es directamente la suma del tamanio
+	//de los estados aviones, y empieza en 0
+	int sizeBytes = 0;
+	int offset = 0;
+
+	std::list<EstadoAvion*> estadoAviones;
+	estadoAviones = estadoJuego.getEstadoDeLosAviones();
+
+	std::list<EstadoAvion*>::iterator it;
+
+	std::list<EstadoAvion*> lista = estadoAviones;
+
+	for (it = lista.begin(); it != lista.end(); it++) {
+		EstadoAvion* estadoAvion = (*it);
+		offset += codificar(*estadoAvion,buffer + offset);
+	}
+	return offset;
+}
+
+int Protocolo::decodificar(char* buffer, EstadoAvion* estadoAvion){
+	return 0;
+}
