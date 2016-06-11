@@ -260,9 +260,6 @@
     <ClInclude Include="..\juego\GraficoAvion.h">
       <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
     </ClInclude>
-    <ClInclude Include="..\juego\GraficoProyectil.h">
-      <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
-    </ClInclude>
     <ClInclude Include="..\juego\Mapa.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
@@ -342,6 +339,9 @@
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\EstadoJuego.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficoProyectil.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>

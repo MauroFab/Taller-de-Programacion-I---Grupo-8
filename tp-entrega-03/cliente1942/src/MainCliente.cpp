@@ -154,14 +154,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 				EstadoAvion * stAvion = new EstadoAvion();
 				int offset = Protocolo::decodificar(bufferEntrada,stAvion);
 				if(stAvion->getId() >= 0){
-					EstadoAvion* estadoAvion = new EstadoAvion(stAvion->getId(), stAvion->getFrame(), stAvion->getPosX(), stAvion->getPosY());
-					// Itero la lista de proyectiles y los agrego al estado avion
-					std::list<EstadoProyectil*>::iterator it;
-					std::list<EstadoProyectil*> lista = stAvion->getEstadosProyectiles();
-					for (it = lista.begin(); it != lista.end(); it++) {
-						estadoAvion->agregarEstadoProyectil(new EstadoProyectil((*it)->getFrame(),(*it)->getPosX(), (*it)->getPosY()));
-					}
-					VistaJuego::getInstance()->actualizarMovimientos(estadoAvion);
+					VistaJuego::getInstance()->actualizarMovimientos(stAvion);
 				}
 				//Un mensaje con id -2 indica que se reinicio el mapa
 				//Todo esto no esta siendo usado por ahora
@@ -179,7 +172,6 @@ int MainCliente::recibirMensajes(void* ptrSock){
 					size = Protocolo::codificar(*estadoMapa, buffEnvio);
 					MensajeSeguro::enviar(*((SOCKET*)ptrSock), buffEnvio, size);
 				}
-				delete stAvion;
 			}
 		}
 		else{
