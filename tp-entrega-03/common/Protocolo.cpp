@@ -1193,8 +1193,7 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 	return offset;
 }
 //ERROR-000
-/*aca hay un animalada un new para cada evento eso lo hace mas costoso
-ademas Evento es un INT es una locura una clase para un INT
+/*Aca hay un new para cada evento eso lo hace mas costoso.
 */
 int Protocolo::decodificar(char* buffer, EstadoJuego*& estadoJuego){
 	int cantidadDeAviones;
@@ -1215,9 +1214,6 @@ int Protocolo::decodificar(char* buffer, EstadoJuego*& estadoJuego){
 		offset += decodificar(buffer + offset,estadoAvion);
 		estadoAviones.push_back(estadoAvion);
 	}
-
-	//Si lo que me interesa es comunicar el estadoDelJuego
-	//ERROR-001, no queda claro el comentario si.. y sino (????)
 	estadoJuego = new EstadoJuego(estadoAviones, *evento);
 	delete evento;
 	return offset;
