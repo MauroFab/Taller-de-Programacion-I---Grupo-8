@@ -162,11 +162,10 @@ public:
 	void enviarEstadoAvionXmlxQueYaEmpezoElJuego(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);
-	void informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId);
 
-	//Los reinicios del mapa estan desactivados por ahora, estos metodos no se usan
+	//Los reinicios del mapa estan desactivados por ahora, este metodo no esta andando
+	//Pero volvera
 	void informarATodosLosClientesDelReinicioDelEscenario(MensajeConId* mensajeConId);
-	void informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa();
 
 	void esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
 	void avisarATodosLosUsuariosQueComenzoLaPartida();

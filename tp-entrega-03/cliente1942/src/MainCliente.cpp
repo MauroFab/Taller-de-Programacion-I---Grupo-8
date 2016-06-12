@@ -138,26 +138,28 @@ int MainCliente::recibirMensajes(void* ptrSock){
 		int len=MensajeSeguro::recibir(*((SOCKET*)ptrSock),bufferEntrada); //recibimos los datos que envie
 		if (len>0){
 			// espero el mensaje del server, comenzar el juego para desbloquear SDL
+			EstadoJuego* stJuego = NULL;
 			if(primerMensaje){
 				// en realidad no necesito chequear el mensaje
-				MensajeXml mensaXml;
-				int offset = Protocolo::decodificar(bufferEntrada,&mensaXml);
-				if (mensaXml.getId() == -1){
+				int offset = Protocolo::decodificar(bufferEntrada,stJuego);
+				if (stJuego->obtenerEvento()->getNumeroDeEvento() == comienzaLaPartida){
 					// Si el server nos envia respuesta que debemos iniciar el juego
 					Log::getInstance()->info("Comenzar el juego");
 					cout<<"Comenzar el juego"<<endl;
 					VistaJuego::getInstance()->setJugar();
 					primerMensaje=false;
+					delete stJuego;
 				}
 			} else {
 				//si seguimos conectados
-				EstadoAvion * stAvion = new EstadoAvion();
-				int offset = Protocolo::decodificar(bufferEntrada,stAvion);
-				if(stAvion->getId() >= 0){
-					VistaJuego::getInstance()->actualizarMovimientos(stAvion);
+				int offset = Protocolo::decodificar(bufferEntrada,stJuego);
+				list<EstadoAvion*> estadoAviones = stJuego->getEstadoDeLosAviones();
+				std::list<EstadoAvion*>::iterator it;
+				for (it = estadoAviones.begin(); it != estadoAviones.end(); it++) {
+					VistaJuego::getInstance()->actualizarMovimientos(*(it));
 				}
 				//Un mensaje con id -2 indica que se reinicio el mapa
-				//Todo esto no esta siendo usado por ahora
+				/*
 				if(stAvion->getId() == -2){
 					//se debe recrear el servidor pues el anterior ya no sirve
 					recreateServidorXml();
@@ -171,7 +173,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 					estadoMapa->calculateSizeBytes();
 					size = Protocolo::codificar(*estadoMapa, buffEnvio);
 					MensajeSeguro::enviar(*((SOCKET*)ptrSock), buffEnvio, size);
-				}
+				}*/
 			}
 		}
 		else{

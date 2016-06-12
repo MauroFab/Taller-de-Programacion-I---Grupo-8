@@ -14,6 +14,8 @@ public:
 
 	//Deberia pedir un estado del juego, no de cada uno en particular
 	EstadoAvion* obtenerEstadoDelAvionDelJugador(int id);
+	//El estado es uno que se aloja dinamicamente, y no afecta al juego
+	// liberar cuando se termina de usar
 	EstadoJuego* obtenerEstadoDelJuego();
 private:
 	void darPosicionInicialAAviones();

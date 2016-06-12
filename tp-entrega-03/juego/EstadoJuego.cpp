@@ -14,7 +14,7 @@ EstadoJuego::EstadoJuego(Evento evento){
 
 EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion){
 	estadoDeLosAviones = estadoAvion;
-	
+	this->evento = new Evento(noHayNingunEventoEspecial);
 } 
 
 EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, Evento evento){

@@ -130,20 +130,20 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 	//idYPunteroAlSocket es igual a la direccion de memoria apuntada por el puntero recibido
 	SOCKET socket = *idYPunteroAlSocket.punteroAlSocket;
 	int id = idYPunteroAlSocket.id;	
-	EstadoAvion* stAvion;
+	EstadoJuego* stJuego;
 	bool* seCerroLaConexionPointer = structRecibido.seCerroLaConexion;
-	std::queue<EstadoAvion*>* colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
+	std::queue<EstadoJuego*>* colaDeMensajesParaEnviar = usuarios->obtenerColaDeUsuario(id);
 	printf("Se esta preparando para enviar mensajes al usuario: %i\n",id);
 	//-----------------------------
 	while(!(*seCerroLaConexionPointer)){
 	// enviar el inicio del juego a todos los clientes
 		SDL_LockMutex(mutColaDeUsuario[id]);
 		if(!colaDeMensajesParaEnviar->empty()){
-			stAvion = colaDeMensajesParaEnviar->front();
+			stJuego = colaDeMensajesParaEnviar->front();
 			colaDeMensajesParaEnviar->pop();
 			SDL_UnlockMutex(mutColaDeUsuario[id]);
 			char buffEnvio[MAX_BUFFER];
-			int sizeEnvio = Protocolo::codificar(*stAvion,buffEnvio);
+			int sizeEnvio = Protocolo::codificar(*stJuego,buffEnvio);
 
 			//Fuera de uso, no hay reinicios por ahora
 			/*
@@ -420,42 +420,10 @@ int MainServidor::waitTeclasConsola(void*){
 	closesocket(this->socketDeEscucha);
 	return 0;
 }
-void MainServidor::informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mensajeConId){
-	std::queue<EstadoAvion*>* colaDeMensajesDelUsuario;
-	//Para todos los usuarios
-	for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
-		//Si el usuario i esta conectado
-		if(usuarios->estaConectado(i)){
-			SDL_LockMutex(mutColaDeUsuario[i]);
-			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-			colaDeMensajesDelUsuario->push(mensajeConId->estadoAvion);
-			SDL_UnlockMutex(mutColaDeUsuario[i]);
-		}
-	}
-}
-
-
-void MainServidor::informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa(){
-	bool encontreUnClienteConectado = false;
-	if(usuarios->cantidadDeUsuarios() > 0){
-		int i = -1;
-
-		while(!encontreUnClienteConectado){
-			i++;
-			if(i != clienteQueSolitaElEstado){
-				encontreUnClienteConectado = usuarios->estaConectado(i);
-			}
-		}
-		SDL_LockMutex(mutColaDeUsuario[i]);
-		usuarios->obtenerColaDeUsuario(i)->push(new EstadoAvion(-3,0,0,0));
-		SDL_UnlockMutex(mutColaDeUsuario[i]);
-	}
-}
-
 //Sin uso temporalmente
 void MainServidor::informarATodosLosClientesDelReinicioDelEscenario(MensajeConId* mensajeConId) {
 
-	std::queue<EstadoAvion*>* colaDeMensajesDelUsuario;
+	std::queue<EstadoJuego*>* colaDeMensajesDelUsuario;
 	//Para todos los usuarios
 	for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
 		
@@ -463,7 +431,7 @@ void MainServidor::informarATodosLosClientesDelReinicioDelEscenario(MensajeConId
 		if(usuarios->estaConectado(i)){
 			SDL_LockMutex(mutColaDeUsuario[i]);
 			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i); 
-			colaDeMensajesDelUsuario->push(mensajeConId->estadoAvion);
+			//colaDeMensajesDelUsuario->push(mensajeConId->estadoAvion);
 			SDL_UnlockMutex(mutColaDeUsuario[i]);
 		}
 	}
@@ -479,11 +447,13 @@ void MainServidor::esperarAQueTodosLosUsuariosEstenConectadosParaContinuar(){
 }
 
 void MainServidor::avisarATodosLosUsuariosQueComenzoLaPartida(){
-	std::queue<EstadoAvion*>* colaDeMensajesDelUsuario;
+	std::queue<EstadoJuego*>* colaDeMensajesDelUsuario;
+	Evento evento(comienzaLaPartida);
 	for(int i = 0; i < usuarios->cantidadDeUsuarios(); i++){
 		SDL_LockMutex(mutColaDeUsuario[i]);
 		colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-		colaDeMensajesDelUsuario->push(new EstadoAvion(-1,0,0,0));
+		EstadoJuego* estadoJuego = new EstadoJuego(evento);
+		colaDeMensajesDelUsuario->push(estadoJuego);
 		SDL_UnlockMutex(mutColaDeUsuario[i]);
 	}
 }
@@ -504,16 +474,22 @@ void MainServidor::comunicarEventosRecibidosAlJuego(){
 }
 
 void MainServidor::comunicarElNuevoEstadoDelJuegoALosClientes(){
-	//Informo a todos los clientes del estado del juego
-		//Por ahora informa de todos los estados aviones
-		for(int i = 0; i < this->usuarios->getCantidadMaximaDeUsuarios(); i++){
-			EstadoAvion* estadoAvion;
-			estadoAvion = juego->obtenerEstadoDelAvionDelJugador(i);
-			MensajeConId* mensajeConId = new MensajeConId;													
-			mensajeConId->id = i;
-			mensajeConId->estadoAvion = estadoAvion;
-			informarATodosLosClientesDelEstadoDelAvion(mensajeConId);	
+	std::queue<EstadoJuego*>* colaDeMensajesDelUsuario;
+	EstadoJuego* estadoJuego;
+	
+	//Para todos los usuarios
+	for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
+		//Si el usuario i esta conectado
+		if(usuarios->estaConectado(i)){
+			SDL_LockMutex(mutColaDeUsuario[i]);
+			//Cada llamada de obtener, da uno nuevo, luego cuando se saca de una de las colas
+			//Se llama al delete
+			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
+			estadoJuego = juego->obtenerEstadoDelJuego();
+			colaDeMensajesDelUsuario->push(estadoJuego);
+			SDL_UnlockMutex(mutColaDeUsuario[i]);
 		}
+	}
 }
 /*-------- Funciones publicas --------*/
 int MainServidor::mainPrincipal(){

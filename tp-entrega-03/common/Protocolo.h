@@ -97,7 +97,7 @@ public:
 	//A diferencia de los otros codificar, este crea un nuevo estadoJuego
 	//El puntero que se le manda no debe tener nada
 	//Esto para evitar los sets en el estadoJuego
-	static int decodificar(char* buffer,EstadoJuego* estadoJuego);
+	static int decodificar(char* buffer,EstadoJuego*& estadoJuego);
 };
 
 #endif //_PROTOCOLO_H_

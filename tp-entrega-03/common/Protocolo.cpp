@@ -169,6 +169,7 @@ int Protocolo::codificar(SpriteXml &spriteXml,char * buffer){
 #endif
 	return offset;
 }
+
 int Protocolo::decodificar(char * buffer,SpriteXml *spriteXml){
 	int sizeBytes = -1;
 	int id = -1;
@@ -1166,7 +1167,13 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 	
 	std::list<EstadoAvion*> estadoAviones;
 	estadoAviones = estadoJuego.getEstadoDeLosAviones();
-	int cantidadDeAviones = estadoAviones.size();
+	int cantidadDeAviones;
+	if(estadoAviones.empty()){
+		cantidadDeAviones = 0;
+	}else{
+		cantidadDeAviones = estadoAviones.size();
+	}
+		
 	std::list<EstadoAvion*>::iterator it;
 
 	std::list<EstadoAvion*> lista = estadoAviones;
@@ -1175,7 +1182,7 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 	offset += codificar(*estadoJuego.obtenerEvento(),buffer + offset);
 
 	//Segundo guardamos la cantidad de aviones
-	memcpy(&cantidadDeAviones,buffer + offset,sizeof(int));
+	memcpy(buffer + offset,&cantidadDeAviones,sizeof(int));
 	offset += sizeof(int);
 
 	//Luego todos los aviones
@@ -1186,7 +1193,7 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 	return offset;
 }
 
-int Protocolo::decodificar(char* buffer, EstadoJuego* estadoJuego){
+int Protocolo::decodificar(char* buffer, EstadoJuego*& estadoJuego){
 	int cantidadDeAviones;
 	int offset = 0;
 	std::list<EstadoAvion*> estadoAviones;
