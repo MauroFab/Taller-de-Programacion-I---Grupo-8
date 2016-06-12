@@ -35,7 +35,7 @@ using std::ofstream;
 #include "../../common/view/BalaView.h"
 #include "../../common/model/AvionModel.h"
 #include "../../common/model/BalaModel.h"
-#include "../ModeloDelJuego.h"
+#include "ModeloDelJuego.h"
 
 //funciondes de hilos de SDL
 void freeSocketsSDL (SOCKET* s);
@@ -47,7 +47,7 @@ private:
 
 	/*Atributos*/
 
-	int argc; 
+	int argc;
 	char* *argv;
 
 	struct MensajeConId {
@@ -69,11 +69,11 @@ private:
 
 	int clienteQueSolitaElEstado;
 	int posicionDelMapa;
-	//No se deberia usar para nada cuando todo el modelo pase al servidor, 
+	//No se deberia usar para nada cuando todo el modelo pase al servidor,
 	//a menos que dejemos el avance del mapa del lado del cliente
 	bool seActualizoLaUltimaPosicionDelMapa;
 
-	
+
 	int puerto;
 	MainServidor();
 
@@ -130,8 +130,8 @@ public:
 	/**
 	 * este metodo se encarga esperar a capturar las teclas de la consola
 	 * cuando recibe el mensaje de cierre, cierra el socket global
-	 * 
-	 * @param 
+	 *
+	 * @param
 	 */
 	int waitTeclasConsola(void*);
 	int revisarSiHayMensajesParaElClienteYEnviarlos(void* idYPunteroAlSocketRecibido);
