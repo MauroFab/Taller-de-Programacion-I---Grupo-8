@@ -125,12 +125,6 @@ public:
 	 * false en otro caso
 	 */
 	bool isHayBytes(int sizeBytesIn);
-	bool esUnMensajeDeUnEstadoAvion(MensajeConId* mensajeConId);
-	bool esUnMensajeIndicandoQueNecesitoUnEstadoMapa(MensajeConId* mensajeConId);
-	bool esUnEstadoMapa(EstadoAvionXml* estadoAvionXml);
-	bool esUnEstadoAvion(EstadoAvionXml* estadoAvionXml);
-	bool esUnMensajeIndicandoQueSeDebeReiniciarElMapa(MensajeConId* estadoAvionXml);
-	bool indicaUnReinicioDelMapa(EstadoAvionXml* estadoAvionXml);
 	int atenderCliente(void* punteroAlSocketRecibido);
 	int recibirConexiones(void*);
 	/**

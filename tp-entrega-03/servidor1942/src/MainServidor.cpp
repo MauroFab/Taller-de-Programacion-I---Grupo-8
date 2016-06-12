@@ -184,23 +184,12 @@ void MainServidor::grabarEnElLogLaDesconexion(int len){
 bool MainServidor::isHayBytes(int sizeBytesIn){
 	return(sizeBytesIn > 0);
 }
-bool MainServidor::esUnEstadoAvion(EstadoAvionXml* estadoAvionXml){
-	return(estadoAvionXml->getId() >= 0);
-}
+
 void MainServidor::actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvionXml* estadoAvion){
 	Posicion posicion;
 	posicion.setPosX(estadoAvion->getPosX());
 	posicion.setPosY(estadoAvion->getPosY());
 	usuarios->setPosicionAUsuario(id, posicion);
-}
-bool MainServidor::esUnMensajeDeUnEstadoAvion(MensajeConId* mensajeConId){
-	return(mensajeConId->estadoAvion->getId() >= 0);
-}
-bool MainServidor::esUnEstadoMapa(EstadoAvionXml* estadoAvionXml){
-	return(estadoAvionXml->getId() == -3);
-}
-bool MainServidor::indicaUnReinicioDelMapa(EstadoAvionXml* estadoAvionXml){
-	return(estadoAvionXml->getId() == -2);
 }
 
 int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {	
@@ -445,10 +434,6 @@ void MainServidor::informarATodosLosClientesDelEstadoDelAvion(MensajeConId* mens
 	}
 }
 
-//Metodo desactivado actualmente
-bool MainServidor::esUnMensajeIndicandoQueNecesitoUnEstadoMapa(MensajeConId* mensajeConId){
-	return(false);
-}
 
 void MainServidor::informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa(){
 	bool encontreUnClienteConectado = false;
@@ -465,11 +450,6 @@ void MainServidor::informarAUnClienteQueSeRequiereSaberLaPosicionDelMapa(){
 		usuarios->obtenerColaDeUsuario(i)->push(new EstadoAvion(-3,0,0,0));
 		SDL_UnlockMutex(mutColaDeUsuario[i]);
 	}
-}
-
-//Sin uso temporalmente
-bool MainServidor::esUnMensajeIndicandoQueSeDebeReiniciarElMapa(MensajeConId* mensajeConId){
-	return(false);
 }
 
 //Sin uso temporalmente
