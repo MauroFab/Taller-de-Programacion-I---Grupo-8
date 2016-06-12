@@ -1,5 +1,7 @@
 #pragma once
+const int noHayNingunEventoEspecial = 0;
 
+//Los siguientes se usan unicamente para mensajes del cliente al servidor
 const int apretadaLaTeclaDeMovimientoHaciaIzquierda = 1;
 const int soltadaLaTeclaDeMovimientoHaciaIzquierda = 2;
 
@@ -22,6 +24,11 @@ const int apretadaLaTeclaDeReinicio= 13;
 const int soltadaLaTeclaDeReinicio = 14;
 
 const int seNecesitaLaPosicionDelMapa = 15;
+
+//Los siguientes se usan solamente para mandar mensajes del servidor al cliente
+//Se podria separar todo en 2 clases de eventos distintos
+const int comienzaLaPartida = -1;
+
 class Evento
 {
 public:
