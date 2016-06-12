@@ -118,10 +118,10 @@
     <ClCompile Include="..\juego\EstadoJuego.cpp" />
     <ClCompile Include="..\juego\EstadoProyectil.cpp" />
     <ClCompile Include="..\juego\Proyectil.cpp" />
-    <ClCompile Include="ModeloDelJuego.cpp" />
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainServidor.cpp" />
+    <ClCompile Include="src\ModeloDelJuego.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\Evento.h" />
@@ -154,9 +154,9 @@
     <ClInclude Include="..\juego\EstadoJuego.h" />
     <ClInclude Include="..\juego\EstadoProyectil.h" />
     <ClInclude Include="..\juego\Proyectil.h" />
-    <ClInclude Include="ModeloDelJuego.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />
     <ClInclude Include="src\MainServidor.h" />
+    <ClInclude Include="src\ModeloDelJuego.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

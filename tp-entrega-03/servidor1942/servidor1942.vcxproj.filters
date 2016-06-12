@@ -126,11 +126,11 @@
     <ClCompile Include="..\juego\Proyectil.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
-    <ClCompile Include="ModeloDelJuego.cpp">
-      <Filter>Archivos de código fuente\Juego</Filter>
-    </ClCompile>
     <ClCompile Include="..\juego\EstadoJuego.cpp">
       <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModeloDelJuego.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,11 +227,11 @@
     <ClInclude Include="..\juego\Proyectil.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
-    <ClInclude Include="ModeloDelJuego.h">
-      <Filter>Archivos de encabezado\Juego</Filter>
-    </ClInclude>
     <ClInclude Include="..\juego\EstadoJuego.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModeloDelJuego.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
