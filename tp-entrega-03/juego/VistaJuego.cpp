@@ -358,12 +358,14 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 	close();
 }
 
-void VistaJuego::actualizarMovimientos(EstadoAvion* estadoAvion){
+void VistaJuego::actualizarEstadoJuego(EstadoJuego* estadoJuego){
 	SDL_mutexP(mut);
-	int idAvion = estadoAvion->getId();
-	//EstadoAvion* estadoAnterior = VistaJuego::getInstance()->estadoAviones[idAvion];
-	//delete estadoAnterior;
-	VistaJuego::getInstance()->estadoAviones[idAvion] = estadoAvion;
+	list<EstadoAvion*> estadoAviones = estadoJuego->getEstadoDeLosAviones();
+	std::list<EstadoAvion*>::iterator it;
+	for (it = estadoAviones.begin(); it != estadoAviones.end(); it++) {
+		int idAvion = (*it)->getId();
+		VistaJuego::getInstance()->estadoAviones[idAvion] = (*it);
+	}
 	SDL_mutexV(mut);
 }
 

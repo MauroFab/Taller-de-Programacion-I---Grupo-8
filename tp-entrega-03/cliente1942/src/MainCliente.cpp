@@ -153,11 +153,7 @@ int MainCliente::recibirMensajes(void* ptrSock){
 			} else {
 				//si seguimos conectados
 				int offset = Protocolo::decodificar(bufferEntrada,stJuego);
-				list<EstadoAvion*> estadoAviones = stJuego->getEstadoDeLosAviones();
-				std::list<EstadoAvion*>::iterator it;
-				for (it = estadoAviones.begin(); it != estadoAviones.end(); it++) {
-					VistaJuego::getInstance()->actualizarMovimientos(*(it));
-				}
+				VistaJuego::getInstance()->actualizarEstadoJuego(stJuego);
 				//Un mensaje con id -2 indica que se reinicio el mapa
 				/*
 				if(stAvion->getId() == -2){

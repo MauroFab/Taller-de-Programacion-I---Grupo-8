@@ -13,7 +13,7 @@
 #include "Graficador.h"
 #include "FondoInicio.h"
 #include "../common/observer/Observable.h"
-#include "EstadoAvion.h"
+#include "EstadoJuego.h"
 #include "ICargable.h"
 #include "../common/xml/ServidorXml.h"
 
@@ -59,7 +59,7 @@ public:
 	void reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa);
 	void ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa);
 	void close();
-	void actualizarMovimientos(EstadoAvion* estadoAvion);
+	void actualizarEstadoJuego(EstadoJuego* estadoJuego);
 	void setJugar();
 	//---carga de elementos de la vista
 	int cargarElementos(ServidorXml * confServidorXml);
