@@ -21,7 +21,7 @@ public:
 	~Graficador(void);
 
 	void inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto);
-	void agregarDatosAvion(AvionView * avionView);
+	void agregarDatosAviones(AvionView* *avionView, int canAvionV);
 	void agregarDatosBala(BalaView * balaView);
 	void graficarAviones(std::map<int,EstadoAvion*> listaAviones);
 

@@ -9,9 +9,10 @@
 using namespace std;
 #define FONDO_DEFAULT "fondoDefault.bmp"
 
-class Mapa
-{
+class Mapa {
+
 public:
+
 	static Mapa* getInstace();
 
 	void inicializar(SDL_Renderer* renderer,FondoView * fondoView, int posicionInicial);
@@ -19,9 +20,10 @@ public:
 	~Mapa();
 	void dibujarFondoYElementos();
 	//Las posiciones del mapa empiezan en la 1,1 que es la esquina inferior izquierda.
-	void crearElemento(ElementoView * elementoView);
+	void crearElementos(ElementoView* *listaElementosView, int canElemV);
 	int getPosicionMapa();
 	void configurarElMapaConLaPosicion(int pos);
+
 private:
 
 	static bool instanceFlag;

@@ -68,7 +68,7 @@ public:
 	//realiza la carga del fondo la 1era vez
 	int cargarFondo(ServidorXml * confServidorXml,int altoFondo);
 	//realiza la carga de una bala tipo, con la velocidad del 1er avion
-	BalaView * cargarBala(ServidorXml * confServidorXml);
+	int cargarBala(ServidorXml * confServidorXml);
 	Jugador * getJugador();
 	//operaciones de reset
 	//se encarga del reset de los elementos liberando la memoria usada por los objetos

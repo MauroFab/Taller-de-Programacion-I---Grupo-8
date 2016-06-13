@@ -4,12 +4,23 @@ bool Mapa::instanceFlag = false;
 Mapa* Mapa::instance = NULL;
 
 Mapa* Mapa::getInstace() {
-
 	if(!instanceFlag){
         instance = new Mapa();
         instanceFlag = true;
     }
     return instance;
+}
+
+Mapa::Mapa(){
+	scrollingOffset = 0;
+	cantidadDePixelesQuePasaron = 0;
+}
+
+Mapa::~Mapa(){
+	std::list<ElementoDelMapa*>::iterator it;
+	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
+		 delete (*it);
+	delete texturaMapa;
 }
 
 void Mapa::inicializar(SDL_Renderer* rendererRecibido,FondoView * fondoView, int posicionInicial) {
@@ -31,22 +42,6 @@ void Mapa::inicializar(SDL_Renderer* rendererRecibido,FondoView * fondoView, int
 			delete (*it);
 		elementosDelMapa.clear();
 	}
-}
-
-Mapa::Mapa(){
-	scrollingOffset = 0;
-	cantidadDePixelesQuePasaron = 0;
-}
-
-
-Mapa::~Mapa(){
-
-	std::list<ElementoDelMapa*>::iterator it;
-
-	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
-		 delete (*it);
-//	delete texturaIsla;
-	delete texturaMapa;
 }
 
 void Mapa::dibujarElementos(){
@@ -71,8 +66,8 @@ void Mapa::dibujarFondoYElementos(){
 	scrollingOffset++;
 	cantidadDePixelesQuePasaron++;
 }
-void Mapa::reiniciar(){
 
+void Mapa::reiniciar(){
 	cantidadDePixelesQuePasaron = 0;
 	scrollingOffset = 0;
 	std::list<ElementoDelMapa*>::iterator it;
@@ -80,22 +75,25 @@ void Mapa::reiniciar(){
 		(*it)->reiniciar();
 }
 
-void Mapa::crearElemento(ElementoView * elementoView){
-//se crea el elemento a partir de los datos originales
-	Textura * texturaElemento = new Textura();
-	char * path = elementoView->spriteXml->getPath();
-	if(!texturaElemento->cargarDeArchivo(path,renderer)){
-		texturaElemento->cargarDeArchivo("error.bmp",renderer);
-	};
-	ElementoDelMapa* elementoDelMapa;
-	elementoDelMapa = new ElementoDelMapa(elementoView->posicion.x,elementoView->posicion.y, renderer,texturaElemento);
-	elementosDelMapa.push_back(elementoDelMapa);
+void Mapa::crearElementos(ElementoView* *listaElementosView, int canElemV){
+	//se crean los elementos a partir de los datos originales
+	for(int e = 0; e < canElemV; e++){
+		ElementoView * elementoView = listaElementosView[e];
+		Textura * texturaElemento = new Textura();
+		char * path = elementoView->spriteXml->getPath();
+		if(!texturaElemento->cargarDeArchivo(path,renderer)){
+			texturaElemento->cargarDeArchivo("error.bmp",renderer);
+		};
+		ElementoDelMapa* elementoDelMapa = new ElementoDelMapa(elementoView->posicion.x,elementoView->posicion.y, renderer,texturaElemento);
+		elementosDelMapa.push_back(elementoDelMapa);
+	}
 }
 
 void Mapa::configurarElMapaConLaPosicion(int posicion){
 	cantidadDePixelesQuePasaron = posicion;
 	scrollingOffset = (posicion % altoMapa);
 }
+
 int Mapa::getPosicionMapa(){
 	return cantidadDePixelesQuePasaron;
 }

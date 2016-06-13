@@ -1,4 +1,5 @@
 #include "Graficador.h"
+
 bool Graficador::instanceFlag = false;
 Graficador* Graficador::instance = NULL;
 
@@ -23,9 +24,12 @@ void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int venta
 	this->ventanaAncho = ventanaAncho;
 	this->ventanaAlto = ventanaAlto;
 }
-void Graficador::agregarDatosAvion(AvionView * avionView) {
-	GraficoAvion* grafico = new GraficoAvion(renderer, avionView);
-	mapaGraficosAvion.insert(std::pair<int, GraficoAvion*>(avionView->avionModel->id, grafico));
+void Graficador::agregarDatosAviones(AvionView* *listaAvionView, int canAvionV) {
+	for(int v = 0; v < canAvionV; v++){
+		AvionView * avionV = listaAvionView[v];
+		GraficoAvion* grafico = new GraficoAvion(renderer, avionV);
+		mapaGraficosAvion.insert(std::pair<int, GraficoAvion*>(avionV->avionModel->id, grafico));
+	}
 }
 void Graficador::agregarDatosBala(BalaView * balaView) {
 	graficoProyectil = new GraficoProyectil(renderer,balaView);
