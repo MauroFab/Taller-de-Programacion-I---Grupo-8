@@ -18,6 +18,7 @@ Graficador::~Graficador(void) {
 		delete ((*it).second);
 	}
 	delete graficoProyectil;
+	delete graficoMapa;
 }
 void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto) {
 	this->renderer = renderer;
@@ -33,6 +34,10 @@ void Graficador::agregarDatosAviones(AvionView* *listaAvionView, int canAvionV) 
 }
 void Graficador::agregarDatosBala(BalaView * balaView) {
 	graficoProyectil = new GraficoProyectil(renderer,balaView);
+}
+void Graficador::agregarDatosMapa(FondoView * fondoView, ElementoView* *listaElementosView, int canElemV, int posicionInicial) {
+	graficoMapa = new GraficoMapa(renderer, fondoView, posicionInicial);
+	graficoMapa->crearElementos(listaElementosView, canElemV);
 }
 void Graficador::graficarAviones(std::map<int,EstadoAvion*> listaAviones) {
 	std::map<int, EstadoAvion*>::iterator it;
@@ -51,4 +56,7 @@ void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectile
 		Textura* textura = graficoProyectil->getTextura();
 		textura->render((*it)->getPosX(), (*it)->getPosY(), renderer, clip);
 	}
+}
+void Graficador::graficarMapa() {
+	graficoMapa->graficarFondoYElementos();
 }

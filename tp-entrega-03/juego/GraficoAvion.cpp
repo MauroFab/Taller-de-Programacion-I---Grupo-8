@@ -1,6 +1,5 @@
 #include "GraficoAvion.h"
 
-//GraficoAvion::GraficoAvion(SDL_Renderer* renderer, int id, std::string pathAvion, int cantFotogramas, int ancho, int alto) {
 GraficoAvion::GraficoAvion(SDL_Renderer* renderer, AvionView * avionView) {	
 	this->id = avionView->avionModel->id;
 	textura = new Textura();

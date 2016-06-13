@@ -264,9 +264,7 @@ void VistaJuego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMap
 
 	Graficador::getInstance()->agregarDatosBala(this->balaView);
 
-	Mapa::getInstace()->inicializar(gRenderer,this->fondoView, posicionInicialMapa);
-
-	Mapa::getInstace()->crearElementos(this->listaElemView, this->canElemV);
+	Graficador::getInstance()->agregarDatosMapa(this->fondoView, this->listaElemView, this->canElemV, posicionInicialMapa);
 
 	Mapa::getInstace()->reiniciar();
 	SDL_mutexV(mut);
@@ -290,11 +288,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 
 	Graficador::getInstance()->agregarDatosBala(this->balaView);
 
-	/*Se inicializa y se cargan los datos en el Mapa*/
-
-	Mapa::getInstace()->inicializar(gRenderer,this->fondoView, posicionInicialMapa);
-
-	Mapa::getInstace()->crearElementos(this->listaElemView, this->canElemV);
+	Graficador::getInstance()->agregarDatosMapa(this->fondoView, this->listaElemView, this->canElemV, posicionInicialMapa);
 
 	/*------------------------------------------------------------------*/
 
@@ -303,7 +297,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 	SDL_RenderClear( gRenderer );
 
 	//Render background
-	Mapa::getInstace()->dibujarFondoYElementos();
+	Graficador::getInstance()->graficarMapa();
 
 	//se actualiza la pantalla
 	SDL_RenderPresent( gRenderer );
@@ -331,9 +325,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 		SDL_RenderClear( gRenderer );
 
 		SDL_mutexP(mut);
-		//Render background
-		Mapa::getInstace()->dibujarFondoYElementos();
-
+		Graficador::getInstance()->graficarMapa();
 		Graficador::getInstance()->graficarAviones(estadoAviones);
 		SDL_mutexV(mut);
 

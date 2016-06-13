@@ -114,6 +114,9 @@
     <ClCompile Include="src\MainCliente.cpp">
       <Filter>Archivos de código fuente\Conexion</Filter>
     </ClCompile>
+	<ClCompile Include="..\juego\GraficoMapa.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
     <ClCompile Include="..\juego\GraficoProyectil.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
     </ClCompile>
@@ -341,8 +344,11 @@
     <ClInclude Include="..\juego\EstadoJuego.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
+    <ClInclude Include="..\juego\GraficoMapa.h">
+      <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
+    </ClInclude>
     <ClInclude Include="..\juego\GraficoProyectil.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
