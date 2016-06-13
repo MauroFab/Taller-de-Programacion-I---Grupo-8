@@ -1,0 +1,98 @@
+****************************************************************************************************************************
+-Juego
+	-Escenario 		 	//el nivel actual
+	-list<Escenario> 	//es una lista de niveles
+	-Vista
+-Vista
+	-textoPuntaje
+-Jugador
+	-id_equipo (-1 si no tiene equipo)
+-Equipo
+	-puntaje
+-puntos int [0..N]
+	-puntaje ----> x Jugador
+	-puntaje ----> x Equipo
+-AvionEnemigo
+    -energiaInicial
+    -energia //energia == 0 --> muerto
+    -valorPuntaje
+    -trayectoria	// es random pero una vez que la tomo la sigue hasta el final
+    -->AvionMini
+    -->AvionFormacion
+    	-idFormacion
+    -->AvionMiddle
+    -->AvionBig	
+-Modo
+	-modoColaboracion
+	-modoEnfrentado
+-Comando
+	+reestablecer()
+	+terminar()
+	+cambiarModo(Practica --> Normal)	==> cambiar de Etapa
+-Avion
+    -energia
+    -vidaPuntos
+-Escenario/Nivel
+	-estado
+	-list <BalaJugador>
+	-list <BalaEnemigo>
+	-list <AvionJugador>
+	-list <AvionEnemigo>
+	-vectorColisiones
+	+createAvion()	
+	+createAvionEnemigo()	//solo crear cuando llegue a la posicion
+	+createPowerUp()
+	
+-Jugador
+	-Nivel
+	-cartel
+-ControllerNivel	
+	
+-Escenario
+	-->create()
+		-->AvionEnemigo
+		-->Elemento_Fijos
+			-->PowerUp
+			-->Isla,Barco
+		-->AvionJugador
+		-->Bala
+			-idOwner
+			-->BalaJugador
+			-->BalaEnemigo
+-AvionBig
+	+createPowerUp()
+	+dispararMultiple()
+	
+-PowerUp
+	-tipo
+	-posX
+	-posY
+	+operar()
+	+givePuntaje()		//agrega puntos al avion que lo toca
+	+killEnemigos(Escenario) //solamente a los que son visibles
+	+aumentarBala()		//aumenta el ancho de la bala	
+
+****************************************************************************************************************************
+
+modo=
+practica
+colaboracion
+equiposXML
+para el 
+NIVEL
+	-orden		//1 .. 2 .. 3
+	-nombre
+	-list<powerUp>
+	-list<enemigos>
+	-fondo
+****************************************************************************************************************************
+
+hipotesis:
+	-las balas de los aviones existen luego despues de su muerte	
+	-la pertenecia a un grupo/formacion solo es un atributo
+	-modificar el XML, pues el mismo tendra la totalidad de los niveles
+	-solo 2 velocidades distintas
+	-para Avion_Jugador se oculta la view pero sigue existiendo el model
+	-existen distintos tipos de powerup
+	-existe un powerup fijo
+****************************************************************************************************************************

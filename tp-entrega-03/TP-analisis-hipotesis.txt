@@ -1,0 +1,32 @@
+****************************************************************************************************************************
+dudas:
+¿Son SOLO estas todas las colisiones o interacciones que debemos capturar?
+	bala_jugador: solo destruye enemigos, pero no aviones del mismo grupo o de otros grupos, ni powerup o elementos fijos
+	bala_enemigo: solo destruye jugador, no afecta a nada mas
+	avion_jugador: solo interactua con balas enemigos o avion_enemigo (estilo avion kamikase) o powerup
+	avion_enemigo: kamikase son avion_jugador solamente
+¿un avion_jugador puede chocar con avion_enemigo?
+¿Son estas todas las entidades posibles?
+-Elemento_fijo
+	-PowerUp
+	-Isla,Barco	
+-Avion_Enemigo
+-Avion_Jugador
+-Bala
+	-Bala_Jugador [velocidad(+)]
+	-Bala_Enemigo  [velocidad(-)]
+¿El powerUp tiene un tiempo de vida?
+¿Pueden ser fijos los PowerUp pero ser random su aparicion/no aparicion o tener un rango de coordenadas en las cuales aparecen?
+¿podemos definir un maximo de 3 niveles?
+¿se puede usa un mismo fondo para todos los niveles?
+¿una etapa es un nivel?
+¿como se selecciona esa etapa/nivel "en particular"?
+¿se debe poder pausar el juego? ==> OJO NO preguntar solo plantear
+¿en modo practica el jugador es inmortal?
+¿el modo practica afecta a todos?
+¿una vez?
+¿puede mover el enemigo en diagonal, trayectoria (3 vectores velocidad) ?
+¿frecuencia de disparo?
+¿tolerancia a disparo?
+
+****************************************************************************************************************************
