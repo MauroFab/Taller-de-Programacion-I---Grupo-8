@@ -72,8 +72,10 @@ class Avion {
 		int velocidadX;
 		int velocidadY;
 		int id;
-	private:
 		void continuarMovimientoproyectiles(void);
+		void actualizarPosicionEnX();
+		void actualizarPosicionEnY();
+		void continuarElRoll();
 	public:
 		BalaView * balaView; //[AGREGACION] NO eliminar
 };

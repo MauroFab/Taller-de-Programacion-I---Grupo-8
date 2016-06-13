@@ -28,30 +28,41 @@ void Avion::setPosicion(Posicion pos) {
 	this->posicionX = pos.getPosX();
 	this->posicionY = pos.getPosY();
 }
+void Avion::actualizarPosicionEnX(){
+	posicionX += velocidadX;
+
+	if(posicionX < 0){
+		posicionX = 0;
+	}
+	if( posicionX + anchoAvion > this->ventanaAncho ){
+		posicionX = (this->ventanaAncho - anchoAvion);
+	}
+}
+
+void Avion::actualizarPosicionEnY(){
+	posicionY += velocidadY;
+	if(posicionY < 0 ){
+		posicionY = 0;
+	 }
+	if(posicionY + altoAvion > this->ventanaAlto){
+		posicionY = ventanaAlto - altoAvion;
+	}
+}
+
+void Avion::continuarElRoll(){
+	if ((frame / cantDeFotogramas) >= cantDeFotogramas - 1){
+			frame = 0;
+			rollFlag = false;
+	}
+	frame++;
+}
 
 void Avion::continuarMovimientoDelAvion(){
 	if(!rollFlag){
-		// Mueve el avion hacia la derecha o a la izquierda
-		posicionX += velocidadX;
-
-		// Para que no se salga de la pantalla en X
-		if( ( posicionX < 0 ) || ( posicionX + anchoAvion > this->ventanaAncho ) ){
-			posicionX -= velocidadX;
-		}
-
-		// Mueve el avion hacia arriba o hacia abajo
-		posicionY += velocidadY;
-
-		// Para que no se salga de la pantalla en Y
-		if( ( posicionY < 0 ) || ( posicionY + altoAvion > this->ventanaAlto ) ){
-			posicionY -= velocidadY;
-	   }
+		actualizarPosicionEnX();
+		actualizarPosicionEnY();
 	}else{
-		if ((frame / cantDeFotogramas) >= cantDeFotogramas - 1){
-			frame = 0;
-			rollFlag = false;
-		}
-			frame++;
+		continuarElRoll();
 	}
 }
 
