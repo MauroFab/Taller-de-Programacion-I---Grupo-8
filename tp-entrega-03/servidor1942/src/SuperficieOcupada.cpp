@@ -39,6 +39,18 @@ SuperficieOcupada SuperficieOcupada::moverAPosicionYObteniendoHitbox(int yNuevo)
 	return(SuperficieOcupada(xHitbox, yHitbox,anchoHitbox,altoHitbox));
 }
 
+SuperficieOcupada SuperficieOcupada::desplazarEnXObteniendoHitbox(int distanciaAMoverEnX){
+	int xNuevo = x + distanciaAMoverEnX;
+	SuperficieOcupada hitbox = moverAPosicionYObteniendoHitbox(xNuevo);
+	return(hitbox);
+}
+
+SuperficieOcupada SuperficieOcupada::desplazarEnYObteniendoHitbox(int distanciaAMoverEnY){
+	int yNuevo = y + distanciaAMoverEnY;
+	SuperficieOcupada hitbox = moverAPosicionYObteniendoHitbox(yNuevo);
+	return(hitbox);
+}
+
 bool SuperficieOcupada::compartoUnaRegionEnXCon(SuperficieOcupada otraSuperficieOcupada){
 	bool meSolapo;
 	//Si estoy a la izquierda

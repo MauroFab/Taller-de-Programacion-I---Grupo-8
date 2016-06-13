@@ -18,6 +18,11 @@ public:
 	//Las movimientos bidimensionales se descomponen en movimientos unidimensionales
 	SuperficieOcupada moverAPosicionXObteniendoHitbox(int x);
 	SuperficieOcupada moverAPosicionYObteniendoHitbox(int y);
+
+	SuperficieOcupada desplazarEnXObteniendoHitbox(int distanciaAMoverEnX);
+	SuperficieOcupada desplazarEnYObteniendoHitbox(int distanciaAMoverEnY);
+
+
 	bool meSolapoCon(SuperficieOcupada otraSuperficieOcupada);
 
 private:
