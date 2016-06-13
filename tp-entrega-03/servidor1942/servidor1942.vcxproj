@@ -119,6 +119,7 @@
     <ClCompile Include="..\juego\EstadoProyectil.cpp" />
     <ClCompile Include="..\juego\Proyectil.cpp" />
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
+    <ClCompile Include="src\AvionEnemigo.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainServidor.cpp" />
     <ClCompile Include="src\ModeloDelJuego.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="..\juego\EstadoProyectil.h" />
     <ClInclude Include="..\juego\Proyectil.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />
+    <ClInclude Include="src\AvionEnemigo.h" />
     <ClInclude Include="src\MainServidor.h" />
     <ClInclude Include="src\ModeloDelJuego.h" />
     <ClInclude Include="src\SuperficieOcupada.h" />

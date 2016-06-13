@@ -135,6 +135,9 @@
     <ClCompile Include="src\SuperficieOcupada.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
+    <ClCompile Include="src\AvionEnemigo.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AsignadorDeUsuarios.h">
@@ -237,6 +240,9 @@
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
     <ClInclude Include="src\SuperficieOcupada.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AvionEnemigo.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
   </ItemGroup>

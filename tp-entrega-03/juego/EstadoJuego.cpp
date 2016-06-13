@@ -24,6 +24,12 @@ EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, Evento evento){
 
 EstadoJuego::~EstadoJuego(){
 	delete evento;
+	std::list<EstadoAvion*> lista;
+	std::list<EstadoAvion*>::iterator it;
+	for (it = lista.begin(); it != lista.end(); it++) {
+		delete (*it);
+	}
+	lista.clear();
 }
 
 std::list<EstadoAvion*> EstadoJuego::getEstadoDeLosAviones(){

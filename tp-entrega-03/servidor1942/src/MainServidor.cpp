@@ -154,8 +154,9 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 				SDL_UnlockMutex(mutColaDeUsuario[id]);
 				sizeEnvio += Protocolo::codificar(*(this->servidorXml), buffEnvio + sizeEnvio);
 			}*/
-
+			delete stJuego;
 			MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
+
 		}else{//Si la cola estaba vacía, permito que los demas threads usen la cola
 			SDL_UnlockMutex(mutColaDeUsuario[id]);
 		}
@@ -268,6 +269,11 @@ void MainServidor::enviarModeloXmlxConexionAceptadaAl(int idCliente, SOCKET* soc
 	posAEnviar.setPosY(pos->getPosY());
 	posAEnviar.calculateSizeBytes();
 	offset += Protocolo::codificar(posAEnviar, buffEnvio + offset);
+
+	//NOTA POS ENTREGA 2: el tema de las posiciones del mapa es algo que se vera revisado
+	//Lo relacionado con eso y la reconexion, es algo que cambiara
+	//Estas lineas de codigo no estan totalmente en uso
+
 	//Si no tengo una posicion del mapa que sirva, pido una
 	Posicion posDelMapa;
 	//Si estoy solo yo conectado, no puedo pedirle la posicion del mapa a ningun cliente, asi que
