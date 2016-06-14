@@ -2,9 +2,6 @@
 
 GraficoMapa::GraficoMapa(SDL_Renderer* renderer, FondoView * fondoView, int posicionInicial) {
 
-	scrollingOffset = 0;
-	cantidadDePixelesQuePasaron = 0;
-
 	char * pathFondo = fondoView->spriteXml->getPath();
 	tamanioMaximoMapa = fondoView->altoFondo;
 	textura = new Textura();
@@ -39,24 +36,22 @@ void GraficoMapa::configurarElMapaConLaPosicion(int posicion){
 	scrollingOffset = (posicion % altoMapa);
 }
 
-void GraficoMapa::reiniciar() {
-	cantidadDePixelesQuePasaron = 0;
-	scrollingOffset = 0;
-	std::list<ElementoDelMapa*>::iterator it;
-	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
-		(*it)->reiniciar();
-}
-
 void GraficoMapa::graficarElementos() {
 	std::list<ElementoDelMapa*>::iterator it;
 	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
-	     (*it)->graficarseSiEstaEnPantalla(altoMapa + cantidadDePixelesQuePasaron, cantidadDePixelesQuePasaron);
+	     (*it)->graficarseSiEstaEnPantalla(altoMapa + cantidadDePixelesQuePasaron, cantidadDePixelesQuePasaron, cantidadDePixelesQuePasaron);
 }
 
 /*--------------------Métodos públicos-----------------------*/
 
 Textura* GraficoMapa::getTextura() {
 	return textura;
+}
+
+void GraficoMapa::reiniciar() {
+	std::list<ElementoDelMapa*>::iterator it;
+	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
+		(*it)->reiniciar();
 }
 
 void GraficoMapa::crearElementos(ElementoView* *listaElementosView, int canElemV) {
@@ -74,16 +69,14 @@ void GraficoMapa::crearElementos(ElementoView* *listaElementosView, int canElemV
 }
 
 void GraficoMapa::graficarFondoYElementos() {
-
-	if(cantidadDePixelesQuePasaron > tamanioMaximoMapa)
-		this->reiniciar();
-
-	//Después de la ultima posicion de la imagen de fondo sigue la primera
-	if(scrollingOffset >= altoMapa)
-		scrollingOffset = 0;
 	textura->render(0, scrollingOffset, renderer);
 	textura->render(0, scrollingOffset - altoMapa, renderer);
 	this->graficarElementos();
-	scrollingOffset++;
-	cantidadDePixelesQuePasaron++;
+}
+
+void GraficoMapa::actualizar(EstadoMapa* estadoMapa) {
+	this->scrollingOffset = estadoMapa->getScrollingOffSet();
+	this->cantidadDePixelesQuePasaron = estadoMapa->getCantidadDePixeles();
+	if (estadoMapa->getCodigoReinicio() == 1)
+		this->reiniciar();
 }

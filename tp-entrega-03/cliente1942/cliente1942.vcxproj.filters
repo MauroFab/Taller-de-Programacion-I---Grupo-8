@@ -135,9 +135,6 @@
     <ClCompile Include="..\juego\EstadoProyectil.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
-    <ClCompile Include="..\juego\Mapa.cpp">
-      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
-    </ClCompile>
     <ClCompile Include="..\juego\Proyectil.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
@@ -201,6 +198,9 @@
     <ClCompile Include="..\juego\EstadoJuego.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
+    <ClCompile Include="..\juego\EstadoMapa.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -245,9 +245,6 @@
     <ClInclude Include="..\common\Log.h">
       <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\juego\Avion.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
-    </ClInclude>
     <ClInclude Include="..\juego\EstadoAvion.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
@@ -259,9 +256,6 @@
     </ClInclude>
     <ClInclude Include="..\juego\GraficoAvion.h">
       <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
-    </ClInclude>
-    <ClInclude Include="..\juego\Mapa.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\Proyectil.h">
       <Filter>Archivos de encabezado\Juego\Modelo</Filter>
@@ -346,6 +340,9 @@
     </ClInclude>
     <ClInclude Include="..\juego\GraficoProyectil.h">
       <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoMapa.h">
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

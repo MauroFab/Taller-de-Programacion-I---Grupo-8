@@ -115,6 +115,7 @@
     <ClCompile Include="..\juego\ElementoDelMapa.cpp" />
     <ClCompile Include="..\juego\EstadoAvion.cpp" />
     <ClCompile Include="..\juego\EstadoJuego.cpp" />
+    <ClCompile Include="..\juego\EstadoMapa.cpp" />
     <ClCompile Include="..\juego\EstadoProyectil.cpp" />
     <ClCompile Include="..\juego\FondoInicio.cpp" />
     <ClCompile Include="..\juego\Graficador.cpp" />
@@ -122,7 +123,6 @@
     <ClCompile Include="..\juego\GraficoProyectil.cpp" />
     <ClCompile Include="..\juego\GraficoMapa.cpp" />
     <ClCompile Include="..\juego\VistaJuego.cpp" />
-    <ClCompile Include="..\juego\Mapa.cpp" />
     <ClCompile Include="..\juego\Proyectil.cpp" />
     <ClCompile Include="..\juego\Textura.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -160,11 +160,11 @@
     <ClInclude Include="..\common\xml\SpriteXml.h" />
     <ClInclude Include="..\common\StringUtil.h" />
     <ClInclude Include="..\common\xml\VentanaXml.h" />
-    <ClInclude Include="..\juego\Avion.h" />
     <ClInclude Include="..\juego\Controlador\Controlador.h" />
     <ClInclude Include="..\juego\ElementoDelMapa.h" />
     <ClInclude Include="..\juego\EstadoAvion.h" />
     <ClInclude Include="..\juego\EstadoJuego.h" />
+    <ClInclude Include="..\juego\EstadoMapa.h" />
     <ClInclude Include="..\juego\EstadoProyectil.h" />
     <ClInclude Include="..\juego\FondoInicio.h" />
     <ClInclude Include="..\juego\Graficador.h" />
@@ -173,7 +173,6 @@
     <ClInclude Include="..\juego\GraficoMapa.h" />
     <ClInclude Include="..\juego\ICargable.h" />
     <ClInclude Include="..\juego\VistaJuego.h" />
-    <ClInclude Include="..\juego\Mapa.h" />
     <ClInclude Include="..\juego\Proyectil.h" />
     <ClInclude Include="..\juego\Textura.h" />
     <ClInclude Include="src\MainCliente.h" />

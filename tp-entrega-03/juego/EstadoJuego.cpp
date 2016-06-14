@@ -5,20 +5,24 @@ EstadoJuego::EstadoJuego(EstadoAvion** estadoAvionJugador, int cantidadDeJugador
 	for(int i = 0; i < cantidadDeJugadores; i++){
 		estadoDeLosAviones.push_back(estadoAvionJugador[i]);
 	}
+	this->estadoMapa = new EstadoMapa();
 	this->evento = new Evento(noHayNingunEventoEspecial);
 }
 
 EstadoJuego::EstadoJuego(Evento evento){
+	this->estadoMapa = new EstadoMapa();
 	this->evento = new Evento(evento.getNumeroDeEvento());
 }
 
-EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion){
+EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, EstadoMapa* estadoDelMapa){
 	estadoDeLosAviones = estadoAvion;
+	estadoMapa = estadoDelMapa;
 	this->evento = new Evento(noHayNingunEventoEspecial);
 } 
 
-EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, Evento evento){
+EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, Evento evento, EstadoMapa* estadoDelMapa){
 	estadoDeLosAviones = estadoAvion;
+	estadoMapa = estadoDelMapa;
 	this->evento = new Evento(evento.getNumeroDeEvento());
 } 
 
@@ -34,6 +38,10 @@ EstadoJuego::~EstadoJuego(){
 
 std::list<EstadoAvion*> EstadoJuego::getEstadoDeLosAviones(){
 	return estadoDeLosAviones;
+}
+
+EstadoMapa* EstadoJuego::getEstadoDelMapa() {
+	return estadoMapa;
 }
 
 Evento* EstadoJuego::obtenerEvento(){

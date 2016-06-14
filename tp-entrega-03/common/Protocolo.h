@@ -18,6 +18,7 @@
 #include "../juego/EstadoAvion.h"
 #include "../juego/EstadoProyectil.h"
 #include "../juego/EstadoJuego.h"
+#include "../juego/EstadoMapa.h"
 
 #define MAX_CADENA	300
 //buffer suficientemente grande para todo el escenario (2Kb de datos)
@@ -91,6 +92,9 @@ public:
 
 	static int codificar(Evento &evento, char* buffer);
 	static int decodificar(char* buffer, Evento* posicion);
+
+	static int codificar(EstadoMapa &estadoMapa, char* buffer);
+	static int decodificar(char* buffer, EstadoMapa* estadoMapa);
 
 	//No estan completados
 	static int codificar(EstadoJuego &estadoJuego, char* buffer);

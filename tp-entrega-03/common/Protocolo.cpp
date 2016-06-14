@@ -1160,9 +1160,9 @@ int Protocolo::decodificar(char* buffer, Evento* evento) {
 
 	return offset;
 }
-//NOTA: revisar error de concepto por EstadoAvion, pues se esta atomizando todo y no se engloba
+
 int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
-	//Por ahora el juego no es mas que un conjunto de  un evento y estadoAviones
+	//Por ahora el juego no es mas que un conjunto de un evento, estadoAviones y un estadoMapa
 	int offset = 0;
 	
 	std::list<EstadoAvion*> estadoAviones;
@@ -1190,6 +1190,10 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 		EstadoAvion* estadoAvion = (*it);
 		offset += codificar(*estadoAvion,buffer + offset);
 	}
+
+	//Luego se codifica el estado del Mapa
+	offset += codificar(*estadoJuego.getEstadoDelMapa(), buffer + offset);
+
 	return offset;
 }
 //ERROR-000
@@ -1214,7 +1218,63 @@ int Protocolo::decodificar(char* buffer, EstadoJuego*& estadoJuego){
 		offset += decodificar(buffer + offset,estadoAvion);
 		estadoAviones.push_back(estadoAvion);
 	}
-	estadoJuego = new EstadoJuego(estadoAviones, *evento);
+
+	//Decodifico el estado del Mapa
+	EstadoMapa* estadoMapa = new EstadoMapa();
+	offset += decodificar(buffer + offset, estadoMapa);
+
+	estadoJuego = new EstadoJuego(estadoAviones, *evento, estadoMapa);
 	delete evento;
+	return offset;
+}
+
+int Protocolo::codificar(EstadoMapa &estadoMapa, char* buffer) {
+
+	int sizeBytes = estadoMapa.getSizeBytes();
+	int offset = 0;
+
+	int scrollingOffSet = estadoMapa.getScrollingOffSet();
+	int cantidadDePixelesQuePasaron = estadoMapa.getCantidadDePixeles();
+	int codigoDeReinicio = estadoMapa.getCodigoReinicio();
+
+	memcpy(buffer + offset,&sizeBytes,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&scrollingOffSet,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&cantidadDePixelesQuePasaron,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&codigoDeReinicio,sizeof(int));
+	offset += sizeof(int);
+
+	return offset;
+}
+
+int Protocolo::decodificar(char* buffer, EstadoMapa* estadoMapa) {
+
+	int sizeBytes = -1;
+	int scrollingOffSet = -1;
+	int cantidadDePixelesQuePasaron = -1;
+	int codigoDeReinicio = -1;
+	int offset = 0;
+
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&scrollingOffSet,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&cantidadDePixelesQuePasaron,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&codigoDeReinicio,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	estadoMapa->setScrollingOffSet(scrollingOffSet);
+	estadoMapa->setCantidaDePixeles(cantidadDePixelesQuePasaron);
+	estadoMapa->setCodigoReinicio(codigoDeReinicio);
+
 	return offset;
 }

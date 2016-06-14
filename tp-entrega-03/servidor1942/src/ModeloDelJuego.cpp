@@ -4,6 +4,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	this->cantidadMaximaDeUsuarios = cantidadMaximaDeUsuarios;
 	crearAviones(servidorXml);
 	darPosicionInicialAAviones();
+	this->mapa = new Mapa(servidorXml);
 }
 
 ModeloDelJuego::~ModeloDelJuego(){
@@ -52,10 +53,12 @@ void ModeloDelJuego::darPosicionInicialAAviones(){
 		avion[i]->setPosicion(posicionInicialParaTodos);
 	}
 }
+
 void ModeloDelJuego::avanzarElTiempo(){
-for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
+	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 		avion[i]->mover();
 	}
+	this->mapa->actualizar();
 }
 
 EstadoAvion* ModeloDelJuego::obtenerEstadoDelAvionDelJugador(int id){
@@ -67,6 +70,7 @@ EstadoJuego* ModeloDelJuego::obtenerEstadoDelJuego(){
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 		estadoDeAviones.push_back(avion[i]->getEstado());
 	}
-	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones);
+	EstadoMapa* estadoMapa = this->mapa->getEstado();
+	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones, estadoMapa);
 	return estadoJuego;
 }

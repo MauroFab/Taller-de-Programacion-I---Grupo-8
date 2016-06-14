@@ -266,7 +266,8 @@ void VistaJuego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMap
 
 	Graficador::getInstance()->agregarDatosMapa(this->fondoView, this->listaElemView, this->canElemV, posicionInicialMapa);
 
-	Mapa::getInstace()->reiniciar();
+	Graficador::getInstance()->reiniciarMapa();
+
 	SDL_mutexV(mut);
 }
 
@@ -292,7 +293,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 
 	/*------------------------------------------------------------------*/
 
-	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+	/*SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 	//Clear screen
 	SDL_RenderClear( gRenderer );
 
@@ -300,7 +301,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 	Graficador::getInstance()->graficarMapa();
 
 	//se actualiza la pantalla
-	SDL_RenderPresent( gRenderer );
+	SDL_RenderPresent( gRenderer );*/
 
 	/*------------------------------------------------------------------*/
 	SDL_Event e;
@@ -325,6 +326,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 		SDL_RenderClear( gRenderer );
 
 		SDL_mutexP(mut);
+		Graficador::getInstance()->actualizarMapa(estadoMapa);
 		Graficador::getInstance()->graficarMapa();
 		Graficador::getInstance()->graficarAviones(estadoAviones);
 		SDL_mutexV(mut);
@@ -344,6 +346,7 @@ void VistaJuego::actualizarEstadoJuego(EstadoJuego* estadoJuego){
 		int idAvion = (*it)->getId();
 		VistaJuego::getInstance()->estadoAviones[idAvion] = (*it);
 	}
+	VistaJuego::getInstance()->estadoMapa = estadoJuego->getEstadoDelMapa();
 	SDL_mutexV(mut);
 }
 

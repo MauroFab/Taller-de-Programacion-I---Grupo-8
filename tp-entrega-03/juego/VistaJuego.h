@@ -100,6 +100,7 @@ private:
 
 	SDL_mutex *mut; // mutex para proteger la lista de movimientos
 	std::map<int,EstadoAvion*> estadoAviones;
+	EstadoMapa* estadoMapa;
 };
 
 #endif //_VISTAJUEGO_H_

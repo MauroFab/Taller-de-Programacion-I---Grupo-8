@@ -4,6 +4,7 @@
 
 #include "EstadoAvion.h"
 #include "EstadoProyectil.h"
+#include "EstadoMapa.h"
 #include "GraficoAvion.h"
 #include "GraficoProyectil.h"
 #include "GraficoMapa.h"
@@ -29,6 +30,8 @@ public:
 	void agregarDatosMapa(FondoView * fondoView, ElementoView* *listaElementosView, int canElemV, int posicionInicial);
 	void graficarAviones(std::map<int,EstadoAvion*> listaAviones);
 	void graficarMapa();
+	void reiniciarMapa();
+	void actualizarMapa(EstadoMapa* estadoMapa);
 
 private:
 

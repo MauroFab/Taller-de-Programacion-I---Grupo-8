@@ -60,3 +60,11 @@ void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectile
 void Graficador::graficarMapa() {
 	graficoMapa->graficarFondoYElementos();
 }
+
+void Graficador::reiniciarMapa() {
+	graficoMapa->reiniciar();
+}
+
+void Graficador::actualizarMapa(EstadoMapa* estadoMapa) {
+	graficoMapa->actualizar(estadoMapa);
+}

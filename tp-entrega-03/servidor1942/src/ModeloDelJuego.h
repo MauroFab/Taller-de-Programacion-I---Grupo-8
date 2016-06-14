@@ -3,9 +3,10 @@
 #include "../../common/Evento.h"
 #include "../../common/xml/ServidorXml.h"
 #include "../../juego/EstadoJuego.h"
+#include "../../juego/Mapa.h"
 
-class ModeloDelJuego
-{
+class ModeloDelJuego {
+
 public:
 	ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsuarios);
 	~ModeloDelJuego();
@@ -20,6 +21,7 @@ public:
 private:
 	void darPosicionInicialAAviones();
 	Avion** avion;
+	Mapa* mapa;
 	int cantidadMaximaDeUsuarios;
 	void crearAviones(ServidorXml* servidorXml);
 };
