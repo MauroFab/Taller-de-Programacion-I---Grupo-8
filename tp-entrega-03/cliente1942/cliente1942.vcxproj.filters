@@ -114,7 +114,7 @@
     <ClCompile Include="src\MainCliente.cpp">
       <Filter>Archivos de código fuente\Conexion</Filter>
     </ClCompile>
-	<ClCompile Include="..\juego\GraficoMapa.cpp">
+    <ClCompile Include="..\juego\GraficoMapa.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\GraficoProyectil.cpp">
@@ -125,9 +125,6 @@
     </ClCompile>
     <ClCompile Include="..\juego\Graficador.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
-    </ClCompile>
-    <ClCompile Include="..\juego\Avion.cpp">
-      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\ElementoDelMapa.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
@@ -175,10 +172,10 @@
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="..\common\Jugador.cpp">
-      <Filter>Archivos de código fuente\VistaJuego</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\common\Posicion.cpp">
-      <Filter>Archivos de código fuente\VistaJuego</Filter>
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\common\view\FondoView.cpp">
       <Filter>Archivos de código fuente</Filter>
@@ -315,10 +312,10 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Jugador.h">
-      <Filter>Archivos de encabezado\Juego</Filter>
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Posicion.h">
-      <Filter>Archivos de encabezado\Juego</Filter>
+      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\common\view\FondoView.h">
       <Filter>Archivos de encabezado</Filter>

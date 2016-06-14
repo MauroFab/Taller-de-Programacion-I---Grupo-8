@@ -97,7 +97,7 @@
       <Filter>Archivos de código fuente\Utils</Filter>
     </ClCompile>
     <ClCompile Include="..\common\Posicion.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
     <ClCompile Include="..\common\Evento.cpp">
       <Filter>Archivos de código fuente</Filter>
@@ -127,7 +127,7 @@
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\EstadoJuego.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
     <ClCompile Include="src\ModeloDelJuego.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
@@ -204,7 +204,7 @@
       <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Posicion.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Evento.h">
       <Filter>Archivos de encabezado</Filter>
@@ -234,7 +234,7 @@
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\EstadoJuego.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
     <ClInclude Include="src\ModeloDelJuego.h">
       <Filter>Archivos de encabezado\Juego</Filter>
