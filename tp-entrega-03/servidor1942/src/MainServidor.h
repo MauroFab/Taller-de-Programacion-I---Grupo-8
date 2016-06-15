@@ -163,10 +163,6 @@ public:
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);
 
-	//Los reinicios del mapa estan desactivados por ahora, este metodo no esta andando
-	//Pero volvera
-	void informarATodosLosClientesDelReinicioDelEscenario(MensajeConId* mensajeConId);
-
 	void esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
 	void avisarATodosLosUsuariosQueComenzoLaPartida();
 

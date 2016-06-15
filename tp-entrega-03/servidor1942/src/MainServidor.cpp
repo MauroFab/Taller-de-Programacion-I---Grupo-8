@@ -426,22 +426,6 @@ int MainServidor::waitTeclasConsola(void*){
 	closesocket(this->socketDeEscucha);
 	return 0;
 }
-//Sin uso temporalmente
-void MainServidor::informarATodosLosClientesDelReinicioDelEscenario(MensajeConId* mensajeConId) {
-
-	std::queue<EstadoJuego*>* colaDeMensajesDelUsuario;
-	//Para todos los usuarios
-	for (int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++) {
-		
-		//Si el usuario i esta conectado
-		if(usuarios->estaConectado(i)){
-			SDL_LockMutex(mutColaDeUsuario[i]);
-			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i); 
-			//colaDeMensajesDelUsuario->push(mensajeConId->estadoAvion);
-			SDL_UnlockMutex(mutColaDeUsuario[i]);
-		}
-	}
-}
 
 void MainServidor::esperarAQueTodosLosUsuariosEstenConectadosParaContinuar(){
 	bool seHaIniciadoLaPartida = false;
@@ -529,7 +513,7 @@ int MainServidor::mainPrincipal(){
 		
 		//Sin el delay el server va mucho mas rapido que lo que grafica el cliente
 		//Y el avion se teletransporta de una punta a la otra
-		SDL_Delay(5);
+		SDL_Delay(10);
 	}
 	Log::getInstance()->info("Se solicito la detención del Server.");
 	SDL_WaitThread(receptor, NULL);
