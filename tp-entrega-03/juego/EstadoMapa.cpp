@@ -27,7 +27,7 @@ int EstadoMapa::getCodigoReinicio() {
 }
 
 int EstadoMapa::getSizeBytes() {
-	return sizeof(int)/*scrollingOffSet*/ + sizeof(int)/*cantidadDePixelesQuePasaron*/;
+	return sizeof(int)/*scrollingOffSet*/ + sizeof(int)/*cantidadDePixelesQuePasaron*/+ sizeof(int)/*codigoDeReinicio*/;
 }
 
 void EstadoMapa::setScrollingOffSet(int offSet) {
