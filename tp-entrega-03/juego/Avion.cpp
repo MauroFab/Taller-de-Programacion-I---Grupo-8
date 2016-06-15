@@ -1,7 +1,7 @@
 #include "Avion.h"
 
 Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* balaView) {
-
+	//Las posicion inicial queda sin definir
 	this->ventanaAncho = ventanaAncho;
 	this->ventanaAlto = ventanaAlto;
 	this->altoAvion = avionView->spriteXml->getAlto();
@@ -14,6 +14,7 @@ Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* 
 	rollFlag = false;
 	id = avionView->avionModel->id;
 	this->balaView = balaView;
+	superficieQueOcupo = SuperficieOcupada(0,0,anchoAvion,altoAvion);;
 }
 
 Avion::~Avion() {
@@ -24,28 +25,35 @@ Avion::~Avion() {
 }
 
 void Avion::setPosicion(Posicion pos) {
-
-	this->posicionX = pos.getPosX();
-	this->posicionY = pos.getPosY();
+	superficieQueOcupo.moverAPosicion(pos);
 }
 void Avion::actualizarPosicionEnX(){
-	posicionX += velocidadX;
 
-	if(posicionX < 0){
-		posicionX = 0;
+	superficieQueOcupo.desplazarEnXObteniendoHitbox(velocidadX);
+
+	int miPosicionEnX;
+	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
+
+	if( miPosicionEnX< 0){
+		superficieQueOcupo.moverAX(0);
 	}
-	if( posicionX + anchoAvion > this->ventanaAncho ){
-		posicionX = (this->ventanaAncho - anchoAvion);
+
+	if( miPosicionEnX + anchoAvion > this->ventanaAncho ){
+		superficieQueOcupo.moverAX(this->ventanaAncho - anchoAvion);
 	}
 }
 
 void Avion::actualizarPosicionEnY(){
-	posicionY += velocidadY;
-	if(posicionY < 0 ){
-		posicionY = 0;
-	 }
-	if(posicionY + altoAvion > this->ventanaAlto){
-		posicionY = ventanaAlto - altoAvion;
+	superficieQueOcupo.desplazarEnYObteniendoHitbox(velocidadY);
+	int miPosicionEnY;
+	miPosicionEnY = superficieQueOcupo.obtenerPosicion().getPosY();
+
+	if( miPosicionEnY < 0){
+		superficieQueOcupo.moverAY(0);
+	}
+
+	if( miPosicionEnY + altoAvion > this->ventanaAlto ){
+		superficieQueOcupo.moverAY(this->ventanaAlto - altoAvion);
 	}
 }
 
@@ -93,8 +101,11 @@ void Avion::mover() {
 }
 
 EstadoAvion* Avion::getEstado() {
-
-	EstadoAvion*  estado =  new EstadoAvion(id, frame, posicionX, posicionY); 
+	int miPosicionEnY;
+	miPosicionEnY = superficieQueOcupo.obtenerPosicion().getPosY();
+	int miPosicionEnX;
+	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
+	EstadoAvion*  estado =  new EstadoAvion(id, frame, miPosicionEnX, miPosicionEnY); 
 	std::list<EstadoProyectil*> lista;
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
@@ -174,10 +185,15 @@ void Avion::quitarVelocidadHaciaLaIzquierda(){
 }
 
 void Avion::disparar(){
+	int miPosicionEnY;
+	miPosicionEnY = superficieQueOcupo.obtenerPosicion().getPosY();
+	int miPosicionEnX;
+	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
+
 	if(!rollFlag){
 		Proyectil* proyectil = new Proyectil(this->balaView);
 		//El centro del proyectil esta en el pixel 5
-		proyectil->setCoordenasDeComienzo(posicionX + (anchoAvion / 2) - 5, this->ventanaAlto - (posicionY + altoAvion));
+		proyectil->setCoordenasDeComienzo(miPosicionEnX + (anchoAvion / 2) - 5, this->ventanaAlto - (miPosicionEnY + altoAvion));
 		proyectiles.push_back(proyectil);
 	}
 }

@@ -13,6 +13,7 @@
 #include "../common/Posicion.h"
 #include <list>
 #include "../common/Evento.h"
+#include "../servidor1942/src/SuperficieOcupada.h"
 
 class Avion {
 
@@ -66,8 +67,7 @@ class Avion {
 		bool rollFlag;
 		std::list<Proyectil*> proyectiles;
 		// Posicion del avion
-		int posicionX;
-		int posicionY;
+		SuperficieOcupada superficieQueOcupo;
 		// Velocidad del avion
 		int velocidadX;
 		int velocidadY;

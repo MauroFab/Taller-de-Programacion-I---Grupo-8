@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cmath>
+#include "../../common/Posicion.h"
+
 class SuperficieOcupada
 {
 public:
@@ -8,6 +10,8 @@ public:
 	//Sin embargo, nada impide a un objeto tener varios rectangulos para representar la superficie que ocupa. 
 	//Se podría pulir con un patrón composite para armar directamente una superficie que incluya varios rectangulos.
 
+
+	SuperficieOcupada();
 	//Siguiendo con el sistema coordenado usado por el modelo y los graficadores
 	// x, y son la esquina inferior izquierda de la superficie
 	SuperficieOcupada(int x, int y, int ancho, int alto);
@@ -22,10 +26,16 @@ public:
 	SuperficieOcupada desplazarEnXObteniendoHitbox(int distanciaAMoverEnX);
 	SuperficieOcupada desplazarEnYObteniendoHitbox(int distanciaAMoverEnY);
 
+	void moverAPosicion(Posicion posicion);
+	void moverAX(int x);
+	void moverAY(int y);
+
+	Posicion obtenerPosicion();
 
 	bool meSolapoCon(SuperficieOcupada otraSuperficieOcupada);
 
 private:
+	
 	int x;
 	int y;
 	int ancho;

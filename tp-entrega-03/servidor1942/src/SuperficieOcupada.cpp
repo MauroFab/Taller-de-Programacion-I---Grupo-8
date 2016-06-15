@@ -1,5 +1,7 @@
 #include "SuperficieOcupada.h"
+SuperficieOcupada::SuperficieOcupada(){
 
+}
 SuperficieOcupada::SuperficieOcupada(int x, int y, int ancho, int alto){
 	this->x = x;
 	this->y = y;
@@ -25,7 +27,7 @@ SuperficieOcupada SuperficieOcupada::moverAPosicionXObteniendoHitbox(int xNuevo)
 
 SuperficieOcupada SuperficieOcupada::moverAPosicionYObteniendoHitbox(int yNuevo){
 	int yEnElQueEstaba;
-	yEnElQueEstaba = x;
+	yEnElQueEstaba = y;
 	y = yNuevo;
 
 	int altoDeLaHitbox = alto;
@@ -41,7 +43,7 @@ SuperficieOcupada SuperficieOcupada::moverAPosicionYObteniendoHitbox(int yNuevo)
 
 SuperficieOcupada SuperficieOcupada::desplazarEnXObteniendoHitbox(int distanciaAMoverEnX){
 	int xNuevo = x + distanciaAMoverEnX;
-	SuperficieOcupada hitbox = moverAPosicionYObteniendoHitbox(xNuevo);
+	SuperficieOcupada hitbox = moverAPosicionXObteniendoHitbox(xNuevo);
 	return(hitbox);
 }
 
@@ -91,4 +93,21 @@ int SuperficieOcupada::valorMaximoEntre(int a, int b){
 	}else{
 		return b;
 	}
+}
+
+Posicion SuperficieOcupada::obtenerPosicion(){
+	return(Posicion(x,y));
+}
+
+void SuperficieOcupada::moverAPosicion(Posicion posicion){
+	x = posicion.getPosX();
+	y = posicion.getPosY();
+}
+
+void SuperficieOcupada::moverAX(int x){
+	this->x = x;
+}
+
+void SuperficieOcupada::moverAY(int y){
+	this->y = y;
 }
