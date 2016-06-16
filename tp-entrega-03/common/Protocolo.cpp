@@ -105,24 +105,7 @@ int Protocolo::validarMensaje(MensajeXml& mensaje) {
 
 	return codigoError;
 }
-/*
-OJO no puede retornar un puntero a algo cuyo ambito finalizo, si se usa puede tirar error
-char* Protocolo::informacionSobreError(int codigoError) {
-	
-	if (codigoError == 1) return "Error: se esperaba un (int) y se recibió un (double)";
-	if (codigoError == 2) return "Error: se esperaba un (int) y se recibió un (char)";
-	if (codigoError == 3) return "Error: se esperaba un (int) y se recibió un (string)";
 
-	if (codigoError == 4) return "Error: se esperaba un (char) y se recibió un (double)";
-	if (codigoError == 5) return "Error: se esperaba un (char) y se recibió un (string)";
-
-	if (codigoError == 6) return "Error: se esperaba un (double) y se recibió un (char)";
-	if (codigoError == 7) return "Error: se esperaba un (double) y se recibió un (string)";
-
-	return "Ok: valor y tipo de dato correctos";
-}
-
-*/
 int Protocolo::codificar(SpriteXml &spriteXml,char * buffer){
 	int sizeBytes = spriteXml.getSizeBytes();
 	int id = spriteXml.getId();
@@ -1233,14 +1216,10 @@ int Protocolo::codificar(EstadoMapa &estadoMapa, char* buffer) {
 	int sizeBytes = estadoMapa.getSizeBytes();
 	int offset = 0;
 
-	int scrollingOffSet = estadoMapa.getScrollingOffSet();
 	int cantidadDePixelesQuePasaron = estadoMapa.getCantidadDePixeles();
 	int codigoDeReinicio = estadoMapa.getCodigoReinicio();
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
-	offset += sizeof(int);
-
-	memcpy(buffer + offset,&scrollingOffSet,sizeof(int));
 	offset += sizeof(int);
 	
 	memcpy(buffer + offset,&cantidadDePixelesQuePasaron,sizeof(int));
@@ -1255,15 +1234,11 @@ int Protocolo::codificar(EstadoMapa &estadoMapa, char* buffer) {
 int Protocolo::decodificar(char* buffer, EstadoMapa* estadoMapa) {
 
 	int sizeBytes = -1;
-	int scrollingOffSet = -1;
 	int cantidadDePixelesQuePasaron = -1;
 	int codigoDeReinicio = -1;
 	int offset = 0;
 
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
-	offset += sizeof(int);
-	
-	memcpy(&scrollingOffSet,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
 	memcpy(&cantidadDePixelesQuePasaron,buffer + offset,sizeof(int));
@@ -1272,7 +1247,6 @@ int Protocolo::decodificar(char* buffer, EstadoMapa* estadoMapa) {
 	memcpy(&codigoDeReinicio,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
-	estadoMapa->setScrollingOffSet(scrollingOffSet);
 	estadoMapa->setCantidaDePixeles(cantidadDePixelesQuePasaron);
 	estadoMapa->setCodigoReinicio(codigoDeReinicio);
 

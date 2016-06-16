@@ -4,7 +4,6 @@ Mapa::Mapa(ServidorXml* servidorXml){
 	
 	this->alto = servidorXml->getVentanaXmlCopy()->getAlto();
 	this->tamanioMaximo = 2000;
-	this->scrollingOffSet = 0;
 	this->cantidadDePixelesQuePasaron = 0;
 	this->estado = new EstadoMapa();
 }
@@ -16,19 +15,15 @@ Mapa::~Mapa(){
 void Mapa::actualizar() {
 
 	this->cantidadDePixelesQuePasaron++;
-	this->scrollingOffSet++;
 
 	if (this->cantidadDePixelesQuePasaron > this->tamanioMaximo) {
 		this->estado->setCodigoReinicio(REINICIO);
 		this->cantidadDePixelesQuePasaron = 0;
-		this->scrollingOffSet = 0;
+	} else {
+		this->estado->setCodigoReinicio(NO_REINICIO);
 	}
 
-	//Después de la ultima posicion de la imagen de fondo sigue la primera
-	if(this->scrollingOffSet >= alto)
-		this->scrollingOffSet = 0;
-
-	this->estado->actualizar(this->cantidadDePixelesQuePasaron, this->scrollingOffSet);
+	this->estado->actualizar(this->cantidadDePixelesQuePasaron);
 }
 
 EstadoMapa* Mapa::getEstado() {

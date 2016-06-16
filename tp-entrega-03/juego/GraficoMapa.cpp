@@ -20,6 +20,8 @@ GraficoMapa::GraficoMapa(SDL_Renderer* renderer, FondoView * fondoView, int posi
 			delete (*it);
 		elementosDelMapa.clear();
 	}
+	this->scrollingOffset = 0;
+	this->hayQueReiniciar = false;
 }
 
 GraficoMapa::~GraficoMapa(void) {
@@ -49,6 +51,7 @@ Textura* GraficoMapa::getTextura() {
 }
 
 void GraficoMapa::reiniciar() {
+	this->scrollingOffset = 0;
 	std::list<ElementoDelMapa*>::iterator it;
 	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
 		(*it)->reiniciar();
@@ -69,14 +72,24 @@ void GraficoMapa::crearElementos(ElementoView* *listaElementosView, int canElemV
 }
 
 void GraficoMapa::graficarFondoYElementos() {
+
+	if(hayQueReiniciar) {
+		this->reiniciar();
+		this->hayQueReiniciar = false;
+	}
+
+	//Después de la ultima posicion de la imagen de fondo sigue la primera
+	if(this->scrollingOffset >= altoMapa)
+		this->scrollingOffset = 0;
+
 	textura->render(0, scrollingOffset, renderer);
 	textura->render(0, scrollingOffset - altoMapa, renderer);
 	this->graficarElementos();
 }
 
 void GraficoMapa::actualizar(EstadoMapa* estadoMapa) {
-	this->scrollingOffset = estadoMapa->getScrollingOffSet();
+	this->scrollingOffset++;
 	this->cantidadDePixelesQuePasaron = estadoMapa->getCantidadDePixeles();
-	if (estadoMapa->getCodigoReinicio() == 1)
-		this->reiniciar();
+	if (estadoMapa->getCodigoReinicio() == REINICIO)
+		this->hayQueReiniciar = true;
 }

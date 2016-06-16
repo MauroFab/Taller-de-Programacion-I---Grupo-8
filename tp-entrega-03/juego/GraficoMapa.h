@@ -8,6 +8,9 @@
 #include "../common/view/ElementoView.h"
 #include <list>
 #define FONDO_DEFAULT "fondoDefault.bmp"
+#define REINICIO 1
+#define NO_REINICIO 0
+
 using namespace std;
 
 class GraficoMapa {
@@ -33,6 +36,7 @@ private:
 	int posicionInicial;
 	int scrollingOffset;
 	int cantidadDePixelesQuePasaron;
+	bool hayQueReiniciar;
 	std::list<ElementoDelMapa*> elementosDelMapa;
 
 	void configurarElMapaConLaPosicion(int pos);

@@ -5,17 +5,14 @@ class EstadoMapa {
 public:
 	EstadoMapa();
 	virtual ~EstadoMapa(void);
-	void actualizar(int cantidadPixeles, int offSet);
-	int getScrollingOffSet();
-	int getCantidadDePixeles();
+	void actualizar(int cantidadPixeles);
 	int getSizeBytes();
+	int getCantidadDePixeles();
 	int getCodigoReinicio();
-	void setScrollingOffSet(int offSet);
 	void setCantidaDePixeles(int pixeles);
 	void setCodigoReinicio(int codigo);
 
 private:
-	int scrollingOffSet;
 	int cantidadDePixelesQuePasaron;
 	int codigoReinicio;
 };

@@ -7,6 +7,7 @@
 #include "../common/xml/ServidorXml.h"
 
 #define REINICIO 1
+#define NO_REINICIO 0
 
 class Mapa {
 
@@ -22,7 +23,6 @@ private:
 	EstadoMapa* estado;
 	int alto;
 	int tamanioMaximo;
-	int scrollingOffSet;
 	int cantidadDePixelesQuePasaron;
 };
 
