@@ -14,6 +14,7 @@
 #include <list>
 #include "../common/Evento.h"
 #include "../servidor1942/src/SuperficieOcupada.h"
+#include "../servidor1942/src/AvionEnemigo.h"
 
 class Avion {
 
@@ -26,10 +27,18 @@ class Avion {
 		//se sigue haciendo un roll
 		//si se tiene que mover se mueve
 		//Si hay que disparar mas, dispara
+
+		//Este mover es un ejemplo de uno que tomaría tambien las colisiones,
 		void mover();
+
+		//Esquema de uno que valida la colision, y cambia el estado del avion en base a eso
+		//Para definir un comportamiento, si esta en colision disparara
+		void mover(AvionEnemigo avionEnemigo);
+
 
 		EstadoAvion* getEstado();
 		std::list<EstadoProyectil*> getEstadoProyectiles();
+
 		void setPosicion(Posicion pos);
 		// La posicion del avión se toma con respecto al (0,0) que está en la esquina inferior izquierda
 
@@ -52,6 +61,7 @@ class Avion {
 		void hacerUnRoll();
 
 		void continuarMovimientoDelAvion();
+		void continuarMovimientoDelAvion(AvionEnemigo avionEnemigo);
 		void continuarMovimientoDeLosProyectiles();
 		void eliminarLosProyectilesQueSalieronDeLaPantalla();
 		int velocidad;
@@ -73,8 +83,10 @@ class Avion {
 		int velocidadY;
 		int id;
 		void continuarMovimientoproyectiles(void);
-		void actualizarPosicionEnX();
-		void actualizarPosicionEnY();
+
+		SuperficieOcupada actualizarPosicionEnX();
+		SuperficieOcupada actualizarPosicionEnY();
+
 		void continuarElRoll();
 	public:
 		BalaView * balaView; //[AGREGACION] NO eliminar

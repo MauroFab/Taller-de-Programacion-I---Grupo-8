@@ -70,7 +70,7 @@ bool SuperficieOcupada::compartoUnaRegionEnYCon(SuperficieOcupada otraSuperficie
 	if(y < otraSuperficieOcupada.y){
 		meSolapo = (otraSuperficieOcupada.y > y && otraSuperficieOcupada.y < (y + alto));
 	}else{
-		meSolapo = (y > otraSuperficieOcupada.y && x < (otraSuperficieOcupada.y + otraSuperficieOcupada.alto));
+		meSolapo = (y > otraSuperficieOcupada.y && y < (otraSuperficieOcupada.y + otraSuperficieOcupada.alto));
 	}
 	return(meSolapo);
 }

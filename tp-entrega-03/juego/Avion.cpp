@@ -27,9 +27,10 @@ Avion::~Avion() {
 void Avion::setPosicion(Posicion pos) {
 	superficieQueOcupo.moverAPosicion(pos);
 }
-void Avion::actualizarPosicionEnX(){
 
-	superficieQueOcupo.desplazarEnXObteniendoHitbox(velocidadX);
+SuperficieOcupada Avion::actualizarPosicionEnX(){
+	SuperficieOcupada hitbox;
+	hitbox = superficieQueOcupo.desplazarEnXObteniendoHitbox(velocidadX);
 
 	int miPosicionEnX;
 	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
@@ -41,9 +42,11 @@ void Avion::actualizarPosicionEnX(){
 	if( miPosicionEnX + anchoAvion > this->ventanaAncho ){
 		superficieQueOcupo.moverAX(this->ventanaAncho - anchoAvion);
 	}
+	return hitbox;
 }
 
-void Avion::actualizarPosicionEnY(){
+SuperficieOcupada Avion::actualizarPosicionEnY(){
+	SuperficieOcupada hitbox;
 	superficieQueOcupo.desplazarEnYObteniendoHitbox(velocidadY);
 	int miPosicionEnY;
 	miPosicionEnY = superficieQueOcupo.obtenerPosicion().getPosY();
@@ -55,6 +58,7 @@ void Avion::actualizarPosicionEnY(){
 	if( miPosicionEnY + altoAvion > this->ventanaAlto ){
 		superficieQueOcupo.moverAY(this->ventanaAlto - altoAvion);
 	}
+	return hitbox;
 }
 
 void Avion::continuarElRoll(){
@@ -66,14 +70,34 @@ void Avion::continuarElRoll(){
 }
 
 void Avion::continuarMovimientoDelAvion(){
+	SuperficieOcupada hitbox;
 	if(!rollFlag){
-		actualizarPosicionEnX();
+		hitbox = actualizarPosicionEnX();
+
 		actualizarPosicionEnY();
 	}else{
 		continuarElRoll();
 	}
 }
 
+void Avion::continuarMovimientoDelAvion(AvionEnemigo avionEnemigo){
+	SuperficieOcupada hitbox;
+	if(!rollFlag){
+		hitbox = actualizarPosicionEnX();
+		if(hitbox.meSolapoCon(avionEnemigo.obtenerSuperficieOcupada())){
+			//Un comportamiento cuando colisiono con un avionEnemigo
+			this->disparar();
+		}
+		hitbox = actualizarPosicionEnY();
+		if(hitbox.meSolapoCon(avionEnemigo.obtenerSuperficieOcupada())){
+			//Un comportamiento cuando colisiono con un avionEnemigo
+			this->disparar();
+		}
+	//Si estoy haciendo un roll, no colisiono tampoco
+	}else{
+		continuarElRoll();
+	}
+}
 void Avion::continuarMovimientoDeLosProyectiles(){
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
@@ -92,6 +116,16 @@ void Avion::eliminarLosProyectilesQueSalieronDeLaPantalla(){
 }
 void Avion::mover() {
 	continuarMovimientoDelAvion();
+	//Avanzo los proyectiles
+	continuarMovimientoDeLosProyectiles();
+	//Si hay proyectiles
+	if(!proyectiles.empty())
+		eliminarLosProyectilesQueSalieronDeLaPantalla();
+
+}
+
+void Avion::mover(AvionEnemigo avionEnemigo) {
+	continuarMovimientoDelAvion(avionEnemigo);
 	//Avanzo los proyectiles
 	continuarMovimientoDeLosProyectiles();
 	//Si hay proyectiles

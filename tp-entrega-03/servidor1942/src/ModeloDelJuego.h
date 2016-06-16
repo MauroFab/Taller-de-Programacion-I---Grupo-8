@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../../juego/Avion.h"
 #include "../../common/Evento.h"
 #include "../../common/xml/ServidorXml.h"
@@ -19,10 +20,11 @@ public:
 	// liberar cuando se termina de usar
 	EstadoJuego* obtenerEstadoDelJuego();
 private:
+	//Este es un avion enemigo que creo fijo para empezar a probar las colisiones
+	AvionEnemigo* avionEnemigo;
 	void darPosicionInicialAAviones();
 	Avion** avion;
 	Mapa* mapa;
 	int cantidadMaximaDeUsuarios;
 	void crearAviones(ServidorXml* servidorXml);
 };
-

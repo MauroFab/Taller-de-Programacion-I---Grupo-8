@@ -21,7 +21,8 @@ bool AvionEnemigo::estaDestruido(){
 }
 
 AvionEnemigo::~AvionEnemigo(){
-	delete superficieOcupada;
+	//Deberia eliminar la superficie, pero esta explotando si lo hago
+	//delete superficieOcupada;
 }
 
 SuperficieOcupada AvionEnemigo::obtenerSuperficieOcupada(){
