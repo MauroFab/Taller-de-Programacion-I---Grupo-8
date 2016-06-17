@@ -31,8 +31,10 @@ class Avion {
 		//Este es uno que valida la colision, y cambia el estado del avion en base a eso
 		//Para definir un comportamiento, si esta en colision disparara
 		//Se puede cambiar al avionEnemigo por una lista de avionesEnemigo posteriormente
+
 		void mover(AvionEnemigo avionEnemigo);
-		//Este mover es un ejemplo de uno que tomaría tambien las colisiones,
+
+		//Este mover no considera ningun tipo de colision
 		void mover();
 
 		EstadoAvion* getEstado();
