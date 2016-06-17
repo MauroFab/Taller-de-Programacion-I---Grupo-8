@@ -23,18 +23,17 @@ class Avion {
 		Avion(int ventanaAncho, int ventalaAlto, AvionView* avionView, BalaView* balaView);
 		~Avion();
 
-		//Se debe llamar para actualizar el movimiento, si hay que hacer un roll,
+		//Mover se debe llamar para actualizar el movimiento, si hay que hacer un roll,
 		//se sigue haciendo un roll
 		//si se tiene que mover se mueve
 		//Si hay que disparar mas, dispara
 
+		//Este es uno que valida la colision, y cambia el estado del avion en base a eso
+		//Para definir un comportamiento, si esta en colision disparara
+		//Se puede cambiar al avionEnemigo por una lista de avionesEnemigo posteriormente
+		void mover(AvionEnemigo avionEnemigo);
 		//Este mover es un ejemplo de uno que tomaría tambien las colisiones,
 		void mover();
-
-		//Esquema de uno que valida la colision, y cambia el estado del avion en base a eso
-		//Para definir un comportamiento, si esta en colision disparara
-		void mover(AvionEnemigo avionEnemigo);
-
 
 		EstadoAvion* getEstado();
 		std::list<EstadoProyectil*> getEstadoProyectiles();

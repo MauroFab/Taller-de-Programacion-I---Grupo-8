@@ -81,6 +81,8 @@ void Avion::continuarMovimientoDelAvion(){
 }
 
 void Avion::continuarMovimientoDelAvion(AvionEnemigo avionEnemigo){
+	//Los movimientos se hacen unidimensionalmente
+	//Primero en X y luego en Y
 	SuperficieOcupada hitbox;
 	if(!rollFlag){
 		hitbox = actualizarPosicionEnX();
