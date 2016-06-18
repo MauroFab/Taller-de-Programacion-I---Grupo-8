@@ -65,9 +65,8 @@ int VistaJuego::readFrom(IGenericaVO * objetoXML){
 	return 0;
 }
 
-// Inicializacion
-bool VistaJuego::initSDL(char * nomClien) {
-	//Initialization flag
+bool VistaJuego::inicializar(char * nomClien) {
+
 	bool success = true;
 
 	//Initialize SDL
@@ -114,6 +113,11 @@ bool VistaJuego::initSDL(char * nomClien) {
 					printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
 					success = false;
 				}
+				 //Initialize SDL_ttf
+				if( TTF_Init() == -1 ){
+					printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+					success = false;
+				}
 			}
 		}
 	}
@@ -128,6 +132,7 @@ void VistaJuego::close() {
 	gRenderer = NULL;
 
 	Mix_Quit();
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -163,6 +168,10 @@ void VistaJuego::inicializarMusica() {
 
 void VistaJuego::setJugar(){
 	jugar = true;
+}
+
+Jugador * VistaJuego::getJugador(){
+	return this->jugador;
 }
 
 int VistaJuego::cargarElementos(ServidorXml * confServidorXml){
@@ -205,6 +214,7 @@ int VistaJuego::cargarAviones(ServidorXml * confServidorXml){
 	}
 	return 0;
 }
+
 int VistaJuego::cargarFondo(ServidorXml * confServidorXml,int altoFondo){
 	FondoXml * fondoXml = confServidorXml->getEscenarioXmlCopy()->getFondoXmlCopy();
 	FondoModel * fondoModel = new FondoModel(fondoXml);
@@ -233,9 +243,6 @@ int VistaJuego::cargarBala(ServidorXml * confServidorXml){
 	return 0;
 }
 
-Jugador * VistaJuego::getJugador(){
-	return this->jugador;
-}
 //operaciones de reset
 //se encarga del reset de los elementos liberando la memoria usada por los objetos
 //tanto de la view como de los que estos contienen

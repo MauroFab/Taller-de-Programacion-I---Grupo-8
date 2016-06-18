@@ -299,7 +299,7 @@ int MainCliente::conectar(){
 
 					VistaJuego::getInstance()->readServidorXml(this->servidorXml);
 					VistaJuego::getInstance()->agregarObservadorAlControlador(this);
-					VistaJuego::getInstance()->initSDL((char*)insJuego->getJugador()->nombreDeUsuario.c_str());
+					VistaJuego::getInstance()->inicializar((char*)insJuego->getJugador()->nombreDeUsuario.c_str());
 					VistaJuego::getInstance()->ejecutar(this->servidorXml, posicionMapa.getPosY());
 					// se termina el programa cuando el usuario hace click en x del SDL_window
 					terminarElCliente();

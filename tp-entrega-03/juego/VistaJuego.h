@@ -2,6 +2,7 @@
 #define _VISTAJUEGO_H_
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 
@@ -56,7 +57,7 @@ public:
 	 * este metodo realiza la inicializacion de la configuracion grafica de SDL
 	 * @param nomClien  nombre del cliente usado en el titulo de la ventana
 	 */
-	bool initSDL(char * nomClien);
+	bool inicializar(char * nomClien);
 	void reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa);
 	void ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa);
 	void close();
