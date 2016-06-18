@@ -1,5 +1,0 @@
-Cada frame de la nave chica tiene 19 pixeles de ancho.
-
-Para las colisiones se puede ignorar el primer pixel y el ultimo.
-
-Hay 16 frames para todo el giro.

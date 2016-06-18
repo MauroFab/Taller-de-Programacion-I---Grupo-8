@@ -14,6 +14,7 @@ Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* 
 	rollFlag = false;
 	id = avionView->avionModel->id;
 	this->balaView = balaView;
+	centroProyectil = balaView->spriteXml->getAncho()/2;
 	superficieQueOcupo = SuperficieOcupada(0,0,anchoAvion,altoAvion);;
 }
 
@@ -228,8 +229,7 @@ void Avion::disparar(){
 
 	if(!rollFlag){
 		Proyectil* proyectil = new Proyectil(this->balaView);
-		//El centro del proyectil esta en el pixel 5
-		proyectil->setCoordenasDeComienzo(miPosicionEnX + (anchoAvion / 2) - 5, this->ventanaAlto - (miPosicionEnY + altoAvion));
+		proyectil->setCoordenasDeComienzo(miPosicionEnX + (anchoAvion / 2) - centroProyectil, this->ventanaAlto - (miPosicionEnY + altoAvion));
 		proyectiles.push_back(proyectil);
 	}
 }

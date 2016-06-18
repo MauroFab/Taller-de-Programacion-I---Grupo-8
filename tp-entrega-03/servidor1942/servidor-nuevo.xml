@@ -58,10 +58,10 @@
 		</sprite>
 		<sprite>
 			<id>disparo_1</id>
-			<path>disparo_1.bmp</path>
+			<path>disparo_2.bmp</path>
 			<cantidad>1</cantidad>
-			<ancho>7</ancho>
-			<alto>16</alto>
+			<ancho>30</ancho>
+			<alto>29</alto>
 		</sprite>
 	</sprites>
 	<escenario>

@@ -89,6 +89,8 @@ class Avion {
 		SuperficieOcupada actualizarPosicionEnY();
 
 		void continuarElRoll();
+
+		int centroProyectil;
 	public:
 		BalaView * balaView; //[AGREGACION] NO eliminar
 };
