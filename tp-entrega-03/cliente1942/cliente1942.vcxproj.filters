@@ -28,15 +28,6 @@
     <Filter Include="Archivos de código fuente\Conexion">
       <UniqueIdentifier>{33f83c3c-cff6-44b7-9ee4-610e4249f20b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\Juego">
-      <UniqueIdentifier>{eb98eb7d-a54c-4011-9cbf-752d12dc704a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\Juego\Modelo">
-      <UniqueIdentifier>{5989d33f-0ff2-4154-9610-10c61cdc1766}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\Juego\Graficadores">
-      <UniqueIdentifier>{256c0389-80a2-4ea8-a813-ebdd8f24d327}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de encabezado\Conexion">
       <UniqueIdentifier>{647045c7-462b-498e-ab70-b89291f371a9}</UniqueIdentifier>
     </Filter>
@@ -45,9 +36,6 @@
     </Filter>
     <Filter Include="Archivos de encabezado\Observador">
       <UniqueIdentifier>{13f802fb-74ba-40ba-b0cc-3c6609fb5c55}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\Juego\Controlador">
-      <UniqueIdentifier>{d994b2cc-d15c-4351-88be-d83993e37712}</UniqueIdentifier>
     </Filter>
     <Filter Include="Archivos de código fuente\VistaJuego">
       <UniqueIdentifier>{f99dbde3-0140-40da-ba7a-02ca43eb69c0}</UniqueIdentifier>
@@ -60,6 +48,18 @@
     </Filter>
     <Filter Include="Archivos de código fuente\VistaJuego\Controlador">
       <UniqueIdentifier>{8b903f17-177e-4161-b555-7b309248a200}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\VistaJuego">
+      <UniqueIdentifier>{eb98eb7d-a54c-4011-9cbf-752d12dc704a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\VistaJuego\Modelo">
+      <UniqueIdentifier>{5989d33f-0ff2-4154-9610-10c61cdc1766}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\VistaJuego\Graficadores">
+      <UniqueIdentifier>{256c0389-80a2-4ea8-a813-ebdd8f24d327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\VistaJuego\Controlador">
+      <UniqueIdentifier>{d994b2cc-d15c-4351-88be-d83993e37712}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +201,9 @@
     <ClCompile Include="..\juego\EstadoMapa.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
+    <ClCompile Include="..\juego\CacheSonido.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -246,22 +249,22 @@
       <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\EstadoAvion.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\EstadoProyectil.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\Graficador.h">
-      <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\GraficoAvion.h">
-      <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\Proyectil.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\Textura.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Protocolo.h">
       <Filter>Archivos de encabezado\Conexion</Filter>
@@ -270,7 +273,7 @@
       <Filter>Archivos de encabezado\Conexion</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\FondoInicio.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\common\observer\Observable.h">
       <Filter>Archivos de encabezado\Observador</Filter>
@@ -279,7 +282,7 @@
       <Filter>Archivos de encabezado\Observador</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\ElementoDelMapa.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\EstadoAvionXml.h">
       <Filter>Archivos de encabezado\Parser</Filter>
@@ -306,10 +309,10 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Jugador.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Posicion.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\common\view\FondoView.h">
       <Filter>Archivos de encabezado</Filter>
@@ -327,22 +330,25 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\Controlador\Controlador.h">
-      <Filter>Archivos de encabezado\Juego\Controlador</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Controlador</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\VistaJuego.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\EstadoJuego.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\GraficoMapa.h">
-      <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\GraficoProyectil.h">
-      <Filter>Archivos de encabezado\Juego\Graficadores</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\EstadoMapa.h">
-      <Filter>Archivos de encabezado\Juego\Modelo</Filter>
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\CacheSonido.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

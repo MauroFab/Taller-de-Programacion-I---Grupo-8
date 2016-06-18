@@ -9,12 +9,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CacheSDL.cpp" />
     <ClCompile Include="src\CacheSonido.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CacheSDL.h" />
     <ClInclude Include="src\CacheSonido.h" />
   </ItemGroup>
 </Project>

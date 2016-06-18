@@ -1,13 +1,9 @@
 #include "Controlador.h"
 
-
 Controlador::Controlador(){
 }
 
-
-
-Controlador::~Controlador(void)
-{
+Controlador::~Controlador(void){
 }
 
 void Controlador::procesarTeclasPresionadas(SDL_Event& e){
@@ -39,6 +35,8 @@ void Controlador::procesarTeclasPresionadas(SDL_Event& e){
 			case SDLK_SPACE:{
 				evento = new Evento(apretadaLaTeclaDeDisparo);
 				notificar(evento);
+				// Reproduce el sonido de disparo
+				Mix_PlayChannel( -1, CacheSonido::getInstance()->getChunk(DISPARO), 0 );
 				};
 				break;
 			case SDLK_RETURN:{

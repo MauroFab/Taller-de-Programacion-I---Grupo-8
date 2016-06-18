@@ -105,9 +105,13 @@ bool VistaJuego::initSDL(char * nomClien) {
 
 				//Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
-				if( !( IMG_Init( imgFlags ) & imgFlags ) )
-				{
+				if( !( IMG_Init( imgFlags ) & imgFlags ) ){
 					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+					success = false;
+				}
+				 //Initialize SDL_mixer
+				if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ){
+					printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
 					success = false;
 				}
 			}
@@ -123,6 +127,7 @@ void VistaJuego::close() {
 	gWindow = NULL;
 	gRenderer = NULL;
 
+	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -141,9 +146,25 @@ void VistaJuego::dibujarFondoInicio() {
 	 }
 }
 
+void VistaJuego::inicializarMusica() {
+
+	Mix_Music * musicaPrincipal = Mix_LoadMUS( "./Musica/Musica_Principal.wav" );
+
+	CacheSonido::getInstance()->addMusic(musicaPrincipal, NIVEL_1);
+
+	Mix_Chunk* disparo = Mix_LoadWAV( "./Musica/Disparo.wav" );
+
+	CacheSonido::getInstance()->addChunk(disparo, DISPARO);
+
+	Mix_Chunk* explosion = Mix_LoadWAV( "./Musica/Explosion.wav" );
+
+	CacheSonido::getInstance()->addChunk(explosion, EXPLOSION);
+}
+
 void VistaJuego::setJugar(){
 	jugar = true;
 }
+
 int VistaJuego::cargarElementos(ServidorXml * confServidorXml){
 	//sprites
 	int cantS = confServidorXml->getCanSprs();
@@ -280,6 +301,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 	cargarBala(confServidorXml);
 
  	dibujarFondoInicio();
+	inicializarMusica();
 
 	/*Se inicializa y se cargan los datos en el Graficador*/
 
@@ -293,19 +315,11 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 
 	/*------------------------------------------------------------------*/
 
-	/*SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-	//Clear screen
-	SDL_RenderClear( gRenderer );
-
-	//Render background
-	Graficador::getInstance()->graficarMapa();
-
-	//se actualiza la pantalla
-	SDL_RenderPresent( gRenderer );*/
-
-	/*------------------------------------------------------------------*/
 	SDL_Event e;
 	bool quit = false;
+
+	// Reproduce el tema de fondo
+	Mix_PlayMusic( CacheSonido::getInstance()->getMusic(NIVEL_1), -1 );
 
 	//Mientras el usuario no desee salir
 	while( !quit ) {
@@ -334,6 +348,9 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 		//Update screen
 		SDL_RenderPresent( gRenderer );
 	}
+
+	// Detiene la musica
+	Mix_HaltMusic();
 
 	close();
 }

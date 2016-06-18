@@ -51,5 +51,5 @@ void CacheSonido::releaseVecChunk(){
 }
 void CacheSonido::releaseVec(){
 	this->releaseVecMusic();
-	this->releaseVecChunk();
+	//this->releaseVecChunk();
 }

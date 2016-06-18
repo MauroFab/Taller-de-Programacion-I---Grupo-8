@@ -1,24 +1,21 @@
 #ifndef _VISTAJUEGO_H_
 #define _VISTAJUEGO_H_
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
+
 #include <vector>
 #include <map>
-#include <SDL2/SDL.h>
-#include <SDL2\SDL_image.h>
-#include "Controlador\Controlador.h"
-
-#define PATH_FONDO_INICIO "fondoInicio.bmp"
-
 #include "Mapa.h"
 #include "Graficador.h"
 #include "FondoInicio.h"
-#include "../common/observer/Observable.h"
 #include "EstadoJuego.h"
 #include "ICargable.h"
+#include "CacheSonido.h"
+#include "Controlador\Controlador.h"
+#include "../common/observer/Observable.h"
 #include "../common/xml/ServidorXml.h"
-
-#define MAX_ELEM_VIEW	20
-#define MAX_AVION_VIEW	4
 #include "../common/view/ElementoView.h"
 #include "../common/model/ElementoModel.h"
 #include "../common/view/AvionView.h"
@@ -27,6 +24,10 @@
 #include "../common/model/FondoModel.h"
 #include "../common/view/BalaView.h"
 #include "../common/Jugador.h"
+
+#define PATH_FONDO_INICIO "fondoInicio.bmp"
+#define MAX_ELEM_VIEW	20
+#define MAX_AVION_VIEW	4
 
 using namespace std;
 
@@ -94,6 +95,9 @@ private:
 	//este metodo dibuja un fondo incial
 	//pero su tamaño esta harcodeado, deberia sacarse
 	void dibujarFondoInicio();
+
+	// Inicializa la musica de fondo, disparos y explosiones
+	void inicializarMusica();
 
 	SDL_Window* gWindow;
 	SDL_Renderer* gRenderer;

@@ -203,7 +203,6 @@ bool init(){
 				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
 				success = false;
 			}
-
 		}
 		else{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -313,43 +312,43 @@ int main( int argc, char* args[] ){
 						{
 							//Play high sound effect
 							case SDLK_1:
-							Mix_PlayChannel( -1, gHigh, 0 );
+								Mix_PlayChannel( -1, gHigh, 0 );
 							break;
 							//Play medium sound effect
 							case SDLK_2:
-							Mix_PlayChannel( -1, gMedium, 0 );
+								Mix_PlayChannel( -1, gMedium, 0 );
 							break;
 							//Play low sound effect
 							case SDLK_3:
-							Mix_PlayChannel( -1, gLow, 0 );
+								Mix_PlayChannel( -1, gLow, 0 );
 							break;
 							//Play scratch sound effect
 							case SDLK_4:
-							Mix_PlayChannel( -1, gScratch, 0 );
+								Mix_PlayChannel( -1, gScratch, 0 );
 							break;
 							case SDLK_9:
-							//If there is no music playing
-							if( Mix_PlayingMusic() == 0 ){
-								//Play the music
-								Mix_PlayMusic( cacheSonido->getMusic(NIVEL_1), -1 );
-							}
-							//If music is being played
-							else{
-								//If the music is paused
-								if( Mix_PausedMusic() == 1 ){
-									//Resume the music
-									Mix_ResumeMusic();
+								//If there is no music playing
+								if( Mix_PlayingMusic() == 0 ){
+									//Play the music
+									Mix_PlayMusic( cacheSonido->getMusic(NIVEL_1), -1 );
 								}
-								//If the music is playing
+								//If music is being played
 								else{
-									//Pause the music
-									Mix_PauseMusic();
+									//If the music is paused
+									if( Mix_PausedMusic() == 1 ){
+										//Resume the music
+										Mix_ResumeMusic();
+									}
+									//If the music is playing
+									else{
+										//Pause the music
+										Mix_PauseMusic();
+									}
 								}
-							}
 							break;
 							case SDLK_0:
-							//Stop the music
-							Mix_HaltMusic();
+								//Stop the music
+								Mix_HaltMusic();
 							break;
 						}
 					}
