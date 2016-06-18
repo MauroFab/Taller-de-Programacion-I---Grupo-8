@@ -32,9 +32,11 @@ void Graficador::agregarDatosAviones(AvionView* *listaAvionView, int canAvionV) 
 		mapaGraficosAvion.insert(std::pair<int, GraficoAvion*>(avionV->avionModel->id, grafico));
 	}
 }
+
 void Graficador::agregarDatosBala(BalaView * balaView) {
 	graficoProyectil = new GraficoProyectil(renderer,balaView);
 }
+
 void Graficador::agregarDatosMapa(FondoView * fondoView, ElementoView* *listaElementosView, int canElemV, int posicionInicial) {
 	graficoMapa = new GraficoMapa(renderer, fondoView, posicionInicial);
 	graficoMapa->crearElementos(listaElementosView, canElemV);
@@ -59,6 +61,10 @@ void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectile
 }
 void Graficador::graficarMapa() {
 	graficoMapa->graficarFondoYElementos();
+}
+void Graficador::graficarPuntaje(int puntaje) {
+	GraficadorPuntaje graficador;
+	graficador.renderizarPuntaje(renderer,puntaje);
 }
 
 void Graficador::reiniciarMapa() {

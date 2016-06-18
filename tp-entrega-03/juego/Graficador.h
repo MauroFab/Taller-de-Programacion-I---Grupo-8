@@ -1,7 +1,7 @@
 #pragma once
 #ifndef _GRAFICADOR_H_
 #define _GRAFICADOR_H_
-
+#include "GraficadorPuntaje.h"
 #include "EstadoAvion.h"
 #include "EstadoProyectil.h"
 #include "EstadoMapa.h"
@@ -30,6 +30,7 @@ public:
 	void agregarDatosMapa(FondoView * fondoView, ElementoView* *listaElementosView, int canElemV, int posicionInicial);
 	void graficarAviones(std::map<int,EstadoAvion*> listaAviones);
 	void graficarMapa();
+	void graficarPuntaje(int puntaje);
 	void reiniciarMapa();
 	void actualizarMapa(EstadoMapa* estadoMapa);
 

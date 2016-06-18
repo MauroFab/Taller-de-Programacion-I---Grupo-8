@@ -350,6 +350,8 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 		Graficador::getInstance()->actualizarMapa(estadoMapa);
 		Graficador::getInstance()->graficarMapa();
 		Graficador::getInstance()->graficarAviones(estadoAviones);
+		int puntajeQueEnAlgunMomentoSeRecibiraDelServidor = 0;
+		Graficador::getInstance()->graficarPuntaje(puntajeQueEnAlgunMomentoSeRecibiraDelServidor);
 		SDL_mutexV(mut);
 
 		//Update screen
