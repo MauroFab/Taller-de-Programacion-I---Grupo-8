@@ -41,14 +41,15 @@ void Graficador::agregarDatosMapa(FondoView * fondoView, ElementoView* *listaEle
 	graficoMapa = new GraficoMapa(renderer, fondoView, posicionInicial);
 	graficoMapa->crearElementos(listaElementosView, canElemV);
 }
-void Graficador::graficarAviones(std::map<int,EstadoAvion*> listaAviones) {
-	std::map<int, EstadoAvion*>::iterator it;
+void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones) {
+	std::list<EstadoAvion*>::iterator it;
 	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
-		GraficoAvion* grafico = mapaGraficosAvion.at(it->second->getId());
-		SDL_Rect* clip = grafico->getCurrentClip(it->second->getFrame());
+		
+		GraficoAvion* grafico = mapaGraficosAvion.at((*it)->getId());
+		SDL_Rect* clip = grafico->getCurrentClip((*it)->getFrame());
 		Textura* textura = grafico->getTextura();
-		textura->render(it->second->getPosX(), this->ventanaAlto - it->second->getPosY() - textura->getHeight(), renderer, clip);
-		this->graficarProyectiles(it->second->getEstadosProyectiles());
+		textura->render((*it)->getPosX(), this->ventanaAlto - (*it)->getPosY() - textura->getHeight(), renderer, clip);
+		this->graficarProyectiles((*it)->getEstadosProyectiles());
 	}
 }
 void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles) {
@@ -73,4 +74,13 @@ void Graficador::reiniciarMapa() {
 
 void Graficador::actualizarMapa(EstadoMapa* estadoMapa) {
 	graficoMapa->actualizar(estadoMapa);
+}
+
+void Graficador::graficarJuego(EstadoJuego* estadoJuego){
+	actualizarMapa(estadoJuego->getEstadoDelMapa());
+	graficarMapa();
+	estadoJuego->getEstadoDeLosAviones();
+	graficarAviones(estadoJuego->getEstadoDeLosAviones());
+	int puntajeQueEnAlgunMomentoSeRecibiraDelServidor = 0;
+	Graficador::getInstance()->graficarPuntaje(puntajeQueEnAlgunMomentoSeRecibiraDelServidor);
 }

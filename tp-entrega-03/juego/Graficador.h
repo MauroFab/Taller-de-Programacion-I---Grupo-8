@@ -2,9 +2,7 @@
 #ifndef _GRAFICADOR_H_
 #define _GRAFICADOR_H_
 #include "GraficadorPuntaje.h"
-#include "EstadoAvion.h"
-#include "EstadoProyectil.h"
-#include "EstadoMapa.h"
+#include "EstadoJuego.h"
 #include "GraficoAvion.h"
 #include "GraficoProyectil.h"
 #include "GraficoMapa.h"
@@ -23,12 +21,14 @@ public:
 	static Graficador* getInstance();
 
 	~Graficador(void);
+	
+	void graficarJuego(EstadoJuego* estadoJuego);
 
 	void inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto);
 	void agregarDatosAviones(AvionView* *avionView, int canAvionV);
 	void agregarDatosBala(BalaView * balaView);
 	void agregarDatosMapa(FondoView * fondoView, ElementoView* *listaElementosView, int canElemV, int posicionInicial);
-	void graficarAviones(std::map<int,EstadoAvion*> listaAviones);
+	void graficarAviones(std::list<EstadoAvion*> listaAviones);
 	void graficarMapa();
 	void graficarPuntaje(int puntaje);
 	void reiniciarMapa();
