@@ -172,51 +172,13 @@ int MainCliente::recibirMensajes(void* ptrSock){
 	return 0;
 }
 
-void MainCliente::cargarIP() {
-	system("CLS");
-	printf("\n%s\n", "------------------------------------------------------------------------");
-	printf("Ingrese IP\n");
-	string ip = "";
-	while (strcmp(ip.c_str(), "") == 0) {
-		cin>>ip;
-	}
-	this->ip = ip;
-}
-
-void MainCliente::cargarPuerto() {
-	system("CLS");
-	printf("\n%s\n", "------------------------------------------------------------------------");
-	printf("Ingrese Puerto\n");
-	string puerto = "";
-	while (strcmp(puerto.c_str(), "") == 0) {
-		cin>>puerto;
-	}
-	this->port = puerto;
-}
-
-void MainCliente::cargarIpYPuerto() {
-	cargarIP();
-	cargarPuerto();
-}
-
-void MainCliente::cargarNombreDeUsuario(Jugador * jugador) {
-	system("CLS");
-	printf("\n%s\n", "------------------------------------------------------------------------");
-	printf("Ingrese su nombre de usuario\n");
-	string nombreDeUsuario = "";
-	while (strcmp(nombreDeUsuario.c_str(), "") == 0) {
-		cin>>nombreDeUsuario;
-	}
-	jugador->nombreDeUsuario.assign(nombreDeUsuario);
-}
-
 int MainCliente::conectar(){
 
-#ifndef FAKE_DEBUG_CLIENTE
-	cargarIpYPuerto();
-	cargarNombreDeUsuario(VistaJuego::getInstance()->getJugador());
-#else
+#ifdef FAKE_DEBUG_CLIENTE
 	VistaJuego::getInstance()->getJugador()->nombreDeUsuario.assign("Cliente-A");
+#else
+	this->ip = VistaInicio::getInstance()->getIP();
+	this->port = VistaInicio::getInstance()->getPuerto();
 #endif
 
 	inicializarConexion();
@@ -285,6 +247,7 @@ int MainCliente::conectar(){
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(fun_recibirMensajes, "recibirMensajes", &sock);
 					
+					VistaJuego::getInstance()->getJugador()->nombreDeUsuario.assign(VistaInicio::getInstance()->getUsuario());
 					VistaJuego::getInstance()->getJugador()->setIdCliente(atoi(idUsuario));
 					VistaJuego::getInstance()->getJugador()->setPosicionAvion(posicion);
 
@@ -355,26 +318,23 @@ void MainCliente::recreateServidorXml(){
 int MainCliente::menu(){
 	opt = 0;
 	while (opt != OPT_SALIR){
-		printf("\n%s\n", "------------------------------------------------------------------------");
-		if(conectado)
-			std::cout<<"Se encuentra: CONECTADO" <<std::endl;
-		else
-			std::cout<<"Se encuentra: DESCONECTADO" <<std::endl;
-		printf("\n<1> CONECTAR");
-		printf("\n<3> SALIR");
-		printf("\n");
-		string numstring;
-		cin>>numstring;
-		opt=atoi(numstring.c_str());
-		switch (opt){
-		case OPT_CONECTAR:
-			conectar();
-			break;
-		case OPT_SALIR:
-			salir();
-			break;
-		}
+
+#ifndef FAKE_DEBUG_CLIENTE
+		inicio();
+#endif
+
+		conectar();
 	}
+
+	return 0;
+}
+
+int MainCliente::inicio() {
+
+	VistaInicio::getInstance()->inicializar();
+
+	VistaInicio::getInstance()->mostrar();
+
 	return 0;
 }
 

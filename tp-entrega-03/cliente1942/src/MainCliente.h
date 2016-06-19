@@ -25,6 +25,7 @@
 #include "../../common/MensajeSeguro.h"
 #include "../../common/Posicion.h"
 
+#include "../../juego/VistaInicio.h"
 #include "../../juego/VistaJuego.h"
 #include "../../juego/EstadoAvion.h"
 #include "../../juego/EstadoProyectil.h"
@@ -40,7 +41,7 @@
 
 //este flag esta para trabajar sin cargar los datos
 //pues servidor y puerto los levanta del XML
-#define FAKE_DEBUG_CLIENTE		1
+//#define FAKE_DEBUG_CLIENTE		1
 
 using std::string;
 using std::map;
@@ -81,6 +82,7 @@ public:
 	int menu();
 	//realiza la conexion y copia todo el modelo desde el cliente
 	int conectar();
+	int inicio();
 	int desconectar();
 	int salir();
 	int terminarElCliente();
@@ -97,18 +99,6 @@ private:
 	static void grabarEnElLogLaDesconexion(int len);
 	static int fun_recibirMensajes(void*);
 	int recibirMensajes(void*);
-	/**
-	 * @param jugador contiene los datos del jugador a cargar
-	 */
-	void cargarNombreDeUsuario(Jugador * jugador);
-	void cargarIpYPuerto();
-	void cargarIP();
-	void cargarPuerto();
-	/**
-	 * @deprecated
-	 * @listEstadoAvion listado de estado de avion
-	 * de la lista SOLO se usa el 1er elemento
-	 */
 	virtual int actualizar(Evento* eventoRecibido);
 };
 
