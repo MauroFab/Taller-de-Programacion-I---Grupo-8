@@ -28,13 +28,14 @@ public:
 	void agregarDatosAviones(AvionView* *avionView, int canAvionV);
 	void agregarDatosBala(BalaView * balaView);
 	void agregarDatosMapa(FondoView * fondoView, ElementoView* *listaElementosView, int canElemV, int posicionInicial);
-	void graficarAviones(std::list<EstadoAvion*> listaAviones);
-	void graficarMapa();
-	void graficarPuntaje(int puntaje);
+
 	void reiniciarMapa();
 	void actualizarMapa(EstadoMapa* estadoMapa);
 
 private:
+	void graficarAviones(std::list<EstadoAvion*> listaAviones);
+	void graficarMapa();
+	void graficarPuntaje(int puntaje);
 
 	static bool instanceFlag;
 	static Graficador* instance;

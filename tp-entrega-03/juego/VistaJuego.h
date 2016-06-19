@@ -101,7 +101,6 @@ private:
 
 	SDL_mutex *mut; // mutex para proteger la lista de movimientos
 	EstadoJuego* estadoJuego;
-	EstadoMapa* estadoMapa;
 };
 
 #endif //_VISTAJUEGO_H_

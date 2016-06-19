@@ -44,7 +44,6 @@ void Graficador::agregarDatosMapa(FondoView * fondoView, ElementoView* *listaEle
 void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones) {
 	std::list<EstadoAvion*>::iterator it;
 	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
-		
 		GraficoAvion* grafico = mapaGraficosAvion.at((*it)->getId());
 		SDL_Rect* clip = grafico->getCurrentClip((*it)->getFrame());
 		Textura* textura = grafico->getTextura();
