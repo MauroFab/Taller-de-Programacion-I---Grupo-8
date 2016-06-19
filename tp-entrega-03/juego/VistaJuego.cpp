@@ -355,6 +355,8 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 
 void VistaJuego::actualizarEstadoJuego(EstadoJuego* estadoJuego){
 	SDL_mutexP(mut);
+	if(estadoJuego != NULL)
+		delete this->estadoJuego;
 	this->estadoJuego = estadoJuego;
 	SDL_mutexV(mut);
 }
