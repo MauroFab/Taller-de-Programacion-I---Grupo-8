@@ -339,7 +339,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 		SDL_RenderClear( gRenderer );
 
 		SDL_mutexP(mut);
-		Graficador::getInstance()->graficarJuego(estadoJuego);
+		Graficador::getInstance()->graficarJuego(estadoJuego, jugador->getIdCliente());
 		
 		SDL_mutexV(mut);
 

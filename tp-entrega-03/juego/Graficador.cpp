@@ -41,16 +41,29 @@ void Graficador::agregarDatosMapa(FondoView * fondoView, ElementoView* *listaEle
 	graficoMapa = new GraficoMapa(renderer, fondoView, posicionInicial);
 	graficoMapa->crearElementos(listaElementosView, canElemV);
 }
-void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones) {
+void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones, int idDelJugador) {
 	std::list<EstadoAvion*>::iterator it;
+	EstadoAvion* estadoDelAvionDeEsteCliente;
+	//Grafico todos los aviones y sus proyectiles, menos el de este cliente
 	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
-		GraficoAvion* grafico = mapaGraficosAvion.at((*it)->getId());
-		SDL_Rect* clip = grafico->getCurrentClip((*it)->getFrame());
-		Textura* textura = grafico->getTextura();
-		textura->render((*it)->getPosX(), this->ventanaAlto - (*it)->getPosY() - textura->getHeight(), renderer, clip);
-		this->graficarProyectiles((*it)->getEstadosProyectiles());
+		if((*it)->getId() != idDelJugador){
+			GraficoAvion* grafico = mapaGraficosAvion.at((*it)->getId());
+			SDL_Rect* clip = grafico->getCurrentClip((*it)->getFrame());
+			Textura* textura = grafico->getTextura();
+			textura->render((*it)->getPosX(), this->ventanaAlto - (*it)->getPosY() - textura->getHeight(), renderer, clip);
+			this->graficarProyectiles((*it)->getEstadosProyectiles());
+		}else{
+			estadoDelAvionDeEsteCliente = (*it);
+		}
 	}
+	//El avion del jugador del cliente debe ser graficado ultimo para que siempre se vea por encima
+	GraficoAvion* grafico = mapaGraficosAvion.at(idDelJugador);
+	SDL_Rect* clip = grafico->getCurrentClip(estadoDelAvionDeEsteCliente->getFrame());
+	Textura* textura = grafico->getTextura();
+	textura->render(estadoDelAvionDeEsteCliente->getPosX(), this->ventanaAlto - estadoDelAvionDeEsteCliente->getPosY() - textura->getHeight(), renderer, clip);
+	this->graficarProyectiles(estadoDelAvionDeEsteCliente->getEstadosProyectiles());
 }
+
 void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles) {
 	std::list<EstadoProyectil*>::iterator it;
 	for (it = listaProyectiles.begin(); it != listaProyectiles.end(); it++) {
@@ -75,11 +88,11 @@ void Graficador::actualizarMapa(EstadoMapa* estadoMapa) {
 	graficoMapa->actualizar(estadoMapa);
 }
 
-void Graficador::graficarJuego(EstadoJuego* estadoJuego){
+void Graficador::graficarJuego(EstadoJuego* estadoJuego, int idDelJugador){
 	actualizarMapa(estadoJuego->getEstadoDelMapa());
 	graficarMapa();
 	estadoJuego->getEstadoDeLosAviones();
-	graficarAviones(estadoJuego->getEstadoDeLosAviones());
+	graficarAviones(estadoJuego->getEstadoDeLosAviones(), idDelJugador);
 	int puntajeQueEnAlgunMomentoSeRecibiraDelServidor = 0;
 	Graficador::getInstance()->graficarPuntaje(puntajeQueEnAlgunMomentoSeRecibiraDelServidor);
 }

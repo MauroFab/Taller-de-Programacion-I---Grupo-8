@@ -22,7 +22,7 @@ public:
 
 	~Graficador(void);
 	
-	void graficarJuego(EstadoJuego* estadoJuego);
+	void graficarJuego(EstadoJuego* estadoJuego, int idDelJugador);
 
 	void inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto);
 	void agregarDatosAviones(AvionView* *avionView, int canAvionV);
@@ -33,7 +33,7 @@ public:
 	void actualizarMapa(EstadoMapa* estadoMapa);
 
 private:
-	void graficarAviones(std::list<EstadoAvion*> listaAviones);
+	void graficarAviones(std::list<EstadoAvion*> listaAviones, int idDelJugador);
 	void graficarMapa();
 	void graficarPuntaje(int puntaje);
 
