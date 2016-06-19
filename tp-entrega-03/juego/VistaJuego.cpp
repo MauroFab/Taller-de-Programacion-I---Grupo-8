@@ -17,6 +17,7 @@ VistaJuego::VistaJuego(){
 	this->ventanaAlto = 0;
 	gWindow = NULL;
 	gRenderer = NULL;
+	this->estadoJuego = NULL;
 	mut = SDL_CreateMutex();
 	jugar=false;
 	//inicializar elementos de la vista
@@ -338,11 +339,8 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 		SDL_RenderClear( gRenderer );
 
 		SDL_mutexP(mut);
-		Graficador::getInstance()->actualizarMapa(estadoMapa);
-		Graficador::getInstance()->graficarMapa();
-		Graficador::getInstance()->graficarAviones(estadoAviones);
-		int puntajeQueEnAlgunMomentoSeRecibiraDelServidor = 0;
-		Graficador::getInstance()->graficarPuntaje(puntajeQueEnAlgunMomentoSeRecibiraDelServidor);
+		Graficador::getInstance()->graficarJuego(estadoJuego, jugador->getIdCliente());
+		
 		SDL_mutexV(mut);
 
 		//Update screen
@@ -357,13 +355,9 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 
 void VistaJuego::actualizarEstadoJuego(EstadoJuego* estadoJuego){
 	SDL_mutexP(mut);
-	list<EstadoAvion*> estadoAviones = estadoJuego->getEstadoDeLosAviones();
-	std::list<EstadoAvion*>::iterator it;
-	for (it = estadoAviones.begin(); it != estadoAviones.end(); it++) {
-		int idAvion = (*it)->getId();
-		VistaJuego::getInstance()->estadoAviones[idAvion] = (*it);
-	}
-	VistaJuego::getInstance()->estadoMapa = estadoJuego->getEstadoDelMapa();
+	if(estadoJuego != NULL)
+		delete this->estadoJuego;
+	this->estadoJuego = estadoJuego;
 	SDL_mutexV(mut);
 }
 

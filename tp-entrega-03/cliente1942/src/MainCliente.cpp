@@ -161,14 +161,6 @@ int MainCliente::recibirMensajes(void* ptrSock){
 					recreateServidorXml();
 					Protocolo::decodificar(bufferEntrada + offset, this->servidorXml);
 					VistaJuego::getInstance()->reiniciar(this->servidorXml, 0);
-				}
-				if(stAvion->getId() == -3){
-					int size;
-					char buffEnvio[MAX_BUFFER];
-					EstadoAvionXml* estadoMapa = new EstadoAvionXml(-3,0,0,Mapa::getInstace()->getPosicionMapa());
-					estadoMapa->calculateSizeBytes();
-					size = Protocolo::codificar(*estadoMapa, buffEnvio);
-					MensajeSeguro::enviar(*((SOCKET*)ptrSock), buffEnvio, size);
 				}*/
 			}
 		}
