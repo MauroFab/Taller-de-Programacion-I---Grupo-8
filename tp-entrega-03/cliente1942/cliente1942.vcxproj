@@ -125,6 +125,7 @@
     <ClCompile Include="..\juego\GraficoProyectil.cpp" />
     <ClCompile Include="..\juego\GraficoMapa.cpp" />
     <ClCompile Include="..\juego\VistaJuego.cpp" />
+	<ClCompile Include="..\juego\VistaInicio.cpp" />
     <ClCompile Include="..\juego\Proyectil.cpp" />
     <ClCompile Include="..\juego\Textura.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="..\juego\GraficoMapa.h" />
     <ClInclude Include="..\juego\ICargable.h" />
     <ClInclude Include="..\juego\VistaJuego.h" />
+	<ClInclude Include="..\juego\VistaInicio.h" />
     <ClInclude Include="..\juego\Proyectil.h" />
     <ClInclude Include="..\juego\Textura.h" />
     <ClInclude Include="src\MainCliente.h" />

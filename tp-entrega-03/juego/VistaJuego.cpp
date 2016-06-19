@@ -12,8 +12,6 @@ VistaJuego* VistaJuego::getInstance() {
 }
 
 VistaJuego::VistaJuego(){
-	this->cantidadDeVecesQueSeReinicio = 0;
-	this->seReinicio = false;
 	this->jugador = new Jugador();
 	this->ventanaAncho = 0;
 	this->ventanaAlto = 0;
@@ -65,7 +63,7 @@ int VistaJuego::readFrom(IGenericaVO * objetoXML){
 	return 0;
 }
 
-bool VistaJuego::inicializar(char * nomClien) {
+bool VistaJuego::inicializar() {
 
 	bool success = true;
 
@@ -82,7 +80,7 @@ bool VistaJuego::inicializar(char * nomClien) {
 		//Create window
 		string titulo;
 		titulo.append("1942-[");
-		titulo.append(nomClien);
+		titulo.append(this->jugador->nombreDeUsuario);
 		titulo.append("]");
 		gWindow = SDL_CreateWindow(titulo.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->ventanaAncho, this->ventanaAlto, SDL_WINDOW_SHOWN );
 		if( gWindow == NULL ){
@@ -113,11 +111,6 @@ bool VistaJuego::inicializar(char * nomClien) {
 					printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
 					success = false;
 				}
-				 //Initialize SDL_ttf
-				if( TTF_Init() == -1 ){
-					printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
-					success = false;
-				}
 			}
 		}
 	}
@@ -132,7 +125,6 @@ void VistaJuego::close() {
 	gRenderer = NULL;
 
 	Mix_Quit();
-	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -277,7 +269,6 @@ int VistaJuego::resetAviones(){
 // el hilo recibir_mensajes solo deberia de notificar los cambios.
 void VistaJuego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	SDL_mutexP(mut);
-	seReinicio = true;
 	resetElementos();
 	resetAviones();
 	static int tamanioMaximoMapa = 2000;

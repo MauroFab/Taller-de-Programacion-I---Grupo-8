@@ -2,7 +2,6 @@
 #define _VISTAJUEGO_H_
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 
@@ -55,9 +54,8 @@ public:
 	int readFrom(IGenericaVO * objetoXML);
 	/**
 	 * este metodo realiza la inicializacion de la configuracion grafica de SDL
-	 * @param nomClien  nombre del cliente usado en el titulo de la ventana
 	 */
-	bool inicializar(char * nomClien);
+	bool inicializar();
 	void reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa);
 	void ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa);
 	void close();
@@ -90,8 +88,6 @@ private:
 	int ventanaAncho;
 	int ventanaAlto;
 	bool jugar; // para avisar que debe de inciar el juego
-	bool seReinicio;
-	int cantidadDeVecesQueSeReinicio;
 
 	//este metodo dibuja un fondo incial
 	//pero su tamaño esta harcodeado, deberia sacarse

@@ -219,16 +219,15 @@ void MainCliente::cargarNombreDeUsuario(Jugador * jugador) {
 }
 
 int MainCliente::conectar(){
-	VistaJuego * insJuego = VistaJuego::getInstance();
+
 #ifndef FAKE_DEBUG_CLIENTE
 	cargarIpYPuerto();
-#endif
-	inicializarConexion();
-#ifndef FAKE_DEBUG_CLIENTE
-	cargarNombreDeUsuario(insJuego->getJugador());
+	cargarNombreDeUsuario(VistaJuego::getInstance()->getJugador());
 #else
-	insJuego->getJugador()->nombreDeUsuario.assign("Cliente-A");
+	VistaJuego::getInstance()->getJugador()->nombreDeUsuario.assign("Cliente-A");
 #endif
+
+	inicializarConexion();
 
 	if(conectado == true){
 		Log::getInstance()->warn(" el cliente ya se encuentra conectado.");
@@ -247,7 +246,7 @@ int MainCliente::conectar(){
 		else{
 			// Se envia un mensaje al servidor para que valide el nombre de usuario
 			MensajeXml mensajeUsuario;
-			mensajeUsuario.setValor((char*)insJuego->getJugador()->nombreDeUsuario.c_str(), strlen(insJuego->getJugador()->nombreDeUsuario.c_str()));
+			mensajeUsuario.setValor((char*)VistaJuego::getInstance()->getJugador()->nombreDeUsuario.c_str(), strlen(VistaJuego::getInstance()->getJugador()->nombreDeUsuario.c_str()));
 			mensajeUsuario.setTipo(TIPO_STRING);
 			mensajeUsuario.calculateSizeBytes();
 
@@ -294,12 +293,12 @@ int MainCliente::conectar(){
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(fun_recibirMensajes, "recibirMensajes", &sock);
 					
-					insJuego->getJugador()->setIdCliente(atoi(idUsuario));
-					insJuego->getJugador()->setPosicionAvion(posicion);
+					VistaJuego::getInstance()->getJugador()->setIdCliente(atoi(idUsuario));
+					VistaJuego::getInstance()->getJugador()->setPosicionAvion(posicion);
 
 					VistaJuego::getInstance()->readServidorXml(this->servidorXml);
 					VistaJuego::getInstance()->agregarObservadorAlControlador(this);
-					VistaJuego::getInstance()->inicializar((char*)insJuego->getJugador()->nombreDeUsuario.c_str());
+					VistaJuego::getInstance()->inicializar();
 					VistaJuego::getInstance()->ejecutar(this->servidorXml, posicionMapa.getPosY());
 					// se termina el programa cuando el usuario hace click en x del SDL_window
 					terminarElCliente();
@@ -360,13 +359,10 @@ void MainCliente::recreateServidorXml(){
 
 /**
 * muestra el menu y direcciona a las opciones
-*
 */
 int MainCliente::menu(){
 	opt = 0;
 	while (opt != OPT_SALIR){
-		// TODO: Por el momento no borro la pantalla asi veo que va llegando
-		// system("CLS");
 		printf("\n%s\n", "------------------------------------------------------------------------");
 		if(conectado)
 			std::cout<<"Se encuentra: CONECTADO" <<std::endl;
