@@ -118,6 +118,7 @@
     <ClCompile Include="..\juego\EstadoJuego.cpp" />
     <ClCompile Include="..\juego\EstadoMapa.cpp" />
     <ClCompile Include="..\juego\EstadoProyectil.cpp" />
+    <ClCompile Include="..\juego\Etiqueta.cpp" />
     <ClCompile Include="..\juego\FondoInicio.cpp" />
     <ClCompile Include="..\juego\Graficador.cpp" />
     <ClCompile Include="..\juego\GraficadorPuntaje.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="..\juego\EstadoJuego.h" />
     <ClInclude Include="..\juego\EstadoMapa.h" />
     <ClInclude Include="..\juego\EstadoProyectil.h" />
+    <ClInclude Include="..\juego\Etiqueta.h" />
     <ClInclude Include="..\juego\FondoInicio.h" />
     <ClInclude Include="..\juego\Graficador.h" />
     <ClInclude Include="..\juego\GraficadorPuntaje.h" />

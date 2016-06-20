@@ -146,6 +146,42 @@ void VistaInicio::mostrar() {
 	SDL_StopTextInput();
 }
 
+void VistaInicio::mostrarMensajeInformacion(string mensaje) {
+
+	this->gFont = TTF_OpenFont(FUENTE_PATH, 14 );
+
+	FondoInicio* fondo = new FondoInicio("bg.bmp", this->gRenderer);
+	Etiqueta* etiquetaMensaje = new Etiqueta(this->gRenderer, this->gFont, mensaje);
+	etiquetaMensaje->setPosicion(13, 270);
+
+	bool quit = false;
+	SDL_Event e;
+
+	fondo->render();
+	etiquetaMensaje->render();
+
+	while( !quit ) {
+
+		while( SDL_PollEvent( &e ) != 0 ) {
+
+			// Si se desea salir del juego
+			if( e.type == SDL_QUIT || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE) ) {
+				quit = true;
+			}
+		}
+
+		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+		SDL_RenderClear( gRenderer );
+
+		fondo->render();
+		etiquetaMensaje->render();
+			
+		SDL_RenderPresent( gRenderer );
+	}
+
+	close();
+}
+
 void VistaInicio::close() {
 
 	SDL_DestroyRenderer( gRenderer );

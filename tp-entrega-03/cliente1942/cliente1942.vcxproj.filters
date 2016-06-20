@@ -216,6 +216,9 @@
     <ClCompile Include="..\juego\TextField.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
+    <ClCompile Include="..\juego\Etiqueta.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -372,6 +375,9 @@
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\TexturaFuente.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Etiqueta.h">
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>

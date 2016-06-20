@@ -223,6 +223,9 @@ int MainCliente::conectar(){
 
 				if (strcmp(respuesta,MSJ_CONEX_ACEPT) == 0){
 
+					// Cierra la vista del menu
+					VistaInicio::getInstance()->close();
+
 					// Si el server nos envia respuesta es que la conexion ha sido satisfactoria
 					Log::getInstance()->info("El cliente se ha conectado correctamente.");
 					conectado = true;
@@ -262,17 +265,25 @@ int MainCliente::conectar(){
 					// El server envia un mensaje al superar la cantidad de clientes
 
 					Log::getInstance()->error(bufferEntrada);
-					printf("Respuesta servidor:> %s\n",MSJ_SUPERO_MAX);
 
+				#ifndef FAKE_DEBUG_CLIENTE 
+					VistaInicio::getInstance()->mostrarMensajeInformacion(MSJ_SUPERO_MAX);
+				#endif
 					shutdown(sock,2);
 					closesocket(sock);
+					terminarElCliente();
 				}
 				else if (strcmp(respuesta, MSJ_USR_YA_CONECT) == 0) {
 					// El server ya tiene un usuario igual y está conectado
 
 					Log::getInstance()->error(bufferEntrada);
-					printf("Respuesta servidor:> %s\n",MSJ_USR_YA_CONECT);
+
+				#ifndef FAKE_DEBUG_CLIENTE 
+					VistaInicio::getInstance()->mostrarMensajeInformacion(MSJ_USR_YA_CONECT);
+				#endif
+
 					desconectar();
+					terminarElCliente();
 				}
 			}
 		}

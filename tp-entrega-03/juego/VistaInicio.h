@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include "TextField.h"
+#include "Etiqueta.h"
 #include "FondoInicio.h"
 
 #define FUENTE_PATH "./sfd/DejaVuSans.ttf"
@@ -31,6 +32,7 @@ public:
 	bool inicializar();
 	void close();
 	void mostrar();
+	void mostrarMensajeInformacion(string mensaje);
 	string getPuerto();
 	string getIP();
 	string getUsuario();
