@@ -61,6 +61,12 @@
     <Filter Include="Archivos de encabezado\VistaJuego\Controlador">
       <UniqueIdentifier>{d994b2cc-d15c-4351-88be-d83993e37712}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de código fuente\estado">
+      <UniqueIdentifier>{4d3b584e-84c5-47fc-80c6-faa1de04bf63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\estado">
+      <UniqueIdentifier>{bc0affac-6202-4643-851e-ef6c18217e58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -144,12 +150,6 @@
     <ClCompile Include="..\common\observer\Observable.cpp">
       <Filter>Archivos de código fuente\Observador</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\xml\EstadoAvionXml.cpp">
-      <Filter>Archivos de código fuente\Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\xml\EstadoProyectilXml.cpp">
-      <Filter>Archivos de código fuente\Parser</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\MensajeSeguro.cpp">
       <Filter>Archivos de código fuente\Utils</Filter>
     </ClCompile>
@@ -218,6 +218,12 @@
     </ClCompile>
     <ClCompile Include="..\juego\Etiqueta.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\estado\EstadoProyectilXml.cpp">
+      <Filter>Archivos de código fuente\estado</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\estado\EstadoAvionXml.cpp">
+      <Filter>Archivos de código fuente\estado</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,12 +302,6 @@
     <ClInclude Include="..\juego\ElementoDelMapa.h">
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\xml\EstadoAvionXml.h">
-      <Filter>Archivos de encabezado\Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\xml\EstadoProyectilXml.h">
-      <Filter>Archivos de encabezado\Parser</Filter>
-    </ClInclude>
     <ClInclude Include="..\juego\ICargable.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -379,6 +379,12 @@
     </ClInclude>
     <ClInclude Include="..\juego\Etiqueta.h">
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\estado\EstadoProyectilXml.h">
+      <Filter>Archivos de encabezado\estado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\estado\EstadoAvionXml.h">
+      <Filter>Archivos de encabezado\estado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
