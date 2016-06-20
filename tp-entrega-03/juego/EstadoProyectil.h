@@ -3,25 +3,27 @@
 #define _ESTADOPROYECTIL_H_
 
 class EstadoProyectil {
+private:
+	int frame;
+	int posX;
+	int posY;
 
 public:
 	//No usar el constructor sin parametos por fuera del protocolo
 	EstadoProyectil();
 	EstadoProyectil(int frame, int posX, int posY);
 	~EstadoProyectil(void);
-
-	int getFrame();
-	int getPosX();
-	int getPosY();
+	int getSizeBytes();
 
 	void setFrame(int frame);
-	void setPosX(int x);
-	void setPosY(int y);
+	int getFrame();
+	void setPosX(int posX);
+	int getPosX();
+	void setPosY(int posY);
+	int getPosY();
 
-	int getSizeBytes();
-private:
-	int frame;
-	int x;
-	int y;
+
+
+
 };
 #endif //_ESTADOPROYECTIL_H_

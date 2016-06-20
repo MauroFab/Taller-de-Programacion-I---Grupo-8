@@ -3,8 +3,8 @@
 EstadoProyectil::EstadoProyectil(int frame, int posX, int posY) {
 
 	this->frame = frame;
-	this->x = posX;
-	this->y = posY;
+	this->posX = posX;
+	this->posY = posY;
 }
 
 EstadoProyectil::EstadoProyectil() {
@@ -17,26 +17,26 @@ int EstadoProyectil::getFrame() {
 	return frame;
 }
 
-int EstadoProyectil::getPosX() {
-	return x;
+int EstadoProyectil::getSizeBytes(){
+	return(sizeof(int)*4);
 }
 
-int EstadoProyectil::getPosY() {
-	return y;
-}
 
 void EstadoProyectil::setFrame(int frame) {
 	this->frame = frame;
 }
 
-void EstadoProyectil::setPosX(int x) {
-	this->x = x;
+void EstadoProyectil::setPosX(int posX) {
+	this->posX = posX;
+}
+int EstadoProyectil::getPosX() {
+	return this->posX;
+}
+void EstadoProyectil::setPosY(int posY) {
+	this->posY = posY;
 }
 
-void EstadoProyectil::setPosY(int y) {
-	this->y = y;
+int EstadoProyectil::getPosY() {
+	return this->posY;
 }
 
-int EstadoProyectil::getSizeBytes(){
-	return(sizeof(int)*4);
-}

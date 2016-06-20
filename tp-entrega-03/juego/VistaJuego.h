@@ -11,7 +11,7 @@
 #include "Graficador.h"
 #include "FondoInicio.h"
 #include "EstadoJuego.h"
-#include "ICargable.h"
+//#include "ICargable.h"
 #include "CacheSonido.h"
 #include "Controlador\Controlador.h"
 #include "../common/observer/Observable.h"
@@ -31,7 +31,7 @@
 
 using namespace std;
 
-class VistaJuego : public ICargable
+class VistaJuego
 {
 public:
 	ElementoView * listaElemView[MAX_ELEM_VIEW];

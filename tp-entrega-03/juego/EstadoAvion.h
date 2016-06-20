@@ -8,31 +8,33 @@
 class EstadoAvion {
 private:
 
+	int sizeBytes;
 	int id;
 	int frame;
-	int x;
-	int y;
+	int posX;
+	int posY;
 	std::list<EstadoProyectil*> estadosProyectiles;
 	
-	int calcularSizeBytes();
+	
 public:
 	EstadoAvion();
 	EstadoAvion(int id, int frame, int posX, int posY);
-	~EstadoAvion(void);
+	~EstadoAvion();
 
-	int getId();
-	int getFrame();
-	int getPosX();
-	int getPosY();
 	std::list<EstadoProyectil*> EstadoAvion::getEstadosProyectiles();
 
 	//No incluye el tamanio de los proyectiles
 	int getSizeBytes();
+	void calculateSizeBytes();
 
 	void setId(int id);
+	int getId();
 	void setFrame(int frame);
+	int getFrame();
 	void setPosX(int posX);
+	int getPosX();
 	void setPosY(int posY);
+	int getPosY();
 	void setEstadoProyectiles(std::list<EstadoProyectil*> lista);
 	void agregarEstadoProyectil(EstadoProyectil* estadoProyectil);
 
