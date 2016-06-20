@@ -89,6 +89,8 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\estado\EstadoAvionXml.cpp" />
+    <ClCompile Include="..\common\estado\EstadoProyectilXml.cpp" />
     <ClCompile Include="..\common\Evento.cpp" />
     <ClCompile Include="..\common\Log.cpp" />
     <ClCompile Include="..\common\MensajeSeguro.cpp" />
@@ -104,8 +106,6 @@
     <ClCompile Include="..\common\xml\ConexionXml.cpp" />
     <ClCompile Include="..\common\xml\ElementoXml.cpp" />
     <ClCompile Include="..\common\xml\EscenarioXml.cpp" />
-    <ClCompile Include="..\common\xml\EstadoAvionXml.cpp" />
-    <ClCompile Include="..\common\xml\EstadoProyectilXml.cpp" />
     <ClCompile Include="..\common\xml\FondoXml.cpp" />
     <ClCompile Include="..\common\xml\MensajeXml.cpp" />
     <ClCompile Include="..\common\xml\ParserXml.cpp" />
@@ -117,7 +117,7 @@
     <ClCompile Include="..\juego\EstadoAvion.cpp" />
     <ClCompile Include="..\juego\EstadoJuego.cpp" />
     <ClCompile Include="..\juego\EstadoProyectil.cpp" />
-	<ClCompile Include="..\juego\EstadoMapa.cpp" />
+    <ClCompile Include="..\juego\EstadoMapa.cpp" />
     <ClCompile Include="..\juego\Mapa.cpp" />
     <ClCompile Include="..\juego\Proyectil.cpp" />
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
@@ -128,6 +128,8 @@
     <ClCompile Include="src\SuperficieOcupada.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\estado\EstadoAvionXml.h" />
+    <ClInclude Include="..\common\estado\EstadoProyectilXml.h" />
     <ClInclude Include="..\common\Evento.h" />
     <ClInclude Include="..\common\IGenericaVO.h" />
     <ClInclude Include="..\common\Log.h" />
@@ -144,8 +146,6 @@
     <ClInclude Include="..\common\xml\ConexionXml.h" />
     <ClInclude Include="..\common\xml\ElementoXml.h" />
     <ClInclude Include="..\common\xml\EscenarioXml.h" />
-    <ClInclude Include="..\common\xml\EstadoAvionXml.h" />
-    <ClInclude Include="..\common\xml\EstadoProyectilXml.h" />
     <ClInclude Include="..\common\xml\FondoXml.h" />
     <ClInclude Include="..\common\xml\MensajeXml.h" />
     <ClInclude Include="..\common\xml\ParserXml.h" />
@@ -157,7 +157,7 @@
     <ClInclude Include="..\juego\EstadoAvion.h" />
     <ClInclude Include="..\juego\EstadoJuego.h" />
     <ClInclude Include="..\juego\EstadoProyectil.h" />
-	<ClInclude Include="..\juego\EstadoMapa.h" />
+    <ClInclude Include="..\juego\EstadoMapa.h" />
     <ClInclude Include="..\juego\Mapa.h" />
     <ClInclude Include="..\juego\Proyectil.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />

@@ -27,7 +27,7 @@ using std::ofstream;
 #include "asignadorDeUsuarios.h"
 #include "../../common/xml/ParserXml.h"
 #include "../../common/xml/MensajeXml.h"
-#include "../../common/xml/EstadoAvionXml.h"
+#include "../../common/estado/EstadoAvionXml.h"
 #include "../../common/Protocolo.h"
 #include "../../common/MensajeSeguro.h"
 #include "../../juego/Avion.h"
