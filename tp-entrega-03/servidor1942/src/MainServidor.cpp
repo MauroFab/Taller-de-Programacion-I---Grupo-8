@@ -507,7 +507,7 @@ int MainServidor::mainPrincipal(){
 	while(!seDebeCerrarElServidor) {
 
 		comunicarEventosRecibidosAlJuego();
-		juego->avanzarElTiempo();
+		juego->actualizarMovimientos();
 		//Por ahora comuncia estado aviones, deberia comunicar un estadoJuego
 		comunicarElNuevoEstadoDelJuegoALosClientes();
 		

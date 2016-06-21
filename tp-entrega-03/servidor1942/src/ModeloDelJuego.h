@@ -12,7 +12,7 @@ public:
 	ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsuarios);
 	~ModeloDelJuego();
 	void actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento);
-	void avanzarElTiempo();
+	void actualizarMovimientos();
 
 	
 	//El estado es uno que se aloja dinamicamente, y no afecta al juego
