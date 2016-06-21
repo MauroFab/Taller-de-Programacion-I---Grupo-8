@@ -154,13 +154,27 @@
 			<disparosSpriteId>disparo_1</disparosSpriteId>
 		</avion>
 	</aviones>
+	<enemigos>
+		<avionEnemigo>
+			<tipo>big</tipo>
+			<spriteId>avion_big</spriteId>			
+		</avionEnemigo>		
+		<avionEnemigo>
+			<tipo>big</tipo>
+			<spriteId>avion_big</spriteId>
+			<posicion>
+				<x>111</x>
+				<y>222</y>
+			</posicion>			
+		</avionEnemigo>
+	</enemigos>
 	<powerUps>
 		<powerUp>
 			<tipo>muerte</tipo>
 			<spriteId>powerup_muerte</spriteId>
 			<posicion>
 				<x>0</x>
-				<y></y>
+				<y>0</y>
 			</posicion>			
 		</powerUp>
 		<powerUp>
@@ -179,23 +193,5 @@
 				<y>250</y>
 			</posicion>			
 		</powerUp>			
-	</powerUps>	
-	<enemigos>
-		<avionEnemigo>
-			<tipo>big</tipo>
-			<spriteId>avion_big</spriteId>
-			<posicion>
-				<x></x>
-				<y></y>
-			</posicion>			
-		</avionEnemigo>		
-		<avionEnemigo>
-			<tipo>big</tipo>
-			<spriteId>avion_big</spriteId>
-			<posicion>
-				<x>111</x>
-				<y>222</y>
-			</posicion>			
-		</avionEnemigo>
-	</enemigos>
+	</powerUps>
 </servidor>
