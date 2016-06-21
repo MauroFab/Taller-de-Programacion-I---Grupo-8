@@ -56,7 +56,7 @@ void ModeloDelJuego::darPosicionInicialAAviones(){
 	}
 }
 
-void ModeloDelJuego::avanzarElTiempo(){
+void ModeloDelJuego::actualizarMovimientos(){
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 		avion[i]->mover(*avionEnemigo);
 	}
