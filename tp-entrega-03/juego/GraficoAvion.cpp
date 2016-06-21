@@ -2,10 +2,11 @@
 
 GraficoAvion::GraficoAvion(SDL_Renderer* renderer, AvionView * avionView) {	
 	this->id = avionView->avionModel->id;
-	textura = new Textura();
-	fotogramas = new SDL_Rect[avionView->spriteXml->getCantidad()];
-	cantidadFotogramas = avionView->spriteXml->getCantidad();
-	if( !textura->cargarDeArchivo( avionView->spriteXml->getPath(), renderer ) ) {
+	this->textura = new Textura();
+	this->cantidadFotogramas = avionView->spriteXml->getCantidad();
+	this->fotogramas = new SDL_Rect[this->cantidadFotogramas];
+	char * pathAvion = avionView->spriteXml->getPath();
+	if( !textura->cargarDeArchivo( pathAvion, renderer ) ) {
 		textura->cargarDeArchivo(FAKE_PATH_AVION_NOT_ENC, renderer);
 		cantidadFotogramas = 1;
 	} else {

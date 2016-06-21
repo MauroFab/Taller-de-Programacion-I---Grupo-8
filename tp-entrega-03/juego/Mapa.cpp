@@ -2,8 +2,8 @@
 
 Mapa::Mapa(ServidorXml* servidorXml){
 	
-	this->alto = servidorXml->getVentanaXmlCopy()->getAlto();
-	this->tamanioMaximo = 2000;
+	this->altoVentana = servidorXml->getVentanaXmlCopy()->getAlto();
+	this->tamanioMaximoMapa = MAX_ALTO_MAPA;
 	this->cantidadDePixelesQuePasaron = 0;
 	this->estado = new EstadoMapa();
 }
@@ -13,10 +13,8 @@ Mapa::~Mapa(){
 }
 
 void Mapa::actualizar() {
-
 	this->cantidadDePixelesQuePasaron++;
-
-	if (this->cantidadDePixelesQuePasaron > this->tamanioMaximo) {
+	if (this->cantidadDePixelesQuePasaron > this->tamanioMaximoMapa) {
 		this->estado->setCodigoReinicio(REINICIO);
 		this->cantidadDePixelesQuePasaron = 0;
 	} else {

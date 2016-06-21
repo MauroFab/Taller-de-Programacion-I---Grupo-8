@@ -8,6 +8,7 @@
 
 #define REINICIO 1
 #define NO_REINICIO 0
+#define MAX_ALTO_MAPA	2000
 
 class Mapa {
 
@@ -21,8 +22,8 @@ public:
 private:
 
 	EstadoMapa* estado;
-	int alto;
-	int tamanioMaximo;
+	int altoVentana;
+	int tamanioMaximoMapa;
 	int cantidadDePixelesQuePasaron;
 };
 

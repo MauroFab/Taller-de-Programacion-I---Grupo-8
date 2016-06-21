@@ -32,7 +32,7 @@ class Avion {
 		//Para definir un comportamiento, si esta en colision disparara
 		//Se puede cambiar al avionEnemigo por una lista de avionesEnemigo posteriormente
 
-		void mover(FakeAvionEnemigo avionEnemigo);
+		//void mover(FakeAvionEnemigo avionEnemigo);
 
 		//Este mover no considera ningun tipo de colision
 		void mover();

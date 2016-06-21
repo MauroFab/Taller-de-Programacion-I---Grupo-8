@@ -1,6 +1,5 @@
 #include "GraficadorPuntaje.h"
 
-
 GraficadorPuntaje::GraficadorPuntaje(){
 }
 void GraficadorPuntaje::renderizarPuntaje(SDL_Renderer* renderer, int puntaje){

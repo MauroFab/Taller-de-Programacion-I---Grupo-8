@@ -38,7 +38,6 @@ void EstadoAvion::calculateSizeBytes(){
 		+ sizeof(int); //posY
 }
 
-
 void EstadoAvion::setId(int id) {
 	this->id = id;
 }

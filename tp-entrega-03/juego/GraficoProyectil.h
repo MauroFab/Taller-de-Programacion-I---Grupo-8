@@ -7,6 +7,11 @@
 #include "../common/view/BalaView.h"
 
 class GraficoProyectil {
+private:
+	SDL_Rect *fotogramas;
+	Textura* textura;
+	int id;
+	int cantidadFotogramas;
 
 public:
 
@@ -15,12 +20,5 @@ public:
 
 	SDL_Rect* getCurrentClip(int frame);
 	Textura* getTextura();
-
-private:
-
-	SDL_Rect *fotogramas;
-	Textura* textura;
-
-	int cantidadFotogramas;
 };
 #endif //_GRAFICOPROYECTIL_H_

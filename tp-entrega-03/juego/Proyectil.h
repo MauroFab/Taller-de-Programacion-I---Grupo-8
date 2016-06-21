@@ -11,6 +11,18 @@
 #define FAKE_2_SCREEN_HEIGHT 640
 //************************
 class Proyectil {
+	private:
+		int frame;
+		int cantDeFotogramas;
+		int anchoFotograma;
+		int altoFotograma;
+		// Posicion del proyectil
+		int posicionX;
+		int posicionY;
+		int velocidad;
+		// Velocidad del proyectil
+		int velocidadX;
+		int velocidadY;
 	public:
 		static const int ANCHO_PROYECTIL = 11;
 		static const int ALTO_PROYECTIL = 25;
@@ -24,17 +36,6 @@ class Proyectil {
 		 * @return un nuevo estado 
 		 */
 		EstadoProyectil* createEstado();
-	private:
-		int frame;
-		int cantDeFotogramas;
-		int anchoFotograma;
-		int altoFotograma;
-		// Posicion del proyectil
-		int posicionX;
-		int posicionY;
-		int velocidad;
-		// Velocidad del proyectil
-		int velocidadX;
-		int velocidadY;
+
 };
 #endif //_PROYECTIL_H_

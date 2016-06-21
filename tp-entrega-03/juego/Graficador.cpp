@@ -10,7 +10,7 @@ Graficador* Graficador::getInstance() {
     }
     return instance;
 }
-Graficador::Graficador(void) {
+Graficador::Graficador() {
 }
 Graficador::~Graficador(void) {
 	std::map<int, GraficoAvion*>::iterator it;

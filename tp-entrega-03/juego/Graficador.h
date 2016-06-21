@@ -33,6 +33,7 @@ public:
 	void actualizarMapa(EstadoMapa* estadoMapa);
 
 private:
+	Graficador();
 	void graficarAviones(std::list<EstadoAvion*> listaAviones, int idDelJugador);
 	void graficarMapa();
 	void graficarPuntaje(int puntaje);
@@ -46,7 +47,7 @@ private:
 	std::map<int, GraficoAvion*> mapaGraficosAvion;
 	GraficoProyectil* graficoProyectil;
 	GraficoMapa* graficoMapa;
-	Graficador(void);
+
 	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
 };
 

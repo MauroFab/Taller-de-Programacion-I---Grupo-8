@@ -10,6 +10,5 @@ public:
 	GraficadorPuntaje();
 	void renderizarPuntaje(SDL_Renderer* renderer,int puntaje);
 	~GraficadorPuntaje(void);
-private:
 };
 

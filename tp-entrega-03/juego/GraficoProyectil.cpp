@@ -1,14 +1,15 @@
 #include "GraficoProyectil.h"
 
 GraficoProyectil::GraficoProyectil(SDL_Renderer* renderer, BalaView * balaView){
-	this->textura = new Textura();	
+	this->id = balaView->balaModel->id;
+	this->textura = new Textura();
 	this->cantidadFotogramas = balaView->spriteXml->getCantidad();
 	this->fotogramas = new SDL_Rect[this->cantidadFotogramas];
 	char * pathProyectil = balaView->spriteXml->getPath();
 	if( !textura->cargarDeArchivo(pathProyectil , renderer ) ) {
 		printf( "Failed to load missil animation texture!\n" );
 	} else {
-		for (int i = 0; i < cantidadFotogramas; i++) {
+		for(int i=0; i < cantidadFotogramas; i++) {
 			SDL_Rect fotograma;
 			fotograma.x = balaView->spriteXml->getAncho() * i;
 			fotograma.y = 0;

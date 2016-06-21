@@ -17,7 +17,6 @@ private:
 	int posY;
 	list<EstadoProyectil*> estadosProyectiles;
 	
-	
 public:
 	EstadoAvion();
 	EstadoAvion(int id, int frame, int posX, int posY);

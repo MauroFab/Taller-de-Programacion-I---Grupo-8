@@ -4,18 +4,15 @@
 #include "Textura.h"
 
 class FondoInicio {
+private:
+	SDL_Renderer* renderer;
+	Textura* textura;
 
 public:
 
 	FondoInicio(std::string pathFondo, SDL_Renderer* renderer);
 	virtual ~FondoInicio(void);
-
 	void render();
-
-private:
-
-	SDL_Renderer* renderer;
-	Textura* textura;
 };
 #endif //_FONDOINICIO_H_
 

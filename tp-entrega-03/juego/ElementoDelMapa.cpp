@@ -1,6 +1,5 @@
 #include "ElementoDelMapa.h"
 
-
 ElementoDelMapa::ElementoDelMapa(int xInicial, int yInicial, SDL_Renderer* gRendererRecibido, Textura* texturaRecibida)
 {
 	x = xInicial;
@@ -16,7 +15,7 @@ ElementoDelMapa::~ElementoDelMapa(void){
 }
 
 void ElementoDelMapa::reiniciar(){
-		meHanGraficadoAlgunaVez = false;
+	meHanGraficadoAlgunaVez = false;
 }
 
 bool ElementoDelMapa::estaEnPantalla(int yMaxPantalla,int  yMinPantalla){
@@ -24,8 +23,8 @@ bool ElementoDelMapa::estaEnPantalla(int yMaxPantalla,int  yMinPantalla){
 }
 
 bool ElementoDelMapa::apareceDesdeAfuera(int yMaxPantalla, int yMinPantalla){
-	int tamanioVertical;
-	tamanioVertical = (yMaxPantalla - yMinPantalla);
+	//calcula el alto de la pantalla
+	int tamanioVertical = (yMaxPantalla - yMinPantalla);
 	return (y > tamanioVertical);
 }
 
