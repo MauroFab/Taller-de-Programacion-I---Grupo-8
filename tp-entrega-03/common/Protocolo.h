@@ -72,6 +72,10 @@ public:
 	static int decodificar(char * buffer,EscenarioXml *escenarioXml);
 	static int codificar(ServidorXml &servidorXml,char * buffer);
 	static int decodificar(char * buffer,ServidorXml *servidorXml);
+	static int codificar(AvionEnemigoXml &avionEnemigoXml,char * buffer);
+	static int decodificar(char * buffer,AvionEnemigoXml *avionEnemigoXml);
+	static int codificar(PowerUpXml &powerUpXml,char * buffer);
+	static int decodificar(char * buffer,PowerUpXml *powerUpXml);
 
 	static int codificar(EstadoAvion &estadoProyectil,char * buffer);
 	static int decodificar(char * buffer, EstadoAvion *estadoProyectil);

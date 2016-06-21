@@ -78,6 +78,10 @@ public:
 	ElementoXml * createDataElementoXml(XMLElement* elemE,int idxE);
 	void createDataListAvionXml(ServidorXml *servidorXml,XMLElement* listAviones);	
 	AvionXml * createDataAvionXml(XMLElement* elemAvion,int idxAvs);
+	void createDataListEnemigoXml(ServidorXml *servidorXml,XMLElement* listEnemigo);	
+	AvionEnemigoXml * createDataEnemigoXml(XMLElement* elemEnemigo,int idxEne);
+	void createDataListPowerXml(ServidorXml *servidorXml,XMLElement* listPower);	
+	PowerUpXml * createDataPowerXml(XMLElement* elemPower,int idxPow);
 
 	int findSpriteIdByName(char * strIdSprite);
 
@@ -102,6 +106,11 @@ public:
 	int validarPosicionXml(XMLElement* posicion);
 	int validarListaAvionXml(XMLElement* listAviones);
 	int validarAvionXml(XMLElement* elemAvion);
+	
+	int validarListEnemigoXml(XMLElement* listEnemigo);
+	int validarEnemigoXml(XMLElement* elemEnemigo);
+	int validarListPowerXml(XMLElement* listPower);
+	int validarPowerXml(XMLElement* elemPower);
 	
 	//metodo para vincular y validar entidades del servidor , se puede usar tambien del lado del cliente
 	void vincularYValidarEntidades(ServidorXml *servidorXml);

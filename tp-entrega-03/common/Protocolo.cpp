@@ -653,6 +653,8 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 	int puerto = servidorXml.getPuerto();
 	int canSprs = servidorXml.getCanSprs();
 	int canAvs = servidorXml.getCanAvs();
+	int canEnes = servidorXml.getCanEnes();
+	int canPows = servidorXml.getCanPows();
 	int offset = 0;
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
@@ -682,6 +684,20 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 		offset += codificar(*avX,buffer + offset);
 	}
 	//-----------
+	memcpy(buffer + offset,&canEnes,sizeof(int));
+	offset += sizeof(int);
+	for (int idx = 0; idx<canEnes;idx++){
+		AvionEnemigoXml * avEneX = servidorXml.getListaEnemigos()[idx];
+		offset += codificar(*avEneX,buffer + offset);
+	}
+	//-----------	
+	memcpy(buffer + offset,&canPows,sizeof(int));
+	offset += sizeof(int);
+	for (int idx = 0; idx<canPows;idx++){
+		PowerUpXml * powU = servidorXml.getListaPowerUp()[idx];
+		offset += codificar(*powU,buffer + offset);
+	}
+	//-----------	
 
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
@@ -696,6 +712,8 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	int puerto = -1;
 	int canSprs = -1;
 	int canAvs = -1;
+	int canEnes = -1;
+	int canPows = -1;
 	int offset = 0;
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
@@ -730,12 +748,214 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 		servidorXml->addAvion(avX,idx);
 	}
 	//-----------
+	memcpy(&canEnes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	for (int idx = 0; idx < canEnes;idx++){
+		AvionEnemigoXml * avEneX = new AvionEnemigoXml();
+		offset += decodificar(buffer + offset,avEneX);
+		servidorXml->addEnemigo(avEneX,idx);
+	}
+	//-----------
+	memcpy(&canPows,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	for (int idx = 0; idx < canPows;idx++){
+		PowerUpXml * powU = new PowerUpXml();
+		offset += decodificar(buffer + offset,powU);
+		servidorXml->addPowerUp(powU,idx);
+	}
+	//-----------	
 	servidorXml->setCantidadMaximaClientes(cantidadMaximaClientes);
 	servidorXml->setPuerto(puerto);
 	servidorXml->calculateSizeBytes();
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	servidorXml->toString(cadena);
+	printf("%s\n",cadena);
+#endif
+	return offset;
+}
+
+int Protocolo::codificar(AvionEnemigoXml &avionEnemigoXml,char * buffer){
+	int sizeBytes = avionEnemigoXml.getSizeBytes();
+	int id = avionEnemigoXml.getId();
+	int idSprite = avionEnemigoXml.getIdSprite();
+	char * strIdSprite = avionEnemigoXml.getStrIdSprite();
+	char len_strIdSprite = strlen(strIdSprite);
+	int posicion_x = avionEnemigoXml.getPosicion().coorX;
+	int posicion_y = avionEnemigoXml.getPosicion().coorY;
+	int tipo = avionEnemigoXml.getTipo();
+
+	//aloca espacio suficiente para ESTE AvionXml puntual, pues el size es variable
+	int offset = 0;
+	memcpy(buffer + offset,&sizeBytes,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&id,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&idSprite,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&len_strIdSprite,sizeof(char));
+	offset += sizeof(char);
+
+	memcpy(buffer + offset,strIdSprite,len_strIdSprite);
+	offset += len_strIdSprite;
+
+	memcpy(buffer + offset,&posicion_x,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&posicion_y,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&tipo,sizeof(int));
+	offset += sizeof(int);
+
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	avionEnemigoXml.toString(cadena);
+	printf("%s\n",cadena);
+#endif
+	return offset;
+}
+int Protocolo::decodificar(char * buffer,AvionEnemigoXml *avionEnemigoXml){
+	int sizeBytes = -1;
+	int id = -1;
+	int idSprite = -1;
+	char strIdSprite[MAX_CADENA] = {0};
+	char len_strIdSprite = -1;
+	TPosicion posicion;
+	posicion.coorX = -1;
+	posicion.coorY = -1;
+	int tipo = -1;
+	int offset = 0;
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&id,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&idSprite,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&len_strIdSprite,buffer + offset,sizeof(char));
+	offset += sizeof(char);
+
+	memcpy(strIdSprite,buffer + offset,len_strIdSprite);
+	offset += len_strIdSprite;
+	strIdSprite[len_strIdSprite] = '\0';
+
+	memcpy(&(posicion.coorX),buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&(posicion.coorY),buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&tipo,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	avionEnemigoXml->setId(id);
+	avionEnemigoXml->setIdSprite(idSprite);
+	avionEnemigoXml->setStrIdSprite(strIdSprite,len_strIdSprite);
+	avionEnemigoXml->setPosicion(posicion);
+	avionEnemigoXml->setTipo(tipo);
+	avionEnemigoXml->calculateSizeBytes();
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	avionEnemigoXml->toString(cadena);
+	printf("%s\n",cadena);
+#endif
+	return offset;
+}
+
+int Protocolo::codificar(PowerUpXml &powerUpXml,char * buffer){
+	int sizeBytes = powerUpXml.getSizeBytes();
+	int id = powerUpXml.getId();
+	int idSprite = powerUpXml.getIdSprite();
+	char * strIdSprite = powerUpXml.getStrIdSprite();
+	char len_strIdSprite = strlen(strIdSprite);
+	int posicion_x = powerUpXml.getPosicion().coorX;
+	int posicion_y = powerUpXml.getPosicion().coorY;
+	int tipo = powerUpXml.getTipo();
+
+	//aloca espacio suficiente para ESTE AvionXml puntual, pues el size es variable
+	int offset = 0;
+	memcpy(buffer + offset,&sizeBytes,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&id,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&idSprite,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&len_strIdSprite,sizeof(char));
+	offset += sizeof(char);
+
+	memcpy(buffer + offset,strIdSprite,len_strIdSprite);
+	offset += len_strIdSprite;
+
+	memcpy(buffer + offset,&posicion_x,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&posicion_y,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&tipo,sizeof(int));
+	offset += sizeof(int);
+
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	powerUpXml.toString(cadena);
+	printf("%s\n",cadena);
+#endif
+	return offset;
+}
+int Protocolo::decodificar(char * buffer,PowerUpXml *powerUpXml){
+	int sizeBytes = -1;
+	int id = -1;
+	int idSprite = -1;
+	char strIdSprite[MAX_CADENA] = {0};
+	char len_strIdSprite = -1;
+	TPosicion posicion;
+	posicion.coorX = -1;
+	posicion.coorY = -1;
+	int tipo = -1;
+	int offset = 0;
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&id,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&idSprite,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&len_strIdSprite,buffer + offset,sizeof(char));
+	offset += sizeof(char);
+
+	memcpy(strIdSprite,buffer + offset,len_strIdSprite);
+	offset += len_strIdSprite;
+	strIdSprite[len_strIdSprite] = '\0';
+
+	memcpy(&(posicion.coorX),buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&(posicion.coorY),buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&tipo,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	powerUpXml->setId(id);
+	powerUpXml->setIdSprite(idSprite);
+	powerUpXml->setStrIdSprite(strIdSprite,len_strIdSprite);
+	powerUpXml->setPosicion(posicion);
+	powerUpXml->setTipo(tipo);
+	powerUpXml->calculateSizeBytes();
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	powerUpXml->toString(cadena);
 	printf("%s\n",cadena);
 #endif
 	return offset;
@@ -1005,7 +1225,6 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 	}
 
 	std::list<EstadoAvion*>::iterator it;
-
 	std::list<EstadoAvion*> lista = estadoAviones;
 
 	//Primero guardamos el evento especial

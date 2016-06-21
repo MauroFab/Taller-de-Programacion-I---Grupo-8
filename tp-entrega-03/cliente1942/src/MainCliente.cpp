@@ -168,7 +168,8 @@ int MainCliente::recibirMensajes(void* ptrSock){
 	return 0;
 }
 
-int MainCliente::conectar(){
+int MainCliente::conectarYEjecutar(){
+	//----------------------CONECTAR-BEGIN------------------
 #ifdef FAKE_DEBUG_CLIENTE
 	VistaJuego::getInstance()->getJugador()->nombreDeUsuario.assign("Cliente-A");
 #else
@@ -244,16 +245,19 @@ int MainCliente::conectar(){
 
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(fun_recibirMensajes, "recibirMensajes", &sock);
+	//----------------------CONECTAR-END------------------
+					VistaJuego *visJuego = VistaJuego::getInstance();
+					visJuego->getJugador()->nombreDeUsuario.assign(VistaInicio::getInstance()->getUsuario());
+					visJuego->getJugador()->setIdCliente(atoi(idUsuario));
+					visJuego->getJugador()->setPosicionAvion(posicion);
 
-					VistaJuego::getInstance()->getJugador()->nombreDeUsuario.assign(VistaInicio::getInstance()->getUsuario());
-					VistaJuego::getInstance()->getJugador()->setIdCliente(atoi(idUsuario));
-					VistaJuego::getInstance()->getJugador()->setPosicionAvion(posicion);
-
-					VistaJuego::getInstance()->readServidorXml(this->servidorXml);
-					VistaJuego::getInstance()->agregarObservadorAlControlador(this);
-					VistaJuego::getInstance()->inicializar();
-					VistaJuego::getInstance()->ejecutar(this->servidorXml, posicionMapa.getPosY());
+					visJuego->readServidorXml(this->servidorXml);
+					visJuego->agregarObservador(this);
+	//----------------------EJECUTAR-BEGIN------------------
+					visJuego->inicializar();
+					visJuego->ejecutar(this->servidorXml, posicionMapa.getPosY());
 					// se termina el programa cuando el usuario hace click en x del SDL_window
+	//----------------------EJECUTAR-END------------------
 					terminarElCliente();
 				}
 				else if (strcmp(respuesta,MSJ_SUPERO_MAX) == 0){
@@ -326,7 +330,7 @@ int MainCliente::menu(){
 #ifndef FAKE_DEBUG_CLIENTE
 		inicio();
 #endif
-		conectar();
+		conectarYEjecutar();
 	}
 	return 0;
 }

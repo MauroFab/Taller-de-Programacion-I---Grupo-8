@@ -207,6 +207,12 @@
     <ClCompile Include="..\juego\ControladorTeclado.cpp">
       <Filter>Archivos de código fuente\VistaJuego</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\xml\AvionEnemigoXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\PowerUpXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -358,6 +364,12 @@
     </ClInclude>
     <ClInclude Include="..\juego\ControladorTeclado.h">
       <Filter>Archivos de encabezado\VistaJuego</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\AvionEnemigoXml.h">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\PowerUpXml.h">
+      <Filter>Archivos de código fuente\Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

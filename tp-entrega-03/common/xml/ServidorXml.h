@@ -7,10 +7,14 @@
 #include "VentanaXml.h"
 #include "SpriteXml.h"
 #include "AvionXml.h"
+#include "AvionEnemigoXml.h"
+#include "PowerUpXml.h"
 #include "../IGenericaVO.h"
 
 #define MAX_SPRITES	300
 #define MAX_AVIONES	10
+#define MAX_ENEMIGOS 10
+#define MAX_POWERUPS 10
 
 class ServidorXml : public IGenericaVO
 {
@@ -25,6 +29,10 @@ private:
 	int canSprs;
 	AvionXml * listaAviones[MAX_AVIONES];
 	int canAvs;	
+	AvionEnemigoXml * listaEnemigos[MAX_ENEMIGOS];
+	int canEnes;	
+	PowerUpXml * listaPowerUp[MAX_POWERUPS];
+	int canPows;	
 public:
 	ServidorXml();
 	virtual ~ServidorXml();
@@ -38,14 +46,27 @@ public:
 	VentanaXml * getVentanaXmlCopy();
 	void setEscenarioXml(const EscenarioXml &escenarioXml);
 	/*const */EscenarioXml * getEscenarioXmlCopy();
+	
 	void addSprite(SpriteXml * sprite,int pos);
 	//listado de punteros
 	SpriteXml * * getListaSprites();
 	int getCanSprs();	
+	
 	void addAvion(AvionXml * avion,int pos);
 	//listado de punteros a Aviones
 	AvionXml * * getListaAviones();
 	int getCanAvs();
+	
+	void addEnemigo(AvionEnemigoXml * enemigo,int pos);
+	//listado de punteros a Enemigos
+	AvionEnemigoXml * * getListaEnemigos();
+	int getCanEnes();
+	
+	void addPowerUp(PowerUpXml * powU,int pos);
+	//listado de punteros a PowerUpXml
+	PowerUpXml * * getListaPowerUp();
+	int getCanPows();
+	
 	void toString(TCadena1000 cadena);
 
 };

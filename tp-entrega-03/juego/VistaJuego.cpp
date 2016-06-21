@@ -1,12 +1,10 @@
 #include "VistaJuego.h"
 
-bool VistaJuego::instanceFlag = false;
 VistaJuego* VistaJuego::instance = NULL;
 
 VistaJuego* VistaJuego::getInstance() {
-	if(!instanceFlag){
+	if(instance == NULL){
         instance = new VistaJuego();
-        instanceFlag = true;
     }
     return instance;
 }
@@ -152,15 +150,10 @@ void VistaJuego::dibujarFondoInicio() {
 void VistaJuego::inicializarMusica() {
 
 	Mix_Music * musicaPrincipal = Mix_LoadMUS( "./Musica/Musica_Principal.wav" );
-
 	CacheSonido::getInstance()->addMusic(musicaPrincipal, NIVEL_1);
-
 	Mix_Chunk* disparo = Mix_LoadWAV( "./Musica/Disparo.wav" );
-
 	CacheSonido::getInstance()->addChunk(disparo, DISPARO);
-
 	Mix_Chunk* explosion = Mix_LoadWAV( "./Musica/Explosion.wav" );
-
 	CacheSonido::getInstance()->addChunk(explosion, EXPLOSION);
 }
 
@@ -284,13 +277,9 @@ void VistaJuego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMap
 	cargarBala(confServidorXml);
 
 	Graficador::getInstance()->inicializar(gRenderer, this->ventanaAncho, this->ventanaAlto);
-
 	Graficador::getInstance()->agregarDatosAviones(this->listaAvionView, this->canAvionV);
-
 	Graficador::getInstance()->agregarDatosBala(this->balaView);
-
 	Graficador::getInstance()->agregarDatosMapa(this->fondoView, this->listaElemView, this->canElemV, posicionInicialMapa);
-
 	Graficador::getInstance()->reiniciarMapa();
 
 	SDL_mutexV(mut);
@@ -310,11 +299,8 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 	/*Se inicializa y se cargan los datos en el Graficador*/
 
 	Graficador::getInstance()->inicializar(gRenderer, this->ventanaAncho, this->ventanaAlto);
-
 	Graficador::getInstance()->agregarDatosAviones(this->listaAvionView, this->canAvionV);
-
 	Graficador::getInstance()->agregarDatosBala(this->balaView);
-
 	Graficador::getInstance()->agregarDatosMapa(this->fondoView, this->listaElemView, this->canElemV, posicionInicialMapa);
 
 	/*------------------------------------------------------------------*/
@@ -366,6 +352,6 @@ void VistaJuego::actualizarEstadoJuego(EstadoJuego* estadoJuego){
 	SDL_mutexV(mut);
 }
 
-void VistaJuego::agregarObservadorAlControlador(Observador* observador){
+void VistaJuego::agregarObservador(Observador* observador){
 	this->controlador->agregarObservador(observador);
 }

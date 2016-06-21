@@ -963,6 +963,10 @@ ServidorXml * ParserXml::createDataServidorXml(){
 	createDataEscenarioXml(servidorXml,elemEscenario);
 	XMLElement* listAviones = (XMLElement*)elemEscenario->NextSibling();
 	createDataListAvionXml(servidorXml,listAviones);
+	XMLElement* listEnemigo = (XMLElement*)listAviones->NextSibling();
+	createDataListEnemigoXml(servidorXml,listEnemigo);
+	XMLElement* listPower = (XMLElement*)listEnemigo->NextSibling();
+	createDataListPowerXml(servidorXml,listPower);
 
 	return servidorXml;
 }
@@ -1160,6 +1164,117 @@ AvionXml * ParserXml::createDataAvionXml(XMLElement* elemAvion,int idxAvs){
 	return new AvionXml(idxAvs,velAvion,velBala,idSpAvion,strSpAvion,idSpVuelta,strSpVuelta,idSpBala,strSpBala);
 }
 
+void ParserXml::createDataListEnemigoXml(ServidorXml *servidorXml,XMLElement* listEnemigo){
+	XMLNode * elemEne = NULL;
+	int idxEne = 0;
+//	char * texto;
+	if (!listEnemigo->NoChildren()){	//si tiene al menos un hijo
+		//se obtiene el 1er mensaje <mensaje>
+		XMLNode * data1ErEne = listEnemigo->FirstChild();
+		//se copia el ptr del 1er mensaje a un puntero a nodo para leer luego los sgtes mjs
+		elemEne = data1ErEne;
+		while (elemEne != listEnemigo->LastChild()){
+			//se procesa el mensaje
+			AvionEnemigoXml * avionEneX = createDataEnemigoXml((XMLElement*)elemEne,idxEne);
+			servidorXml->addEnemigo(avionEneX,idxEne);
+			//leo siguiente mensaje
+			elemEne = elemEne->NextSibling();
+			idxEne++; // contador de mensajes del cliente
+		}
+		//leo el ultimo mensaje dado que elemSprite es el lastchild
+		AvionEnemigoXml * avionEneX = createDataEnemigoXml((XMLElement*)elemEne,idxEne);
+		servidorXml->addEnemigo(avionEneX,idxEne);
+	}
+}
+AvionEnemigoXml * ParserXml::createDataEnemigoXml(XMLElement* elemEnemigo,int idxEne){
+/*
+		<avionEnemigo>
+			<tipo>big</tipo>
+			<spriteId>avion_big</spriteId>
+			<posicion>
+				<x>111</x>
+				<y>222</y>
+			</posicion>			
+		</avionEnemigo>
+ */
+ //obtiene tipo
+	XMLElement* elemTipo = (XMLElement*)elemEnemigo->FirstChild();
+	int tipo = atoi(elemTipo->GetText());
+	
+	XMLElement* elemStrSpId = (XMLElement*)elemTipo->NextSibling();
+	char * strIdSprite = (char*)elemStrSpId->GetText();
+	//obtiene spriteId
+	int idSprite = findSpriteIdByName(strIdSprite);
+	//obtiene la posicion y luego los dos hijos
+	int coorX = -1;
+	int coorY = -1;
+	XMLElement* elemPosicion = (XMLElement*)elemStrSpId->NextSibling();
+	if (elemPosicion!= NULL){
+		//obtiene la posicionX
+		XMLElement* elemCoorX = (XMLElement*)elemPosicion->FirstChild();
+		coorX = atoi(elemCoorX->GetText());
+		//obtiene la posicionY
+		XMLElement* elemCoorY = (XMLElement*)elemCoorX->NextSibling();
+		coorY = atoi(elemCoorY->GetText());
+	}
+
+	return new AvionEnemigoXml(idSprite,strIdSprite,coorX,coorY,tipo);
+}
+void ParserXml::createDataListPowerXml(ServidorXml *servidorXml,XMLElement* listPower){
+	XMLNode * elemPow = NULL;
+	int idxPow = 0;
+//	char * texto;
+	if (!listPower->NoChildren()){	//si tiene al menos un hijo
+		//se obtiene el 1er mensaje <mensaje>
+		XMLNode * data1ErEne = listPower->FirstChild();
+		//se copia el ptr del 1er mensaje a un puntero a nodo para leer luego los sgtes mjs
+		elemPow = data1ErEne;
+		while (elemPow != listPower->LastChild()){
+			//se procesa el mensaje
+			PowerUpXml * powerX = createDataPowerXml((XMLElement*)elemPow,idxPow);
+			servidorXml->addPowerUp(powerX,idxPow);
+			//leo siguiente mensaje
+			elemPow = elemPow->NextSibling();
+			idxPow++; // contador de mensajes del cliente
+		}
+		//leo el ultimo mensaje dado que elemSprite es el lastchild
+		PowerUpXml * powerX = createDataPowerXml((XMLElement*)elemPow,idxPow);
+		servidorXml->addPowerUp(powerX,idxPow);
+	}
+}
+PowerUpXml * ParserXml::createDataPowerXml(XMLElement* elemPower,int idxPow){
+/*
+		<powerUp>
+			<tipo>puntos</tipo>
+			<spriteId>powerup_puntos</spriteId>
+			<posicion>
+				<x>0</x>
+				<y>250</y>
+			</posicion>			
+		</powerUp>
+ */
+ //obtiene tipo
+	XMLElement* elemTipo = (XMLElement*)elemPower->FirstChild();
+	int tipo = atoi(elemTipo->GetText());
+	XMLElement* elemStrSpId = (XMLElement*)elemTipo->NextSibling();
+	char * strIdSprite = (char*)elemStrSpId->GetText();
+	//obtiene spriteId
+	int idSprite = findSpriteIdByName(strIdSprite);
+	//obtiene la posicion y luego los dos hijos
+	int coorX = -1;
+	int coorY = -1;
+	XMLElement* elemPosicion = (XMLElement*)elemStrSpId->NextSibling();
+	if (elemPosicion != NULL){
+		//obtiene la posicionX
+		XMLElement* elemCoorX = (XMLElement*)elemPosicion->FirstChild();
+		coorX = atoi(elemCoorX->GetText());
+		//obtiene la posicionY
+		XMLElement* elemCoorY = (XMLElement*)elemCoorX->NextSibling();
+		coorY = atoi(elemCoorY->GetText());
+	}
+	return new PowerUpXml(idSprite,strIdSprite,coorX,coorY,tipo);
+}
+	
 int ParserXml::findSpriteIdByName(char * strIdSprite){
 	//ser busca el idSprite en el mapa
 	map<string,int>::iterator it;
@@ -1351,13 +1466,19 @@ int ParserXml::validarXmlArchivoServidor(){
 	XMLElement* listAviones =  (XMLElement*)escenario->NextSibling();
 	if (validarListaAvionXml(listAviones) < 0)
 		return -1;
+	XMLElement* listEnemigo =  (XMLElement*)listAviones->NextSibling();
+	if (validarListEnemigoXml(listEnemigo) < 0)
+		return -1;
+	XMLElement* listPower =  (XMLElement*)listEnemigo->NextSibling();
+	if (validarListPowerXml(listPower) < 0)
+		return -1;
 /*
 	//error en tag de ventana
 	if (strcmp(elemVentana->Name(),"ventana") != 0)
 		return -1;
 */
 	//repetidos
-	if (listAviones != elemServidor->LastChild())
+	if (listPower != elemServidor->LastChild())
 		return -1;
 	return 0;
 }
@@ -1731,6 +1852,131 @@ int ParserXml::validarAvionXml(XMLElement* elemAvion){
 		return -1;
 	return 0;
 }
+
+int ParserXml::validarListEnemigoXml(XMLElement* listEnemigo){
+	if (listEnemigo == NULL)
+		return -1;
+	//error en tag de listEnemigo
+	if (strcmp(listEnemigo->Name(),"enemigos") != 0)
+		return -1;
+	if (listEnemigo->NoChildren())
+		return -1;
+	XMLNode * elemEnemigo = NULL;
+	//se obtiene el 1er enemigo <avionEnemigo>
+	XMLNode * data1ErEne = listEnemigo->FirstChild();
+	//se copia el ptr del 1er enemigo a un puntero a nodo para leer luego los sgtes mjs
+	elemEnemigo = data1ErEne;
+	while (elemEnemigo != listEnemigo->LastChild()){
+		//se valida el enemigo
+		if ( validarEnemigoXml((XMLElement*)elemEnemigo) < 0)
+			return -1;
+		//leo siguiente enemigo
+		elemEnemigo = elemEnemigo->NextSibling();
+	}
+	//leo el ultimo enemigo dado que elemEnemigo es el lastchild
+	//se valida el enemigo
+	if ( validarEnemigoXml((XMLElement*)elemEnemigo) < 0)
+		return -1;
+	return 0;
+}
+
+int ParserXml::validarEnemigoXml(XMLElement* elemEnemigo){
+	if (elemEnemigo == NULL)
+		return -1;
+	//error en tag de ventana
+	if (strcmp(elemEnemigo->Name(),"avionEnemigo") != 0)
+		return -1;
+	if (elemEnemigo->NoChildren())
+		return -1;
+	//--------------------------------------------
+	XMLElement* elemTipo= (XMLElement*)elemEnemigo->FirstChild();
+	//error en tag de tipo
+	if (strcmp(elemTipo->Name(),"tipo") != 0)
+		return -1;
+	char *tipo = (char*)elemTipo->GetText();
+	if (isValidString(tipo) < 0)
+		return -1;
+	//--------------------------------------------
+	XMLElement* elemIdSprite = (XMLElement*)elemTipo->NextSibling();
+	//error en tag de spriteId
+	if (strcmp(elemIdSprite->Name(),"spriteId") != 0)
+		return -1;
+	char *sprite = (char*)elemIdSprite->GetText();
+	if (isValidString(sprite) < 0)
+		return -1;
+	//--------------------------------------------
+	XMLElement* elemPosicion = (XMLElement*)elemIdSprite->NextSibling();
+	if (elemPosicion != NULL){
+		if ( validarPosicionXml((XMLElement*)elemPosicion) < 0)
+			return -1;
+		if (elemEnemigo->LastChild() != elemPosicion)
+			return -1;
+	}
+
+	return 0;
+}
+int ParserXml::validarListPowerXml(XMLElement* listPower){
+	if (listPower == NULL)
+		return -1;
+	//error en tag de listPower
+	if (strcmp(listPower->Name(),"powerUps") != 0)
+		return -1;
+	if (listPower->NoChildren())
+		return -1;
+
+	XMLNode * elemPow = NULL;
+	//se obtiene el 1er mensaje <mensaje>
+	XMLNode * data1ErElem = listPower->FirstChild();
+	//se copia el ptr del 1er mensaje a un puntero a nodo para leer luego los sgtes mjs
+	elemPow = data1ErElem;
+	while (elemPow != listPower->LastChild()){
+		//se valida el mensaje
+		if ( validarPowerXml((XMLElement*)elemPow) < 0)
+			return -1;
+		//leo siguiente mensaje
+		elemPow = elemPow->NextSibling();
+	}
+	//leo el ultimo mensaje dado que elemE es el lastchild
+	//se valida el mensaje
+	if ( validarPowerXml((XMLElement*)elemPow) < 0)
+		return -1;
+	return 0;
+}
+int ParserXml::validarPowerXml(XMLElement* elemPower){
+	if (elemPower == NULL)
+		return -1;
+	//error en tag de ventana
+	if (strcmp(elemPower->Name(),"powerUp") != 0)
+		return -1;
+	if (elemPower->NoChildren())
+		return -1;
+	//--------------------------------------------
+	XMLElement* elemTipo = (XMLElement*)elemPower->FirstChild();
+	//error en tag de tipo
+	if (strcmp(elemTipo->Name(),"tipo") != 0)
+		return -1;
+	char *tipo = (char*)elemTipo->GetText();
+	if (isValidString(tipo) < 0)
+		return -1;
+	//--------------------------------------------
+	XMLElement* elemIdSprite = (XMLElement*)elemTipo->NextSibling();
+	//error en tag de spriteId
+	if (strcmp(elemIdSprite->Name(),"spriteId") != 0)
+		return -1;
+	char *sprite = (char*)elemIdSprite->GetText();
+	if (isValidString(sprite) < 0)
+		return -1;
+	//--------------------------------------------
+	XMLElement* elemPosicion = (XMLElement*)elemIdSprite->NextSibling();
+	if (elemPosicion != NULL){
+		if ( validarPosicionXml((XMLElement*)elemPosicion) < 0)
+			return -1;
+		if (elemPower->LastChild() != elemPosicion)
+			return -1;
+	}
+	return 0;
+}
+
 void ParserXml::vincularYValidarEntidades(ServidorXml *servidorXml){
 	//buscar los sprites
 	//mapa con los IDs de los sprites

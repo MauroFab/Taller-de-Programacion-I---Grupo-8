@@ -14,9 +14,9 @@ public:
 	AvionModel * avionModel;
 	SpriteXml * spriteXml;
 //(agregacion)referencia a la textura
-	SDL_Texture * textura;
+//	SDL_Texture * textura;
 //(composicion) posicion actual de este elemento
-	SDL_Rect posicion;		
+//	SDL_Rect posicion;		
 public:
 	AvionView();
 	AvionView(AvionModel * avionModel,SpriteXml * spriteXml);

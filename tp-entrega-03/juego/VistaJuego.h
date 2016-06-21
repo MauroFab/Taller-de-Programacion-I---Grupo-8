@@ -41,6 +41,19 @@ public:
 	FondoView * fondoView;
 	//por ahora solo 1(UNA) bala, pero deberian ser N balas, 1 por avion
 	BalaView * balaView;
+private:
+	ControladorTeclado* controlador;
+	static VistaJuego* instance;
+	Jugador * jugador;//este objeto contiene los datos del jugador, por ahora solo el id_cliente
+	int ventanaAncho;
+	int ventanaAlto;
+	bool jugar; // para avisar que debe de inciar el juego
+
+	SDL_Window* gWindow;
+	SDL_Renderer* gRenderer;
+
+	SDL_mutex *mut; // mutex para proteger la lista de movimientos
+	EstadoJuego* estadoJuego;
 public:
 
 	static VistaJuego* getInstance();
@@ -77,30 +90,16 @@ public:
 	//se encarga del reset de los aviones liberando la memoria usada por los objetos
 	//tanto de la view como de los que estos contienen
 	int resetAviones();
-	void agregarObservadorAlControlador(Observador* observador);
+	void agregarObservador(Observador* observador);
 
 private:
-	ControladorTeclado* controlador;
-	static bool instanceFlag;
-	static VistaJuego* instance;
 	VistaJuego();
-	Jugador * jugador;//este objeto contiene los datos del jugador, por ahora solo el id_cliente
-	int ventanaAncho;
-	int ventanaAlto;
-	bool jugar; // para avisar que debe de inciar el juego
-
 	//este metodo dibuja un fondo incial
 	//pero su tamaño esta harcodeado, deberia sacarse
 	void dibujarFondoInicio();
 
 	// Inicializa la musica de fondo, disparos y explosiones
 	void inicializarMusica();
-
-	SDL_Window* gWindow;
-	SDL_Renderer* gRenderer;
-
-	SDL_mutex *mut; // mutex para proteger la lista de movimientos
-	EstadoJuego* estadoJuego;
 };
 
 #endif //_VISTAJUEGO_H_

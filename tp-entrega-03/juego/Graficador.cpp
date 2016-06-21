@@ -90,9 +90,8 @@ void Graficador::actualizarMapa(EstadoMapa* estadoMapa) {
 
 void Graficador::graficarJuego(EstadoJuego* estadoJuego, int idDelJugador){
 	actualizarMapa(estadoJuego->getEstadoDelMapa());
-	graficarMapa();
-	estadoJuego->getEstadoDeLosAviones();
+	graficarMapa();	
 	graficarAviones(estadoJuego->getEstadoDeLosAviones(), idDelJugador);
-	int puntajeQueEnAlgunMomentoSeRecibiraDelServidor = 0;
-	Graficador::getInstance()->graficarPuntaje(puntajeQueEnAlgunMomentoSeRecibiraDelServidor);
+	int puntajeServidor = 0;
+	Graficador::getInstance()->graficarPuntaje(puntajeServidor);
 }

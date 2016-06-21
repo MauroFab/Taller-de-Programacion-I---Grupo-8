@@ -79,7 +79,7 @@ public:
 	int chequearConexion(int len);
 	int menu();
 	//realiza la conexion y copia todo el modelo desde el cliente
-	int conectar();
+	int conectarYEjecutar();
 	int inicio();
 	int desconectar();
 	int salir();
