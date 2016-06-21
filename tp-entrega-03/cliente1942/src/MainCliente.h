@@ -51,7 +51,6 @@ class MainCliente : public Observador
 {
 private:
 
-	static bool instanceFlag;
     static MainCliente *single;
 
 	SOCKET sock;
@@ -73,7 +72,6 @@ private:
 	//se almancena todo el modelo parseado
 	ServidorXml * servidorXml;
 public:
-	
 	static MainCliente* getInstance();
 	virtual ~MainCliente();
 	void parsearArchivoXml(int argc, char* argv[]);
