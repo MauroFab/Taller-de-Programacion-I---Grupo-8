@@ -166,25 +166,25 @@ void Avion::realizarAccionEnBaseA(Evento* evento){
 		this->darVelocidadHaciaLaIzquierda();
        break;
     case soltadaLaTeclaDeMovimientoHaciaIzquierda   :
-		this->quitarVelocidadHaciaLaIzquierda();
+		this->darVelocidadHaciaLaDerecha();
        break; 
 	case apretadaLaTeclaDeMovimientoHaciaDerecha   :
 		this->darVelocidadHaciaLaDerecha();
        break; 
 	case soltadaLaTeclaDeMovimientoHaciaDerecha    :
-		this->quitarVelocidadHaciaLaDerecha();
+		this->darVelocidadHaciaLaIzquierda();
        break; 
 	case apretadaLaTeclaDeMovimientoHaciaArriba   :
 		this->darVelocidadHaciaArriba();
        break; 
 	case soltadaLaTeclaDeMovimientoHaciaArriba  :
-		this->quitarVelocidadHaciaArriba();
+		this->darVelocidadHaciaAbajo();
        break; 
 	case apretadaLaTeclaDeMovimientoHaciaAbajo  :
 		this->darVelocidadHaciaAbajo();
        break; 
 	case soltadaLaTeclaDeMovimientoHaciaAbajo  :
-		this->quitarVelocidadHaciaAbajo();
+		this->darVelocidadHaciaArriba();
        break; 
 	case apretadaLaTeclaDeDisparo :
 		this->disparar();
@@ -198,28 +198,36 @@ void Avion::realizarAccionEnBaseA(Evento* evento){
 void Avion::darVelocidadHaciaArriba(){
 	velocidadY += velocidad;
 }
+/*
 void Avion::quitarVelocidadHaciaArriba(){
 	velocidadY -= velocidad;
 }
+*/
+//borrar
 void Avion::darVelocidadHaciaAbajo(){
 	velocidadY -= velocidad;
 }
+/*
 void Avion::quitarVelocidadHaciaAbajo(){
 	velocidadY += velocidad;
 }
-
+*/
 void Avion::darVelocidadHaciaLaDerecha(){
 	velocidadX += velocidad;
 }
+/*
 void Avion::quitarVelocidadHaciaLaDerecha(){
 	velocidadX -= velocidad;
 }
+*/
 void Avion::darVelocidadHaciaLaIzquierda(){
 	velocidadX -= velocidad;
 }
+/*
 void Avion::quitarVelocidadHaciaLaIzquierda(){
 	velocidadX += velocidad;
 }
+*/
 
 void Avion::disparar(){
 	int miPosicionEnY;

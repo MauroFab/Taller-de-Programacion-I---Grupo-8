@@ -49,14 +49,10 @@ class Avion {
     private:
 
 		void darVelocidadHaciaArriba();
-		void quitarVelocidadHaciaArriba();
 		void darVelocidadHaciaAbajo();	
-		void quitarVelocidadHaciaAbajo();
 
 		void darVelocidadHaciaLaDerecha();
-		void quitarVelocidadHaciaLaDerecha();
 		void darVelocidadHaciaLaIzquierda();
-		void quitarVelocidadHaciaLaIzquierda(); 
 
 		void disparar();
 		void hacerUnRoll();
