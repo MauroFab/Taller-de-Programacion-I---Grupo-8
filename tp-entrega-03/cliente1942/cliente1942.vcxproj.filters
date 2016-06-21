@@ -302,9 +302,6 @@
     <ClInclude Include="..\juego\ElementoDelMapa.h">
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
-    <ClInclude Include="..\juego\ICargable.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\MensajeSeguro.h">
       <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>

@@ -180,7 +180,6 @@
     <ClInclude Include="..\juego\GraficoAvion.h" />
     <ClInclude Include="..\juego\GraficoProyectil.h" />
     <ClInclude Include="..\juego\GraficoMapa.h" />
-    <ClInclude Include="..\juego\ICargable.h" />
     <ClInclude Include="..\juego\TextField.h" />
     <ClInclude Include="..\juego\TexturaFuente.h" />
     <ClInclude Include="..\juego\VistaJuego.h" />
