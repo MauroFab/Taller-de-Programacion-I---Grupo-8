@@ -14,7 +14,7 @@
 #include <list>
 #include "../common/Evento.h"
 #include "../servidor1942/src/SuperficieOcupada.h"
-#include "../servidor1942/src/AvionEnemigo.h"
+#include "../servidor1942/src/FakeAvionEnemigo.h"
 
 class Avion {
 
@@ -32,7 +32,7 @@ class Avion {
 		//Para definir un comportamiento, si esta en colision disparara
 		//Se puede cambiar al avionEnemigo por una lista de avionesEnemigo posteriormente
 
-		void mover(AvionEnemigo avionEnemigo);
+		void mover(FakeAvionEnemigo avionEnemigo);
 
 		//Este mover no considera ningun tipo de colision
 		void mover();
@@ -58,7 +58,7 @@ class Avion {
 		void hacerUnRoll();
 
 		void continuarMovimientoDelAvion();
-		void continuarMovimientoDelAvion(AvionEnemigo avionEnemigo);
+		void continuarMovimientoDelAvion(FakeAvionEnemigo avionEnemigo);
 		void continuarMovimientoDeLosProyectiles();
 		void eliminarLosProyectilesQueSalieronDeLaPantalla();
 		int velocidad;

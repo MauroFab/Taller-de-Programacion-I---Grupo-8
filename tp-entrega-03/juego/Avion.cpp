@@ -81,7 +81,7 @@ void Avion::continuarMovimientoDelAvion(){
 	}
 }
 
-void Avion::continuarMovimientoDelAvion(AvionEnemigo avionEnemigo){
+void Avion::continuarMovimientoDelAvion(FakeAvionEnemigo avionEnemigo){
 	//Los movimientos se hacen unidimensionalmente
 	//Primero en X y luego en Y
 	SuperficieOcupada hitbox;
@@ -127,7 +127,7 @@ void Avion::mover() {
 
 }
 
-void Avion::mover(AvionEnemigo avionEnemigo) {
+void Avion::mover(FakeAvionEnemigo avionEnemigo) {
 	continuarMovimientoDelAvion(avionEnemigo);
 	//Avanzo los proyectiles
 	continuarMovimientoDeLosProyectiles();

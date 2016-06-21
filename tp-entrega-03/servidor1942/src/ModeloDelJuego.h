@@ -21,7 +21,7 @@ public:
 private:
 	EstadoAvion* obtenerEstadoDelAvionDelJugador(int id);
 	//Este es un avion enemigo que creo fijo para empezar a probar las colisiones
-	AvionEnemigo* avionEnemigo;
+	FakeAvionEnemigo* avionEnemigo;
 	void darPosicionInicialAAviones();
 	Avion** avion;
 	Mapa* mapa;
