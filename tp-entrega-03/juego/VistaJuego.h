@@ -13,7 +13,7 @@
 #include "EstadoJuego.h"
 //#include "ICargable.h"
 #include "CacheSonido.h"
-#include "Controlador\Controlador.h"
+#include "Controlador.h"
 #include "../common/observer/Observable.h"
 #include "../common/xml/ServidorXml.h"
 #include "../common/view/ElementoView.h"
