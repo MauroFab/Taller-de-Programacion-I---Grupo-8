@@ -127,7 +127,7 @@ void Avion::mover() {
 
 }
 
-/*
+
 void Avion::mover(FakeAvionEnemigo avionEnemigo) {
 	continuarMovimientoDelAvion(avionEnemigo);
 	//Avanzo los proyectiles
@@ -137,7 +137,7 @@ void Avion::mover(FakeAvionEnemigo avionEnemigo) {
 		eliminarLosProyectilesQueSalieronDeLaPantalla();
 
 }
-*/
+
 
 EstadoAvion* Avion::getEstado() {
 	int miPosicionEnY;
