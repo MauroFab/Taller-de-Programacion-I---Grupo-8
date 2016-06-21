@@ -186,7 +186,7 @@ bool MainServidor::isHayBytes(int sizeBytesIn){
 	return(sizeBytesIn > 0);
 }
 
-void MainServidor::actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvionXml* estadoAvion){
+void MainServidor::actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvion* estadoAvion){
 	Posicion posicion;
 	posicion.setPosX(estadoAvion->getPosX());
 	posicion.setPosY(estadoAvion->getPosY());
@@ -334,7 +334,7 @@ void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuar
 void MainServidor::enviarEstadoAvionXmlxQueYaEmpezoElJuego(SOCKET* socket){
 	char buffEnvio[MAX_BUFFER];
 	//indica el estado inicial de la partida
-	EstadoAvionXml estadoAvionXmlInicial(-1,0,0,0);
+	EstadoAvion estadoAvionXmlInicial(-1,0,0,0);
 	estadoAvionXmlInicial.calculateSizeBytes();
 	int sizeEnvio = Protocolo::codificar(estadoAvionXmlInicial, buffEnvio);
 	MensajeSeguro::enviar(*socket, buffEnvio, sizeEnvio);

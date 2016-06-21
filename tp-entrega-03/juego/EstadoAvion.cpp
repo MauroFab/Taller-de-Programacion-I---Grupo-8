@@ -7,6 +7,7 @@ EstadoAvion::EstadoAvion() {
 	this->frame = -1;
 	this->posX = -1;
 	this->posY = -1;
+	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;
 }
 EstadoAvion::EstadoAvion(int id, int frame, int posX, int posY) {
 	this->sizeBytes = -1;
@@ -14,6 +15,7 @@ EstadoAvion::EstadoAvion(int id, int frame, int posX, int posY) {
 	this->frame = frame;
 	this->posX = posX;
 	this->posY = posY;
+	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;
 }
 
 EstadoAvion::~EstadoAvion(void) {
@@ -25,13 +27,7 @@ EstadoAvion::~EstadoAvion(void) {
 }
 
 int EstadoAvion::getSizeBytes(){
-	int tamanioTotal = 
-	     sizeof(int) //sizeBytes
-		+ sizeof(int)  //id
-		+ sizeof(int) //frame
-		+ sizeof(int) //posX
-		+ sizeof(int); //posY
-	return tamanioTotal;
+	return this->sizeBytes;
 }
 
 void EstadoAvion::calculateSizeBytes(){
@@ -77,7 +73,7 @@ int EstadoAvion::getPosY() {
 void EstadoAvion::agregarEstadoProyectil(EstadoProyectil* estadoProyectil){
 	this->estadosProyectiles.push_back(estadoProyectil);
 }
-
+/*
 void EstadoAvion::setEstadoProyectiles(std::list<EstadoProyectil*> lista) {
 
 	std::list<EstadoProyectil*>::iterator it;
@@ -90,8 +86,11 @@ void EstadoAvion::setEstadoProyectiles(std::list<EstadoProyectil*> lista) {
 		this->estadosProyectiles.push_back(*it);
 	}
 }
-
+*/
 std::list<EstadoProyectil*> EstadoAvion::getEstadosProyectiles(){
 	return this->estadosProyectiles;
 }
 
+void EstadoAvion::toString(TCadena1000 cadena){
+	sprintf(cadena,"\nEstadoAvion: sizeBytes=%d,id=%d,frame=%d,posX=%d,posY=%d",sizeBytes,id,frame,posX, posY);
+}

@@ -6,7 +6,8 @@
 #include <list>
 using namespace std;
 
-class EstadoAvion {
+#include "../common/IGenericaVO.h"
+class EstadoAvion : public IGenericaVO{
 private:
 
 	int sizeBytes;
@@ -36,8 +37,9 @@ public:
 	int getPosY();
 
 	list<EstadoProyectil*> getEstadosProyectiles();
-	void setEstadoProyectiles(std::list<EstadoProyectil*> lista);
+//	void setEstadoProyectiles(std::list<EstadoProyectil*> lista);
 	void agregarEstadoProyectil(EstadoProyectil* estadoProyectil);
 
+	void toString(TCadena1000 cadena);	
 };
 #endif //_ESTADOAVION_H_

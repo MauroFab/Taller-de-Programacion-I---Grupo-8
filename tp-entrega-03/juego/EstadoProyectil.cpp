@@ -56,3 +56,6 @@ int EstadoProyectil::getPosY() {
 	return this->posY;
 }
 
+void EstadoProyectil::toString(TCadena1000 cadena){
+	sprintf(cadena,"\nEstadoProyectil: sizeBytes=%d,frame=%d,posX=%d,posY=%d", sizeBytes,frame,posX, posY);
+}

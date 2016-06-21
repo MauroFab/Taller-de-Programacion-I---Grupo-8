@@ -85,8 +85,6 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\common\estado\EstadoAvionXml.cpp" />
-    <ClCompile Include="..\common\estado\EstadoProyectilXml.cpp" />
     <ClCompile Include="..\common\evento.cpp" />
     <ClCompile Include="..\common\Jugador.cpp" />
     <ClCompile Include="..\common\MensajeSeguro.cpp" />
@@ -139,8 +137,6 @@
     <ClCompile Include="..\common\xml\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\common\estado\EstadoAvionXml.h" />
-    <ClInclude Include="..\common\estado\EstadoProyectilXml.h" />
     <ClInclude Include="..\common\evento.h" />
     <ClInclude Include="..\common\Jugador.h" />
     <ClInclude Include="..\common\MensajeSeguro.h" />

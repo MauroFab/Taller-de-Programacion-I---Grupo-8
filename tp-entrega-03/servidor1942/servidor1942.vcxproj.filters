@@ -31,12 +31,6 @@
     <Filter Include="Archivos de encabezado\Juego">
       <UniqueIdentifier>{160f3223-d6d6-4ae6-8f45-914a6dd6e144}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de código fuente\estado">
-      <UniqueIdentifier>{d24e821c-89ef-40e1-b48b-2a3e6f87342f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\estado">
-      <UniqueIdentifier>{e78bcfe3-bae5-4008-b5d5-bd279f854b69}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AsignadorDeUsuarios.cpp">
@@ -144,12 +138,6 @@
     <ClCompile Include="..\juego\EstadoMapa.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\estado\EstadoProyectilXml.cpp">
-      <Filter>Archivos de código fuente\estado</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\estado\EstadoAvionXml.cpp">
-      <Filter>Archivos de código fuente\estado</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AsignadorDeUsuarios.h">
@@ -256,12 +244,6 @@
     </ClInclude>
     <ClInclude Include="..\juego\EstadoMapa.h">
       <Filter>Archivos de encabezado\Juego</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\estado\EstadoProyectilXml.h">
-      <Filter>Archivos de encabezado\estado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\estado\EstadoAvionXml.h">
-      <Filter>Archivos de encabezado\estado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

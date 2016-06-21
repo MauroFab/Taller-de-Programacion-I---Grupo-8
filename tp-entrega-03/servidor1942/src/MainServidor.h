@@ -27,7 +27,7 @@ using std::ofstream;
 #include "asignadorDeUsuarios.h"
 #include "../../common/xml/ParserXml.h"
 #include "../../common/xml/MensajeXml.h"
-#include "../../common/estado/EstadoAvionXml.h"
+#include "../../juego/EstadoAvion.h"
 #include "../../common/Protocolo.h"
 #include "../../common/MensajeSeguro.h"
 #include "../../juego/Avion.h"
@@ -141,7 +141,7 @@ public:
 	 * @param socket socket_escucha del cliente asociado al id idCliente
 	 */
 	void enviarModeloXmlxConexionAceptadaAl(int idCliente, SOCKET* socket);
-	void actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvionXml* estadoAvion);
+	void actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvion* estadoAvion);
 	/**
 	 * crea un MensajeXml temporalmente que luego enviar por un socket
 	 * @param  socket socket del cliente al que se enviara el mensajeXML

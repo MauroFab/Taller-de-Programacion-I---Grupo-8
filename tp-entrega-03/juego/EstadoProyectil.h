@@ -2,7 +2,10 @@
 #ifndef _ESTADOPROYECTIL_H_
 #define _ESTADOPROYECTIL_H_
 
-class EstadoProyectil {
+#include <stdio.h>
+#include <string.h>
+#include "../common/IGenericaVO.h"
+class EstadoProyectil : public IGenericaVO{
 private:
 	int sizeBytes;
 	int frame;
@@ -25,5 +28,6 @@ public:
 	int getPosX();
 	void setPosY(int posY);
 	int getPosY();
+	void toString(TCadena1000 cadena);	
 };
 #endif //_ESTADOPROYECTIL_H_

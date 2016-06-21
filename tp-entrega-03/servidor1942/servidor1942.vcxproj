@@ -89,8 +89,6 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\common\estado\EstadoAvionXml.cpp" />
-    <ClCompile Include="..\common\estado\EstadoProyectilXml.cpp" />
     <ClCompile Include="..\common\Evento.cpp" />
     <ClCompile Include="..\common\Log.cpp" />
     <ClCompile Include="..\common\MensajeSeguro.cpp" />
@@ -128,8 +126,6 @@
     <ClCompile Include="src\SuperficieOcupada.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\common\estado\EstadoAvionXml.h" />
-    <ClInclude Include="..\common\estado\EstadoProyectilXml.h" />
     <ClInclude Include="..\common\Evento.h" />
     <ClInclude Include="..\common\IGenericaVO.h" />
     <ClInclude Include="..\common\Log.h" />
