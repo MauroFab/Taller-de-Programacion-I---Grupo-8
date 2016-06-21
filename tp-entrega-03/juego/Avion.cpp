@@ -142,7 +142,7 @@ EstadoAvion* Avion::getEstado() {
 	miPosicionEnY = superficieQueOcupo.obtenerPosicion().getPosY();
 	int miPosicionEnX;
 	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
-	EstadoAvion*  estado =  new EstadoAvion(id, frame, miPosicionEnX, miPosicionEnY); 
+	EstadoAvion*  estado =  new EstadoAvion(id, frame, miPosicionEnX, miPosicionEnY);
 	std::list<EstadoProyectil*> lista;
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
@@ -167,67 +167,50 @@ void Avion::realizarAccionEnBaseA(Evento* evento){
        break;
     case soltadaLaTeclaDeMovimientoHaciaIzquierda   :
 		this->darVelocidadHaciaLaDerecha();
-       break; 
+       break;
 	case apretadaLaTeclaDeMovimientoHaciaDerecha   :
 		this->darVelocidadHaciaLaDerecha();
-       break; 
+       break;
 	case soltadaLaTeclaDeMovimientoHaciaDerecha    :
 		this->darVelocidadHaciaLaIzquierda();
-       break; 
+       break;
 	case apretadaLaTeclaDeMovimientoHaciaArriba   :
 		this->darVelocidadHaciaArriba();
-       break; 
+       break;
 	case soltadaLaTeclaDeMovimientoHaciaArriba  :
 		this->darVelocidadHaciaAbajo();
-       break; 
+       break;
 	case apretadaLaTeclaDeMovimientoHaciaAbajo  :
 		this->darVelocidadHaciaAbajo();
-       break; 
+       break;
 	case soltadaLaTeclaDeMovimientoHaciaAbajo  :
 		this->darVelocidadHaciaArriba();
-       break; 
+       break;
 	case apretadaLaTeclaDeDisparo :
 		this->disparar();
-       break; 
+       break;
 	case apretadaLaTeclaDeRoll  :
 		this->hacerUnRoll();
-       break; 
+       break;
 	}
 }
 //BUG-000 aca hay un error pues plantea que se suma la misma velocidad en ambas coordenadas
+//deltaY <-- (+vel)
 void Avion::darVelocidadHaciaArriba(){
 	velocidadY += velocidad;
 }
-/*
-void Avion::quitarVelocidadHaciaArriba(){
-	velocidadY -= velocidad;
-}
-*/
-//borrar
+//deltaY <-- (-vel)
 void Avion::darVelocidadHaciaAbajo(){
 	velocidadY -= velocidad;
 }
-/*
-void Avion::quitarVelocidadHaciaAbajo(){
-	velocidadY += velocidad;
-}
-*/
+//deltaX <-- (+vel)
 void Avion::darVelocidadHaciaLaDerecha(){
 	velocidadX += velocidad;
 }
-/*
-void Avion::quitarVelocidadHaciaLaDerecha(){
-	velocidadX -= velocidad;
-}
-*/
+//deltaX <-- (-vel)
 void Avion::darVelocidadHaciaLaIzquierda(){
 	velocidadX -= velocidad;
 }
-/*
-void Avion::quitarVelocidadHaciaLaIzquierda(){
-	velocidadX += velocidad;
-}
-*/
 
 void Avion::disparar(){
 	int miPosicionEnY;
