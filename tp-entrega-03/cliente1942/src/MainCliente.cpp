@@ -1,16 +1,13 @@
 #include "MainCliente.h"
 
-bool MainCliente::instanceFlag = false;
 MainCliente* MainCliente::single = NULL;
 
 bool MainCliente::serverDesconectado = true;
 bool MainCliente::cerrarConexion = true;
 
 MainCliente* MainCliente::getInstance(){
-
-	if(! instanceFlag){
+	if(single == NULL){
 		single = new MainCliente();
-		instanceFlag = true;
 		return single;
 	}
 	else{
@@ -116,7 +113,6 @@ void MainCliente::grabarEnElLogLaDesconexion(int len){
 	else if (len < 0){
 		// Si es -1 hay un error en la conexion
 		int error = WSAGetLastError();
-
 		if(error == WSAENOTCONN || error == WSAECONNRESET){
 			Log::getInstance()->error( "Se ha desconectado inesperadamente el server");
 		}
@@ -173,15 +169,12 @@ int MainCliente::recibirMensajes(void* ptrSock){
 }
 
 int MainCliente::conectar(){
-
 #ifdef FAKE_DEBUG_CLIENTE
 	VistaJuego::getInstance()->getJugador()->nombreDeUsuario.assign("Cliente-A");
 #else
 	this->ip = VistaInicio::getInstance()->getIP();
 	this->port = VistaInicio::getInstance()->getPuerto();
-	VistaJuego::getInstance()->getJugador()->nombreDeUsuario.assign(VistaInicio::getInstance()->getUsuario());
 #endif
-
 	inicializarConexion();
 
 	if(conectado == true){
@@ -212,7 +205,6 @@ int MainCliente::conectar(){
 
 			// Se rerrcibe la confirmación de la validación del nombre de usuario
 			int len2 = MensajeSeguro::recibir(sock,bufferEntrada);
-
 			if (len2 <= 0){// Es un error
 				chequearConexion(len2);
 			}
@@ -223,7 +215,6 @@ int MainCliente::conectar(){
 				char * respuesta = mensaXml.getValor();
 
 				if (strcmp(respuesta,MSJ_CONEX_ACEPT) == 0){
-
 					// Cierra la vista del menu
 					VistaInicio::getInstance()->close();
 
@@ -250,7 +241,8 @@ int MainCliente::conectar(){
 
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(fun_recibirMensajes, "recibirMensajes", &sock);
-					
+
+					VistaJuego::getInstance()->getJugador()->nombreDeUsuario.assign(VistaInicio::getInstance()->getUsuario());
 					VistaJuego::getInstance()->getJugador()->setIdCliente(atoi(idUsuario));
 					VistaJuego::getInstance()->getJugador()->setPosicionAvion(posicion);
 
@@ -266,7 +258,7 @@ int MainCliente::conectar(){
 
 					Log::getInstance()->error(bufferEntrada);
 
-				#ifndef FAKE_DEBUG_CLIENTE 
+				#ifndef FAKE_DEBUG_CLIENTE
 					VistaInicio::getInstance()->mostrarMensajeInformacion(MSJ_SUPERO_MAX);
 				#endif
 					shutdown(sock,2);
@@ -275,10 +267,8 @@ int MainCliente::conectar(){
 				}
 				else if (strcmp(respuesta, MSJ_USR_YA_CONECT) == 0) {
 					// El server ya tiene un usuario igual y está conectado
-
 					Log::getInstance()->error(bufferEntrada);
-
-				#ifndef FAKE_DEBUG_CLIENTE 
+				#ifndef FAKE_DEBUG_CLIENTE
 					VistaInicio::getInstance()->mostrarMensajeInformacion(MSJ_USR_YA_CONECT);
 				#endif
 
@@ -333,24 +323,18 @@ int MainCliente::menu(){
 #ifndef FAKE_DEBUG_CLIENTE
 		inicio();
 #endif
-
 		conectar();
 	}
-
 	return 0;
 }
 
 int MainCliente::inicio() {
-
 	VistaInicio::getInstance()->inicializar();
-
 	VistaInicio::getInstance()->mostrar();
-
 	return 0;
 }
 
 int MainCliente::actualizar(Evento* evento){
-
 	char * buffEnvio = new char[MAX_BUFFER];
 	int sizeBytesTotalLista = Protocolo::codificar(*evento,buffEnvio);
 	int estado=0;
