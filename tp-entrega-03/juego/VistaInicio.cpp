@@ -1,12 +1,10 @@
 #include "VistaInicio.h"
 
-bool VistaInicio::instanceFlag = false;
 VistaInicio* VistaInicio::instance = NULL;
 
 VistaInicio* VistaInicio::getInstance() {
-	if (!instanceFlag) {
+	if (instance == NULL) {
 		instance = new VistaInicio();
-		instanceFlag = true;
 	}
 	return instance;
 }
@@ -15,8 +13,7 @@ VistaInicio::VistaInicio() {
 	this->ventanaAncho = WIDTH;
 	this->ventanaAlto = HEIGHT;
 	gWindow = NULL;
-	gRenderer = NULL;
-	
+	gRenderer = NULL;	
 }
 
 VistaInicio::~VistaInicio(void) {

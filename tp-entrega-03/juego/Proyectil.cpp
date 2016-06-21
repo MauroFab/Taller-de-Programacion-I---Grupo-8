@@ -1,14 +1,9 @@
 #include "Proyectil.h"
 
 Proyectil::Proyectil(BalaView * balaView) {
-
     velocidadX = 0;
     velocidadY = 0;
-
 	frame = 0;
-
-//	ConfiguracionProyectilXML* configProyectil = ConfiguracionJuegoXML::getInstance()->getConfiguracionProyectil();
-	//BalaView * balaView = ConfiguracionJuegoXML::getInstance()->balaView;
 
 	altoFotograma = balaView->spriteXml->getAlto();
 	anchoFotograma = balaView->spriteXml->getAncho();

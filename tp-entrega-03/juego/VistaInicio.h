@@ -39,7 +39,6 @@ public:
 
 private:
 	VistaInicio();
-	static bool instanceFlag;
 	static VistaInicio* instance;
 
 	void cargarFondos();
