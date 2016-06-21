@@ -19,7 +19,7 @@ public:
 	
 	EstadoProyectilXml();
 	EstadoProyectilXml(int frame, int posX, int posY);
-	virtual ~EstadoProyectilXml();
+	~EstadoProyectilXml();
     
 	void setId(int id);
 	int getId();

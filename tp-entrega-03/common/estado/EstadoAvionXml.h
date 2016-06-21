@@ -40,10 +40,8 @@ public:
 	void setPosY(int posY);
 	int getPosY();
 
-	void agregarEstadoProyectil(EstadoProyectilXml* estadoProyectil);
 	list<EstadoProyectilXml*> getEstadosProyectiles();
-
-	void eliminarProyectiles();
+	void agregarEstadoProyectil(EstadoProyectilXml* estadoProyectil);	
 
 	void toString(TCadena1000 cadena);	
 
@@ -51,8 +49,6 @@ public:
 	//estatica. Y otras veces en forma dinamica. En los casos donde esta con memoria estatica
 	//No llamar
 	void EstadoAvionXml::liberarMemoriaProyectiles();
-
-
 };
 
 #endif //_ESTADOAVIONXML_H_

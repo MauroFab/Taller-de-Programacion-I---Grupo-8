@@ -6,10 +6,11 @@ EstadoProyectilXml::EstadoProyectilXml()
 	this->frame = -1;
 	this->posX = -1;
 	this->posY = -1;
+	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;	
 }
 
 EstadoProyectilXml::EstadoProyectilXml(int frame,int posX, int posY){
-
+	this->sizeBytes = -1;
 	this->frame = frame;
 	this->posX = posX;
 	this->posY = posY;
@@ -20,7 +21,7 @@ EstadoProyectilXml::~EstadoProyectilXml(){
 }
 
 void EstadoProyectilXml::setId(int id){
-	id = id;
+	
 }
 int EstadoProyectilXml::getId(){
 	return -1;//this->id;

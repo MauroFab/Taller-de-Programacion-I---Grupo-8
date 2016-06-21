@@ -19,9 +19,7 @@ EstadoAvionXml::EstadoAvionXml(int id,int frame,int posX, int posY){
 }
 
 EstadoAvionXml::~EstadoAvionXml(){
-
-	eliminarProyectiles();
-
+	estadosProyectiles.clear();
 }
 
 int EstadoAvionXml::getSizeBytes(){
@@ -76,10 +74,6 @@ void EstadoAvionXml::liberarMemoriaProyectiles(){
 	for (it = estadosProyectiles.begin(); it != estadosProyectiles.end(); it++) {
 		delete (*it);
 	}
-	eliminarProyectiles();
-}
-
-void EstadoAvionXml::eliminarProyectiles(){
 	estadosProyectiles.clear();
 }
 
