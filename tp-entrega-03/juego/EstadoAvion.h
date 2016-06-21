@@ -4,6 +4,7 @@
 
 #include "EstadoProyectil.h"
 #include <list>
+using namespace std;
 
 class EstadoAvion {
 private:
@@ -13,15 +14,13 @@ private:
 	int frame;
 	int posX;
 	int posY;
-	std::list<EstadoProyectil*> estadosProyectiles;
+	list<EstadoProyectil*> estadosProyectiles;
 	
 	
 public:
 	EstadoAvion();
 	EstadoAvion(int id, int frame, int posX, int posY);
 	~EstadoAvion();
-
-	std::list<EstadoProyectil*> EstadoAvion::getEstadosProyectiles();
 
 	//No incluye el tamanio de los proyectiles
 	int getSizeBytes();
@@ -35,6 +34,8 @@ public:
 	int getPosX();
 	void setPosY(int posY);
 	int getPosY();
+
+	list<EstadoProyectil*> getEstadosProyectiles();
 	void setEstadoProyectiles(std::list<EstadoProyectil*> lista);
 	void agregarEstadoProyectil(EstadoProyectil* estadoProyectil);
 

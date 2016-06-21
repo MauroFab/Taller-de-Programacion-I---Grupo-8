@@ -1,29 +1,45 @@
 #include "EstadoProyectil.h"
-
+EstadoProyectil::EstadoProyectil(){
+	this->sizeBytes = -1;
+	this->frame = -1;
+	this->posX = -1;
+	this->posY = -1;
+	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;	
+}
 EstadoProyectil::EstadoProyectil(int frame, int posX, int posY) {
 
+	this->sizeBytes = -1;
 	this->frame = frame;
 	this->posX = posX;
 	this->posY = posY;
-}
-
-EstadoProyectil::EstadoProyectil() {
+	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;
 }
 
 EstadoProyectil::~EstadoProyectil(void) {
 }
-
-int EstadoProyectil::getFrame() {
-	return frame;
+void EstadoProyectil::setId(int id){
+	
+}
+int EstadoProyectil::getId(){
+	return -1;//this->id;
 }
 
 int EstadoProyectil::getSizeBytes(){
-	return(sizeof(int)*4);
+	return this->sizeBytes;
 }
 
+void EstadoProyectil::calculateSizeBytes(){
+	this->sizeBytes =  sizeof(int) //sizeBytes
+		+ sizeof(int) //frame
+		+ sizeof(int) //posX
+		+ sizeof(int); //posY
+}
 
 void EstadoProyectil::setFrame(int frame) {
 	this->frame = frame;
+}
+int EstadoProyectil::getFrame() {
+	return this->frame;
 }
 
 void EstadoProyectil::setPosX(int posX) {
