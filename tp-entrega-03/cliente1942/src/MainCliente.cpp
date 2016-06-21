@@ -179,6 +179,7 @@ int MainCliente::conectar(){
 #else
 	this->ip = VistaInicio::getInstance()->getIP();
 	this->port = VistaInicio::getInstance()->getPuerto();
+	VistaJuego::getInstance()->getJugador()->nombreDeUsuario.assign(VistaInicio::getInstance()->getUsuario());
 #endif
 
 	inicializarConexion();
@@ -250,7 +251,6 @@ int MainCliente::conectar(){
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(fun_recibirMensajes, "recibirMensajes", &sock);
 					
-					VistaJuego::getInstance()->getJugador()->nombreDeUsuario.assign(VistaInicio::getInstance()->getUsuario());
 					VistaJuego::getInstance()->getJugador()->setIdCliente(atoi(idUsuario));
 					VistaJuego::getInstance()->getJugador()->setPosicionAvion(posicion);
 
