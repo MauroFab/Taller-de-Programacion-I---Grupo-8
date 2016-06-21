@@ -366,10 +366,10 @@
       <Filter>Archivos de encabezado\VistaJuego</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\AvionEnemigoXml.h">
-      <Filter>Archivos de código fuente\Parser</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\PowerUpXml.h">
-      <Filter>Archivos de código fuente\Parser</Filter>
+      <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
