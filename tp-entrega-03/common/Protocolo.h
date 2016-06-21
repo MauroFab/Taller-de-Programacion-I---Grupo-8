@@ -11,8 +11,6 @@
 #include "./xml/ElementoXml.h"
 #include "./xml/FondoXml.h"
 #include "./xml/VentanaXml.h"
-#include "./estado/EstadoAvionXml.h"
-#include "./estado/EstadoProyectilXml.h"
 #include "Posicion.h"
 #include "Evento.h"
 #include "../juego/EstadoAvion.h"
@@ -75,14 +73,8 @@ public:
 	static int codificar(ServidorXml &servidorXml,char * buffer);
 	static int decodificar(char * buffer,ServidorXml *servidorXml);
 
-	static int codificar(EstadoAvionXml &estadoProyectilXml,char * buffer);
-	static int decodificar(char * buffer,EstadoAvionXml *estadoProyectilXml);
-
 	static int codificar(EstadoAvion &estadoProyectil,char * buffer);
 	static int decodificar(char * buffer, EstadoAvion *estadoProyectil);
-
-	static int codificar(EstadoProyectilXml &estadoProyectilXml,char * buffer);
-	static int decodificar(char * buffer,EstadoProyectilXml *estadoProyectil);
 
 	static int codificar(EstadoProyectil &estadoProyectil,char * buffer);
 	static int decodificar(char * buffer,EstadoProyectil *estadoProyectil);
