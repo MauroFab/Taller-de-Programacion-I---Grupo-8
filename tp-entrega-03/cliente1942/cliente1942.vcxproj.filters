@@ -46,9 +46,6 @@
     <Filter Include="Archivos de código fuente\VistaJuego\Graficadores">
       <UniqueIdentifier>{1671ec93-e35a-4758-a15d-820560736f25}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de código fuente\VistaJuego\Controlador">
-      <UniqueIdentifier>{8b903f17-177e-4161-b555-7b309248a200}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de encabezado\VistaJuego">
       <UniqueIdentifier>{eb98eb7d-a54c-4011-9cbf-752d12dc704a}</UniqueIdentifier>
     </Filter>
@@ -57,9 +54,6 @@
     </Filter>
     <Filter Include="Archivos de encabezado\VistaJuego\Graficadores">
       <UniqueIdentifier>{256c0389-80a2-4ea8-a813-ebdd8f24d327}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\VistaJuego\Controlador">
-      <UniqueIdentifier>{d994b2cc-d15c-4351-88be-d83993e37712}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -180,9 +174,6 @@
     <ClCompile Include="..\common\evento.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\juego\Controlador\Controlador.cpp">
-      <Filter>Archivos de código fuente\VistaJuego\Controlador</Filter>
-    </ClCompile>
     <ClCompile Include="..\juego\VistaJuego.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
@@ -212,6 +203,9 @@
     </ClCompile>
     <ClCompile Include="..\juego\Etiqueta.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\Controlador.cpp">
+      <Filter>Archivos de código fuente\VistaJuego</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,9 +320,6 @@
     <ClInclude Include="..\common\evento.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\juego\Controlador\Controlador.h">
-      <Filter>Archivos de encabezado\VistaJuego\Controlador</Filter>
-    </ClInclude>
     <ClInclude Include="..\juego\VistaJuego.h">
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
@@ -364,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="..\juego\Etiqueta.h">
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Controlador.h">
+      <Filter>Archivos de encabezado\VistaJuego</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
