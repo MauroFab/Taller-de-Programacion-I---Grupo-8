@@ -3,7 +3,7 @@
 ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsuarios){
 	this->cantidadMaximaDeUsuarios = cantidadMaximaDeUsuarios;
 	crearAviones(servidorXml);
-	darPosicionInicialAAviones();
+	setPosicionInicialListAvion();
 	this->mapa = new Mapa(servidorXml);
 	//Creo un avionEnemigo fijo para probar la colision
 	avionEnemigo = new FakeAvionEnemigo(100,100,50,50,1);
@@ -14,7 +14,7 @@ ModeloDelJuego::~ModeloDelJuego(){
 }
 
 void ModeloDelJuego::crearAviones(ServidorXml* servidorXml){
-	avion = new Avion*;
+	this->listAvion = new Avion*;
 	AvionXml** avionXml;
 	avionXml = servidorXml->getListaAviones();
 	avionXml = servidorXml->getListaAviones();
@@ -40,45 +40,42 @@ void ModeloDelJuego::crearAviones(ServidorXml* servidorXml){
 		spriteAvion = SpriteXml::findSpriteById(avionXml[i]->getIdSpAvion(),spriteXml,servidorXml->getCanSprs());
 		avionModel = new AvionModel(avionXml[i]);
 		avionView = new AvionView(avionModel, spriteAvion);
-		avion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, avionView, balaView);
+		this->listAvion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, avionView, balaView);
 	}
 }
 
 void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento){
-	avion[idDelJugadorQueMandoElEvento]->realizarAccionEnBaseA(evento);
+	this->listAvion[idDelJugadorQueMandoElEvento]->realizarAccionEnBaseA(evento);
 }
 
 // La posición (0,0) es en la esquina inferior izquierda
-void ModeloDelJuego::darPosicionInicialAAviones(){
+void ModeloDelJuego::setPosicionInicialListAvion(){
 	Posicion posicionInicialParaTodos = Posicion(200,50);
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
-		avion[i]->setPosicion(posicionInicialParaTodos);
+		this->listAvion[i]->setPosicion(posicionInicialParaTodos);
 	}
 }
 
 void ModeloDelJuego::actualizarMovimientos(){
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
-		avion[i]->mover(*avionEnemigo);
+		this->listAvion[i]->mover(*avionEnemigo);
 	}
 	this->mapa->actualizar();
 }
 
-EstadoAvion* ModeloDelJuego::obtenerEstadoDelAvionDelJugador(int id){
-	return avion[id]->getEstado();
+EstadoAvion* ModeloDelJuego::getEstadoAvionJugador(int idAvion){
+	return this->listAvion[idAvion]->getEstado();
 }
 
 EstadoJuego* ModeloDelJuego::obtenerEstadoDelJuego(){
 
 	std::list<EstadoAvion*> estadoDeAviones;
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
-		estadoDeAviones.push_back(avion[i]->getEstado());
+		estadoDeAviones.push_back(this->listAvion[i]->getEstado());
 	}
 
 	EstadoMapa* estadoMapa = this->mapa->getEstado();
-	
 	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones, estadoMapa);
-
 	std::list<EstadoAvion*>::iterator it;
-
 	return estadoJuego;
 }

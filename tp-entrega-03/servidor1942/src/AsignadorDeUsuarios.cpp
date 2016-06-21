@@ -3,12 +3,12 @@
 AsignadorDeUsuarios::AsignadorDeUsuarios(int usuariosMaximos){
 	cantidadMaximaDeUsuarios = usuariosMaximos;
 	cantidadDeUsuariosActuales = 0;
-	usuario = new Usuario[usuariosMaximos];
+	listUsuario = new Usuario[usuariosMaximos];
 	for(int i = 0; i<usuariosMaximos; i++){
-		usuario[i].estaConectado = false;
-		usuario[i].estaAsignado = false;
-		usuario[i].colaDeMensajesDeUsuario = new std::queue<EstadoJuego*>;
-		usuario[i].posicion = new Posicion(200, 400);
+		listUsuario[i].estaConectado = false;
+		listUsuario[i].estaAsignado = false;
+		listUsuario[i].colaDeMensajesDeUsuario = new std::queue<EstadoJuego*>;
+		listUsuario[i].posicion = new Posicion(200, 400);
 	}
 }
 
@@ -24,22 +24,22 @@ bool AsignadorDeUsuarios::elServidorEstaLleno(void)
 bool AsignadorDeUsuarios::puedoTenerUsuariosNuevos(){
 	int cantidadDeUsuariosQueSeCrearon = 0;
 	for(int i = 0; i< cantidadMaximaDeUsuarios; i++){
-		if(usuario[i].estaAsignado)
+		if(listUsuario[i].estaAsignado)
 			cantidadDeUsuariosQueSeCrearon++;
 	}
 	return (cantidadDeUsuariosQueSeCrearon < cantidadMaximaDeUsuarios);
 }
 
-bool AsignadorDeUsuarios::nombreDeUsuarioExistente(string nombreDeUsuarioRecibido){
-	bool encontreElNombre;
-	encontreElNombre = false;
+bool AsignadorDeUsuarios::isNombreUsuarioExistente(string nombreDeUsuarioRecibido){
+	bool bNombreEnc = false;
 	for(int i = 0; i< cantidadMaximaDeUsuarios; i++){
-		if(usuario[i].estaAsignado && !encontreElNombre){
-			encontreElNombre = (usuario[i].nombreDeUsuario.compare(nombreDeUsuarioRecibido) == 0);
+		if(listUsuario[i].estaAsignado && !bNombreEnc){
+			printf( "listUsuario[i].nombreDeUsuario %s",listUsuario[i].nombreDeUsuario);
+			bNombreEnc = (listUsuario[i].nombreDeUsuario.compare(nombreDeUsuarioRecibido) == 0);
 		}
 	}
 
-	return encontreElNombre;
+	return bNombreEnc;
 }
 
 bool AsignadorDeUsuarios::estaConectado(string nombre){
@@ -48,16 +48,16 @@ bool AsignadorDeUsuarios::estaConectado(string nombre){
 	int idUsuario;
 	idUsuario = idUsuarioLlamado(nombre);
 	if(idUsuario != -1)
-		return  usuario[idUsuario].estaConectado;
+		return  listUsuario[idUsuario].estaConectado;
 	//Si el usuario no existe devuelve falso
 	return false;
 }
 bool AsignadorDeUsuarios::estaConectado(int id){
-	return (usuario[id].estaConectado);
+	return (listUsuario[id].estaConectado);
 }
 int AsignadorDeUsuarios::idUsuarioLlamado(string nombre){
 	for(int i = 0; i< cantidadMaximaDeUsuarios; i++){
-		if(usuario[i].nombreDeUsuario.compare(nombre) == 0){
+		if(listUsuario[i].nombreDeUsuario.compare(nombre) == 0){
 			return(i);
 		}
 	}
@@ -69,7 +69,7 @@ int AsignadorDeUsuarios::reconectar(string nombreUsuario){
 	int id;
 	id = idUsuarioLlamado(nombreUsuario);
 	if(id != -1){
-		usuario[id].estaConectado = true;
+		listUsuario[id].estaConectado = true;
 		cantidadDeUsuariosActuales++;
 	}
 	return id;
@@ -79,7 +79,7 @@ int AsignadorDeUsuarios::obtenerUnaIdLibre(){
 	bool encontreUnaIdLibre = false;
 	while(!encontreUnaIdLibre && i < cantidadMaximaDeUsuarios){
 		i++;
-		encontreUnaIdLibre = !usuario[i].estaAsignado;
+		encontreUnaIdLibre = !listUsuario[i].estaAsignado;
 	}
 	return i;
 }
@@ -91,9 +91,9 @@ int AsignadorDeUsuarios::crearUsuarioYObtenerId(string nombre){
 	if (!elServidorEstaLleno()){
 
 		idNuevoUsuario = obtenerUnaIdLibre();
-		usuario[idNuevoUsuario].estaAsignado = true;
-		usuario[idNuevoUsuario].estaConectado = true;
-		usuario[idNuevoUsuario].nombreDeUsuario = nombre;
+		listUsuario[idNuevoUsuario].estaAsignado = true;
+		listUsuario[idNuevoUsuario].estaConectado = true;
+		listUsuario[idNuevoUsuario].nombreDeUsuario = nombre;
 		cantidadDeUsuariosActuales++;
 	}
 
@@ -101,24 +101,24 @@ int AsignadorDeUsuarios::crearUsuarioYObtenerId(string nombre){
 }
 
 void AsignadorDeUsuarios::eliminarUsuario(int idUsuario){
-	while(!usuario[idUsuario].colaDeMensajesDeUsuario->empty()){
-		usuario[idUsuario].colaDeMensajesDeUsuario->pop();
+	while(!listUsuario[idUsuario].colaDeMensajesDeUsuario->empty()){
+		listUsuario[idUsuario].colaDeMensajesDeUsuario->pop();
 	}
-	usuario[idUsuario].estaAsignado = false;
-	usuario[idUsuario].estaConectado = false;
+	listUsuario[idUsuario].estaAsignado = false;
+	listUsuario[idUsuario].estaConectado = false;
 	cantidadDeUsuariosActuales--;
 }
 
 void AsignadorDeUsuarios::desconectarUsuario(int idUsuario){
 //	int id;
-	usuario[idUsuario].estaConectado = false;
+	listUsuario[idUsuario].estaConectado = false;
 	cantidadDeUsuariosActuales--;
-	while(!usuario[idUsuario].colaDeMensajesDeUsuario->empty()){
-		usuario[idUsuario].colaDeMensajesDeUsuario->pop();
+	while(!listUsuario[idUsuario].colaDeMensajesDeUsuario->empty()){
+		listUsuario[idUsuario].colaDeMensajesDeUsuario->pop();
 	}
 }
 std::queue<EstadoJuego*>* AsignadorDeUsuarios::obtenerColaDeUsuario(int idUsuario){
-	return usuario[idUsuario].colaDeMensajesDeUsuario;
+	return listUsuario[idUsuario].colaDeMensajesDeUsuario;
 }
 
 int AsignadorDeUsuarios::cantidadDeUsuarios(){
@@ -130,7 +130,7 @@ int AsignadorDeUsuarios::getCantidadMaximaDeUsuarios(){
 }
 
 Posicion* AsignadorDeUsuarios::getPosicionDeUsuario(int idUsuario) {
-	return usuario[idUsuario].posicion;
+	return listUsuario[idUsuario].posicion;
 }
 
 void AsignadorDeUsuarios::setPosicionAUsuario(int idUsuario, Posicion pos) {

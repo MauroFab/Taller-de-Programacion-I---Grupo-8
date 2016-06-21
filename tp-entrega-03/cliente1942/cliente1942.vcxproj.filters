@@ -204,7 +204,7 @@
     <ClCompile Include="..\juego\Etiqueta.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
-    <ClCompile Include="..\juego\Controlador.cpp">
+    <ClCompile Include="..\juego\ControladorTeclado.cpp">
       <Filter>Archivos de código fuente\VistaJuego</Filter>
     </ClCompile>
   </ItemGroup>
@@ -356,7 +356,7 @@
     <ClInclude Include="..\juego\Etiqueta.h">
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
-    <ClInclude Include="..\juego\Controlador.h">
+    <ClInclude Include="..\juego\ControladorTeclado.h">
       <Filter>Archivos de encabezado\VistaJuego</Filter>
     </ClInclude>
   </ItemGroup>

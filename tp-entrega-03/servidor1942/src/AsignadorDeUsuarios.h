@@ -26,7 +26,7 @@ public:
 	//No tratar de liberar la memoria de la cola pedida, simplemente llamar a eliminarUsuario(int idUsuario) al final
 	std::queue<EstadoJuego*>* obtenerColaDeUsuario(int idUsuario);
 	int cantidadDeUsuariosActuales;
-	bool nombreDeUsuarioExistente(string nombreDeUsuario);
+	bool isNombreUsuarioExistente(string nombreDeUsuario);
 	bool estaConectado(string nombreDeUsuario);
 	bool estaConectado(int id);
 	int reconectar(string nombreDeUsuario);
@@ -37,7 +37,7 @@ public:
 	bool puedoTenerUsuariosNuevos();
 private:
 	
-	Usuario* usuario;
+	Usuario* listUsuario;	//contiene un listado de usuarios
 	int idUsuarioLlamado(string nombre);
 	int cantidadMaximaDeUsuarios;
 	int obtenerUnaIdLibre();

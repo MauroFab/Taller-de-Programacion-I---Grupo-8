@@ -31,7 +31,7 @@ VistaJuego::VistaJuego(){
 	}
 	this->canAvionV = 0;
 	this->balaView = NULL;
-	this->controlador = new Controlador();
+	this->controlador = new ControladorTeclado();
 }
 
 VistaJuego::~VistaJuego(){

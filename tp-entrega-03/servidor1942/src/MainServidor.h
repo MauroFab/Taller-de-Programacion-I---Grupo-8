@@ -61,11 +61,10 @@ private:
 		Evento* evento;
 	};
 
-	static bool instanceFlag;
     static MainServidor *single;
 	AsignadorDeUsuarios *usuarios;
 
-	ModeloDelJuego* juego;
+	ModeloDelJuego* modeloJuego;
 
 	int clienteQueSolitaElEstado;
 	int posicionDelMapa;
@@ -159,7 +158,7 @@ public:
 	 * este metodo envia el estado INICIAL del juego/de la partida
 	 * @param socket socket del cliente usado para enviar el estado del avion
 	 */
-	void enviarEstadoAvionXmlxQueYaEmpezoElJuego(SOCKET* socket);
+	void sendEstadoAvionJuegoIniciado(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaLlenoElServidorAl(SOCKET* socket);
 	void enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(SOCKET* socket);
 

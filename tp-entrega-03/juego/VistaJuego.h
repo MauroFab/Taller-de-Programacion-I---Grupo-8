@@ -13,8 +13,8 @@
 #include "EstadoJuego.h"
 //#include "ICargable.h"
 #include "CacheSonido.h"
-#include "Controlador.h"
-#include "../common/observer/Observable.h"
+#include "ControladorTeclado.h"
+//#include "../common/observer/Observable.h"
 #include "../common/xml/ServidorXml.h"
 #include "../common/view/ElementoView.h"
 #include "../common/model/ElementoModel.h"
@@ -80,7 +80,7 @@ public:
 	void agregarObservadorAlControlador(Observador* observador);
 
 private:
-	Controlador* controlador;
+	ControladorTeclado* controlador;
 	static bool instanceFlag;
 	static VistaJuego* instance;
 	VistaJuego();

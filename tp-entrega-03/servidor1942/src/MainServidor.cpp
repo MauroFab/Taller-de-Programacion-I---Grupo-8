@@ -1,5 +1,4 @@
 #include "MainServidor.h"
-bool MainServidor::instanceFlag = false;
 MainServidor* MainServidor::single = NULL;
 /*-------- Estructuras e inicialización --------*/
 struct IdYPunteroAlSocket {
@@ -17,15 +16,16 @@ MainServidor::MainServidor(){
 	this->servidorXml = NULL;
 }
 MainServidor::~MainServidor(){
-	instanceFlag = false;
 	// luego de usarlo se debe borrar
-	if (servidorXml != NULL)
+	if (servidorXml != NULL){
 		delete servidorXml;
+		servidorXml = NULL;
+	}
+
 }
 MainServidor* MainServidor::getInstance(){
-	if(! instanceFlag){
+	if(single==NULL){
 		single = new MainServidor();
-		instanceFlag = true;
 		return single;
 	}
 	else{
@@ -331,7 +331,7 @@ void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuar
  * este metodo envia el estado INICIAL del juego/de la partida
  * @param socket socket del cliente usado para enviar el estado del avion
  */
-void MainServidor::enviarEstadoAvionXmlxQueYaEmpezoElJuego(SOCKET* socket){
+void MainServidor::sendEstadoAvionJuegoIniciado(SOCKET* socket){
 	char buffEnvio[MAX_BUFFER];
 	//indica el estado inicial de la partida
 	EstadoAvion estadoAvionXmlInicial(-1,0,0,0);
@@ -364,7 +364,7 @@ int MainServidor::recibirConexiones(void*){
 				char* usuario = mensajeUsuario.getValor();
 
 				// Si ese nombre de usuario existe
-				if(usuarios->nombreDeUsuarioExistente(usuario)){
+				if(usuarios->isNombreUsuarioExistente(usuario)){
 					// Si ya esta conectado lo rechazo
 					if(usuarios->estaConectado(usuario)){
 						enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuarioAl(socketConexion);
@@ -372,7 +372,7 @@ int MainServidor::recibirConexiones(void*){
 						idYPunteroAlSocket.id = usuarios->reconectar(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
 						enviarModeloXmlxConexionAceptadaAl(idYPunteroAlSocket.id, socketConexion);
-						enviarEstadoAvionXmlxQueYaEmpezoElJuego(socketConexion);
+						sendEstadoAvionJuegoIniciado(socketConexion);
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
 					}
@@ -456,7 +456,7 @@ void MainServidor::comunicarEventosRecibidosAlJuego(){
 		while(!colaDeMensaje.empty()) {
 			mensajeConIdRecibido = colaDeMensaje.front();
 			colaDeMensaje.pop();
-			juego->actualizarElJuegoEnBaseA(mensajeConIdRecibido->evento, mensajeConIdRecibido->id);
+			modeloJuego->actualizarElJuegoEnBaseA(mensajeConIdRecibido->evento, mensajeConIdRecibido->id);
 			delete mensajeConIdRecibido;
 		}
 
@@ -475,7 +475,7 @@ void MainServidor::comunicarElNuevoEstadoDelJuegoALosClientes(){
 			//Cada llamada de obtener, da uno nuevo, luego cuando se saca de una de las colas
 			//Se llama al delete
 			colaDeMensajesDelUsuario = usuarios->obtenerColaDeUsuario(i);
-			estadoJuego = juego->obtenerEstadoDelJuego();
+			estadoJuego = modeloJuego->obtenerEstadoDelJuego();
 			colaDeMensajesDelUsuario->push(estadoJuego);
 			SDL_UnlockMutex(mutColaDeUsuario[i]);
 		}
@@ -498,7 +498,7 @@ int MainServidor::mainPrincipal(){
 	Log::getInstance()->debug("Servidor - Main Principal: se inician los thread recibirConexiones");
 	SDL_UnlockMutex(mutLogger);
 
-	juego = new ModeloDelJuego(servidorXml, usuarios->getCantidadMaximaDeUsuarios());
+	modeloJuego = new ModeloDelJuego(servidorXml, usuarios->getCantidadMaximaDeUsuarios());
 
 	esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
 	avisarATodosLosUsuariosQueComenzoLaPartida();
@@ -507,7 +507,7 @@ int MainServidor::mainPrincipal(){
 	while(!seDebeCerrarElServidor) {
 
 		comunicarEventosRecibidosAlJuego();
-		juego->actualizarMovimientos();
+		modeloJuego->actualizarMovimientos();
 		//Por ahora comuncia estado aviones, deberia comunicar un estadoJuego
 		comunicarElNuevoEstadoDelJuegoALosClientes();
 		

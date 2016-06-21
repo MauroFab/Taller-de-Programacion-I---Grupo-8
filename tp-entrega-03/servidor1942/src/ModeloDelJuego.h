@@ -6,6 +6,7 @@
 #include "../../juego/EstadoJuego.h"
 #include "../../juego/Mapa.h"
 
+//MainServidor
 class ModeloDelJuego {
 
 public:
@@ -19,11 +20,11 @@ public:
 	// liberar cuando se termina de usar
 	EstadoJuego* obtenerEstadoDelJuego();
 private:
-	EstadoAvion* obtenerEstadoDelAvionDelJugador(int id);
+	EstadoAvion* getEstadoAvionJugador(int idAvion);
 	//Este es un avion enemigo que creo fijo para empezar a probar las colisiones
 	FakeAvionEnemigo* avionEnemigo;
-	void darPosicionInicialAAviones();
-	Avion** avion;
+	void setPosicionInicialListAvion();
+	Avion** listAvion;
 	Mapa* mapa;
 	int cantidadMaximaDeUsuarios;
 	void crearAviones(ServidorXml* servidorXml);

@@ -110,7 +110,7 @@
     <ClCompile Include="..\common\StringUtil.cpp" />
     <ClCompile Include="..\common\xml\VentanaXml.cpp" />
     <ClCompile Include="..\juego\CacheSonido.cpp" />
-    <ClCompile Include="..\juego\Controlador.cpp" />
+    <ClCompile Include="..\juego\ControladorTeclado.cpp" />
     <ClCompile Include="..\juego\ElementoDelMapa.cpp" />
     <ClCompile Include="..\juego\EstadoAvion.cpp" />
     <ClCompile Include="..\juego\EstadoJuego.cpp" />
@@ -163,7 +163,7 @@
     <ClInclude Include="..\common\StringUtil.h" />
     <ClInclude Include="..\common\xml\VentanaXml.h" />
     <ClInclude Include="..\juego\CacheSonido.h" />
-    <ClInclude Include="..\juego\Controlador.h" />
+    <ClInclude Include="..\juego\ControladorTeclado.h" />
     <ClInclude Include="..\juego\ElementoDelMapa.h" />
     <ClInclude Include="..\juego\EstadoAvion.h" />
     <ClInclude Include="..\juego\EstadoJuego.h" />

@@ -172,8 +172,11 @@ int MainCliente::conectar(){
 #ifdef FAKE_DEBUG_CLIENTE
 	VistaJuego::getInstance()->getJugador()->nombreDeUsuario.assign("Cliente-A");
 #else
-	this->ip = VistaInicio::getInstance()->getIP();
-	this->port = VistaInicio::getInstance()->getPuerto();
+	VistaJuego * visJue = VistaJuego::getInstance();
+	VistaInicio * visIni = VistaInicio::getInstance();
+	this->ip = visIni->getIP();
+	this->port = visIni->getPuerto();
+	visJue->getJugador()->nombreDeUsuario.assign(visIni->getUsuario());
 #endif
 	inicializarConexion();
 
