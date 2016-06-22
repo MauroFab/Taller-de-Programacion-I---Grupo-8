@@ -19,7 +19,6 @@ public:
 	//valor entre 0..1
 	double fRandom();
 	int calcRandom(int desde, int hasta);
-	double random();
 	double piso(double arg1);
 	double techo(double arg1);
 };
