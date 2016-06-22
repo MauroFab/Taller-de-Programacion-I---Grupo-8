@@ -41,29 +41,42 @@ void Graficador::agregarDatosMapa(FondoView * fondoView, ElementoView* *listaEle
 	graficoMapa = new GraficoMapa(renderer, fondoView, posicionInicial);
 	graficoMapa->crearElementos(listaElementosView, canElemV);
 }
-void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones, int idDelJugador) {
+bool Graficador::estaDestruidoElAvion(EstadoAvion* estadoAvion){
+	return (estadoAvion->getPuntosDeVida() <= 0);
+}
+
+EstadoAvion* Graficador::obtengoElEstadoAvionDelClienteYGraficoLosDemasAviones
+							(std::list<EstadoAvion*> listaAviones, int idDelJugador){
 	std::list<EstadoAvion*>::iterator it;
 	EstadoAvion* estadoDelAvionDeEsteCliente;
-	//Grafico todos los aviones y sus proyectiles, menos el de este cliente
 	for (it = listaAviones.begin(); it != listaAviones.end(); it++) {
-		if((*it)->getId() != idDelJugador){
-			GraficoAvion* grafico = mapaGraficosAvion.at((*it)->getId());
-			SDL_Rect* clip = grafico->getCurrentClip((*it)->getFrame());
-			Textura* textura = grafico->getTextura();
-			textura->render((*it)->getPosX(), this->ventanaAlto - (*it)->getPosY() - textura->getHeight(), renderer, clip);
-			this->graficarProyectiles((*it)->getEstadosProyectiles());
+		if((*it)->getId() != idDelJugador ){
+			if(!estaDestruidoElAvion(*it)){
+				GraficoAvion* grafico = mapaGraficosAvion.at((*it)->getId());
+				SDL_Rect* clip = grafico->getCurrentClip((*it)->getFrame());
+				Textura* textura = grafico->getTextura();
+				textura->render((*it)->getPosX(), this->ventanaAlto - (*it)->getPosY() - textura->getHeight(), renderer, clip);
+				this->graficarProyectiles((*it)->getEstadosProyectiles());
+			}
 		}else{
 			estadoDelAvionDeEsteCliente = (*it);
 		}
 	}
-	//El avion del jugador del cliente debe ser graficado ultimo para que siempre se vea por encima
-	GraficoAvion* grafico = mapaGraficosAvion.at(idDelJugador);
-	SDL_Rect* clip = grafico->getCurrentClip(estadoDelAvionDeEsteCliente->getFrame());
-	Textura* textura = grafico->getTextura();
-	textura->render(estadoDelAvionDeEsteCliente->getPosX(), this->ventanaAlto - estadoDelAvionDeEsteCliente->getPosY() - textura->getHeight(), renderer, clip);
-	this->graficarProyectiles(estadoDelAvionDeEsteCliente->getEstadosProyectiles());
+	return estadoDelAvionDeEsteCliente;
+}
 
-	//grafica los puntos de vida del avion del jugador
+void Graficador::graficoElAvionDelCliente(EstadoAvion* estadoDelAvionDeEsteCliente){
+	if(!estaDestruidoElAvion(estadoDelAvionDeEsteCliente)){
+		//El avion del jugador del cliente debe ser graficado ultimo para que siempre se vea por encima
+		GraficoAvion* grafico = mapaGraficosAvion.at(estadoDelAvionDeEsteCliente->getId());
+		SDL_Rect* clip = grafico->getCurrentClip(estadoDelAvionDeEsteCliente->getFrame());
+		Textura* textura = grafico->getTextura();
+		textura->render(estadoDelAvionDeEsteCliente->getPosX(), this->ventanaAlto - estadoDelAvionDeEsteCliente->getPosY() - textura->getHeight(), renderer, clip);
+		this->graficarProyectiles(estadoDelAvionDeEsteCliente->getEstadosProyectiles());
+	}
+}
+
+void Graficador::graficoLosPuntosDeVidaDelAvionDeEsteCliente(EstadoAvion* estadoDelAvionDeEsteCliente){
 	int intPuntosDeVida = estadoDelAvionDeEsteCliente->getPuntosDeVida();
 	string strVida = static_cast<ostringstream*>( &(ostringstream() << intPuntosDeVida) )->str();
 	string strEtiquetaVida("Vidas: ");
@@ -71,6 +84,18 @@ void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones, int idDel
  	Etiqueta etiqueta(renderer,TTF_OpenFont("sfd/FreeSans.ttf", 24), strEtiquetaVida); 
 	etiqueta.setPosicion(0,600);
 	etiqueta.render();
+}
+
+void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones, int idDelJugador) {
+	
+	//Grafico todos los aviones y sus proyectiles, menos el de este cliente
+	EstadoAvion* estadoDelAvionDeEsteCliente;
+	estadoDelAvionDeEsteCliente =
+		obtengoElEstadoAvionDelClienteYGraficoLosDemasAviones(listaAviones, idDelJugador);
+	//Siempre el avion del cliente propio se grafica al final, asi se ve por encima de los demas
+	graficoElAvionDelCliente(estadoDelAvionDeEsteCliente);
+	graficoLosPuntosDeVidaDelAvionDeEsteCliente(estadoDelAvionDeEsteCliente);
+	
 }
 
 void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles) {

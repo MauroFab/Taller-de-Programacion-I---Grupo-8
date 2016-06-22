@@ -88,7 +88,7 @@ void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &a
 		if(hitbox.meSolapoCon((*it).obtenerSuperficieOcupada()) && !(*it).estaDestruido()){
 			//Cuando colisionan los aviones, danio a ambos
 			this->puntosDeVida--;
-//			(*it).recibeUnImpacto();
+			(*it).recibeUnImpacto();
 		}
 	}
 }

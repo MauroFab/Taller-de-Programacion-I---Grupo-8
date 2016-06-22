@@ -285,6 +285,21 @@ void VistaJuego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMap
 	SDL_mutexV(mut);
 }
 
+//Como no los cargo del xml, lo cargo desde aca.
+void VistaJuego::agregarDatosDeAvionesEnemigosHardcodeados(){
+	char spriteStr[20] = "nave";
+	char path[100] = "nave_mediana.bmp";
+
+	//Que la id sea 100 fue una convencion para los aviones enemigos. Minimamente
+	//Se cambiare a una constante con nombre
+	SpriteXml* spriteNaveEnemiga = new SpriteXml(100, spriteStr,path,1,68,120);
+	AvionXml* avionXml = new AvionXml(100,5,5,100,spriteStr,5,"asd",3,"zxc");
+	AvionModel* avionModel = new AvionModel(avionXml);
+	AvionView** avionView = new AvionView*;
+	avionView[0] = new AvionView(avionModel,spriteNaveEnemiga);
+	Graficador::getInstance()->agregarDatosAviones(avionView,1);
+}
+
 void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
 	static int tamanioMaximoMapa = 2000;
@@ -303,6 +318,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 	Graficador::getInstance()->agregarDatosBala(this->balaView);
 	Graficador::getInstance()->agregarDatosMapa(this->fondoView, this->listaElemView, this->canElemV, posicionInicialMapa);
 
+	agregarDatosDeAvionesEnemigosHardcodeados();
 	/*------------------------------------------------------------------*/
 
 	SDL_Event e;

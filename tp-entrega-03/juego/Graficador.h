@@ -48,8 +48,13 @@ private:
 	std::map<int, GraficoAvion*> mapaGraficosAvion;
 	GraficoProyectil* graficoProyectil;
 	GraficoMapa* graficoMapa;
-
+	bool estaDestruidoElAvion(EstadoAvion* estadoAvion);
 	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
+
+	EstadoAvion* obtengoElEstadoAvionDelClienteYGraficoLosDemasAviones
+								(std::list<EstadoAvion*> listaAviones,int idDelJugador);
+	void graficoElAvionDelCliente(EstadoAvion* estadoAvion);
+	void graficoLosPuntosDeVidaDelAvionDeEsteCliente(EstadoAvion* estadoAvion);
 };
 
 #endif //_GRAFICADOR_H_

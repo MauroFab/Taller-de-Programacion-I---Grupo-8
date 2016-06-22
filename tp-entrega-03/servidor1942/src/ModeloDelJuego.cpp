@@ -6,7 +6,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	setPosicionInicialListAvion();
 	this->mapa = new Mapa(servidorXml);
 	//Creo un avionEnemigo fijo para probar la colision
-	 avionesEnemigos.push_back(FakeAvionEnemigo(100,100,50,50,1));
+	 avionesEnemigos.push_back(FakeAvionEnemigo(200,200,68,120,1));
 }
 
 ModeloDelJuego::~ModeloDelJuego(){
@@ -68,14 +68,19 @@ EstadoAvion* ModeloDelJuego::getEstadoAvionJugador(int idAvion){
 }
 
 EstadoJuego* ModeloDelJuego::obtenerEstadoDelJuego(){
-
+	//Agrego los aviones de los jugadores
 	std::list<EstadoAvion*> estadoDeAviones;
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 		estadoDeAviones.push_back(this->listAvion[i]->getEstado());
 	}
 
+	//Agrego los avionesEnemigos
+	std::list<FakeAvionEnemigo>::iterator it;
+	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
+		estadoDeAviones.push_back((*it).getEstado());
+	}
 	EstadoMapa* estadoMapa = this->mapa->getEstado();
 	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones, estadoMapa);
-	std::list<EstadoAvion*>::iterator it;
+
 	return estadoJuego;
 }

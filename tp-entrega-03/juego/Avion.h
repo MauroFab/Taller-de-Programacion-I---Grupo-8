@@ -7,7 +7,6 @@
 #include <string>
 #include "Textura.h"
 #include "Proyectil.h"
-#include "EstadoAvion.h"
 #include "EstadoProyectil.h"
 #include "../common/view/AvionView.h"
 #include "../common/Posicion.h"

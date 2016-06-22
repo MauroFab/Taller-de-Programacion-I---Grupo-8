@@ -1,6 +1,6 @@
-#ifndef _FAKEAVIONENEMIGO_H_
-#define _FAKEAVIONENEMIGO_H_
 #include "SuperficieOcupada.h"
+#include "../../juego/EstadoAvion.h"
+
 class FakeAvionEnemigo
 {
 public:
@@ -14,15 +14,25 @@ public:
 	//Por ahora quiero mirar colisiones solo cuando muevo el avion del jugador
 	void continuarMovimiento();
 	virtual ~FakeAvionEnemigo();
-	void reducirPuntosDeVidaEn(int puntosDeDanio);
+	
+	//En la id devuelve siempre 100. El cliente la recibe asi. 
+	//Luego se cambiara minimamente a una constante.
+	EstadoAvion* getEstado(); 
+
+	//Dania al avion. A ser usado cuando colisiona contra algo.
+	void recibeUnImpacto();
+
 	bool estaDestruido();
 
 	SuperficieOcupada obtenerSuperficieOcupada();
 private:
+
+	void reducirPuntosDeVidaEn(int puntosDeDanio);
 	SuperficieOcupada* superficieOcupada;
-	static const int vidaMaximaAvionEnemigo = 1;
+	static const int vidaMaximaFakeAvionEnemigo = 1;
 	int puntosDeVida;
 	int velocidad;
+	int id;
+	int frame;
 };
 
-#endif //_FAKEAVIONENEMIGO_H_
