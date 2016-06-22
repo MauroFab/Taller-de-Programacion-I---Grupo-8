@@ -82,18 +82,18 @@ void Avion::continuarMovimientoDelAvion(){
 	}
 }
 
-void Avion::revisoColisiones(SuperficieOcupada hitbox, list<AvionEnemigo> &avionesEnemigos){
-	std::list<AvionEnemigo>::iterator it;
+void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &avionesEnemigos){
+	std::list<FakeAvionEnemigo>::iterator it;
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
 		if(hitbox.meSolapoCon((*it).obtenerSuperficieOcupada()) && !(*it).estaDestruido()){
 			//Cuando colisionan los aviones, danio a ambos
 			this->puntosDeVida--;
-			(*it).recibeUnImpacto();
+//			(*it).recibeUnImpacto();
 		}
 	}
 }
 
-void Avion::continuarMovimientoDelAvion(list<AvionEnemigo> &avionesEnemigos){
+void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos){
 	//Los movimientos se hacen unidimensionalmente
 	//Primero en X y luego en Y
 	SuperficieOcupada hitbox;
@@ -136,7 +136,7 @@ void Avion::mover() {
 }
 
 
-void Avion::mover(list<AvionEnemigo> &avionesEnemigos) {
+void Avion::mover(list<FakeAvionEnemigo> &avionesEnemigos) {
 	continuarMovimientoDelAvion(avionesEnemigos);
 	//Avanzo los proyectiles
 	continuarMovimientoDeLosProyectiles();

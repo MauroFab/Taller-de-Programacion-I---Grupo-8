@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -121,7 +121,7 @@
     <ClCompile Include="..\juego\Mapa.cpp" />
     <ClCompile Include="..\juego\Proyectil.cpp" />
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
-    <ClCompile Include="src\AvionEnemigo.cpp" />
+    <ClCompile Include="src\FakeAvionEnemigo.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainServidor.cpp" />
     <ClCompile Include="src\ModeloDelJuego.cpp" />
@@ -161,7 +161,7 @@
     <ClInclude Include="..\juego\Mapa.h" />
     <ClInclude Include="..\juego\Proyectil.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />
-    <ClInclude Include="src\AvionEnemigo.h" />
+    <ClInclude Include="src\FakeAvionEnemigo.h" />
     <ClInclude Include="src\MainServidor.h" />
     <ClInclude Include="src\ModeloDelJuego.h" />
     <ClInclude Include="src\SuperficieOcupada.h" />

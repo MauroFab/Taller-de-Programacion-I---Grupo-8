@@ -22,7 +22,7 @@ public:
 private:
 	EstadoAvion* getEstadoAvionJugador(int idAvion);
 
-	std::list<AvionEnemigo> avionesEnemigos;
+	std::list<FakeAvionEnemigo> avionesEnemigos;
 	void setPosicionInicialListAvion();
 	Avion** listAvion;
 	Mapa* mapa;

@@ -14,7 +14,7 @@
 #include <list>
 #include "../common/Evento.h"
 #include "../servidor1942/src/SuperficieOcupada.h"
-#include "../servidor1942/src/AvionEnemigo.h"
+#include "../servidor1942/src/FakeAvionEnemigo.h"
 
 class Avion {
 private:
@@ -50,7 +50,7 @@ public:
 	//Este es uno que valida la colision, y cambia el estado del avion en base a eso
 	//Se puede cambiar al avionEnemigo por una lista de avionesEnemigo posteriormente
 
-	void mover(list<AvionEnemigo> &avionesEnemigos);
+	void mover(list<FakeAvionEnemigo> &avionesEnemigos);
 
 	//Este mover no considera ningun tipo de colision
 	void mover();
@@ -67,7 +67,7 @@ public:
 private:
 
 	void darVelocidadHaciaArriba();
-	void darVelocidadHaciaAbajo();	
+	void darVelocidadHaciaAbajo();
 
 	void darVelocidadHaciaLaDerecha();
 	void darVelocidadHaciaLaIzquierda();
@@ -76,7 +76,7 @@ private:
 	void hacerUnRoll();
 
 	void continuarMovimientoDelAvion();
-	void continuarMovimientoDelAvion(list<AvionEnemigo> &avionesEnemigos);
+	void continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos);
 	void continuarMovimientoDeLosProyectiles();
 	void eliminarLosProyectilesQueSalieronDeLaPantalla();
 	int velocidad;
@@ -88,7 +88,7 @@ private:
 
 	void continuarElRoll();
 
-	void revisoColisiones(SuperficieOcupada hitbox, list<AvionEnemigo> &avionesEnemigos);
+	void revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &avionesEnemigos);
 
 	int centroProyectil;
 public:
