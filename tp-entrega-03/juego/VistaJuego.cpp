@@ -299,7 +299,6 @@ void VistaJuego::agregarDatosDeAvionesEnemigosHardcodeados(){
 	avionView[0] = new AvionView(avionModel,spriteNaveEnemiga);
 	Graficador::getInstance()->agregarDatosAviones(avionView,1);
 }
-
 void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
 	static int tamanioMaximoMapa = 2000;
@@ -346,6 +345,13 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 		SDL_RenderClear( gRenderer );
 
 		SDL_mutexP(mut);
+		
+		//actualizar el modelo
+		//=====================================
+		//juego->update();
+		//=====================================
+		
+		//recibir actualizaciones
 		Graficador::getInstance()->graficarJuego(estadoJuego, jugador->getIdCliente());
 		
 		SDL_mutexV(mut);

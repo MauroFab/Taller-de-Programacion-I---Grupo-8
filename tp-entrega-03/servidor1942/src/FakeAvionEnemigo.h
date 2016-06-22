@@ -1,3 +1,5 @@
+#ifndef _FAKEAVIONENEMIGO_H_
+#define _FAKEAVIONENEMIGO_H_
 #include "SuperficieOcupada.h"
 #include "../../juego/EstadoAvion.h"
 
@@ -36,3 +38,4 @@ private:
 	int frame;
 };
 
+#endif //_FAKEAVIONENEMIGO_H_
