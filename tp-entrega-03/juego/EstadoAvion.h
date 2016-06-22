@@ -15,11 +15,12 @@ private:
 	int frame;
 	int posX;
 	int posY;
+	int puntosDeVida;
 	list<EstadoProyectil*> estadosProyectiles;
 	
 public:
 	EstadoAvion();
-	EstadoAvion(int id, int frame, int posX, int posY);
+	EstadoAvion(int id, int frame, int puntosDeVida, int posX, int posY);
 	~EstadoAvion();
 
 	//No incluye el tamanio de los proyectiles
@@ -34,6 +35,8 @@ public:
 	int getPosX();
 	void setPosY(int posY);
 	int getPosY();
+	void setPuntosDeVida(int puntosDeVida);
+	int getPuntosDeVida();
 
 	list<EstadoProyectil*> getEstadosProyectiles();
 //	void setEstadoProyectiles(std::list<EstadoProyectil*> lista);

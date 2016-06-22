@@ -6,7 +6,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	setPosicionInicialListAvion();
 	this->mapa = new Mapa(servidorXml);
 	//Creo un avionEnemigo fijo para probar la colision
-	avionEnemigo = new FakeAvionEnemigo(100,100,50,50,1);
+	avionEnemigo = new AvionEnemigo(100,100,50,50,1);
 }
 
 ModeloDelJuego::~ModeloDelJuego(){

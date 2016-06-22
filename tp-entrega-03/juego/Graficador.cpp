@@ -62,6 +62,15 @@ void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones, int idDel
 	Textura* textura = grafico->getTextura();
 	textura->render(estadoDelAvionDeEsteCliente->getPosX(), this->ventanaAlto - estadoDelAvionDeEsteCliente->getPosY() - textura->getHeight(), renderer, clip);
 	this->graficarProyectiles(estadoDelAvionDeEsteCliente->getEstadosProyectiles());
+
+	//grafica los puntos de vida del avion del jugador
+	int intPuntosDeVida = estadoDelAvionDeEsteCliente->getPuntosDeVida();
+	string strVida = static_cast<ostringstream*>( &(ostringstream() << intPuntosDeVida) )->str();
+	string strEtiquetaVida("Vidas: ");
+	strEtiquetaVida.append(strVida);
+ 	Etiqueta etiqueta(renderer,TTF_OpenFont("sfd/FreeSans.ttf", 24), strEtiquetaVida); 
+	etiqueta.setPosicion(0,600);
+	etiqueta.render();
 }
 
 void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles) {

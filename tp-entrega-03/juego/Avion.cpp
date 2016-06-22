@@ -15,7 +15,8 @@ Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* 
 	id = avionView->avionModel->id;
 	this->balaView = balaView;
 	centroProyectil = balaView->spriteXml->getAncho()/2;
-	superficieQueOcupo = SuperficieOcupada(0,0,anchoAvion,altoAvion);;
+	superficieQueOcupo = SuperficieOcupada(0,0,anchoAvion,altoAvion);
+	puntosDeVida = vidaMaximaAvion;
 }
 
 Avion::~Avion() {
@@ -81,20 +82,22 @@ void Avion::continuarMovimientoDelAvion(){
 	}
 }
 
-void Avion::continuarMovimientoDelAvion(FakeAvionEnemigo avionEnemigo){
+void Avion::continuarMovimientoDelAvion(AvionEnemigo& avionEnemigo){
 	//Los movimientos se hacen unidimensionalmente
 	//Primero en X y luego en Y
 	SuperficieOcupada hitbox;
 	if(!rollFlag){
 		hitbox = actualizarPosicionEnX();
-		if(hitbox.meSolapoCon(avionEnemigo.obtenerSuperficieOcupada())){
-			//Un comportamiento cuando colisiono con un avionEnemigo
-			this->disparar();
+		if(hitbox.meSolapoCon(avionEnemigo.obtenerSuperficieOcupada()) && !avionEnemigo.estaDestruido()){
+			//Cuando colisionan los aviones, danio a ambos
+			this->puntosDeVida--;
+			avionEnemigo.recibeUnImpacto();
 		}
 		hitbox = actualizarPosicionEnY();
-		if(hitbox.meSolapoCon(avionEnemigo.obtenerSuperficieOcupada())){
-			//Un comportamiento cuando colisiono con un avionEnemigo
-			this->disparar();
+		if(hitbox.meSolapoCon(avionEnemigo.obtenerSuperficieOcupada()) && !avionEnemigo.estaDestruido()){
+			//Cuando colisionan los aviones, danio a ambos
+			this->puntosDeVida--;
+			avionEnemigo.recibeUnImpacto();
 		}
 	//Si estoy haciendo un roll, no colisiono tampoco
 	}else{
@@ -128,23 +131,22 @@ void Avion::mover() {
 }
 
 
-void Avion::mover(FakeAvionEnemigo avionEnemigo) {
+void Avion::mover(AvionEnemigo& avionEnemigo) {
 	continuarMovimientoDelAvion(avionEnemigo);
 	//Avanzo los proyectiles
 	continuarMovimientoDeLosProyectiles();
 	//Si hay proyectiles
 	if(!proyectiles.empty())
 		eliminarLosProyectilesQueSalieronDeLaPantalla();
-
 }
 
-
 EstadoAvion* Avion::getEstado() {
+	//Paso una cantidad de puntos de vida cualquiera hasta que lo programe
 	int miPosicionEnY;
 	miPosicionEnY = superficieQueOcupo.obtenerPosicion().getPosY();
 	int miPosicionEnX;
 	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
-	EstadoAvion*  estado =  new EstadoAvion(id, frame, miPosicionEnX, miPosicionEnY);
+	EstadoAvion*  estado =  new EstadoAvion(id, frame, puntosDeVida, miPosicionEnX, miPosicionEnY);
 	std::list<EstadoProyectil*> lista;
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {

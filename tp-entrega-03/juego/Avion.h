@@ -14,7 +14,7 @@
 #include <list>
 #include "../common/Evento.h"
 #include "../servidor1942/src/SuperficieOcupada.h"
-#include "../servidor1942/src/FakeAvionEnemigo.h"
+#include "../servidor1942/src/AvionEnemigo.h"
 
 class Avion {
 private:
@@ -34,6 +34,9 @@ private:
 	int velocidadX;
 	int velocidadY;
 	int id;
+
+	static const int vidaMaximaAvion = 3;
+	int puntosDeVida;
 public:
 
 	Avion(int ventanaAncho, int ventalaAlto, AvionView* avionView, BalaView* balaView);
@@ -45,10 +48,9 @@ public:
 	//Si hay que disparar mas, dispara
 
 	//Este es uno que valida la colision, y cambia el estado del avion en base a eso
-	//Para definir un comportamiento, si esta en colision disparara
 	//Se puede cambiar al avionEnemigo por una lista de avionesEnemigo posteriormente
 
-	void mover(FakeAvionEnemigo avionEnemigo);
+	void mover(AvionEnemigo& avionEnemigo);
 
 	//Este mover no considera ningun tipo de colision
 	void mover();
@@ -74,7 +76,7 @@ private:
 	void hacerUnRoll();
 
 	void continuarMovimientoDelAvion();
-	void continuarMovimientoDelAvion(FakeAvionEnemigo avionEnemigo);
+	void continuarMovimientoDelAvion(AvionEnemigo& avionEnemigo);
 	void continuarMovimientoDeLosProyectiles();
 	void eliminarLosProyectilesQueSalieronDeLaPantalla();
 	int velocidad;

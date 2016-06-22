@@ -7,15 +7,17 @@ EstadoAvion::EstadoAvion() {
 	this->frame = -1;
 	this->posX = -1;
 	this->posY = -1;
-	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;
+	this->puntosDeVida = -1;
+	this->sizeBytes = sizeof(int)*6  ;
 }
-EstadoAvion::EstadoAvion(int id, int frame, int posX, int posY) {
+EstadoAvion::EstadoAvion(int id, int frame, int puntosDeVida, int posX, int posY) {
 	this->sizeBytes = -1;
 	this->id = id;
 	this->frame = frame;
 	this->posX = posX;
 	this->posY = posY;
-	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;
+	this->puntosDeVida = puntosDeVida;
+	this->sizeBytes = sizeof(int)*6;
 }
 
 EstadoAvion::~EstadoAvion(void) {
@@ -36,6 +38,7 @@ void EstadoAvion::calculateSizeBytes(){
 		+ sizeof(int) //frame
 		+ sizeof(int) //posX
 		+ sizeof(int); //posY
+		+ sizeof(int); //puntosDeVida
 }
 
 void EstadoAvion::setId(int id) {
@@ -69,6 +72,13 @@ int EstadoAvion::getPosY() {
 	return this->posY;
 }
 
+void EstadoAvion::setPuntosDeVida(int puntosDeVida){
+	this->puntosDeVida = puntosDeVida;
+}
+	
+int EstadoAvion::getPuntosDeVida(){
+	return puntosDeVida;
+}
 void EstadoAvion::agregarEstadoProyectil(EstadoProyectil* estadoProyectil){
 	this->estadosProyectiles.push_back(estadoProyectil);
 }

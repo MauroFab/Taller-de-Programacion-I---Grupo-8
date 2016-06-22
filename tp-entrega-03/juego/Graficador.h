@@ -13,6 +13,7 @@
 #include "../common/view/FondoView.h"
 #include <list>
 #include <map>
+#include "Etiqueta.h"
 
 class Graficador {
 

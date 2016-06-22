@@ -135,14 +135,14 @@
     <ClCompile Include="..\juego\EstadoMapa.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
-    <ClCompile Include="src\FakeAvionEnemigo.cpp">
-      <Filter>Archivos de código fuente\Juego</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\xml\AvionEnemigoXml.cpp">
       <Filter>Archivos de código fuente\Paser</Filter>
     </ClCompile>
     <ClCompile Include="..\common\xml\PowerUpXml.cpp">
       <Filter>Archivos de código fuente\Paser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AvionEnemigo.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -248,14 +248,14 @@
     <ClInclude Include="..\juego\EstadoMapa.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
-    <ClInclude Include="src\FakeAvionEnemigo.h">
-      <Filter>Archivos de encabezado\Juego</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\xml\AvionEnemigoXml.h">
       <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\common\xml\PowerUpXml.h">
       <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AvionEnemigo.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

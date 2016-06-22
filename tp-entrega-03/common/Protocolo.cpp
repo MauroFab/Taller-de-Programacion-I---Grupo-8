@@ -968,6 +968,7 @@ int Protocolo::codificar(EstadoAvion &estadoAvion,char * buffer){
 	int frame = estadoAvion.getFrame();
 	int posX = estadoAvion.getPosX();
 	int posY = estadoAvion.getPosY();
+	int puntosDeVida = estadoAvion.getPuntosDeVida();
 	int sizeProyectiles = estadoAvion.getEstadosProyectiles().size();
 	int offset = 0;
 
@@ -984,6 +985,9 @@ int Protocolo::codificar(EstadoAvion &estadoAvion,char * buffer){
 	offset += sizeof(int);
 
 	memcpy(buffer + offset,&posY,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&puntosDeVida,sizeof(int));
 	offset += sizeof(int);
 
 	memcpy(buffer + offset,&sizeProyectiles,sizeof(int));
@@ -1014,6 +1018,7 @@ int Protocolo::decodificar(char * buffer,EstadoAvion* estadoAvion){
 	int posX = -1;
 	int posY = -1;
 	int sizeProyectiles = -1;
+	int puntosDeVida = -1;
 	int offset = 0;
 
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
@@ -1031,10 +1036,14 @@ int Protocolo::decodificar(char * buffer,EstadoAvion* estadoAvion){
 	memcpy(&posY,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
+	memcpy(&puntosDeVida,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
 	estadoAvion->setId(id);
 	estadoAvion->setFrame(frame);
 	estadoAvion->setPosX(posX);
 	estadoAvion->setPosY(posY);
+	estadoAvion->setPuntosDeVida(puntosDeVida);
 
 	memcpy(&sizeProyectiles,buffer + offset,sizeof(int));
 	offset += sizeof(int);
