@@ -82,23 +82,28 @@ void Avion::continuarMovimientoDelAvion(){
 	}
 }
 
-void Avion::continuarMovimientoDelAvion(AvionEnemigo& avionEnemigo){
+void Avion::revisoColisiones(SuperficieOcupada hitbox, list<AvionEnemigo> &avionesEnemigos){
+	std::list<AvionEnemigo>::iterator it;
+	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
+		if(hitbox.meSolapoCon((*it).obtenerSuperficieOcupada()) && !(*it).estaDestruido()){
+			//Cuando colisionan los aviones, danio a ambos
+			this->puntosDeVida--;
+			(*it).recibeUnImpacto();
+		}
+	}
+}
+
+void Avion::continuarMovimientoDelAvion(list<AvionEnemigo> &avionesEnemigos){
 	//Los movimientos se hacen unidimensionalmente
 	//Primero en X y luego en Y
 	SuperficieOcupada hitbox;
+	
 	if(!rollFlag){
 		hitbox = actualizarPosicionEnX();
-		if(hitbox.meSolapoCon(avionEnemigo.obtenerSuperficieOcupada()) && !avionEnemigo.estaDestruido()){
-			//Cuando colisionan los aviones, danio a ambos
-			this->puntosDeVida--;
-			avionEnemigo.recibeUnImpacto();
-		}
+		revisoColisiones(hitbox,avionesEnemigos);
+		
 		hitbox = actualizarPosicionEnY();
-		if(hitbox.meSolapoCon(avionEnemigo.obtenerSuperficieOcupada()) && !avionEnemigo.estaDestruido()){
-			//Cuando colisionan los aviones, danio a ambos
-			this->puntosDeVida--;
-			avionEnemigo.recibeUnImpacto();
-		}
+		revisoColisiones(hitbox,avionesEnemigos);
 	//Si estoy haciendo un roll, no colisiono tampoco
 	}else{
 		continuarElRoll();
@@ -131,8 +136,8 @@ void Avion::mover() {
 }
 
 
-void Avion::mover(AvionEnemigo& avionEnemigo) {
-	continuarMovimientoDelAvion(avionEnemigo);
+void Avion::mover(list<AvionEnemigo> &avionesEnemigos) {
+	continuarMovimientoDelAvion(avionesEnemigos);
 	//Avanzo los proyectiles
 	continuarMovimientoDeLosProyectiles();
 	//Si hay proyectiles

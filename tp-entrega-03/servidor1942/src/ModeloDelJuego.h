@@ -21,8 +21,8 @@ public:
 	EstadoJuego* obtenerEstadoDelJuego();
 private:
 	EstadoAvion* getEstadoAvionJugador(int idAvion);
-	//Este es un avion enemigo que creo fijo para empezar a probar las colisiones
-	AvionEnemigo* avionEnemigo;
+
+	std::list<AvionEnemigo> avionesEnemigos;
 	void setPosicionInicialListAvion();
 	Avion** listAvion;
 	Mapa* mapa;

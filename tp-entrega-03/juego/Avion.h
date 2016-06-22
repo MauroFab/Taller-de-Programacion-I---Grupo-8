@@ -50,7 +50,7 @@ public:
 	//Este es uno que valida la colision, y cambia el estado del avion en base a eso
 	//Se puede cambiar al avionEnemigo por una lista de avionesEnemigo posteriormente
 
-	void mover(AvionEnemigo& avionEnemigo);
+	void mover(list<AvionEnemigo> &avionesEnemigos);
 
 	//Este mover no considera ningun tipo de colision
 	void mover();
@@ -76,7 +76,7 @@ private:
 	void hacerUnRoll();
 
 	void continuarMovimientoDelAvion();
-	void continuarMovimientoDelAvion(AvionEnemigo& avionEnemigo);
+	void continuarMovimientoDelAvion(list<AvionEnemigo> &avionesEnemigos);
 	void continuarMovimientoDeLosProyectiles();
 	void eliminarLosProyectilesQueSalieronDeLaPantalla();
 	int velocidad;
@@ -87,6 +87,8 @@ private:
 	SuperficieOcupada actualizarPosicionEnY();
 
 	void continuarElRoll();
+
+	void revisoColisiones(SuperficieOcupada hitbox, list<AvionEnemigo> &avionesEnemigos);
 
 	int centroProyectil;
 public:
