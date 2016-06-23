@@ -17,6 +17,7 @@ Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* 
 	centroProyectil = balaView->spriteXml->getAncho()/2;
 	superficieQueOcupo = SuperficieOcupada(0,0,anchoAvion,altoAvion);
 	puntosDeVida = vidaMaximaAvion;
+	this->jugadorAsociado = new ModeloJugador(id);
 }
 
 Avion::~Avion() {
@@ -24,6 +25,7 @@ Avion::~Avion() {
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
 		delete (*it);
 	}
+	delete jugadorAsociado;
 }
 
 void Avion::setPosicion(Posicion pos) {
@@ -236,4 +238,8 @@ void Avion::disparar(){
 
 void Avion::hacerUnRoll(){
 	rollFlag = true;
+}
+
+EstadoJugador Avion::getEstadoJugadorAsociado(){
+	return(jugadorAsociado->getEstadoJugador());
 }

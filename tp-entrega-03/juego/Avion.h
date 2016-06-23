@@ -14,6 +14,7 @@
 #include "../common/Evento.h"
 #include "../servidor1942/src/SuperficieOcupada.h"
 #include "../servidor1942/src/FakeAvionEnemigo.h"
+#include "../servidor1942/src/ModeloJugador.h"
 
 class Avion {
 private:
@@ -36,6 +37,10 @@ private:
 
 	static const int vidaMaximaAvion = 3;
 	int puntosDeVida;
+
+
+
+
 public:
 
 	Avion(int ventanaAncho, int ventalaAlto, AvionView* avionView, BalaView* balaView);
@@ -53,6 +58,8 @@ public:
 
 	//Este mover no considera ningun tipo de colision
 	void mover();
+
+	EstadoJugador getEstadoJugadorAsociado();
 
 	EstadoAvion* getEstado();
 	std::list<EstadoProyectil*> getEstadoProyectiles();
@@ -90,6 +97,12 @@ private:
 	void revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &avionesEnemigos);
 
 	int centroProyectil;
+
+	//No cree una clase jugador completa, y preferi meterla adentro del avion
+	//Esto es porque de esta forma puedo resolver los puntajes cuando colisiono en el mover
+	//Y porque facilita la comunicacion en el protocolo
+	//Entonces un avion tiene un jugadorAsociado, el cual esta jugando con él
+	ModeloJugador* jugadorAsociado;
 public:
 	BalaView * balaView; //[AGREGACION] NO eliminar
 };

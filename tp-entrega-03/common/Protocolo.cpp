@@ -1220,13 +1220,55 @@ int Protocolo::decodificar(char* buffer, Evento* evento) {
 	return offset;
 }
 
+int Protocolo::codificar(EstadoJugador &estadoJugador, char* buffer) {
+	int sizeBytes = -1;
+	int id = -1;
+	int puntajeAcumulado;
+	int offset = 0;
+	sizeBytes = sizeof(int)*2;
+
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&id,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&puntajeAcumulado,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	estadoJugador = EstadoJugador(id, puntajeAcumulado);
+
+	return offset;
+}
+
+int Protocolo::decodificar(char* buffer, EstadoJugador &estadoJugador) {
+	int sizeBytes = -1;
+	int id = -1;
+	int puntajeAcumulado;
+	int offset = 0;
+
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&id,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&puntajeAcumulado,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	estadoJugador = EstadoJugador(id, puntajeAcumulado);
+
+	return offset;
+}
+
+
 int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 	//Por ahora el juego no es mas que un conjunto de un evento, estadoAviones y un estadoMapa
 	int offset = 0;
-
+	int cantidaDeJugadores = 0;
 	std::list<EstadoAvion*> estadoAviones;
 	estadoAviones = estadoJuego.getEstadoDeLosAviones();
-	int cantidadDeAviones;
+	int cantidadDeAviones, cantidadDeJugadores;
 	if(estadoAviones.empty()){
 		cantidadDeAviones = 0;
 	}else{
@@ -1235,6 +1277,8 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 
 	std::list<EstadoAvion*>::iterator it;
 	std::list<EstadoAvion*> lista = estadoAviones;
+
+
 
 	//Primero guardamos el evento especial
 	offset += codificar(*estadoJuego.obtenerEvento(),buffer + offset);
@@ -1249,6 +1293,23 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 		offset += codificar(*estadoAvion,buffer + offset);
 	}
 
+	//Guardo la cantidad de jugadores
+	std::list<EstadoJugador> estadoJugadores;
+
+	estadoJugadores = estadoJuego.getEstadoDeLosJugadores();
+	cantidadDeJugadores = estadoJugadores.size();
+
+	memcpy(buffer + offset,&cantidadDeJugadores,sizeof(int));
+	offset += sizeof(int);
+
+	std::list<EstadoJugador>::iterator itJ;
+	
+		for (itJ = estadoJugadores.begin(); itJ != estadoJugadores.end(); it++) {
+		EstadoJugador estadoJugador = (*itJ);
+		offset += codificar(estadoJugador,buffer + offset);
+	}
+
+
 	//Luego se codifica el estado del Mapa
 	offset += codificar(*estadoJuego.getEstadoDelMapa(), buffer + offset);
 
@@ -1258,9 +1319,10 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 /*Aca hay un new para cada evento eso lo hace mas costoso.
 */
 int Protocolo::decodificar(char* buffer, EstadoJuego*& estadoJuego){
-	int cantidadDeAviones;
+	int cantidadDeAviones, cantidadDeJugadores;
 	int offset = 0;
 	std::list<EstadoAvion*> estadoAviones;
+	std::list<EstadoJugador> estadoJugadores;
 
 	Evento* evento = new Evento(0);
 	//Decodifico el evento
@@ -1277,11 +1339,22 @@ int Protocolo::decodificar(char* buffer, EstadoJuego*& estadoJuego){
 		estadoAviones.push_back(estadoAvion);
 	}
 
+	//Cargo la cantidad de jugadores
+	memcpy(&cantidadDeJugadores,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	//Decodifico los estado de los jugadores
+	for (int i = 0; i < cantidadDeJugadores; i++){
+		EstadoJugador estadoJugador;
+		offset += decodificar(buffer + offset,estadoJugador);
+		estadoJugadores.push_back(estadoJugador);
+	}
+
 	//Decodifico el estado del Mapa
 	EstadoMapa* estadoMapa = new EstadoMapa();
 	offset += decodificar(buffer + offset, estadoMapa);
 
-	estadoJuego = new EstadoJuego(estadoAviones, *evento, estadoMapa);
+	estadoJuego = new EstadoJuego(estadoAviones, *evento, estadoJugadores, estadoMapa);
 	delete evento;
 	return offset;
 }

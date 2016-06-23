@@ -116,6 +116,7 @@
     <ClCompile Include="..\juego\ElementoDelMapa.cpp" />
     <ClCompile Include="..\juego\EstadoAvion.cpp" />
     <ClCompile Include="..\juego\EstadoJuego.cpp" />
+    <ClCompile Include="..\juego\EstadoJugador.cpp" />
     <ClCompile Include="..\juego\EstadoMapa.cpp" />
     <ClCompile Include="..\juego\EstadoProyectil.cpp" />
     <ClCompile Include="..\juego\Etiqueta.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="..\juego\ElementoDelMapa.h" />
     <ClInclude Include="..\juego\EstadoAvion.h" />
     <ClInclude Include="..\juego\EstadoJuego.h" />
+    <ClInclude Include="..\juego\EstadoJugador.h" />
     <ClInclude Include="..\juego\EstadoMapa.h" />
     <ClInclude Include="..\juego\EstadoProyectil.h" />
     <ClInclude Include="..\juego\Etiqueta.h" />

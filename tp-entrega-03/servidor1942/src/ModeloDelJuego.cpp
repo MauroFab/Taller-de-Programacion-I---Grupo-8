@@ -80,7 +80,10 @@ EstadoJuego* ModeloDelJuego::obtenerEstadoDelJuego(){
 		estadoDeAviones.push_back((*it).getEstado());
 	}
 	EstadoMapa* estadoMapa = this->mapa->getEstado();
-	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones, estadoMapa);
+	//Vacia por ahora
+	std::list<EstadoJugador> estadoJugador;
+
+	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones, estadoMapa, estadoJugador);
 
 	return estadoJuego;
 }

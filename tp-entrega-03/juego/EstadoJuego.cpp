@@ -1,6 +1,5 @@
 #include "EstadoJuego.h"
 
-
 EstadoJuego::EstadoJuego(EstadoAvion** estadoAvionJugador, int cantidadDeJugadores){
 	for(int i = 0; i < cantidadDeJugadores; i++){
 		estadoDeLosAviones.push_back(estadoAvionJugador[i]);
@@ -14,15 +13,19 @@ EstadoJuego::EstadoJuego(Evento evento){
 	this->evento = new Evento(evento.getNumeroDeEvento());
 }
 
-EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, EstadoMapa* estadoDelMapa){
+EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, EstadoMapa* estadoDelMapa,
+						std::list<EstadoJugador> estadoJugador){
 	estadoDeLosAviones = estadoAvion;
 	estadoMapa = estadoDelMapa;
+	this->estadoJugador = estadoJugador;
 	this->evento = new Evento(noHayNingunEventoEspecial);
 } 
 
-EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, Evento evento, EstadoMapa* estadoDelMapa){
+EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, Evento evento,
+							std::list<EstadoJugador> estadoJugador,EstadoMapa* estadoDelMapa){
 	estadoDeLosAviones = estadoAvion;
 	estadoMapa = estadoDelMapa;
+	this->estadoJugador = estadoJugador;
 	this->evento = new Evento(evento.getNumeroDeEvento());
 } 
 
@@ -46,4 +49,8 @@ EstadoMapa* EstadoJuego::getEstadoDelMapa() {
 
 Evento* EstadoJuego::obtenerEvento(){
 	return evento;
+}
+
+std::list<EstadoJugador> EstadoJuego::getEstadoDeLosJugadores(){
+	return(this->estadoJugador);
 }
