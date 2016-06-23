@@ -6,6 +6,8 @@ Mapa::Mapa(ServidorXml* servidorXml){
 	this->tamanioMaximoMapa = MAX_ALTO_MAPA;
 	this->cantidadDePixelesQuePasaron = 0;
 	this->estado = new EstadoMapa();
+	this->cantidadEtapas = 10;// Aca debería cargarse desde el XML la cantidad de etapas/niveles
+	this->idEtapaActual = 0;
 }
 
 Mapa::~Mapa(){
@@ -15,12 +17,10 @@ Mapa::~Mapa(){
 void Mapa::actualizar() {
 	this->cantidadDePixelesQuePasaron++;
 	if (this->cantidadDePixelesQuePasaron > this->tamanioMaximoMapa) {
-		this->estado->setCodigoReinicio(REINICIO);
 		this->cantidadDePixelesQuePasaron = 0;
-	} else {
-		this->estado->setCodigoReinicio(NO_REINICIO);
+		this->idEtapaActual++;
+		this->estado->setIdEtapa(this->idEtapaActual);
 	}
-
 	this->estado->actualizar(this->cantidadDePixelesQuePasaron);
 }
 

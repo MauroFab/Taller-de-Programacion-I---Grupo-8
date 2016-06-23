@@ -20,6 +20,14 @@ Etiqueta::Etiqueta(SDL_Renderer* renderer, TTF_Font* font, std::string texto) {
 	this->textura->loadFromRenderedText(this->font, this->renderer, this->texto, this->color);
 }
 
+Etiqueta::Etiqueta(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color) {
+
+	this->renderer = renderer;
+	this->font = font;
+	this->color = color;
+	this->textura = new TexturaFuente();
+}
+
 Etiqueta::~Etiqueta(void) {
 	this->textura->free();
 }

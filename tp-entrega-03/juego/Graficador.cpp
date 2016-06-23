@@ -10,8 +10,10 @@ Graficador* Graficador::getInstance() {
     }
     return instance;
 }
+
 Graficador::Graficador() {
 }
+
 Graficador::~Graficador(void) {
 	std::map<int, GraficoAvion*>::iterator it;
 	for (it = mapaGraficosAvion.begin(); it != mapaGraficosAvion.end(); it++) {
@@ -19,12 +21,19 @@ Graficador::~Graficador(void) {
 	}
 	delete graficoProyectil;
 	delete graficoMapa;
+	delete graficoPuntaje;
+	delete etiquetaPuntosDeVida;
 }
+
 void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto) {
 	this->renderer = renderer;
 	this->ventanaAncho = ventanaAncho;
 	this->ventanaAlto = ventanaAlto;
+	this->graficoPuntaje = new GraficadorPuntaje(renderer);
+	this->etiquetaPuntosDeVida = new Etiqueta(this->renderer,TTF_OpenFont("sfd/FreeSans.ttf", 24));
+	this->etiquetaPuntosDeVida->setPosicion(0, 600);
 }
+
 void Graficador::agregarDatosAviones(AvionView* *listaAvionView, int canAvionV) {
 	for(int v = 0; v < canAvionV; v++){
 		AvionView * avionV = listaAvionView[v];
@@ -38,9 +47,17 @@ void Graficador::agregarDatosBala(BalaView * balaView) {
 }
 
 void Graficador::agregarDatosMapa(FondoView * fondoView, ElementoView* *listaElementosView, int canElemV, int posicionInicial) {
-	graficoMapa = new GraficoMapa(renderer, fondoView, posicionInicial);
-	graficoMapa->crearElementos(listaElementosView, canElemV);
+	
+	int cantiadadEtapas = 10;// Esto deberia recibirse desde el servidor
+
+	for (int i = 0; i < cantiadadEtapas; i++) {
+		GraficoMapa* graficoMapa = new GraficoMapa(renderer, fondoView, posicionInicial);
+		graficoMapa->crearElementos(listaElementosView, canElemV);
+		graficosMapa[i] = graficoMapa;
+	}
+	this->graficoMapa = graficosMapa[0];
 }
+
 bool Graficador::estaDestruidoElAvion(EstadoAvion* estadoAvion){
 	return (estadoAvion->getPuntosDeVida() <= 0);
 }
@@ -81,9 +98,9 @@ void Graficador::graficoLosPuntosDeVidaDelAvionDeEsteCliente(EstadoAvion* estado
 	string strVida = static_cast<ostringstream*>( &(ostringstream() << intPuntosDeVida) )->str();
 	string strEtiquetaVida("Vidas: ");
 	strEtiquetaVida.append(strVida);
- 	Etiqueta etiqueta(renderer,TTF_OpenFont("sfd/FreeSans.ttf", 24), strEtiquetaVida); 
-	etiqueta.setPosicion(0,600);
-	etiqueta.render();
+
+	this->etiquetaPuntosDeVida->setTexto(strEtiquetaVida);
+	this->etiquetaPuntosDeVida->render();
 }
 
 void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones, int idDelJugador) {
@@ -95,7 +112,6 @@ void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones, int idDel
 	//Siempre el avion del cliente propio se grafica al final, asi se ve por encima de los demas
 	graficoElAvionDelCliente(estadoDelAvionDeEsteCliente);
 	graficoLosPuntosDeVidaDelAvionDeEsteCliente(estadoDelAvionDeEsteCliente);
-	
 }
 
 void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles) {
@@ -106,12 +122,13 @@ void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectile
 		textura->render((*it)->getPosX(), (*it)->getPosY(), renderer, clip);
 	}
 }
+
 void Graficador::graficarMapa() {
 	graficoMapa->graficarFondoYElementos();
 }
+
 void Graficador::graficarPuntaje(int puntaje) {
-	GraficadorPuntaje graficador;
-	graficador.renderizarPuntaje(renderer,puntaje);
+	graficoPuntaje->renderizarPuntaje(puntaje);
 }
 
 void Graficador::reiniciarMapa() {
@@ -119,7 +136,9 @@ void Graficador::reiniciarMapa() {
 }
 
 void Graficador::actualizarMapa(EstadoMapa* estadoMapa) {
-	graficoMapa->actualizar(estadoMapa);
+	
+	this->graficoMapa = this->graficosMapa[estadoMapa->getIdEtapa()];
+	this->graficoMapa->actualizar(estadoMapa);
 }
 
 void Graficador::graficarJuego(EstadoJuego* estadoJuego, int idDelJugador){

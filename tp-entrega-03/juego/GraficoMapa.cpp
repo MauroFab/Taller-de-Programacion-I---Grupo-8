@@ -73,11 +73,6 @@ void GraficoMapa::crearElementos(ElementoView* *listaElementosView, int canElemV
 
 void GraficoMapa::graficarFondoYElementos() {
 
-	if(hayQueReiniciar) {
-		this->reiniciar();
-		this->hayQueReiniciar = false;
-	}
-
 	//Después de la ultima posicion de la imagen de fondo sigue la primera
 	if(this->scrollingOffset >= altoMapa)
 		this->scrollingOffset = 0;
@@ -90,6 +85,4 @@ void GraficoMapa::graficarFondoYElementos() {
 void GraficoMapa::actualizar(EstadoMapa* estadoMapa) {
 	this->scrollingOffset++;
 	this->cantidadDePixelesQuePasaron = estadoMapa->getCantidadDePixeles();
-	if (estadoMapa->getCodigoReinicio() == REINICIO)
-		this->hayQueReiniciar = true;
 }

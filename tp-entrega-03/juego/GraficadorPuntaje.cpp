@@ -1,31 +1,39 @@
 #include "GraficadorPuntaje.h"
 
-GraficadorPuntaje::GraficadorPuntaje(){
-}
-void GraficadorPuntaje::renderizarPuntaje(SDL_Renderer* renderer, int puntaje){
-	TTF_Font* Sans = TTF_OpenFont("sfd/FreeSans.ttf", 24); 
-	
-	SDL_Color White = {255, 255, 255}; 
+GraficadorPuntaje::GraficadorPuntaje(SDL_Renderer* renderer){
+	this->renderer = renderer;
+	SDL_Color White = {255, 255, 255, 0};
+	this->etiqueta = new Etiqueta(this->renderer, TTF_OpenFont("sfd/FreeSans.ttf", 24), White);
+	this->etiqueta->setPosicion(0,0);
+	this->puntaje = 0;
 
-	char puntajeEnString[32];
-	char texto[50] = "Puntaje: ";
-	
-	sprintf(puntajeEnString, "%d", puntaje);
-	strcat(texto, puntajeEnString);
-
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, texto, White); 
-
-	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-
-	SDL_Rect Message_rect; 
-	Message_rect.x = 0;  
-	Message_rect.y = 0;
-	Message_rect.w = 100; 
-	Message_rect.h = 50; 
-
-	SDL_RenderCopy(renderer, Message, NULL, &Message_rect); 
+	string puntaje = this->convertirPuntajeAString();
+	this->etiqueta->setTexto(puntaje);
 }
 
-GraficadorPuntaje::~GraficadorPuntaje(void)
-{
+void GraficadorPuntaje::renderizarPuntaje(int puntaje){
+
+	if (puntaje != this->puntaje) {
+		
+		this->puntaje = puntaje;
+
+		string puntaje = this->convertirPuntajeAString();
+		this->etiqueta->setTexto(puntaje);
+	}
+
+	this->etiqueta->render();
+}
+
+GraficadorPuntaje::~GraficadorPuntaje(void) {
+	delete this->etiqueta;
+}
+
+string GraficadorPuntaje::convertirPuntajeAString() {
+
+	string puntos = static_cast<ostringstream*>( &(ostringstream() << this->puntaje) )->str();
+
+	string puntaje("Puntaje: ");
+	puntaje.append(puntos);
+
+	return puntaje;
 }
