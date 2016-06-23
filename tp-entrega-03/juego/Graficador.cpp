@@ -21,6 +21,8 @@ Graficador::~Graficador(void) {
 	}
 	delete graficoProyectil;
 	delete graficoMapa;
+	delete graficoPuntaje;
+	delete etiquetaPuntosDeVida;
 }
 
 void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto) {
