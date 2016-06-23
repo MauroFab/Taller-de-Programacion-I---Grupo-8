@@ -1189,6 +1189,7 @@ int Protocolo::codificar(Evento &evento, char* buffer) {
 
 	memcpy(buffer + offset,&numeroDeevento,sizeof(int));
 	offset += sizeof(int);
+
 	#ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	posicion->toString(cadena);
@@ -1227,16 +1228,17 @@ int Protocolo::codificar(EstadoJugador &estadoJugador, char* buffer) {
 	int offset = 0;
 	sizeBytes = sizeof(int)*2;
 
-	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	puntajeAcumulado = estadoJugador.getPuntajeAcumulado();
+	id = estadoJugador.getid();
+
+	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
 
-	memcpy(&id,buffer + offset,sizeof(int));
+	memcpy(buffer + offset, &id,sizeof(int));
 	offset += sizeof(int);
 
-	memcpy(&puntajeAcumulado,buffer + offset,sizeof(int));
+	memcpy(buffer + offset,&puntajeAcumulado,sizeof(int));
 	offset += sizeof(int);
-
-	estadoJugador = EstadoJugador(id, puntajeAcumulado);
 
 	return offset;
 }
@@ -1304,7 +1306,7 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 
 	std::list<EstadoJugador>::iterator itJ;
 	
-		for (itJ = estadoJugadores.begin(); itJ != estadoJugadores.end(); it++) {
+	for (itJ = estadoJugadores.begin(); itJ != estadoJugadores.end(); itJ++) {
 		EstadoJugador estadoJugador = (*itJ);
 		offset += codificar(estadoJugador,buffer + offset);
 	}

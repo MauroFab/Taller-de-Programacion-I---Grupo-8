@@ -70,8 +70,11 @@ EstadoAvion* ModeloDelJuego::getEstadoAvionJugador(int idAvion){
 EstadoJuego* ModeloDelJuego::obtenerEstadoDelJuego(){
 	//Agrego los aviones de los jugadores
 	std::list<EstadoAvion*> estadoDeAviones;
+	std::list<EstadoJugador> estadoJugadores;
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 		estadoDeAviones.push_back(this->listAvion[i]->getEstado());
+		EstadoJugador estadoJugador = this->listAvion[i]->getEstadoJugadorAsociado();
+		estadoJugadores.push_back(estadoJugador);
 	}
 
 	//Agrego los avionesEnemigos
@@ -80,10 +83,9 @@ EstadoJuego* ModeloDelJuego::obtenerEstadoDelJuego(){
 		estadoDeAviones.push_back((*it).getEstado());
 	}
 	EstadoMapa* estadoMapa = this->mapa->getEstado();
-	//Vacia por ahora
-	std::list<EstadoJugador> estadoJugador;
 
-	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones, estadoMapa, estadoJugador);
+
+	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones, estadoMapa, estadoJugadores);
 
 	return estadoJuego;
 }
