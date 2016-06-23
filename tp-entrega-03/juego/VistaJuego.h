@@ -24,7 +24,7 @@
 #include "../common/model/FondoModel.h"
 #include "../common/view/BalaView.h"
 #include "../common/Jugador.h"
-#include "../estructura/Bala.h"
+//#include "../estructura/Bala.h"
 //#include "../estructura/Juego.h"
 
 #define PATH_FONDO_INICIO "fondoInicio.bmp"
@@ -44,7 +44,7 @@ public:
 	//por ahora solo 1(UNA) bala, pero deberian ser N balas, 1 por avion
 	BalaView * balaView;
 //	Juego * juego;	
-	Bala * juego;
+//	Bala * juego;
 private:
 	ControladorTeclado* controlador;
 	static VistaJuego* instance;
