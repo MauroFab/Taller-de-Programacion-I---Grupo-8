@@ -25,6 +25,8 @@ private:
 	int altoVentana;
 	int tamanioMaximoMapa;
 	int cantidadDePixelesQuePasaron;
+	int cantidadEtapas;
+	int idEtapaActual;
 };
 
 #endif //_MAPA_H_

@@ -7,13 +7,15 @@
 #include "GraficoProyectil.h"
 #include "GraficoMapa.h"
 #include "Textura.h"
+#include "Etiqueta.h"
 #include "../common/view/AvionView.h"
 #include "../common/view/BalaView.h"
 #include "../common/view/ElementoView.h"
 #include "../common/view/FondoView.h"
 #include <list>
 #include <map>
-#include "Etiqueta.h"
+
+#define CANTIDAD_MAXIMA_DE_ETAPAS 20
 
 class Graficador {
 
@@ -48,6 +50,8 @@ private:
 	std::map<int, GraficoAvion*> mapaGraficosAvion;
 	GraficoProyectil* graficoProyectil;
 	GraficoMapa* graficoMapa;
+	GraficadorPuntaje* graficoPuntaje;
+	Etiqueta* etiquetaPuntosDeVida;
 	bool estaDestruidoElAvion(EstadoAvion* estadoAvion);
 	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
 
@@ -55,6 +59,9 @@ private:
 								(std::list<EstadoAvion*> listaAviones,int idDelJugador);
 	void graficoElAvionDelCliente(EstadoAvion* estadoAvion);
 	void graficoLosPuntosDeVidaDelAvionDeEsteCliente(EstadoAvion* estadoAvion);
+
+	//vector de grafico de mapas
+	GraficoMapa* graficosMapa[CANTIDAD_MAXIMA_DE_ETAPAS];
 };
 
 #endif //_GRAFICADOR_H_

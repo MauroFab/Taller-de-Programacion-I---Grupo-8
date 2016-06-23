@@ -11,6 +11,7 @@ class Etiqueta {
 public:
 	Etiqueta(SDL_Renderer* renderer, TTF_Font* font, std::string texto);
 	Etiqueta(SDL_Renderer* renderer, TTF_Font* font);
+	Etiqueta(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color);
 	virtual ~Etiqueta(void);
 
 	void setTexto(std::string texto);

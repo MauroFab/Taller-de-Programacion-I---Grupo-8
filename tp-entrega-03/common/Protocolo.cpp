@@ -1293,6 +1293,7 @@ int Protocolo::codificar(EstadoMapa &estadoMapa, char* buffer) {
 
 	int cantidadDePixelesQuePasaron = estadoMapa.getCantidadDePixeles();
 	int codigoDeReinicio = estadoMapa.getCodigoReinicio();
+	int idEtapa = estadoMapa.getIdEtapa();
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
@@ -1303,6 +1304,9 @@ int Protocolo::codificar(EstadoMapa &estadoMapa, char* buffer) {
 	memcpy(buffer + offset,&codigoDeReinicio,sizeof(int));
 	offset += sizeof(int);
 
+	memcpy(buffer + offset,&idEtapa,sizeof(int));
+	offset += sizeof(int);
+
 	return offset;
 }
 
@@ -1311,6 +1315,7 @@ int Protocolo::decodificar(char* buffer, EstadoMapa* estadoMapa) {
 	int sizeBytes = -1;
 	int cantidadDePixelesQuePasaron = -1;
 	int codigoDeReinicio = -1;
+	int idEtapa = -1;
 	int offset = 0;
 
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
@@ -1322,8 +1327,12 @@ int Protocolo::decodificar(char* buffer, EstadoMapa* estadoMapa) {
 	memcpy(&codigoDeReinicio,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
+	memcpy(&idEtapa,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
 	estadoMapa->setCantidaDePixeles(cantidadDePixelesQuePasaron);
 	estadoMapa->setCodigoReinicio(codigoDeReinicio);
+	estadoMapa->setIdEtapa(idEtapa);
 
 	return offset;
 }
