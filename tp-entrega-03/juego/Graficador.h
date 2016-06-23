@@ -60,6 +60,8 @@ private:
 	void graficoElAvionDelCliente(EstadoAvion* estadoAvion);
 	void graficoLosPuntosDeVidaDelAvionDeEsteCliente(EstadoAvion* estadoAvion);
 
+	int buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id);
+
 	//vector de grafico de mapas
 	GraficoMapa* graficosMapa[CANTIDAD_MAXIMA_DE_ETAPAS];
 };

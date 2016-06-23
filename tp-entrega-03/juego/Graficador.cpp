@@ -141,10 +141,26 @@ void Graficador::actualizarMapa(EstadoMapa* estadoMapa) {
 	this->graficoMapa->actualizar(estadoMapa);
 }
 
+int Graficador::buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id){
+	std::list<EstadoJugador>::iterator it;
+	std::list<EstadoJugador> listaDeEstados;
+	listaDeEstados = estadoJuego->getEstadoDeLosJugadores();
+	for(it = listaDeEstados.begin();  it != listaDeEstados.end(); it++){
+		int idDelEstadoRevisado;
+		idDelEstadoRevisado = (*it).getid();
+		//No quiero armar un while para buscar a mano, ni recorrer toda la lista
+		//Si ya lo encontre
+		if(idDelEstadoRevisado == id){
+			break;
+		}
+	}
+	return(*it).getPuntajeAcumulado();
+}
+
 void Graficador::graficarJuego(EstadoJuego* estadoJuego, int idDelJugador){
 	actualizarMapa(estadoJuego->getEstadoDelMapa());
 	graficarMapa();	
 	graficarAviones(estadoJuego->getEstadoDeLosAviones(), idDelJugador);
-	int puntajeServidor = 0;
-	Graficador::getInstance()->graficarPuntaje(puntajeServidor);
+	int puntajeDelJugador = buscarPuntajeDelJugadorEn(estadoJuego, idDelJugador);
+	Graficador::getInstance()->graficarPuntaje(puntajeDelJugador);
 }
