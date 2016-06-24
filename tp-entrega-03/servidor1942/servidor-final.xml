@@ -1,6 +1,7 @@
 <servidor>
 	<cantidadMaximaClientes>1</cantidadMaximaClientes>
 	<puerto>15636</puerto>
+	<modoDeJuego>practica_colaboracion</modoDeJuego>
 	<ventana>
 		<ancho>480</ancho>
 		<alto>640</alto>

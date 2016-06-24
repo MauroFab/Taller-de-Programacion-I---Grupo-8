@@ -22,6 +22,7 @@ private:
 	int sizeBytes;
 	int cantidadMaximaClientes;
 	int puerto;
+	char* modoDeJuego;
 	VentanaXml ventanaXml;
 	EscenarioXml escenarioXml;
 	//BUG-001 cambiar la lista de elementos
@@ -42,6 +43,8 @@ public:
 	int getCantidadMaximaClientes();
 	void setPuerto(int puerto);
 	int getPuerto();
+	void setModoDeJuego(char* modo);
+	char* getModoDeJuego();
 	void setVentanaXml(const VentanaXml &ventanaXml);
 	VentanaXml * getVentanaXmlCopy();
 	void setEscenarioXml(const EscenarioXml &escenarioXml);

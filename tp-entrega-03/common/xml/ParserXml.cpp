@@ -954,8 +954,11 @@ ServidorXml * ParserXml::createDataServidorXml(){
 	XMLElement* elemPuerto = (XMLElement*)elemCantidad->NextSibling();
 	char *puerto = (char*)elemPuerto->GetText();
 	servidorXml->setPuerto(atoi(puerto));
+	XMLElement* elemModoDeJuego = (XMLElement*)elemPuerto->NextSibling();
+	char* modoDeJuego = (char*)elemModoDeJuego->GetText();
+	servidorXml->setModoDeJuego(modoDeJuego);
 	//aqui se cargan los datos nuevos
-	XMLElement* elemVentana = (XMLElement*)elemPuerto->NextSibling();
+	XMLElement* elemVentana = (XMLElement*)elemModoDeJuego->NextSibling();
 	createDataVentanaXml(servidorXml,elemVentana);
 	XMLElement* listSprites = (XMLElement*)elemVentana->NextSibling();
 	createDataListSpriteXml(servidorXml,listSprites);
@@ -1454,7 +1457,11 @@ int ParserXml::validarXmlArchivoServidor(){
 	char *puerto = (char*)elemPuerto->GetText();
 	if (isValidPuerto(puerto) < 0)
 		return -1;
-	XMLElement* elemVentana =  (XMLElement*)elemPuerto->NextSibling();
+	XMLElement* elemModoDeJuego = (XMLElement*)elemPuerto->NextSibling();
+	//error en tag modo de juego
+	if (strcmp(elemModoDeJuego->Name(),"modoDeJuego") != 0)
+		return -1;
+	XMLElement* elemVentana =  (XMLElement*)elemModoDeJuego->NextSibling();
 	if (validarVentanaXml(elemVentana) < 0)
 		return -1;
 	XMLElement* listSprites =  (XMLElement*)elemVentana->NextSibling();

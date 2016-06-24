@@ -6,6 +6,7 @@ ServidorXml::ServidorXml()
 	this->sizeBytes = -1;
 	this->cantidadMaximaClientes = -1;
 	this->puerto = -1;
+	this->modoDeJuego = NULL;
 //	VentanaXml ventanaXml;
 //	EscenarioXml escenarioXml;
 	for (int i = 0; i < MAX_SPRITES; i++){
@@ -43,6 +44,9 @@ ServidorXml::~ServidorXml()
 	for (int i = 0; i < MAX_POWERUPS; i++){
 		if (this->listaPowerUp[i] != NULL)
 			delete this->listaPowerUp[i];
+	}
+	if (this->modoDeJuego != NULL) {
+		delete [] this->modoDeJuego;
 	}
 }
 int ServidorXml::getSizeBytes(){
@@ -132,6 +136,15 @@ PowerUpXml * * ServidorXml::getListaPowerUp(){
 }
 int ServidorXml::getCanPows(){
 	return this->canPows;
+}
+
+// Modo del juego
+void ServidorXml::setModoDeJuego(char* modo) {
+	this->modoDeJuego = new char[strlen(modo) + 1];
+	strcpy(this->modoDeJuego, modo);
+}
+char* ServidorXml::getModoDeJuego() {
+	return this->modoDeJuego;
 }
 
 void ServidorXml::toString(TCadena1000 cadena){
