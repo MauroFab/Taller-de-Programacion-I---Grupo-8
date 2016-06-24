@@ -38,5 +38,7 @@ void EstadoMapa::setIdEtapa(int id) {
 }
 
 int EstadoMapa::getSizeBytes() {
-	return sizeof(int)/*cantidadDePixelesQuePasaron*/+ sizeof(int)/*codigoDeReinicio*/+ sizeof(int)/*idEtapa*/;
+	return sizeof(int)/*cantidadDePixelesQuePasaron*/
+	 +sizeof(int)/*codigoDeReinicio*/
+	 + sizeof(int)/*idEtapa*/;
 }
