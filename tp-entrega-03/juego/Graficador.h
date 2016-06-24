@@ -1,11 +1,14 @@
 #pragma once
+
 #ifndef _GRAFICADOR_H_
 #define _GRAFICADOR_H_
-#include "GraficadorPuntaje.h"
+
 #include "EstadoJuego.h"
 #include "GraficoAvion.h"
 #include "GraficoProyectil.h"
 #include "GraficoMapa.h"
+#include "GraficadorPuntaje.h"
+#include "GraficadorPuntosVida.h"
 #include "Textura.h"
 #include "Etiqueta.h"
 #include "../common/view/AvionView.h"
@@ -51,7 +54,7 @@ private:
 	GraficoProyectil* graficoProyectil;
 	GraficoMapa* graficoMapa;
 	GraficadorPuntaje* graficoPuntaje;
-	Etiqueta* etiquetaPuntosDeVida;
+	GraficadorPuntosVida* graficoPuntosVida;
 	bool estaDestruidoElAvion(EstadoAvion* estadoAvion);
 	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
 

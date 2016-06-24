@@ -22,7 +22,7 @@ Graficador::~Graficador(void) {
 	delete graficoProyectil;
 	delete graficoMapa;
 	delete graficoPuntaje;
-	delete etiquetaPuntosDeVida;
+	delete graficoPuntosVida;
 }
 
 void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto) {
@@ -30,8 +30,7 @@ void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int venta
 	this->ventanaAncho = ventanaAncho;
 	this->ventanaAlto = ventanaAlto;
 	this->graficoPuntaje = new GraficadorPuntaje(renderer);
-	this->etiquetaPuntosDeVida = new Etiqueta(this->renderer,TTF_OpenFont("sfd/FreeSans.ttf", 24));
-	this->etiquetaPuntosDeVida->setPosicion(0, 600);
+	this->graficoPuntosVida = new GraficadorPuntosVida(renderer);
 }
 
 void Graficador::agregarDatosAviones(AvionView* *listaAvionView, int canAvionV) {
@@ -94,13 +93,8 @@ void Graficador::graficoElAvionDelCliente(EstadoAvion* estadoDelAvionDeEsteClien
 }
 
 void Graficador::graficoLosPuntosDeVidaDelAvionDeEsteCliente(EstadoAvion* estadoDelAvionDeEsteCliente){
-	int intPuntosDeVida = estadoDelAvionDeEsteCliente->getPuntosDeVida();
-	string strVida = static_cast<ostringstream*>( &(ostringstream() << intPuntosDeVida) )->str();
-	string strEtiquetaVida("Vidas: ");
-	strEtiquetaVida.append(strVida);
-
-	this->etiquetaPuntosDeVida->setTexto(strEtiquetaVida);
-	this->etiquetaPuntosDeVida->render();
+	int puntosDeVida = estadoDelAvionDeEsteCliente->getPuntosDeVida();
+	graficoPuntosVida->renderizarPuntosDeVida(puntosDeVida);
 }
 
 void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones, int idDelJugador) {
