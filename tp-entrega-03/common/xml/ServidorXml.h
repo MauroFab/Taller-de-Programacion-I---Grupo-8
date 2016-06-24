@@ -15,6 +15,17 @@
 #define MAX_AVIONES	10
 #define MAX_ENEMIGOS 10
 #define MAX_POWERUPS 10
+#define MAX_ESCENARIOS 10
+
+#define M_MODO_PRACTICA_COLABORACION	1
+#define M_MODO_PRACTICA_EQUIPO			2
+#define M_MODO_NORMAL_COLABORACION		3
+#define M_MODO_NORMAL_EQUIPO			4
+
+#define S_MODO_PRACTICA_COLABORACION	"practica_colaboracion"
+#define S_MODO_PRACTICA_EQUIPO			"practica_equipo"
+#define S_MODO_NORMAL_COLABORACION		"normal_colaboracion"
+#define S_MODO_NORMAL_EQUIPO			"normal_equipo"
 
 class ServidorXml : public IGenericaVO
 {
@@ -22,18 +33,19 @@ private:
 	int sizeBytes;
 	int cantidadMaximaClientes;
 	int puerto;
-	char* modoDeJuego;
+	int modo;
 	VentanaXml ventanaXml;
-	EscenarioXml escenarioXml;
+	EscenarioXml * listaEscenario[MAX_ESCENARIOS];
+	int canEsc;
 	//BUG-001 cambiar la lista de elementos
 	SpriteXml * listaSprite[MAX_SPRITES];
 	int canSprs;
 	AvionXml * listaAviones[MAX_AVIONES];
-	int canAvs;	
+	int canAvs;
 	AvionEnemigoXml * listaEnemigos[MAX_ENEMIGOS];
-	int canEnes;	
+	int canEnes;
 	PowerUpXml * listaPowerUp[MAX_POWERUPS];
-	int canPows;	
+	int canPows;
 public:
 	ServidorXml();
 	virtual ~ServidorXml();
@@ -43,33 +55,35 @@ public:
 	int getCantidadMaximaClientes();
 	void setPuerto(int puerto);
 	int getPuerto();
-	void setModoDeJuego(char* modo);
-	char* getModoDeJuego();
+	void setModo(int modo);
+	int getModo();
 	void setVentanaXml(const VentanaXml &ventanaXml);
 	VentanaXml * getVentanaXmlCopy();
-	void setEscenarioXml(const EscenarioXml &escenarioXml);
-	/*const */EscenarioXml * getEscenarioXmlCopy();
-	
+
+	void addEscenario(EscenarioXml * escenario,int pos);
+	EscenarioXml * * getListaEscenario();
+	int getCanEsc();
+
 	void addSprite(SpriteXml * sprite,int pos);
 	//listado de punteros
 	SpriteXml * * getListaSprites();
-	int getCanSprs();	
-	
+	int getCanSprs();
+
 	void addAvion(AvionXml * avion,int pos);
 	//listado de punteros a Aviones
 	AvionXml * * getListaAviones();
 	int getCanAvs();
-	
+
 	void addEnemigo(AvionEnemigoXml * enemigo,int pos);
 	//listado de punteros a Enemigos
 	AvionEnemigoXml * * getListaEnemigos();
 	int getCanEnes();
-	
+
 	void addPowerUp(PowerUpXml * powU,int pos);
 	//listado de punteros a PowerUpXml
 	PowerUpXml * * getListaPowerUp();
 	int getCanPows();
-	
+
 	void toString(TCadena1000 cadena);
 
 };

@@ -171,8 +171,8 @@ int VistaJuego::cargarElementos(ServidorXml * confServidorXml){
 	SpriteXml ** listaS = confServidorXml->getListaSprites();
 
 	//elementos
-	int cantE = confServidorXml->getEscenarioXmlCopy()->getCanElems();
-	ElementoXml ** listaE = confServidorXml->getEscenarioXmlCopy()->getListaElementos();
+	int cantE = confServidorXml->getListaEscenario()[0]->getCanElems();
+	ElementoXml ** listaE = confServidorXml->getListaEscenario()[0]->getListaElementos();
 	for(int i = 0;i <cantE; i++){
 		ElementoXml * elemX = listaE[i];
 		//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
@@ -207,7 +207,7 @@ int VistaJuego::cargarAviones(ServidorXml * confServidorXml){
 }
 
 int VistaJuego::cargarFondo(ServidorXml * confServidorXml,int altoFondo){
-	FondoXml * fondoXml = confServidorXml->getEscenarioXmlCopy()->getFondoXmlCopy();
+	FondoXml * fondoXml = confServidorXml->getListaEscenario()[0]->getFondoXmlCopy();
 	FondoModel * fondoModel = new FondoModel(fondoXml);
 	//sprites
 	int cantS = confServidorXml->getCanSprs();

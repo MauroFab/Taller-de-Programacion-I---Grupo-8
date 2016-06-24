@@ -1,4 +1,7 @@
 #pragma once
+
+#include "IGenericaVO.h"
+
 const int noHayNingunEventoEspecial = 0;
 
 //Los siguientes se usan unicamente para mensajes del cliente al servidor
@@ -37,6 +40,7 @@ public:
 	int getNumeroDeEvento();
 	void setNumeroDeEvento(int numero);
 	int getSizeBytes();
+	void toString(TCadena1000 cadena);
 	~Evento();
 private:
 	int numeroDeEvento;

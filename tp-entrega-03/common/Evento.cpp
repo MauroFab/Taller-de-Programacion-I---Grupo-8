@@ -15,6 +15,8 @@ void Evento::setNumeroDeEvento(int numero){
 int Evento::getSizeBytes(){
 	return (sizeof(int));
 }
+void Evento::toString(TCadena1000 cadena){
+}
 
 Evento::~Evento(){
 }

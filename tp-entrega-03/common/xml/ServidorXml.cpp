@@ -6,9 +6,12 @@ ServidorXml::ServidorXml()
 	this->sizeBytes = -1;
 	this->cantidadMaximaClientes = -1;
 	this->puerto = -1;
-	this->modoDeJuego = NULL;
+	this->modo = -1;
 //	VentanaXml ventanaXml;
-//	EscenarioXml escenarioXml;
+	for (int i = 0; i < MAX_ESCENARIOS; i++){
+		this->listaEscenario[i] = NULL;
+	}
+	this->canEsc = 0;
 	for (int i = 0; i < MAX_SPRITES; i++){
 		this->listaSprite[i] = NULL;
 	}
@@ -29,6 +32,10 @@ ServidorXml::ServidorXml()
 
 ServidorXml::~ServidorXml()
 {
+	for (int i = 0; i < MAX_ESCENARIOS; i++){
+		if (this->listaEscenario[i] != NULL)
+			delete this->listaEscenario[i];
+	}
 	for (int i = 0; i < MAX_SPRITES; i++){
 		if (this->listaSprite[i] != NULL)
 			delete this->listaSprite[i];
@@ -45,9 +52,6 @@ ServidorXml::~ServidorXml()
 		if (this->listaPowerUp[i] != NULL)
 			delete this->listaPowerUp[i];
 	}
-	if (this->modoDeJuego != NULL) {
-		delete [] this->modoDeJuego;
-	}
 }
 int ServidorXml::getSizeBytes(){
 	return this->sizeBytes;
@@ -61,6 +65,7 @@ void ServidorXml::calculateSizeBytes(){
 	this->sizeBytes = sizeof(int) //sizeBytes
 		+ sizeof(int)//cantidadMaximaClientes
 		+ sizeof(int)//puerto
+		+ sizeof(int)//canEsc
 		+ sizeof(int)//canSprs
 		+ sizeof(int)//canAvs
 		+ sizeof(int)//canEnes
@@ -79,6 +84,14 @@ void ServidorXml::setPuerto(int puerto){
 int ServidorXml::getPuerto(){
 	return this->puerto;
 }
+
+void ServidorXml::setModo(int modo){
+	this->modo = modo;
+}
+int ServidorXml::getModo(){
+	return this->modo;
+}
+
 void ServidorXml::setVentanaXml(const VentanaXml &ventanaXml){
 	this->ventanaXml = ventanaXml;
 
@@ -86,12 +99,19 @@ void ServidorXml::setVentanaXml(const VentanaXml &ventanaXml){
 VentanaXml * ServidorXml::getVentanaXmlCopy(){
 	return &this->ventanaXml;
 }
-void ServidorXml::setEscenarioXml(const EscenarioXml &escenarioXml){
-	this->escenarioXml = escenarioXml;
+
+void ServidorXml::addEscenario(EscenarioXml * escenario,int pos){
+	this->canEsc++;
+	this->listaEscenario[pos] = escenario;
 }
-/*const */EscenarioXml * ServidorXml::getEscenarioXmlCopy(){
-	return &this->escenarioXml;
+//listado de punteros a EscenarioXml
+EscenarioXml * * ServidorXml::getListaEscenario(){
+	return this->listaEscenario;
 }
+int ServidorXml::getCanEsc(){
+	return this->canEsc;
+}
+
 void ServidorXml::addSprite(SpriteXml * sprite,int pos){
 	this->canSprs++;
 	this->listaSprite[pos] = sprite;
@@ -138,16 +158,7 @@ int ServidorXml::getCanPows(){
 	return this->canPows;
 }
 
-// Modo del juego
-void ServidorXml::setModoDeJuego(char* modo) {
-	this->modoDeJuego = new char[strlen(modo) + 1];
-	strcpy(this->modoDeJuego, modo);
-}
-char* ServidorXml::getModoDeJuego() {
-	return this->modoDeJuego;
-}
-
 void ServidorXml::toString(TCadena1000 cadena){
-	sprintf(cadena,"ServidorXml:sizeBytes=%dcantidadMaximaClientes=%d,puerto=%d,canSprs=%d,canAvs=%d",
-		sizeBytes,cantidadMaximaClientes,puerto,canSprs,canAvs);
+	sprintf(cadena,"ServidorXml:sizeBytes=%dcantidadMaximaClientes=%d,puerto=%d,canEsc=%d,canSprs=%d,canAvs=%d",
+		sizeBytes,cantidadMaximaClientes,puerto,canEsc,canSprs,canAvs);
 }

@@ -1,7 +1,7 @@
 <servidor>
 	<cantidadMaximaClientes>1</cantidadMaximaClientes>
 	<puerto>15636</puerto>
-	<modoDeJuego>practica_colaboracion</modoDeJuego>
+	<modo>practica_colaboracion</modo>
 	<ventana>
 		<ancho>480</ancho>
 		<alto>640</alto>
@@ -85,46 +85,76 @@
 			<ancho>32</ancho>
 			<alto>32</alto>
 		</sprite>		
+		<sprite>
+			<id>avion_big</id>
+			<path>avion_big.bmp</path>
+			<cantidad>1</cantidad>
+			<ancho>32</ancho>
+			<alto>32</alto>
+		</sprite>		
+		<sprite>
+			<id>avion_formacion</id>
+			<path>avion_formacion.bmp</path>
+			<cantidad>1</cantidad>
+			<ancho>32</ancho>
+			<alto>32</alto>
+		</sprite>		
+		<sprite>
+			<id>avion_middle</id>
+			<path>avion_middle.bmp</path>
+			<cantidad>1</cantidad>
+			<ancho>32</ancho>
+			<alto>32</alto>
+		</sprite>		
+		<sprite>
+			<id>avion_mini</id>
+			<path>avion_mini.bmp</path>
+			<cantidad>1</cantidad>
+			<ancho>32</ancho>
+			<alto>32</alto>
+		</sprite>		
 	</sprites>
-	<escenario>
-		<ancho>100</ancho>
-		<alto>1000</alto>
-		<fondo>
-			<spriteId>fondo</spriteId>
-			<ancho>0</ancho>
-			<alto>0</alto>
-		</fondo>
-		<elementos>
-			<elemento>
-				<spriteId>isla</spriteId>
-				<posicion>
-					<x>0</x>
-					<y>0</y>
-				</posicion>
-			</elemento>
-			<elemento>
-				<spriteId>isla</spriteId>
-				<posicion>
-					<x>150</x>
-					<y>200</y>
-				</posicion>
-			</elemento>
-			<elemento>
-				<spriteId>isla</spriteId>
-				<posicion>
-					<x>300</x>
-					<y>800</y>
-				</posicion>
-			</elemento>
-			<elemento>
-				<spriteId>barco</spriteId>
-				<posicion>
-					<x>0</x>
-					<y>250</y>
-				</posicion>
-			</elemento>
-		</elementos>
-	</escenario>
+	<escenarios>
+		<escenario>
+			<ancho>100</ancho>
+			<alto>1000</alto>
+			<fondo>
+				<spriteId>fondo</spriteId>
+				<ancho>0</ancho>
+				<alto>0</alto>
+			</fondo>
+			<elementos>
+				<elemento>
+					<spriteId>isla</spriteId>
+					<posicion>
+						<x>0</x>
+						<y>0</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>isla</spriteId>
+					<posicion>
+						<x>150</x>
+						<y>200</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>isla</spriteId>
+					<posicion>
+						<x>300</x>
+						<y>800</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>0</x>
+						<y>250</y>
+					</posicion>
+				</elemento>
+			</elementos>
+		</escenario>
+	</escenarios>
 	<aviones>
 		<avion>
 			<velocidadDesplazamiento>5</velocidadDesplazamiento>
@@ -159,6 +189,18 @@
 		<avionEnemigo>
 			<tipo>big</tipo>
 			<spriteId>avion_big</spriteId>			
+		</avionEnemigo>		
+		<avionEnemigo>
+			<tipo>formacion</tipo>
+			<spriteId>avion_formacion</spriteId>			
+		</avionEnemigo>		
+		<avionEnemigo>
+			<tipo>middle</tipo>
+			<spriteId>avion_middle</spriteId>			
+		</avionEnemigo>		
+		<avionEnemigo>
+			<tipo>mini</tipo>
+			<spriteId>avion_mini</spriteId>			
 		</avionEnemigo>		
 		<avionEnemigo>
 			<tipo>big</tipo>

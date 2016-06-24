@@ -13,6 +13,11 @@ using namespace std;
 #define A_TIPO_MIDDLE		3
 #define A_TIPO_MINI			4
 
+#define S_TIPO_BIG			"big"
+#define S_TIPO_FORMACION	"formacion"
+#define S_TIPO_MIDDLE		"middle"
+#define S_TIPO_MINI			"mini"
+
 class AvionEnemigoXml : public IGenericaVO
 {
 private:

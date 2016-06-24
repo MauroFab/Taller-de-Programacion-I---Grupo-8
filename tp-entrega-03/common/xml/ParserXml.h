@@ -70,20 +70,31 @@ public:
 	//SERVIDOR
 	ServidorXml * createDataServidorXml();
 	void createDataVentanaXml(ServidorXml *servidorXml,XMLElement* elemVentana);
+	
 	void createDataListSpriteXml(ServidorXml *servidorXml,XMLElement* listSprites);
 	SpriteXml * createDataSpriteXml(XMLElement* elemSprite,int idxSps);
-	void createDataEscenarioXml(ServidorXml *servidorXml,XMLElement* elemEscenario);
+	
+	void createDataListEscenariosXml(ServidorXml *servidorXml,XMLElement* listEscenarios);
+	EscenarioXml * createDataEscenarioXml(XMLElement* elemEscenario,int idxEs);
+	
 	void createDataFondoXml(EscenarioXml *escenarioXml,XMLElement* elemFondo);	
+	
 	void createDataListElementosXml(EscenarioXml *escenarioXml,XMLElement* listElementos);
 	ElementoXml * createDataElementoXml(XMLElement* elemE,int idxE);
+	
 	void createDataListAvionXml(ServidorXml *servidorXml,XMLElement* listAviones);	
 	AvionXml * createDataAvionXml(XMLElement* elemAvion,int idxAvs);
+	
 	void createDataListEnemigoXml(ServidorXml *servidorXml,XMLElement* listEnemigo);	
 	AvionEnemigoXml * createDataEnemigoXml(XMLElement* elemEnemigo,int idxEne);
+	
 	void createDataListPowerXml(ServidorXml *servidorXml,XMLElement* listPower);	
 	PowerUpXml * createDataPowerXml(XMLElement* elemPower,int idxPow);
 
 	int findSpriteIdByName(char * strIdSprite);
+	int tipoPowerToInt(char * strTipoPow);
+	int tipoEnemigoToInt(char * strTipoEne);
+	int modoToint(char * modo);
 
 	//validacion de xml
 	//CLIENTE
@@ -99,6 +110,7 @@ public:
 	int validarVentanaXml(XMLElement* elemVentana);
 	int validarListaSpriteXml(XMLElement* listSprites);
 	int validarSpriteXml(XMLElement* elemSprite,set<string> &setClaves);
+	int validarListaEscenarioXml(XMLElement*  listEscenario);
 	int validarEscenarioXml(XMLElement*  elemEscenario);
 	int validarFondoXml(XMLElement* elemFondo);
 	int validarListaElementosXml(XMLElement* listElementos);

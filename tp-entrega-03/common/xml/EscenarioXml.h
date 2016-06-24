@@ -26,6 +26,7 @@ private:
 	int canElems;
 public:
 	EscenarioXml();
+	EscenarioXml(int id);
 	virtual ~EscenarioXml();
 	//para la misma clase
     EscenarioXml & operator = (const EscenarioXml & source);	

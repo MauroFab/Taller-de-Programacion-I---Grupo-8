@@ -12,6 +12,17 @@ EscenarioXml::EscenarioXml()
 	}
 	this->canElems = 0;
 }
+EscenarioXml::EscenarioXml(int id)
+{
+	this->sizeBytes = -1;
+	this->id = id;
+	this->ancho = -1;
+	this->alto = -1;
+	for (int i = 0; i < MAX_ELEMENTOS; i++){
+		this->lista[i] = NULL;
+	}
+	this->canElems = 0;
+}
 
 EscenarioXml::~EscenarioXml()
 {

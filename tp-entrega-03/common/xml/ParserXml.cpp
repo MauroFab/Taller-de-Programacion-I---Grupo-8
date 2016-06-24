@@ -954,17 +954,17 @@ ServidorXml * ParserXml::createDataServidorXml(){
 	XMLElement* elemPuerto = (XMLElement*)elemCantidad->NextSibling();
 	char *puerto = (char*)elemPuerto->GetText();
 	servidorXml->setPuerto(atoi(puerto));
-	XMLElement* elemModoDeJuego = (XMLElement*)elemPuerto->NextSibling();
-	char* modoDeJuego = (char*)elemModoDeJuego->GetText();
-	servidorXml->setModoDeJuego(modoDeJuego);
+	XMLElement* elemModo = (XMLElement*)elemPuerto->NextSibling();
+	char *modo = (char*)elemModo->GetText();
+	servidorXml->setModo(modoToint(modo));
 	//aqui se cargan los datos nuevos
-	XMLElement* elemVentana = (XMLElement*)elemModoDeJuego->NextSibling();
+	XMLElement* elemVentana = (XMLElement*)elemModo->NextSibling();
 	createDataVentanaXml(servidorXml,elemVentana);
 	XMLElement* listSprites = (XMLElement*)elemVentana->NextSibling();
 	createDataListSpriteXml(servidorXml,listSprites);
-	XMLElement* elemEscenario = (XMLElement*)listSprites->NextSibling();
-	createDataEscenarioXml(servidorXml,elemEscenario);
-	XMLElement* listAviones = (XMLElement*)elemEscenario->NextSibling();
+	XMLElement* listEscenarios = (XMLElement*)listSprites->NextSibling();
+	createDataListEscenariosXml(servidorXml,listEscenarios);
+	XMLElement* listAviones = (XMLElement*)listEscenarios->NextSibling();
 	createDataListAvionXml(servidorXml,listAviones);
 	XMLElement* listEnemigo = (XMLElement*)listAviones->NextSibling();
 	createDataListEnemigoXml(servidorXml,listEnemigo);
@@ -1033,22 +1033,51 @@ SpriteXml * ParserXml::createDataSpriteXml(XMLElement* elemSprite,int idxSps){
 	return new SpriteXml(idxSps,strId,path,cantidad,ancho,alto);
 }
 
-void ParserXml::createDataEscenarioXml(ServidorXml *servidorXml,XMLElement* elemEscenario){
+void ParserXml::createDataListEscenariosXml(ServidorXml *servidorXml,XMLElement* listEscenarios){
+	XMLNode * elemE = NULL;
+	int idxE = 0;
+//	char * texto;
+	if (!listEscenarios->NoChildren()){	//si tiene al menos un hijo
+		//se obtiene el 1er elemento <elemento>
+		XMLNode * data1ErElem = listEscenarios->FirstChild();
+		//se copia el ptr del 1er elemento a un puntero a nodo para leer luego los sgtes mjs
+		elemE = data1ErElem;
+		while (elemE != listEscenarios->LastChild()){
+			//se procesa el elemento
+			EscenarioXml * escenX = createDataEscenarioXml((XMLElement*)elemE,idxE);
+			servidorXml->addEscenario(escenX,idxE);
+			//leo siguiente elemento
+			elemE = elemE->NextSibling();
+			idxE++; // contador de elementos del escenario
+		}
+		//leo el ultimo elemento dado que elemE es el lastchild
+		EscenarioXml * escenX = createDataEscenarioXml((XMLElement*)elemE,idxE);
+		servidorXml->addEscenario(escenX,idxE);
+	}
+}
+
+EscenarioXml * ParserXml::createDataEscenarioXml(XMLElement* elemEscenario,int idxEs){
+	
 	//obtiene el ANCHO
 	XMLElement* elemANCHO = (XMLElement*)elemEscenario->FirstChild();
 	int ancho = atoi(elemANCHO->GetText());
 	//obtiene el ALTO
 	XMLElement* elemALTO = (XMLElement*)elemANCHO->NextSibling();
 	int alto = atoi(elemALTO->GetText());
-	servidorXml->getEscenarioXmlCopy()->setAncho(ancho);
-	servidorXml->getEscenarioXmlCopy()->setAlto(alto);
+	EscenarioXml * escenarioXml = new EscenarioXml(idxEs);
+	escenarioXml->setAncho(ancho);
+	escenarioXml->setAlto(alto);
 	//obtiene el FONDO
 	XMLElement* elemFONDO = (XMLElement*)elemALTO->NextSibling();
-	createDataFondoXml(servidorXml->getEscenarioXmlCopy(),elemFONDO);
+	createDataFondoXml(escenarioXml,elemFONDO);
 	//obtiene la listaELEMENTOS
 	XMLElement* listElementos = (XMLElement*)elemFONDO->NextSibling();
-	createDataListElementosXml(servidorXml->getEscenarioXmlCopy(),listElementos);
+	createDataListElementosXml(escenarioXml,listElementos);
+	return escenarioXml;
+	
 }
+
+
 void ParserXml::createDataFondoXml(EscenarioXml *escenarioXml,XMLElement* elemFondo){
 	//obtiene ANCHO
 	int idSprite = -1;
@@ -1202,7 +1231,7 @@ AvionEnemigoXml * ParserXml::createDataEnemigoXml(XMLElement* elemEnemigo,int id
  */
  //obtiene tipo
 	XMLElement* elemTipo = (XMLElement*)elemEnemigo->FirstChild();
-	int tipo = atoi(elemTipo->GetText());
+	int tipo = tipoEnemigoToInt((char*)elemTipo->GetText());
 	
 	XMLElement* elemStrSpId = (XMLElement*)elemTipo->NextSibling();
 	char * strIdSprite = (char*)elemStrSpId->GetText();
@@ -1258,7 +1287,7 @@ PowerUpXml * ParserXml::createDataPowerXml(XMLElement* elemPower,int idxPow){
  */
  //obtiene tipo
 	XMLElement* elemTipo = (XMLElement*)elemPower->FirstChild();
-	int tipo = atoi(elemTipo->GetText());
+	int tipo = tipoPowerToInt((char*)elemTipo->GetText());
 	XMLElement* elemStrSpId = (XMLElement*)elemTipo->NextSibling();
 	char * strIdSprite = (char*)elemStrSpId->GetText();
 	//obtiene spriteId
@@ -1286,6 +1315,40 @@ int ParserXml::findSpriteIdByName(char * strIdSprite){
 	if (it != this->mapaSpriteIds.end()){
 		return it->second;
 	}	
+	return -1;
+}
+
+int ParserXml::tipoPowerToInt(char * strTipoPow){
+	if (strcmp(strTipoPow,S_TIPO_MUERTE) == 0)
+		return P_TIPO_MUERTE;
+	else if (strcmp(strTipoPow,S_TIPO_AMETRALLADORA) == 0)
+		return P_TIPO_AMETRALLADORA;
+	else if (strcmp(strTipoPow,S_TIPO_PUNTOS) == 0)
+		return P_TIPO_PUNTOS;
+	return -1;
+}
+
+int ParserXml::tipoEnemigoToInt(char * strTipoEne){
+	if (strcmp(strTipoEne,S_TIPO_BIG) == 0)
+		return A_TIPO_BIG;
+	else if (strcmp(strTipoEne,S_TIPO_FORMACION) == 0)
+		return A_TIPO_FORMACION;
+	else if (strcmp(strTipoEne,S_TIPO_MIDDLE) == 0)
+		return A_TIPO_MIDDLE;
+	else if (strcmp(strTipoEne,S_TIPO_MINI) == 0)
+		return A_TIPO_MINI;
+	return -1;	
+}
+
+int ParserXml::modoToint(char * modo){
+	if (strcmp(modo,S_MODO_PRACTICA_COLABORACION) == 0)
+		return M_MODO_PRACTICA_COLABORACION;
+	else if (strcmp(modo,S_MODO_PRACTICA_EQUIPO) == 0)
+		return M_MODO_PRACTICA_EQUIPO;
+	else if (strcmp(modo,S_MODO_NORMAL_COLABORACION) == 0)
+		return M_MODO_NORMAL_COLABORACION;
+	else if (strcmp(modo,S_MODO_NORMAL_EQUIPO) == 0)
+		return M_MODO_NORMAL_EQUIPO;
 	return -1;
 }
 
@@ -1457,20 +1520,23 @@ int ParserXml::validarXmlArchivoServidor(){
 	char *puerto = (char*)elemPuerto->GetText();
 	if (isValidPuerto(puerto) < 0)
 		return -1;
-	XMLElement* elemModoDeJuego = (XMLElement*)elemPuerto->NextSibling();
-	//error en tag modo de juego
-	if (strcmp(elemModoDeJuego->Name(),"modoDeJuego") != 0)
+	XMLElement* elemModo = (XMLElement*)elemPuerto->NextSibling();
+	//error en tag de modo
+	if (strcmp(elemModo->Name(),"modo") != 0)
 		return -1;
-	XMLElement* elemVentana =  (XMLElement*)elemModoDeJuego->NextSibling();
+	char *modo = (char*)elemModo->GetText();
+	if (isValidString(modo) < 0)
+		return -1;
+	XMLElement* elemVentana =  (XMLElement*)elemModo->NextSibling();
 	if (validarVentanaXml(elemVentana) < 0)
 		return -1;
 	XMLElement* listSprites =  (XMLElement*)elemVentana->NextSibling();
 	if (validarListaSpriteXml(listSprites) < 0)
 		return -1;
-	XMLElement* escenario =  (XMLElement*)listSprites->NextSibling();
-	if (validarEscenarioXml(escenario) < 0)
+	XMLElement* listEscenario =  (XMLElement*)listSprites->NextSibling();
+	if (validarListaEscenarioXml(listEscenario) < 0)
 		return -1;
-	XMLElement* listAviones =  (XMLElement*)escenario->NextSibling();
+	XMLElement* listAviones =  (XMLElement*)listEscenario->NextSibling();
 	if (validarListaAvionXml(listAviones) < 0)
 		return -1;
 	XMLElement* listEnemigo =  (XMLElement*)listAviones->NextSibling();
@@ -1633,6 +1699,35 @@ int ParserXml::validarSpriteXml(XMLElement* elemSprite,set<string> &setClaves){
 		return -1;
 	return 0;
 }
+
+int ParserXml::validarListaEscenarioXml(XMLElement*  listEscenario){
+	if (listEscenario == NULL)
+		return -1;
+	//error en tag de listSprites
+	if (strcmp(listEscenario->Name(),"escenarios") != 0)
+		return -1;
+	if (listEscenario->NoChildren())
+		return -1;
+
+	XMLNode * elemEscenario = NULL;
+	//se obtiene el 1er escenario <escenario>
+	XMLNode * data1ErEscenario = listEscenario->FirstChild();
+	//se copia el ptr del 1er escenario a un puntero a nodo para leer luego los sgtes mjs
+	elemEscenario = data1ErEscenario;
+	while (elemEscenario != listEscenario->LastChild()){
+		//se valida el escenario
+		if ( validarEscenarioXml((XMLElement*)elemEscenario) < 0)
+			return -1;
+		//leo siguiente escenario
+		elemEscenario = elemEscenario->NextSibling();
+	}
+	//leo el ultimo escenario dado que elemEscenario es el lastchild
+	//se valida el escenario
+	if ( validarEscenarioXml((XMLElement*)elemEscenario) < 0)
+		return -1;
+	return 0;
+}
+
 int ParserXml::validarEscenarioXml(XMLElement* elemEscenario){
 	if (elemEscenario == NULL)
 		return -1;

@@ -12,6 +12,10 @@ using namespace std;
 #define P_TIPO_AMETRALLADORA	2
 #define P_TIPO_PUNTOS		3
 
+#define S_TIPO_MUERTE			"muerte"
+#define S_TIPO_AMETRALLADORA	"bala"
+#define S_TIPO_PUNTOS			"puntos"
+
 class PowerUpXml : public IGenericaVO
 {
 private:

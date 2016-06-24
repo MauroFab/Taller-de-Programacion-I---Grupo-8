@@ -651,6 +651,7 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 	int sizeBytes = servidorXml.getSizeBytes();
 	int cantidadMaximaClientes = servidorXml.getCantidadMaximaClientes();
 	int puerto = servidorXml.getPuerto();
+	int canEsc = servidorXml.getCanEsc();
 	int canSprs = servidorXml.getCanSprs();
 	int canAvs = servidorXml.getCanAvs();
 	int canEnes = servidorXml.getCanEnes();
@@ -668,7 +669,12 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 	//-----------
 	offset += codificar(*servidorXml.getVentanaXmlCopy(),buffer + offset);
 	//-----------
-	offset += codificar(*servidorXml.getEscenarioXmlCopy(),buffer + offset);
+	memcpy(buffer + offset,&canEsc,sizeof(int));
+	offset += sizeof(int);
+	for (int idx = 0; idx<canEsc;idx++){
+		EscenarioXml * escX = servidorXml.getListaEscenario()[idx];
+		offset += codificar(*escX,buffer + offset);
+	}
 	//-----------
 	memcpy(buffer + offset,&canSprs,sizeof(int));
 	offset += sizeof(int);
@@ -710,6 +716,7 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	int sizeBytes = -1;
 	int cantidadMaximaClientes = -1;
 	int puerto = -1;
+	int canEsc = -1;
 	int canSprs = -1;
 	int canAvs = -1;
 	int canEnes = -1;
@@ -728,9 +735,13 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	offset += decodificar(buffer + offset,&ventanaXml);
 	servidorXml->setVentanaXml(ventanaXml);
 	//-----------
-	EscenarioXml escenarioXml;
-	offset += decodificar(buffer + offset,&escenarioXml);
-	servidorXml->setEscenarioXml(escenarioXml);
+	memcpy(&canEsc,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	for (int idx = 0; idx < canEsc;idx++){
+		EscenarioXml * escX = new EscenarioXml();
+		offset += decodificar(buffer + offset,escX);
+		servidorXml->addEscenario(escX,idx);
+	}
 	//-----------
 	memcpy(&canSprs,buffer + offset,sizeof(int));
 	offset += sizeof(int);
@@ -1189,10 +1200,9 @@ int Protocolo::codificar(Evento &evento, char* buffer) {
 
 	memcpy(buffer + offset,&numeroDeevento,sizeof(int));
 	offset += sizeof(int);
-
 	#ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
-	posicion->toString(cadena);
+	evento.toString(cadena);
 	printf("%s\n",cadena);
 	#endif
 
@@ -1214,7 +1224,7 @@ int Protocolo::decodificar(char* buffer, Evento* evento) {
 
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
-	posicion->toString(cadena);
+	evento->toString(cadena);
 	printf("%s\n",cadena);
 #endif
 
@@ -1270,7 +1280,8 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 	int cantidaDeJugadores = 0;
 	std::list<EstadoAvion*> estadoAviones;
 	estadoAviones = estadoJuego.getEstadoDeLosAviones();
-	int cantidadDeAviones, cantidadDeJugadores;
+	int cantidadDeAviones = -1;
+	int cantidadDeJugadores = -1;
 	if(estadoAviones.empty()){
 		cantidadDeAviones = 0;
 	}else{
@@ -1279,8 +1290,6 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 
 	std::list<EstadoAvion*>::iterator it;
 	std::list<EstadoAvion*> lista = estadoAviones;
-
-
 
 	//Primero guardamos el evento especial
 	offset += codificar(*estadoJuego.obtenerEvento(),buffer + offset);
@@ -1311,7 +1320,6 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 		offset += codificar(estadoJugador,buffer + offset);
 	}
 
-
 	//Luego se codifica el estado del Mapa
 	offset += codificar(*estadoJuego.getEstadoDelMapa(), buffer + offset);
 
@@ -1321,7 +1329,8 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 /*Aca hay un new para cada evento eso lo hace mas costoso.
 */
 int Protocolo::decodificar(char* buffer, EstadoJuego*& estadoJuego){
-	int cantidadDeAviones, cantidadDeJugadores;
+	int cantidadDeAviones = -1;
+	int cantidadDeJugadores = -1;
 	int offset = 0;
 	std::list<EstadoAvion*> estadoAviones;
 	std::list<EstadoJugador> estadoJugadores;
@@ -1351,7 +1360,6 @@ int Protocolo::decodificar(char* buffer, EstadoJuego*& estadoJuego){
 		offset += decodificar(buffer + offset,estadoJugador);
 		estadoJugadores.push_back(estadoJugador);
 	}
-
 	//Decodifico el estado del Mapa
 	EstadoMapa* estadoMapa = new EstadoMapa();
 	offset += decodificar(buffer + offset, estadoMapa);
@@ -1381,7 +1389,6 @@ int Protocolo::codificar(EstadoMapa &estadoMapa, char* buffer) {
 
 	memcpy(buffer + offset,&idEtapa,sizeof(int));
 	offset += sizeof(int);
-
 	return offset;
 }
 
