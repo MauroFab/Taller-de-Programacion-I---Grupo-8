@@ -1358,6 +1358,7 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 	//Guardo la cantidad de jugadores
 	std::list<EstadoJugador> estadoJugadores;
 
+	//Luego sus estados
 	estadoJugadores = estadoJuego.getEstadoDeLosJugadores();
 	cantidadDeJugadores = estadoJugadores.size();
 
@@ -1370,6 +1371,25 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 		EstadoJugador estadoJugador = (*itJ);
 		offset += codificar(estadoJugador,buffer + offset);
 	}
+
+	//Paso a los power ups
+	std::list<EstadoPowerUp> estadoPowerUps;
+	int cantidadDePowerUps;
+	
+	estadoPowerUps = estadoJuego.getEstadoPowerUps();
+	//Guardo la cantidad de powerUps
+	cantidadDePowerUps = estadoPowerUps.size();
+	memcpy(buffer + offset,&cantidadDePowerUps,sizeof(int));
+	offset += sizeof(int);
+
+	//Guardo los power ups
+	std::list<EstadoPowerUp>::iterator itP;
+	
+	for (itP = estadoPowerUps.begin(); itP != estadoPowerUps.end(); itP++) {
+		EstadoPowerUp estadoPowerUp = (*itP);
+		offset += codificar(estadoPowerUp,buffer + offset);
+	}
+
 
 	//Luego se codifica el estado del Mapa
 	offset += codificar(*estadoJuego.getEstadoDelMapa(), buffer + offset);
@@ -1411,12 +1431,24 @@ int Protocolo::decodificar(char* buffer, EstadoJuego*& estadoJuego){
 		offset += decodificar(buffer + offset,estadoJugador);
 		estadoJugadores.push_back(estadoJugador);
 	}
+
+	int cantidadDePowerUps;
+	std::list<EstadoPowerUp> estadoPowerUps;
+
+	//Cargo la cantidad de power ups
+	memcpy(&cantidadDePowerUps,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	//Decodifico los estados de los power ups
+	for (int i = 0; i < cantidadDePowerUps; i++){
+		EstadoPowerUp estadoPowerUp;
+		offset += decodificar(buffer + offset,estadoPowerUp);
+		estadoPowerUps.push_back(estadoPowerUp);
+	}
+
 	//Decodifico el estado del Mapa
 	EstadoMapa* estadoMapa = new EstadoMapa();
 	offset += decodificar(buffer + offset, estadoMapa);
-
-	//Deberia decodificar los estadoPowerUps, pero por ahora no
-	list<EstadoPowerUp> estadoPowerUps;
 
 	estadoJuego = new EstadoJuego(estadoAviones, estadoJugadores, estadoPowerUps,
 									estadoMapa, *evento);
