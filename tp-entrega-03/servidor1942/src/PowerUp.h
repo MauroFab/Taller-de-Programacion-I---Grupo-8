@@ -39,7 +39,7 @@ private:
 	//Como se que es 30 para cualquiera lo hardcodeo por ahora
 	static const int ANCHO = 30;
 	static const int ALTO = 30;
-	SuperficieOcupada* superficieOcupada;
+	SuperficieOcupada superficieOcupada;
 	//void killEnemigos(Escenario * escenario);
 	//void aumentarBala(AvionJugador * avionJugador);
 	bool usado;
