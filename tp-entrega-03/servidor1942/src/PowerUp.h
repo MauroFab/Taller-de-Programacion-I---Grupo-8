@@ -1,8 +1,13 @@
 #ifndef _POWERUP_H_
 #define _POWERUP_H_
+/*
+Estos define pasaron al estadoPowerUp, asi el cliente los tiene ahi.
+
 #define TIPO_MUERTE		10
 #define TIPO_AMETRALLADORA 11
 #define TIPO_PUNTOS		12
+
+*/
 #define PUNTOS_A		500
 #define PUNTOS_B		1000
 #define PUNTOS_C		1500

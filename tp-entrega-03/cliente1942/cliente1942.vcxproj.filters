@@ -222,6 +222,9 @@
     <ClCompile Include="..\juego\EstadoPowerUp.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
+    <ClCompile Include="..\juego\GraficadorPowerUp.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -388,6 +391,9 @@
     </ClInclude>
     <ClInclude Include="..\juego\EstadoPowerUp.h">
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficadorPowerUp.h">
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
