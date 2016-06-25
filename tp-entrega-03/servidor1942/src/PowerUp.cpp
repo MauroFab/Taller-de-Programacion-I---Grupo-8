@@ -19,7 +19,6 @@ bool PowerUp::esDePuntos(){
 	return (tipo == TIPO_PUNTOS);
 }
 PowerUp::~PowerUp(){
-	//delete superficieOcupada;
 }
 
 bool PowerUp::fueUsado(){
