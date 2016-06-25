@@ -219,6 +219,9 @@
     <ClCompile Include="..\juego\GraficadorPuntosVida.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
     </ClCompile>
+    <ClCompile Include="..\juego\EstadoPowerUp.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -382,6 +385,9 @@
     </ClInclude>
     <ClInclude Include="..\juego\GraficadorPuntosVida.h">
       <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoPowerUp.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
