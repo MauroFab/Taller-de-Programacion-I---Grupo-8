@@ -15,6 +15,9 @@
 #include "../servidor1942/src/SuperficieOcupada.h"
 #include "../servidor1942/src/FakeAvionEnemigo.h"
 #include "../servidor1942/src/ModeloJugador.h"
+#include "../servidor1942/src/PowerUp.h"
+
+class PowerUp;
 
 class Avion {
 private:
@@ -38,9 +41,6 @@ private:
 	static const int vidaMaximaAvion = 3;
 	int puntosDeVida;
 
-
-
-
 public:
 
 	Avion(int ventanaAncho, int ventalaAlto, AvionView* avionView, BalaView* balaView);
@@ -54,10 +54,9 @@ public:
 	//Este es uno que valida la colision, y cambia el estado del avion en base a eso
 	//Se puede cambiar al avionEnemigo por una lista de avionesEnemigo posteriormente
 
-	void mover(list<FakeAvionEnemigo> &avionesEnemigos);
+	void mover(list<FakeAvionEnemigo> &avionesEnemigos, list<PowerUp> powerUps);
 
-	//Este mover no considera ningun tipo de colision
-	void mover();
+	
 
 	EstadoJugador getEstadoJugadorAsociado();
 
@@ -70,7 +69,15 @@ public:
 	//Este metodo llama a uno de los de abajo de acuerdo al evento que recibe
 	void realizarAccionEnBaseA(Evento* evento);
 
+	void sumarPuntosAlJugadorAsociado(int puntos);
+
+	void recibirUnImpacto();
+
 private:
+
+	//Este mover no considera ningun tipo de colision, fuera de uso
+	void mover();
+
 
 	void darVelocidadHaciaArriba();
 	void darVelocidadHaciaAbajo();
@@ -82,7 +89,8 @@ private:
 	void hacerUnRoll();
 
 	void continuarMovimientoDelAvion();
-	void continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos);
+	void continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos,
+									 list<PowerUp> &powerUps);
 	void continuarMovimientoDeLosProyectiles();
 	void eliminarLosProyectilesQueSalieronDeLaPantalla();
 	int velocidad;
@@ -95,8 +103,11 @@ private:
 	void continuarElRoll();
 
 	void revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &avionesEnemigos);
+	void revisoColisiones(SuperficieOcupada hitbox, list<PowerUp> &powerUps);
 
 	int centroProyectil;
+	
+	void resolverColisionEntreElAvionY(PowerUp &powerUp);
 
 	//No cree una clase jugador completa, y preferi meterla adentro del avion
 	//Esto es porque de esta forma puedo resolver los puntajes cuando colisiono en el mover

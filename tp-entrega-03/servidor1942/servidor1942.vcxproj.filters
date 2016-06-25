@@ -126,9 +126,6 @@
     <ClCompile Include="src\ModeloDelJuego.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
-    <ClCompile Include="src\SuperficieOcupada.cpp">
-      <Filter>Archivos de código fuente\Juego</Filter>
-    </ClCompile>
     <ClCompile Include="..\juego\Mapa.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
@@ -148,6 +145,12 @@
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
     <ClCompile Include="src\ModeloJugador.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SuperficieOcupada.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PowerUp.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
   </ItemGroup>
@@ -245,9 +248,6 @@
     <ClInclude Include="src\ModeloDelJuego.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
-    <ClInclude Include="src\SuperficieOcupada.h">
-      <Filter>Archivos de encabezado\Juego</Filter>
-    </ClInclude>
     <ClInclude Include="..\juego\Mapa.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
@@ -267,6 +267,12 @@
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
     <ClInclude Include="src\ModeloJugador.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SuperficieOcupada.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PowerUp.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
   </ItemGroup>

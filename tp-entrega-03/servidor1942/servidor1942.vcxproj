@@ -127,6 +127,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainServidor.cpp" />
     <ClCompile Include="src\ModeloDelJuego.cpp" />
+    <ClCompile Include="src\PowerUp.cpp" />
     <ClCompile Include="src\SuperficieOcupada.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +169,7 @@
     <ClInclude Include="src\ModeloJugador.h" />
     <ClInclude Include="src\MainServidor.h" />
     <ClInclude Include="src\ModeloDelJuego.h" />
+    <ClInclude Include="src\PowerUp.h" />
     <ClInclude Include="src\SuperficieOcupada.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

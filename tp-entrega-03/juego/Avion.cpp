@@ -98,7 +98,30 @@ void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &a
 	}
 }
 
-void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos){
+void Avion::resolverColisionEntreElAvionY(PowerUp &powerUp){
+	//Si nunca fue usado (Los power ups tienen un solo uso)
+	if(!powerUp.fueUsado()){
+		powerUp.marcarComoUsado();
+		if(powerUp.esDePuntos()){
+			this->jugadorAsociado->sumarPuntos(powerUp.obtenerPuntosQueOtorga());
+		}
+		//Aca irian los otros casos de power ups.
+	}
+}
+
+void Avion::revisoColisiones(SuperficieOcupada hitbox, list<PowerUp> &powerUps){
+	std::list<PowerUp>::iterator it;
+	for (it = powerUps.begin(); it != powerUps.end(); it++) {
+		//Si toco al power up
+		if(hitbox.meSolapoCon((*it).obtenerSuperficieOcupada()) && !(*it).fueUsado()){
+			resolverColisionEntreElAvionY(*it);
+		}
+	}
+}
+
+
+void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos,
+										list<PowerUp> &powerUps){
 	//Los movimientos se hacen unidimensionalmente
 	//Primero en X y luego en Y
 	SuperficieOcupada hitbox;
@@ -106,9 +129,10 @@ void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos)
 	if(!rollFlag){
 		hitbox = actualizarPosicionEnX();
 		revisoColisiones(hitbox,avionesEnemigos);
-		
+		revisoColisiones(hitbox,powerUps);
 		hitbox = actualizarPosicionEnY();
 		revisoColisiones(hitbox,avionesEnemigos);
+		revisoColisiones(hitbox,powerUps);
 	//Si estoy haciendo un roll, no colisiono tampoco
 	}else{
 		continuarElRoll();
@@ -141,8 +165,8 @@ void Avion::mover() {
 }
 
 
-void Avion::mover(list<FakeAvionEnemigo> &avionesEnemigos) {
-	continuarMovimientoDelAvion(avionesEnemigos);
+void Avion::mover(list<FakeAvionEnemigo> &avionesEnemigos, list<PowerUp> powerUps) {
+	continuarMovimientoDelAvion(avionesEnemigos, powerUps);
 	//Avanzo los proyectiles
 	continuarMovimientoDeLosProyectiles();
 	//Si hay proyectiles
@@ -245,4 +269,8 @@ void Avion::hacerUnRoll(){
 
 EstadoJugador Avion::getEstadoJugadorAsociado(){
 	return(jugadorAsociado->getEstadoJugador());
+}
+
+void Avion::sumarPuntosAlJugadorAsociado(int puntos){
+	this->jugadorAsociado->sumarPuntos(puntos);
 }
