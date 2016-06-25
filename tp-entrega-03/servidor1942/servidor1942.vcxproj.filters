@@ -153,6 +153,12 @@
     <ClCompile Include="src\PowerUp.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
+    <ClCompile Include="..\juego\GraficadorPowerUp.cpp">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\EstadoPowerUp.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AsignadorDeUsuarios.h">
@@ -273,6 +279,12 @@
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
     <ClInclude Include="src\PowerUp.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficadorPowerUp.h">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoPowerUp.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
   </ItemGroup>

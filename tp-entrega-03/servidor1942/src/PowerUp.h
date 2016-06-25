@@ -9,7 +9,7 @@
 
 
 #include "../../servidor1942/src/SuperficieOcupada.h"
-
+#include "../../juego/EstadoPowerUp.h"
 /* El diseño de la estructura me gustaba, hubiese quedado mejor. No lo use por dos motivos
    El avion debía conocer al power up (Porque maneja las colisiones) y el power up al avion.
    Y luego tenía que usar un double dispatch, y el double dispatch en c++ no queda muy bien.
@@ -32,8 +32,8 @@ public:
 	//bool esDeAmetralladora();
 	//bool esDeMuerte();
 	int obtenerPuntosQueOtorga();	
-
-
+	EstadoPowerUp getEstadoPowerUp();
+	
 private:
 	//El ancho y alto es el que corresponde a la sprite
 	//Como se que es 30 para cualquiera lo hardcodeo por ahora

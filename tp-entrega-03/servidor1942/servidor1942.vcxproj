@@ -117,8 +117,10 @@
     <ClCompile Include="..\juego\EstadoAvion.cpp" />
     <ClCompile Include="..\juego\EstadoJuego.cpp" />
     <ClCompile Include="..\juego\EstadoJugador.cpp" />
+    <ClCompile Include="..\juego\EstadoPowerUp.cpp" />
     <ClCompile Include="..\juego\EstadoProyectil.cpp" />
     <ClCompile Include="..\juego\EstadoMapa.cpp" />
+    <ClCompile Include="..\juego\GraficadorPowerUp.cpp" />
     <ClCompile Include="..\juego\Mapa.cpp" />
     <ClCompile Include="..\juego\Proyectil.cpp" />
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
@@ -160,8 +162,10 @@
     <ClInclude Include="..\juego\EstadoAvion.h" />
     <ClInclude Include="..\juego\EstadoJuego.h" />
     <ClInclude Include="..\juego\EstadoJugador.h" />
+    <ClInclude Include="..\juego\EstadoPowerUp.h" />
     <ClInclude Include="..\juego\EstadoProyectil.h" />
     <ClInclude Include="..\juego\EstadoMapa.h" />
+    <ClInclude Include="..\juego\GraficadorPowerUp.h" />
     <ClInclude Include="..\juego\Mapa.h" />
     <ClInclude Include="..\juego\Proyectil.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />

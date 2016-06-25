@@ -35,3 +35,7 @@ SuperficieOcupada PowerUp::obtenerSuperficieOcupada(){
 int PowerUp::obtenerPuntosQueOtorga(){
 	return puntos;
 }
+
+EstadoPowerUp PowerUp::getEstadoPowerUp(){ 
+	return(EstadoPowerUp(tipo,usado));
+}
