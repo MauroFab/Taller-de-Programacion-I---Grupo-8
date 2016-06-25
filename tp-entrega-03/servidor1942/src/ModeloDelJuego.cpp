@@ -84,10 +84,18 @@ EstadoJuego* ModeloDelJuego::obtenerEstadoDelJuego(){
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
 		estadoDeAviones.push_back((*it).getEstado());
 	}
+
+	//Agrego los powerUps
+	std::list<EstadoPowerUp> estadoPowerUps;
+	std::list<PowerUp>::iterator itP;
+	for (itP = powerUps.begin(); itP != powerUps.end(); itP++) {
+		estadoPowerUps.push_back((*itP).getEstado());
+	}
+
 	EstadoMapa* estadoMapa = this->mapa->getEstado();
 
-
-	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones, estadoMapa, estadoJugadores);
+	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones, estadoJugadores, estadoPowerUps,
+												estadoMapa);
 
 	return estadoJuego;
 }

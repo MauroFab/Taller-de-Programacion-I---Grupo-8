@@ -10,6 +10,6 @@ public:
 	int getTipo();
 	int getPuntos();
 private:
-	int tipo, puntos;
+	int tipo;
 	bool fueUsado;
 };

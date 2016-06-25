@@ -13,20 +13,23 @@ EstadoJuego::EstadoJuego(Evento evento){
 	this->evento = new Evento(evento.getNumeroDeEvento());
 }
 
-EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, EstadoMapa* estadoDelMapa,
-						std::list<EstadoJugador> estadoJugador){
+EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, std::list<EstadoJugador> estadoJugador,
+						std::list<EstadoPowerUp> estadoPowerUp, EstadoMapa* estadoDelMapa){
 	estadoDeLosAviones = estadoAvion;
 	estadoMapa = estadoDelMapa;
 	this->estadoJugador = estadoJugador;
 	this->evento = new Evento(noHayNingunEventoEspecial);
+	this->estadoPowerUps = estadoPowerUp;
 } 
 
-EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, Evento evento,
-							std::list<EstadoJugador> estadoJugador,EstadoMapa* estadoDelMapa){
+EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, std::list<EstadoJugador> estadoJugador,
+						std::list<EstadoPowerUp> estadoPowerUp,
+						EstadoMapa* estadoDelMapa, Evento evento){
 	estadoDeLosAviones = estadoAvion;
 	estadoMapa = estadoDelMapa;
 	this->estadoJugador = estadoJugador;
 	this->evento = new Evento(evento.getNumeroDeEvento());
+	this->estadoPowerUps = estadoPowerUp;
 } 
 
 EstadoJuego::~EstadoJuego(){
@@ -53,4 +56,8 @@ Evento* EstadoJuego::obtenerEvento(){
 
 std::list<EstadoJugador> EstadoJuego::getEstadoDeLosJugadores(){
 	return(this->estadoJugador);
+}
+
+std::list<EstadoPowerUp> EstadoJuego::getEstadoPowerUps(){
+	return(this->estadoPowerUps);
 }

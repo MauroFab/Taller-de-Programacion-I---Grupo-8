@@ -32,7 +32,7 @@ public:
 	//bool esDeAmetralladora();
 	//bool esDeMuerte();
 	int obtenerPuntosQueOtorga();	
-	EstadoPowerUp getEstadoPowerUp();
+	EstadoPowerUp getEstado();
 	
 private:
 	//El ancho y alto es el que corresponde a la sprite

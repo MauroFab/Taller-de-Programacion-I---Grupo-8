@@ -36,6 +36,6 @@ int PowerUp::obtenerPuntosQueOtorga(){
 	return puntos;
 }
 
-EstadoPowerUp PowerUp::getEstadoPowerUp(){ 
+EstadoPowerUp PowerUp::getEstado(){ 
 	return(EstadoPowerUp(tipo,usado));
 }

@@ -1373,7 +1373,11 @@ int Protocolo::decodificar(char* buffer, EstadoJuego*& estadoJuego){
 	EstadoMapa* estadoMapa = new EstadoMapa();
 	offset += decodificar(buffer + offset, estadoMapa);
 
-	estadoJuego = new EstadoJuego(estadoAviones, *evento, estadoJugadores, estadoMapa);
+	//Deberia decodificar los estadoPowerUps, pero por ahora no
+	list<EstadoPowerUp> estadoPowerUps;
+
+	estadoJuego = new EstadoJuego(estadoAviones, estadoJugadores, estadoPowerUps,
+									estadoMapa, *evento);
 	delete evento;
 	return offset;
 }
