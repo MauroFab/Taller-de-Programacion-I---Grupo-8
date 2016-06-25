@@ -6,9 +6,9 @@ class EstadoPowerUp{
 public:
 	EstadoPowerUp();
 	EstadoPowerUp(int tipo, bool fueUsado);
-
 	int getTipo();
-	int getPuntos();
+	bool fueUsadoElPowerUp();
+	
 private:
 	int tipo;
 	bool fueUsado;

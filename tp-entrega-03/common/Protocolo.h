@@ -91,7 +91,10 @@ public:
 
 	static int codificar(EstadoMapa &estadoMapa, char* buffer);
 	static int decodificar(char* buffer, EstadoMapa* estadoMapa);
-
+	
+	static int codificar(EstadoPowerUp &estadoPowerUp, char* buffer);
+	static int decodificar(char* buffer, EstadoPowerUp &estadoPowerUp);
+	
 	static int codificar(EstadoJugador &estadoJugador, char* buffer);
 	static int decodificar(char* buffer, EstadoJugador &estadoJugador);
 

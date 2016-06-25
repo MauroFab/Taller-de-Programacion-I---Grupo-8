@@ -1282,6 +1282,48 @@ int Protocolo::decodificar(char* buffer, EstadoJugador &estadoJugador) {
 	return offset;
 }
 
+int Protocolo::codificar(EstadoPowerUp &estadoPowerUp, char* buffer) {
+	int sizeBytes = -1;
+	int tipo = -1;
+	bool fueUsado;
+	int offset = 0;
+
+	sizeBytes = sizeof(int) + sizeof(bool);
+
+	tipo = estadoPowerUp.getTipo();
+	fueUsado = estadoPowerUp.fueUsadoElPowerUp();
+
+	memcpy(buffer + offset,&sizeBytes,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset, &tipo,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&fueUsado,sizeof(bool));
+	offset += sizeof(bool);
+
+	return offset;
+}
+
+int Protocolo::decodificar(char* buffer, EstadoPowerUp &estadoPowerUp) {
+	int sizeBytes = -1;
+	int tipo = -1;
+	bool fueUsado;
+	int offset = 0;
+
+	memcpy(&sizeBytes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&tipo,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&fueUsado,buffer + offset,sizeof(bool));
+	offset += sizeof(bool);
+
+	estadoPowerUp = EstadoPowerUp(tipo, fueUsado);
+
+	return offset;
+}
 
 int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 	//Por ahora el juego no es mas que un conjunto de un evento, estadoAviones y un estadoMapa
