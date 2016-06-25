@@ -651,6 +651,7 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 	int sizeBytes = servidorXml.getSizeBytes();
 	int cantidadMaximaClientes = servidorXml.getCantidadMaximaClientes();
 	int puerto = servidorXml.getPuerto();
+	int modo = servidorXml.getModo();
 	int canEsc = servidorXml.getCanEsc();
 	int canSprs = servidorXml.getCanSprs();
 	int canAvs = servidorXml.getCanAvs();
@@ -665,6 +666,9 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 	offset += sizeof(int);
 
 	memcpy(buffer + offset,&puerto,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(buffer + offset,&modo,sizeof(int));
 	offset += sizeof(int);
 	//-----------
 	offset += codificar(*servidorXml.getVentanaXmlCopy(),buffer + offset);
@@ -716,6 +720,7 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	int sizeBytes = -1;
 	int cantidadMaximaClientes = -1;
 	int puerto = -1;
+	int modo = -1;
 	int canEsc = -1;
 	int canSprs = -1;
 	int canAvs = -1;
@@ -729,6 +734,9 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	offset += sizeof(int);
 
 	memcpy(&puerto,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	
+	memcpy(&modo,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 	//-----------
 	VentanaXml ventanaXml;
@@ -777,6 +785,7 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	//-----------	
 	servidorXml->setCantidadMaximaClientes(cantidadMaximaClientes);
 	servidorXml->setPuerto(puerto);
+	servidorXml->setModo(modo);
 	servidorXml->calculateSizeBytes();
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
