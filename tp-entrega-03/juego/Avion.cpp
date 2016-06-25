@@ -165,7 +165,7 @@ void Avion::mover() {
 }
 
 
-void Avion::mover(list<FakeAvionEnemigo> &avionesEnemigos, list<PowerUp> powerUps) {
+void Avion::mover(list<FakeAvionEnemigo> &avionesEnemigos, list<PowerUp> &powerUps) {
 	continuarMovimientoDelAvion(avionesEnemigos, powerUps);
 	//Avanzo los proyectiles
 	continuarMovimientoDeLosProyectiles();
