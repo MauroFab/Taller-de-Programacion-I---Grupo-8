@@ -74,7 +74,7 @@ EstadoAvion* Graficador::obtengoElEstadoAvionDelClienteYGraficoLosDemasAviones
 				SDL_Rect* clip = grafico->getCurrentClip((*it)->getFrame());
 				Textura* textura = grafico->getTextura();
 				textura->render((*it)->getPosX(), this->ventanaAlto - (*it)->getPosY() - textura->getHeight(), renderer, clip);
-				this->graficarProyectiles((*it)->getEstadosProyectiles());
+				this->graficarProyectiles((*it)->getEstadosProyectiles(), (*it)->getTieneArmaMejorada());
 			}
 		}else{
 			estadoDelAvionDeEsteCliente = (*it);
@@ -90,7 +90,8 @@ void Graficador::graficoElAvionDelCliente(EstadoAvion* estadoDelAvionDeEsteClien
 		SDL_Rect* clip = grafico->getCurrentClip(estadoDelAvionDeEsteCliente->getFrame());
 		Textura* textura = grafico->getTextura();
 		textura->render(estadoDelAvionDeEsteCliente->getPosX(), this->ventanaAlto - estadoDelAvionDeEsteCliente->getPosY() - textura->getHeight(), renderer, clip);
-		this->graficarProyectiles(estadoDelAvionDeEsteCliente->getEstadosProyectiles());
+		this->graficarProyectiles(estadoDelAvionDeEsteCliente->getEstadosProyectiles(),
+									estadoDelAvionDeEsteCliente->getTieneArmaMejorada());
 	}
 }
 
@@ -110,12 +111,16 @@ void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones, int idDel
 	graficoLosPuntosDeVidaDelAvionDeEsteCliente(estadoDelAvionDeEsteCliente);
 }
 
-void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles) {
+void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles, bool esElMejorado) {
 	std::list<EstadoProyectil*>::iterator it;
-	for (it = listaProyectiles.begin(); it != listaProyectiles.end(); it++) {
-		SDL_Rect* clip = graficoProyectil->getCurrentClip((*it)->getFrame());
-		Textura* textura = graficoProyectil->getTextura();
-		textura->render((*it)->getPosX(), (*it)->getPosY(), renderer, clip);
+	if(esElMejorado){
+		for (it = listaProyectiles.begin(); it != listaProyectiles.end(); it++) {
+			SDL_Rect* clip = graficoProyectil->getCurrentClip((*it)->getFrame());
+			Textura* textura = graficoProyectil->getTextura();
+			textura->render((*it)->getPosX(), (*it)->getPosY(), renderer, clip);
+		}
+	}else{
+
 	}
 }
 

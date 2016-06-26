@@ -983,7 +983,7 @@ int Protocolo::decodificar(char * buffer,PowerUpXml *powerUpXml){
 
 int Protocolo::codificar(EstadoAvion &estadoAvion,char * buffer){
 
-	int sizeBytes = estadoAvion.getSizeBytes();
+	int sizeBytes = sizeof(int)*6 + sizeof(bool);
 	int id = estadoAvion.getId();
 	int frame = estadoAvion.getFrame();
 	int posX = estadoAvion.getPosX();
@@ -992,6 +992,7 @@ int Protocolo::codificar(EstadoAvion &estadoAvion,char * buffer){
 	int sizeProyectiles = estadoAvion.getEstadosProyectiles().size();
 	int offset = 0;
 	bool tieneArmaMejorada = estadoAvion.getTieneArmaMejorada();
+
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
 

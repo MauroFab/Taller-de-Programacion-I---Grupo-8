@@ -8,7 +8,8 @@ EstadoAvion::EstadoAvion() {
 	this->posX = -1;
 	this->posY = -1;
 	this->puntosDeVida = -1;
-	this->sizeBytes = sizeof(int)*6  ;
+	this->tieneArmaMejorada = false;
+	this->sizeBytes = sizeof(int)*7  ;
 }
 EstadoAvion::EstadoAvion(int id, int frame, int puntosDeVida, int posX, int posY, bool tieneArmaMejorada) {
 	this->sizeBytes = -1;
@@ -17,6 +18,7 @@ EstadoAvion::EstadoAvion(int id, int frame, int puntosDeVida, int posX, int posY
 	this->posX = posX;
 	this->posY = posY;
 	this->puntosDeVida = puntosDeVida;
+	this->tieneArmaMejorada = tieneArmaMejorada;
 	this->sizeBytes = sizeof(int)*6;
 }
 
@@ -110,5 +112,5 @@ bool EstadoAvion::getTieneArmaMejorada(){
 }
 
 void EstadoAvion::setTieneArmaMejorada(bool tiene){
-	this->tieneArmaMejorada;
+	this->tieneArmaMejorada = tiene;
 }
