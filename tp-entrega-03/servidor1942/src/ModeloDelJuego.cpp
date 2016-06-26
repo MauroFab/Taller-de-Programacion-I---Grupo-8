@@ -6,7 +6,8 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	setPosicionInicialListAvion();
 	this->mapa = new Mapa(servidorXml);
 	//Creo un avionEnemigo fijo para probar la colision
-	 avionesEnemigos.push_back(FakeAvionEnemigo(200,200,68,120,1));
+	 avionesEnemigos.push_back(FakeAvionEnemigo(200,500,68,120,2));
+	  avionesEnemigos.push_back(FakeAvionEnemigo(0,1000,68,120,2));
 	//Creo un powerUp fijo para probar la colision
 	 powerUps.push_back(PowerUp(10,1000,500, TIPO_PUNTOS));
 	 powerUps.push_back(PowerUp(100,800,500, TIPO_PUNTOS));
@@ -77,7 +78,12 @@ void ModeloDelJuego::actualizarMovimientos(){
 	for (itP = powerUps.begin(); itP != powerUps.end(); itP++) {
 		(*itP).continuarMovimiento();
 	}
-	
+
+	list<FakeAvionEnemigo>::iterator it;
+	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
+		(*it).continuarMovimiento();
+	}
+	/*
 	//---------
 	int pixPasaron = this->mapa->getEstado()->getCantidadDePixeles();
 	int height_ventana = this->mapa->altoVentana;
@@ -104,7 +110,7 @@ void ModeloDelJuego::actualizarMovimientos(){
 				i++;
 			}
 		}
-	}
+	}*/
 	///---------
 }
 
