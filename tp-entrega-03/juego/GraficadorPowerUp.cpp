@@ -3,7 +3,7 @@
 
 GraficadorPowerUp::GraficadorPowerUp(SDL_Renderer* renderer){
 	Textura* textura = new Textura();
-	textura->cargarDeArchivo("../cliente1942/power_up_arma.bmp",renderer);
+	textura->cargarDeArchivo("../cliente1942/power_up_puntos.bmp",renderer);
 	mapaTexturasPowerUps[TIPO_PUNTOS] = textura;
 	this->renderer = renderer;
 }
@@ -29,6 +29,7 @@ void GraficadorPowerUp::graficarPowerUps(std::list<EstadoPowerUp> &estadoPowerUp
 	}
 }
 
-GraficadorPowerUp::~GraficadorPowerUp(void)
-{
+GraficadorPowerUp::~GraficadorPowerUp(void){
+
+	
 }
