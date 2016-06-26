@@ -18,6 +18,8 @@ public:
 	bool hayDisponibilidad();
 	void asociarUsuarioAEquipo(int idUsuario, char* equipo);
 	void agregarUsuario(int idUsuario);
+	std::list<int> getJugadoresEquipo(int equipo);
+	std::list<int> getJugadores();
 private:
 	ConfiguracionInicialJuego(void);
 	static ConfiguracionInicialJuego* instance;

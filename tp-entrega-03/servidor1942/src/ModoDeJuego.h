@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -15,5 +16,7 @@ public:
 	virtual bool hayDisponibilidad();
 	virtual void asociarUsuarioAEquipo(int idUsuario, char* equipo);
 	virtual void agregarUsuario(int idUsuario);
+	virtual std::list<int> getJugadoresEquipo(int equipo);
+	virtual std::list<int> getJugadores();
 };
 

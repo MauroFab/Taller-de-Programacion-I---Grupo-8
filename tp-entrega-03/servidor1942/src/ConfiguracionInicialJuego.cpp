@@ -51,3 +51,18 @@ void ConfiguracionInicialJuego::asociarUsuarioAEquipo(int idUsuario, char* equip
 void ConfiguracionInicialJuego::agregarUsuario(int idUsuario) {
 	this->modoDeJuego->agregarUsuario(idUsuario);
 }
+
+/* Si es en colaboracion, igualmente devuelve la lista con todos los jugadores
+	Si el equipo es incorrecto devuelve una lista vacia
+*/
+std::list<int> ConfiguracionInicialJuego::getJugadoresEquipo(int equipo) {
+	return this->modoDeJuego->getJugadoresEquipo(equipo);
+}
+
+/* Si es equipos devuelve una lista con todos los jugadores, de la siguiente forma:
+	si son dos jugadores por equipo,
+	lista = [jugador(equipo1), jugador(equipo1), jugador(equipo2), jugador(equipo2)]
+*/
+std::list<int> ConfiguracionInicialJuego::getJugadores() {
+	return this->modoDeJuego->getJugadores();
+}
