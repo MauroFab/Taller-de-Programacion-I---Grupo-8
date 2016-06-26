@@ -5,6 +5,7 @@
 #include "../../common/xml/ServidorXml.h"
 #include "../../juego/EstadoJuego.h"
 #include "../../juego/Mapa.h"
+#include "../../estructura/AvionEnemigo.h"
 
 //MainServidor
 class ModeloDelJuego {
@@ -29,4 +30,5 @@ private:
 	Mapa* mapa;
 	int cantidadMaximaDeUsuarios;
 	void crearAviones(ServidorXml* servidorXml);
+	AvionEnemigo * avionEnemigoBeta;
 };

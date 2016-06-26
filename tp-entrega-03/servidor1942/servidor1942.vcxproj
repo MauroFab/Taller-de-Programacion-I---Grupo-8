@@ -113,6 +113,9 @@
     <ClCompile Include="..\common\xml\SpriteXml.cpp" />
     <ClCompile Include="..\common\xml\tinyxml2.cpp" />
     <ClCompile Include="..\common\xml\VentanaXml.cpp" />
+    <ClCompile Include="..\estructura\AvionEnemigo.cpp" />
+    <ClCompile Include="..\estructura\ObjetoItem.cpp" />
+    <ClCompile Include="..\estructura\UtilJuego.cpp" />
     <ClCompile Include="..\juego\Avion.cpp" />
     <ClCompile Include="..\juego\EstadoAvion.cpp" />
     <ClCompile Include="..\juego\EstadoJuego.cpp" />
@@ -161,6 +164,9 @@
     <ClInclude Include="..\common\xml\SpriteXml.h" />
     <ClInclude Include="..\common\xml\tinyxml2.h" />
     <ClInclude Include="..\common\xml\VentanaXml.h" />
+    <ClInclude Include="..\estructura\AvionEnemigo.h" />
+    <ClInclude Include="..\estructura\ObjetoItem.h" />
+    <ClInclude Include="..\estructura\UtilJuego.h" />
     <ClInclude Include="..\juego\Avion.h" />
     <ClInclude Include="..\juego\EstadoAvion.h" />
     <ClInclude Include="..\juego\EstadoJuego.h" />

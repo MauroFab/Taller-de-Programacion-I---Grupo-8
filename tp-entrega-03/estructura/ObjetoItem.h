@@ -41,6 +41,8 @@ public:
 public:
 	ObjetoItem();
 	virtual ~ObjetoItem();
+	virtual void setVisible(bool visible);
+	virtual bool getVisible();
 	void destroy();
 	bool get_solid();
 	void refreshHulls();

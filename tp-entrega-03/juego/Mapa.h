@@ -19,8 +19,8 @@ public:
 	void actualizar();
 	EstadoMapa* getEstado();
 
-private:
-
+//private:
+public:
 	EstadoMapa* estado;
 	int altoVentana;
 	int tamanioMaximoMapa;

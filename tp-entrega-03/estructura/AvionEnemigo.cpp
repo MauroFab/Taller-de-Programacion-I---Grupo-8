@@ -7,9 +7,9 @@ AvionEnemigo::AvionEnemigo():ObjetoItem()
 	this->puntos = 0;
 	this->trayectoria.coorX = 0;
 	this->trayectoria.coorY = 0;
-	this->bMuerto = false;
 	this->bEnMuerte = false;
 	this->bUnaVez = true;
+	this->visible= false;
 }
 AvionEnemigo::AvionEnemigo(int p_x,int p_y):ObjetoItem(){
 	this->x = p_x;
@@ -19,9 +19,9 @@ AvionEnemigo::AvionEnemigo(int p_x,int p_y):ObjetoItem(){
 	this->puntos = 0;
 	this->trayectoria.coorX = 0;
 	this->trayectoria.coorY = 0;
-	this->bMuerto = false;
 	this->bEnMuerte = false;
 	this->bUnaVez = true;
+	this->visible= false;
 }
 
 AvionEnemigo::~AvionEnemigo()

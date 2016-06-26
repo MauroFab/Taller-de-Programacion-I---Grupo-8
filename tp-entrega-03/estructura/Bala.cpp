@@ -1,12 +1,8 @@
 #include "Bala.h"
 
 Bala::Bala():ObjetoItem()
-{
-	this->bMuerto = false;
+{	
 	this->idOwner = -1;
-    this->existe = true;
-    this->activo = true;
-    this->visible = true;
 }
 
 Bala::~Bala()

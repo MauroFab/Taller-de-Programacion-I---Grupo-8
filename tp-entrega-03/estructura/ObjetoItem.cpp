@@ -22,6 +22,13 @@ ObjetoItem::ObjetoItem()
 ObjetoItem::~ObjetoItem()
 {
 }
+void ObjetoItem::setVisible(bool visible){
+	this->visible = visible;
+}
+bool ObjetoItem::getVisible(){
+	return 	this->visible;
+}
+
 void ObjetoItem::destroy() {
 	return;
 }

@@ -15,6 +15,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 }
 
 ModeloDelJuego::~ModeloDelJuego(){
+	delete this->avionEnemigoBeta;
 
 }
 
@@ -47,6 +48,11 @@ void ModeloDelJuego::crearAviones(ServidorXml* servidorXml){
 		avionView = new AvionView(avionModel, spriteAvion);
 		this->listAvion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, avionView, balaView);
 	}
+	//---------agregado para TEST de movimiento
+	UtilJuego * utilJ = UtilJuego::getInstance();
+	int pos_x = utilJ->calcRandom(100,400);
+	int pos_y = utilJ->calcRandom(900,1000);
+	this->avionEnemigoBeta = new AvionEnemigo(pos_x,pos_y);
 }
 
 void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento){
@@ -72,6 +78,30 @@ void ModeloDelJuego::actualizarMovimientos(){
 	for (itP = powerUps.begin(); itP != powerUps.end(); itP++) {
 		(*itP).continuarMovimiento();
 	}
+	
+	//---------
+	int pixPasaron = this->mapa->getEstado()->getCantidadDePixeles();
+	int height_ventana = this->mapa->altoVentana;
+	int pos_y_real = height_ventana + pixPasaron;
+//	printf("\npixPasaron=%d,height_ventana=%d",pixPasaron,height_ventana);
+	//indicar si debe graficar o no
+	if (this->avionEnemigoBeta != NULL){
+		int y_avion = this->avionEnemigoBeta->y;
+		int x_avion = this->avionEnemigoBeta->x;
+		if (pos_y_real >= y_avion && !this->avionEnemigoBeta->getVisible()){
+			this->avionEnemigoBeta->setVisible(true);
+			avionesEnemigos.push_back(FakeAvionEnemigo(x_avion,500,68,120,-1));
+		}
+		//una vez que se vuelve visible se puede mover
+		/*
+		if (this->avionEnemigoBeta->getVisible()){
+			y_avion += this->avionEnemigoBeta->velocity.y;
+			this->avionEnemigoBeta->y = y_avion;
+			printf("\ny_avion=%d",y_avion);
+		}
+		*/
+	}
+	///---------	
 }
 
 EstadoAvion* ModeloDelJuego::getEstadoAvionJugador(int idAvion){
