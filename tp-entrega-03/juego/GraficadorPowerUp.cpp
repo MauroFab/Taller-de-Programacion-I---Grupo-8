@@ -15,13 +15,15 @@ void GraficadorPowerUp::graficarPowerUps(std::list<EstadoPowerUp> &estadoPowerUp
 		Textura textura;
 		EstadoPowerUp estado = (*it);
 		textura = mapaTexturasPowerUps[estado.getTipo()];
-		//Me olvide de pasar la x y la y en el estado
-		int x = 50,y = 200;
+		int xSDL, ySDL;
+		xSDL = estado.getX();
+		ySDL = ALTO_PANTALLA - estado.getY();
 		SDL_Rect fotograma;
-		fotograma.x = fotograma.y = 0;
+		fotograma.x = 0;
+		fotograma.y = 0;
 		fotograma.w = textura.getWidth();
 		fotograma.h = textura.getHeight();
-		textura.render(x,y,renderer,&fotograma);
+		textura.render(xSDL,ySDL,renderer,&fotograma);
 	}
 }
 

@@ -1295,12 +1295,16 @@ int Protocolo::codificar(EstadoPowerUp &estadoPowerUp, char* buffer) {
 	int sizeBytes = -1;
 	int tipo = -1;
 	bool fueUsado;
+	int x = -1;
+	int y = -1;
 	int offset = 0;
 
-	sizeBytes = sizeof(int) + sizeof(bool);
+	sizeBytes = sizeof(int)*3 + sizeof(bool);
 
 	tipo = estadoPowerUp.getTipo();
 	fueUsado = estadoPowerUp.fueUsadoElPowerUp();
+	x = estadoPowerUp.getX();
+	y = estadoPowerUp.getY();
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
@@ -1308,8 +1312,14 @@ int Protocolo::codificar(EstadoPowerUp &estadoPowerUp, char* buffer) {
 	memcpy(buffer + offset, &tipo,sizeof(int));
 	offset += sizeof(int);
 
-	memcpy(buffer + offset,&fueUsado,sizeof(bool));
+	memcpy(buffer + offset, &fueUsado,sizeof(bool));
 	offset += sizeof(bool);
+
+	memcpy(buffer + offset,&x,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset,&y,sizeof(int));
+	offset += sizeof(int);
 
 	return offset;
 }
@@ -1319,7 +1329,7 @@ int Protocolo::decodificar(char* buffer, EstadoPowerUp &estadoPowerUp) {
 	int tipo = -1;
 	bool fueUsado;
 	int offset = 0;
-
+	int x, y;
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
@@ -1329,7 +1339,13 @@ int Protocolo::decodificar(char* buffer, EstadoPowerUp &estadoPowerUp) {
 	memcpy(&fueUsado,buffer + offset,sizeof(bool));
 	offset += sizeof(bool);
 
-	estadoPowerUp = EstadoPowerUp(tipo, fueUsado);
+	memcpy(&x,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(&y,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	estadoPowerUp = EstadoPowerUp(tipo, fueUsado, 5, 5);
 
 	return offset;
 }

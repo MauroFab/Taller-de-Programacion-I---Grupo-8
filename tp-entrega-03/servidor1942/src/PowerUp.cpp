@@ -37,5 +37,7 @@ int PowerUp::obtenerPuntosQueOtorga(){
 }
 
 EstadoPowerUp PowerUp::getEstado(){ 
-	return(EstadoPowerUp(tipo,usado));
+	int x = superficieOcupada.obtenerPosicion().getPosX();
+	int y = superficieOcupada.obtenerPosicion().getPosY();
+	return(EstadoPowerUp(tipo,usado,x,y));
 }

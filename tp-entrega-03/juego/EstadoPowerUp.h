@@ -9,11 +9,13 @@ const int TIPO_PUNTOS = 12;
 class EstadoPowerUp{
 public:
 	EstadoPowerUp();
-	EstadoPowerUp(int tipo, bool fueUsado);
+	EstadoPowerUp(int tipo, bool fueUsado, int x, int y);
 	int getTipo();
 	bool fueUsadoElPowerUp();
+	int getX();
+	int getY();
 	
 private:
-	int tipo;
+	int tipo,x,y;
 	bool fueUsado;
 };
