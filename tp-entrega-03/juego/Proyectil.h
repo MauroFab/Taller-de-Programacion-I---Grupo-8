@@ -7,7 +7,7 @@
 #include "../common/view/BalaView.h"
 #include "../servidor1942/src/SuperficieOcupada.h"
 #include "../servidor1942/src/FakeAvionEnemigo.h"
-
+#include "../servidor1942/src/ModeloJugador.h"
 //************************
 //esto NOO tiene que estar
 
@@ -34,7 +34,7 @@ public:
 	virtual ~Proyectil(void);
 	bool estaEnPantalla();
 	void mover();
-	void mover(std::list<FakeAvionEnemigo> &avionesEnemigos);
+	void mover(std::list<FakeAvionEnemigo> &avionesEnemigos, ModeloJugador* jugadorQueDisparo);
 	void setCoordenasDeComienzo(int posX, int posY);
 	bool getHuboUnImpacto();
 	/**

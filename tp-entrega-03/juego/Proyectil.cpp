@@ -12,7 +12,6 @@ Proyectil::Proyectil(BalaView * balaView, bool mejorado) {
 	velocidadY += velocidad;
 	this->mejorado = mejorado;
 	huboUnImpacto = false;
-	
 }
 
 Proyectil::~Proyectil(void) {
@@ -36,7 +35,7 @@ void Proyectil::mover() {
 
 }
 
-void Proyectil::mover(std::list<FakeAvionEnemigo> &avionesEnemigos) {
+void Proyectil::mover(std::list<FakeAvionEnemigo> &avionesEnemigos, ModeloJugador* jugadorQueDisparo) {
 	SuperficieOcupada hitbox;
 	hitbox = superficie.desplazarEnYObteniendoHitbox(velocidadY);
 	std::list<FakeAvionEnemigo>::iterator it;
@@ -46,6 +45,7 @@ void Proyectil::mover(std::list<FakeAvionEnemigo> &avionesEnemigos) {
 		if(hitbox.meSolapoCon(superficieEnemigo) && !huboUnImpacto && !(*it).estaDestruido()){
 			(*it).recibeUnImpacto();
 			huboUnImpacto = true;
+			jugadorQueDisparo->sumarPuntos(100);
 		}
 	}
 }

@@ -149,7 +149,7 @@ void Avion::continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo> &avi
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
 		if ((*it)->estaEnPantalla()) {
-			(*it)->mover(avionesEnemigos);
+			(*it)->mover(avionesEnemigos, jugadorAsociado);
 		}
 	}
 }
