@@ -186,6 +186,13 @@ int VistaJuego::cargarAviones(ServidorXml * confServidorXml){
 	return 0;
 }
 
+// carga los power-ups del escenario correspondiente a idEscenario
+int VistaJuego::cargarPowerUps(ServidorXml * confServidorXml, EscenarioView* escenarioV, int idEscenario) {
+
+	// todavia no se hace nada
+	return 0;
+}
+
 // carga elementos del escenario correpondiente a idEscenario
 int VistaJuego::cargarElementos(ServidorXml * confServidorXml, EscenarioView* escenarioV, int idEscenario){
 	//sprites
@@ -222,6 +229,7 @@ int VistaJuego::cargarEscenarios(ServidorXml* confServidorXml) {
 			FondoView* fondoV = new FondoView(fondoModel,spriteX);
 			EscenarioView* escenarioV = new EscenarioView(fondoV);
 			cargarElementos(confServidorXml, escenarioV, e);
+			cargarPowerUps(confServidorXml, escenarioV, e);
 			this->listaEscenariosView[e] = escenarioV;
 			this->canEscenariosV++;
 		}

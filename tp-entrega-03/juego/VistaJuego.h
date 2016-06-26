@@ -80,10 +80,12 @@ public:
 	void close();
 	void actualizarEstadoJuego(EstadoJuego* estadoJuego);
 	void setJugar();
-	//---carga de elementos de la vista
-	int cargarElementos(ServidorXml * confServidorXml, EscenarioView* escenarioV, int idEscenario);
 	//---carga de aviones de la vista
 	int cargarAviones(ServidorXml * confServidorXml);
+	//---carga de elementos de la vista
+	int cargarElementos(ServidorXml * confServidorXml, EscenarioView* escenarioV, int idEscenario);
+	//---carga de los power-ups
+	int cargarPowerUps(ServidorXml * confServidorXml, EscenarioView* escenarioV, int idEscenario);
 	//realiza la carga de los escenarios
 	int cargarEscenarios(ServidorXml * servidorXml);
 	//realiza la carga de una bala tipo, con la velocidad del 1er avion
