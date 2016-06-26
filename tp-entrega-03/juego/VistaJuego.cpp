@@ -189,7 +189,23 @@ int VistaJuego::cargarAviones(ServidorXml * confServidorXml){
 // carga los power-ups del escenario correspondiente a idEscenario
 int VistaJuego::cargarPowerUps(ServidorXml * confServidorXml, EscenarioView* escenarioV, int idEscenario) {
 
-	// todavia no se hace nada
+	//sprites
+	int cantS = confServidorXml->getCanSprs();
+	SpriteXml ** listaS = confServidorXml->getListaSprites();
+	//power-ups
+	/*
+	int cantP = confServidorXml->getListaEscenario()[idEscenario]->getCanPow();
+	PowerUpXml ** listaP = confServidorXml->getListaEscenario()[idEscenario]->getListaPowerUps();
+	for(int i = 0;i <cantP; i++){
+		PowerUpXml * powX = listaP[i];
+		//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
+		SpriteXml * spriteX = SpriteXml::findSpriteById(powX->getIdSprite(),listaS,cantS);
+		if (spriteX != NULL){ //solo en caso de encontrarlo
+			PowerUpModel * powModel = new PowerUpModel(powX);
+			escenarioV->addPowerUpView(new PowerUpView(powModel,spriteX));
+		}
+	}
+	*/
 	return 0;
 }
 
