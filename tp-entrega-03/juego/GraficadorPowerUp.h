@@ -21,7 +21,7 @@ private:
 	const static int ALTO = 30;
 	const static int ALTO_PANTALLA = 640;
 	//Los cargo de forma fija, otra vez las rutas quedan hardcodeadas.
-	std::map<int,Textura> mapaTexturasPowerUps;
+	std::map<int,Textura*> mapaTexturasPowerUps;
 	SDL_Renderer* renderer;
 
 	
