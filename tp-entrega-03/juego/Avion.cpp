@@ -14,7 +14,8 @@ Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* 
 	rollFlag = false;
 	id = avionView->avionModel->id;
 	this->balaView = balaView;
-	centroProyectil = balaView->spriteXml->getAncho()/2;
+	centroProyectilMejorado = balaView->spriteXml->getAncho()/2;
+	centroProyectilSinMejora = 3;
 	superficieQueOcupo = SuperficieOcupada(0,0,anchoAvion,altoAvion);
 	puntosDeVida = vidaMaximaAvion;
 	this->jugadorAsociado = new ModeloJugador(id);
@@ -265,7 +266,16 @@ void Avion::disparar(){
 
 	if(!rollFlag){
 		Proyectil* proyectil = new Proyectil(this->balaView);
-		proyectil->setCoordenasDeComienzo(miPosicionEnX + (anchoAvion / 2) - centroProyectil, this->ventanaAlto - (miPosicionEnY + altoAvion));
+		if(tengoElArmaMejorada){
+		
+			proyectil->setCoordenasDeComienzo(miPosicionEnX + (anchoAvion / 2) - centroProyectilMejorado, 
+												this->ventanaAlto - (miPosicionEnY + altoAvion));
+		
+		}else{
+
+			proyectil->setCoordenasDeComienzo(miPosicionEnX + (anchoAvion / 2) - centroProyectilSinMejora, 
+												this->ventanaAlto - (miPosicionEnY + altoAvion));
+		}
 		proyectiles.push_back(proyectil);
 	}
 }

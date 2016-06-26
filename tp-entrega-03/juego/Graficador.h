@@ -45,7 +45,7 @@ private:
 	void graficarAviones(std::list<EstadoAvion*> listaAviones, int idDelJugador);
 	void graficarMapa();
 	void graficarPuntaje(int puntaje);
-
+	void graficoProyectilConLaTexturaHardcodeada(EstadoProyectil* estadoProyectil);
 	static bool instanceFlag;
 	static Graficador* instance;
 
@@ -53,7 +53,10 @@ private:
 	int ventanaAncho;
 	int ventanaAlto;
 	std::map<int, GraficoAvion*> mapaGraficosAvion;
-	GraficoProyectil* graficoProyectil;
+
+	GraficoProyectil* graficoProyectilMejorado;
+	Textura* texturaProyectilSinMejora;
+
 	//grafico actual del mapa
 	GraficoMapa* graficoMapa;
 	//vector de grafico de mapas

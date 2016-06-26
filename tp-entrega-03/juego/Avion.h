@@ -108,7 +108,7 @@ private:
 	void revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &avionesEnemigos);
 	void revisoColisiones(SuperficieOcupada hitbox, list<PowerUp> &powerUps);
 
-	int centroProyectil;
+	int centroProyectilMejorado, centroProyectilSinMejora;
 	
 	void resolverColisionEntreElAvionY(PowerUp &powerUp);
 

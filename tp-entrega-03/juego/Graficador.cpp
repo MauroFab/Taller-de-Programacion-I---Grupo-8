@@ -19,7 +19,7 @@ Graficador::~Graficador(void) {
 	for (it = mapaGraficosAvion.begin(); it != mapaGraficosAvion.end(); it++) {
 		delete ((*it).second);
 	}
-	delete graficoProyectil;
+	delete graficoProyectilMejorado;
 	delete graficoMapa;
 	delete graficoPuntaje;
 	delete graficoPuntosVida;
@@ -44,7 +44,12 @@ void Graficador::agregarDatosAviones(AvionView* *listaAvionView, int canAvionV) 
 }
 
 void Graficador::agregarDatosBala(BalaView * balaView) {
-	graficoProyectil = new GraficoProyectil(renderer,balaView);
+	graficoProyectilMejorado = new GraficoProyectil(renderer,balaView);
+
+	//Harcodeo la bala comun
+	texturaProyectilSinMejora = new Textura();
+	char path[200]= "../cliente1942/disparo_1.bmp";
+	texturaProyectilSinMejora->cargarDeArchivo(path,renderer);
 }
 
 void Graficador::agregarDatosMapa(EscenarioView ** listaEscenariosView, int canEscenariosV, int posicionInicial) {
@@ -109,16 +114,24 @@ void Graficador::graficarAviones(std::list<EstadoAvion*> listaAviones, int idDel
 	graficoLosPuntosDeVidaDelAvionDeEsteCliente(estadoDelAvionDeEsteCliente);
 }
 
+void Graficador::graficoProyectilConLaTexturaHardcodeada(EstadoProyectil* estadoProyectil){
+	int x = estadoProyectil->getPosX();
+	int y = estadoProyectil->getPosY();
+	this->texturaProyectilSinMejora->render(x,y,renderer);
+}
+
 void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles, bool esElMejorado) {
 	std::list<EstadoProyectil*>::iterator it;
 	if(esElMejorado){
 		for (it = listaProyectiles.begin(); it != listaProyectiles.end(); it++) {
-			SDL_Rect* clip = graficoProyectil->getCurrentClip((*it)->getFrame());
-			Textura* textura = graficoProyectil->getTextura();
+			SDL_Rect* clip = graficoProyectilMejorado->getCurrentClip((*it)->getFrame());
+			Textura* textura = graficoProyectilMejorado->getTextura();
 			textura->render((*it)->getPosX(), (*it)->getPosY(), renderer, clip);
 		}
 	}else{
-
+		for (it = listaProyectiles.begin(); it != listaProyectiles.end(); it++) {
+			graficoProyectilConLaTexturaHardcodeada((*it));
+		}
 	}
 }
 
