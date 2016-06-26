@@ -12,9 +12,8 @@ public:
 
 	FakeAvionEnemigo(int xInicial, int yInicial, int ancho, int alto, int velocidad);
 
-	//Si chequeamos las colisiones en todos los movimientos
-	//este metodo deberia recibir una lista de cosas con las que puede colisionar
-	//Por ahora quiero mirar colisiones solo cuando muevo el avion del jugador
+	//Voy a mirar colisiones solo cuando muevo el avion del jugador (y sus proyectiles), 
+	//este movimiento solo necesita mover el avionEnemigo
 	virtual void continuarMovimiento();
 	virtual ~FakeAvionEnemigo();
 	
