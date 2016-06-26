@@ -23,10 +23,11 @@ private:
 	// Velocidad del proyectil
 	int velocidadX;
 	int velocidadY;
+	bool mejorado;
 public:
 	static const int ANCHO_PROYECTIL = 11;
 	static const int ALTO_PROYECTIL = 25;
-	Proyectil(BalaView * balaView);
+	Proyectil(BalaView * balaView, bool mejorado);
 	virtual ~Proyectil(void);
 	bool estaEnPantalla();
 	void mover();

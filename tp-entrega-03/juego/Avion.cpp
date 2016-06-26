@@ -265,7 +265,7 @@ void Avion::disparar(){
 	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
 
 	if(!rollFlag){
-		Proyectil* proyectil = new Proyectil(this->balaView);
+		Proyectil* proyectil = new Proyectil(this->balaView, tengoElArmaMejorada);
 		if(tengoElArmaMejorada){
 		
 			proyectil->setCoordenasDeComienzo(miPosicionEnX + (anchoAvion / 2) - centroProyectilMejorado, 

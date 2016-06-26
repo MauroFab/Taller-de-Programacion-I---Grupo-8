@@ -127,7 +127,7 @@ void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectile
 	std::list<EstadoProyectil*>::iterator it;
 	if(esElMejorado){
 		for (it = listaProyectiles.begin(); it != listaProyectiles.end(); it++) {
-			SDL_Rect* clip = graficoProyectilMejorado->getCurrentClip((*it)->getFrame());
+ 			SDL_Rect* clip = graficoProyectilMejorado->getCurrentClip((*it)->getFrame());
 			Textura* textura = graficoProyectilMejorado->getTextura();
 			textura->render((*it)->getPosX(), (*it)->getPosY(), renderer, clip);
 		}

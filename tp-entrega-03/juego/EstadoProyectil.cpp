@@ -6,12 +6,13 @@ EstadoProyectil::EstadoProyectil(){
 	this->posY = -1;
 	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;	
 }
-EstadoProyectil::EstadoProyectil(int frame, int posX, int posY) {
+EstadoProyectil::EstadoProyectil(int frame, int posX, int posY, bool estaMejorado) {
 
 	this->sizeBytes = -1;
 	this->frame = frame;
 	this->posX = posX;
 	this->posY = posY;
+	this->mejorado = estaMejorado;
 	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;
 }
 
@@ -58,4 +59,12 @@ int EstadoProyectil::getPosY() {
 
 void EstadoProyectil::toString(TCadena1000 cadena){
 	sprintf(cadena,"\nEstadoProyectil: sizeBytes=%d,frame=%d,posX=%d,posY=%d", sizeBytes,frame,posX, posY);
+}
+
+void EstadoProyectil::setMejorado(bool mejorado){
+	this->mejorado = mejorado;
+}
+
+bool EstadoProyectil::getMejorado(){
+	return mejorado;
 }
