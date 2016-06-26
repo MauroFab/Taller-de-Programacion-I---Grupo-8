@@ -1,4 +1,6 @@
 #pragma once
+#include "../common/IGenericaVO.h"
+#include <stdio.h>
 class EstadoJugador
 {
 public:
@@ -10,6 +12,7 @@ public:
 	~EstadoJugador(void);
 	int getid();
 	int getPuntajeAcumulado();
+	void toString(TCadena1000 cadena);
 
 private:
 	int id;

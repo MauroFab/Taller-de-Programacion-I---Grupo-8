@@ -61,3 +61,8 @@ std::list<EstadoJugador> EstadoJuego::getEstadoDeLosJugadores(){
 std::list<EstadoPowerUp> EstadoJuego::getEstadoPowerUps(){
 	return(this->estadoPowerUps);
 }
+void EstadoJuego::toString(TCadena1000 cadena){
+	int cantidadDeAviones = getEstadoDeLosAviones().size();
+	int cantidadDeJugadores = getEstadoDeLosJugadores().size();
+	sprintf(cadena,"\nEstadoJuego: cantidadDeAvioness=%d,cantidadDeJugadores=%d,",cantidadDeAviones,cantidadDeJugadores);
+}

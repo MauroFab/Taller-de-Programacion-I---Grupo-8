@@ -1,6 +1,7 @@
 #include "EstadoMapa.h"
 
 EstadoMapa::EstadoMapa() {
+	this->sizeBytes = -1;
 	this->cantidadDePixelesQuePasaron = 0;
 	this->codigoReinicio = 0;
 	this->idEtapa = 0;
@@ -39,6 +40,15 @@ void EstadoMapa::setIdEtapa(int id) {
 
 int EstadoMapa::getSizeBytes() {
 	return sizeof(int)/*cantidadDePixelesQuePasaron*/
-	 +sizeof(int)/*codigoDeReinicio*/
-	 + sizeof(int)/*idEtapa*/;
+	+ sizeof(int)/*codigoDeReinicio*/
+	+ sizeof(int)/*idEtapa*/;
+}
+void EstadoMapa::calculateSizeBytes(){
+	this->sizeBytes = sizeof(int)/*cantidadDePixelesQuePasaron*/
+	+ sizeof(int)/*codigoDeReinicio*/
+	+ sizeof(int)/*idEtapa*/;	
+}
+void EstadoMapa::toString(TCadena1000 cadena){
+	sprintf(cadena,"\nEstadoMapa: sizeBytes=%d,cantidadDePixelesQuePasaron=%d,codigoReinicio=%d,idEtapa=%d",
+	sizeBytes,cantidadDePixelesQuePasaron,codigoReinicio,idEtapa);
 }

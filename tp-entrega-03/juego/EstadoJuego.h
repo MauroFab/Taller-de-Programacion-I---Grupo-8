@@ -5,6 +5,7 @@
 #include "../common/Evento.h"
 #include "../juego/EstadoJugador.h"
 #include "../juego/EstadoPowerUp.h"
+#include "../common/IGenericaVO.h"
 #include <stdio.h>
 //Este objeto esta pensado para comunicar el estado del juego del servidor
 //Se ira completando junto al modelo
@@ -44,6 +45,7 @@ public:
 
 	std::list<EstadoJugador> getEstadoDeLosJugadores();
 	std::list<EstadoPowerUp> getEstadoPowerUps();
+	void toString(TCadena1000 cadena);
 private:
 	std::list<EstadoAvion*> estadoDeLosAviones;
 	std::list<EstadoPowerUp> estadoPowerUps;

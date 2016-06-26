@@ -1,5 +1,6 @@
 #pragma once
-
+#include <stdio.h>
+#include <string.h>
 #include "IGenericaVO.h"
 
 const int noHayNingunEventoEspecial = 0;
@@ -37,11 +38,11 @@ class Evento
 public:
 	//El evento se crea con una de las constantes puestas arriba, se podrían redefinir por herencia cada uno.
 	Evento(int numeroDeEvento);
+	~Evento();	
 	int getNumeroDeEvento();
 	void setNumeroDeEvento(int numero);
 	int getSizeBytes();
 	void toString(TCadena1000 cadena);
-	~Evento();
 private:
 	int numeroDeEvento;
 };

@@ -20,3 +20,7 @@ int EstadoJugador::getPuntajeAcumulado(){
 
 EstadoJugador::~EstadoJugador(void){
 }
+
+void EstadoJugador::toString(TCadena1000 cadena){
+	sprintf(cadena,"\nEstadoJugador: id=%d,puntajeAcumulado=%d,",id,puntajeAcumulado);
+}

@@ -1209,11 +1209,11 @@ int Protocolo::codificar(Evento &evento, char* buffer) {
 
 	memcpy(buffer + offset,&numeroDeevento,sizeof(int));
 	offset += sizeof(int);
-	#ifdef FAKE_DEBUG_PROTO
+#ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	evento.toString(cadena);
 	printf("%s\n",cadena);
-	#endif
+#endif
 
 	return offset;
 }
@@ -1258,6 +1258,11 @@ int Protocolo::codificar(EstadoJugador &estadoJugador, char* buffer) {
 
 	memcpy(buffer + offset,&puntajeAcumulado,sizeof(int));
 	offset += sizeof(int);
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	estadoJugador.toString(cadena);
+	printf("%s\n",cadena);
+#endif
 
 	return offset;
 }
@@ -1278,7 +1283,11 @@ int Protocolo::decodificar(char* buffer, EstadoJugador &estadoJugador) {
 	offset += sizeof(int);
 
 	estadoJugador = EstadoJugador(id, puntajeAcumulado);
-
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	estadoJugador.toString(cadena);
+	printf("%s\n",cadena);
+#endif
 	return offset;
 }
 
@@ -1327,8 +1336,7 @@ int Protocolo::decodificar(char* buffer, EstadoPowerUp &estadoPowerUp) {
 
 int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 	//Por ahora el juego no es mas que un conjunto de un evento, estadoAviones y un estadoMapa
-	int offset = 0;
-	int cantidaDeJugadores = 0;
+	int offset = 0;	
 	std::list<EstadoAvion*> estadoAviones;
 	estadoAviones = estadoJuego.getEstadoDeLosAviones();
 	int cantidadDeAviones = -1;
@@ -1393,7 +1401,11 @@ int Protocolo::codificar(EstadoJuego &estadoJuego, char* buffer){
 
 	//Luego se codifica el estado del Mapa
 	offset += codificar(*estadoJuego.getEstadoDelMapa(), buffer + offset);
-
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	estadoJuego.toString(cadena);
+	printf("%s\n",cadena);
+#endif	
 	return offset;
 }
 //ERROR-000
@@ -1453,6 +1465,11 @@ int Protocolo::decodificar(char* buffer, EstadoJuego*& estadoJuego){
 	estadoJuego = new EstadoJuego(estadoAviones, estadoJugadores, estadoPowerUps,
 									estadoMapa, *evento);
 	delete evento;
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	estadoJuego->toString(cadena);
+	printf("%s\n",cadena);
+#endif	
 	return offset;
 }
 
@@ -1476,6 +1493,11 @@ int Protocolo::codificar(EstadoMapa &estadoMapa, char* buffer) {
 
 	memcpy(buffer + offset,&idEtapa,sizeof(int));
 	offset += sizeof(int);
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	estadoMapa.toString(cadena);
+	printf("%s\n",cadena);
+#endif	
 	return offset;
 }
 
@@ -1502,6 +1524,10 @@ int Protocolo::decodificar(char* buffer, EstadoMapa* estadoMapa) {
 	estadoMapa->setCantidaDePixeles(cantidadDePixelesQuePasaron);
 	estadoMapa->setCodigoReinicio(codigoDeReinicio);
 	estadoMapa->setIdEtapa(idEtapa);
-
+#ifdef FAKE_DEBUG_PROTO
+	TCadena1000 cadena;
+	estadoMapa->toString(cadena);
+	printf("%s\n",cadena);
+#endif
 	return offset;
 }
