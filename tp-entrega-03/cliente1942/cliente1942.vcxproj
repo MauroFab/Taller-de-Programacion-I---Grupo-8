@@ -97,6 +97,7 @@
     <ClCompile Include="..\common\view\AvionView.cpp" />
     <ClCompile Include="..\common\view\BalaView.cpp" />
     <ClCompile Include="..\common\view\ElementoView.cpp" />
+    <ClCompile Include="..\common\view\EscenarioView.cpp" />
     <ClCompile Include="..\common\view\FondoView.cpp" />
     <ClCompile Include="..\common\xml\AvionEnemigoXml.cpp" />
     <ClCompile Include="..\common\xml\AvionXml.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="..\common\view\AvionView.h" />
     <ClInclude Include="..\common\view\BalaView.h" />
     <ClInclude Include="..\common\view\ElementoView.h" />
+    <ClInclude Include="..\common\view\EscenarioView.h" />
     <ClInclude Include="..\common\view\FondoView.h" />
     <ClInclude Include="..\common\xml\AvionEnemigoXml.h" />
     <ClInclude Include="..\common\xml\AvionXml.h" />

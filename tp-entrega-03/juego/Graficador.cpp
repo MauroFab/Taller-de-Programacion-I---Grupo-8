@@ -47,13 +47,11 @@ void Graficador::agregarDatosBala(BalaView * balaView) {
 	graficoProyectil = new GraficoProyectil(renderer,balaView);
 }
 
-void Graficador::agregarDatosMapa(FondoView * fondoView, ElementoView* *listaElementosView, int canElemV, int posicionInicial) {
+void Graficador::agregarDatosMapa(EscenarioView ** listaEscenariosView, int canEscenariosV, int posicionInicial) {
 	
-	int cantiadadEtapas = 10;// Esto deberia recibirse desde el servidor
-
-	for (int i = 0; i < cantiadadEtapas; i++) {
-		GraficoMapa* graficoMapa = new GraficoMapa(renderer, fondoView, posicionInicial);
-		graficoMapa->crearElementos(listaElementosView, canElemV);
+	for (int i = 0; i < canEscenariosV; i++) {
+		GraficoMapa* graficoMapa = new GraficoMapa(renderer, listaEscenariosView[i]->getFondoView(), posicionInicial);
+		graficoMapa->crearElementos(listaEscenariosView[i]->getElementosView(), listaEscenariosView[i]->getCanElemV());
 		graficosMapa[i] = graficoMapa;
 	}
 	this->graficoMapa = graficosMapa[0];
