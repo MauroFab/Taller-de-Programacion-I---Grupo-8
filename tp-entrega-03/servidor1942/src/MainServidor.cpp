@@ -350,7 +350,7 @@ void MainServidor::enviarMensajeDeConexionRechazadaPorqueYaEstaConectadoEseUsuar
 void MainServidor::sendEstadoAvionJuegoIniciado(SOCKET* socket){
 	char buffEnvio[MAX_BUFFER];
 	//indica el estado inicial de la partida
-	EstadoAvion estadoAvionXmlInicial(-1,0,0,0,0);
+	EstadoAvion estadoAvionXmlInicial(-1,0,0,0,0,0);
 	estadoAvionXmlInicial.calculateSizeBytes();
 	int sizeEnvio = Protocolo::codificar(estadoAvionXmlInicial, buffEnvio);
 	MensajeSeguro::enviar(*socket, buffEnvio, sizeEnvio);

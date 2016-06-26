@@ -40,6 +40,8 @@ EstadoAvion* FakeAvionEnemigo::getEstado() {
 	miPosicionEnY = superficieOcupada->obtenerPosicion().getPosY();
 	int miPosicionEnX;
 	miPosicionEnX = superficieOcupada->obtenerPosicion().getPosX();
-	EstadoAvion*  estado =  new EstadoAvion(id, frame, puntosDeVida, miPosicionEnX, miPosicionEnY);
+	bool tieneArmaMejorada = false;
+	EstadoAvion*  estado =  new EstadoAvion(id, frame, puntosDeVida, 
+												miPosicionEnX, miPosicionEnY, tieneArmaMejorada);
 	return estado;
 }

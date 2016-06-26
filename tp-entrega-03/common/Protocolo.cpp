@@ -991,7 +991,7 @@ int Protocolo::codificar(EstadoAvion &estadoAvion,char * buffer){
 	int puntosDeVida = estadoAvion.getPuntosDeVida();
 	int sizeProyectiles = estadoAvion.getEstadosProyectiles().size();
 	int offset = 0;
-
+	bool tieneArmaMejorada = estadoAvion.getTieneArmaMejorada();
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
 
@@ -1010,6 +1010,9 @@ int Protocolo::codificar(EstadoAvion &estadoAvion,char * buffer){
 	memcpy(buffer + offset,&puntosDeVida,sizeof(int));
 	offset += sizeof(int);
 
+	memcpy(buffer + offset,&tieneArmaMejorada,sizeof(bool));
+	offset += sizeof(bool);
+
 	memcpy(buffer + offset,&sizeProyectiles,sizeof(int));
 	offset += sizeof(int);
 
@@ -1021,6 +1024,7 @@ int Protocolo::codificar(EstadoAvion &estadoAvion,char * buffer){
 		EstadoProyectil* estadoProyectil = (*it);
 		offset += codificar(*estadoProyectil,buffer + offset);
 	}
+
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	estadoAvion.toString(cadena);
@@ -1040,6 +1044,7 @@ int Protocolo::decodificar(char * buffer,EstadoAvion* estadoAvion){
 	int sizeProyectiles = -1;
 	int puntosDeVida = -1;
 	int offset = 0;
+	bool tieneArmaMejorada;
 
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
@@ -1059,11 +1064,15 @@ int Protocolo::decodificar(char * buffer,EstadoAvion* estadoAvion){
 	memcpy(&puntosDeVida,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
+	memcpy(&tieneArmaMejorada,buffer + offset,sizeof(bool));
+	offset += sizeof(bool);
+
 	estadoAvion->setId(id);
 	estadoAvion->setFrame(frame);
 	estadoAvion->setPosX(posX);
 	estadoAvion->setPosY(posY);
 	estadoAvion->setPuntosDeVida(puntosDeVida);
+	estadoAvion->setTieneArmaMejorada(tieneArmaMejorada);
 
 	memcpy(&sizeProyectiles,buffer + offset,sizeof(int));
 	offset += sizeof(int);

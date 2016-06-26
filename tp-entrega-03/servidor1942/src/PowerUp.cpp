@@ -18,6 +18,9 @@ PowerUp::PowerUp(int p_x,int p_y,int puntos, int tipo)
 bool PowerUp::esDePuntos(){
 	return (tipo == TIPO_PUNTOS);
 }
+bool PowerUp::esDeAmetralladora(){
+	return (tipo == TIPO_AMETRALLADORA);
+}
 PowerUp::~PowerUp(){
 }
 

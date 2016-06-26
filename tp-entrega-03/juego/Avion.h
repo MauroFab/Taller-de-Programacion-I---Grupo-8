@@ -40,7 +40,7 @@ private:
 
 	static const int vidaMaximaAvion = 3;
 	int puntosDeVida;
-	bool soyInvulnerable;
+	bool soyInvulnerable, tengoElArmaMejorada;
 public:
 
 	Avion(int ventanaAncho, int ventalaAlto, AvionView* avionView, BalaView* balaView);

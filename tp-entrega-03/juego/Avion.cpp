@@ -19,6 +19,7 @@ Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* 
 	puntosDeVida = vidaMaximaAvion;
 	this->jugadorAsociado = new ModeloJugador(id);
 	soyInvulnerable = false;
+	tengoElArmaMejorada = false;
 }
 
 Avion::~Avion() {
@@ -107,6 +108,9 @@ void Avion::resolverColisionEntreElAvionY(PowerUp &powerUp){
 		if(powerUp.esDePuntos()){
 			this->jugadorAsociado->sumarPuntos(powerUp.obtenerPuntosQueOtorga());
 		}
+		if(powerUp.esDeAmetralladora()){
+			tengoElArmaMejorada = true;
+		}
 		//Aca irian los otros casos de power ups.
 	}
 }
@@ -182,7 +186,8 @@ EstadoAvion* Avion::getEstado() {
 	miPosicionEnY = superficieQueOcupo.obtenerPosicion().getPosY();
 	int miPosicionEnX;
 	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
-	EstadoAvion*  estado =  new EstadoAvion(id, frame, puntosDeVida, miPosicionEnX, miPosicionEnY);
+	EstadoAvion*  estado =  new EstadoAvion(id, frame, puntosDeVida, 
+											miPosicionEnX, miPosicionEnY,tengoElArmaMejorada);
 	std::list<EstadoProyectil*> lista;
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {

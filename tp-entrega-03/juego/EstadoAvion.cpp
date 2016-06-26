@@ -10,7 +10,7 @@ EstadoAvion::EstadoAvion() {
 	this->puntosDeVida = -1;
 	this->sizeBytes = sizeof(int)*6  ;
 }
-EstadoAvion::EstadoAvion(int id, int frame, int puntosDeVida, int posX, int posY) {
+EstadoAvion::EstadoAvion(int id, int frame, int puntosDeVida, int posX, int posY, bool tieneArmaMejorada) {
 	this->sizeBytes = -1;
 	this->id = id;
 	this->frame = frame;
@@ -39,6 +39,7 @@ void EstadoAvion::calculateSizeBytes(){
 		+ sizeof(int) //posX
 		+ sizeof(int); //posY
 		+ sizeof(int); //puntosDeVida
+		+ sizeof(bool); //tieneArmaMejorada
 }
 
 void EstadoAvion::setId(int id) {
@@ -102,4 +103,12 @@ std::list<EstadoProyectil*> EstadoAvion::getEstadosProyectiles(){
 
 void EstadoAvion::toString(TCadena1000 cadena){
 	sprintf(cadena,"\nEstadoAvion: sizeBytes=%d,id=%d,frame=%d,posX=%d,posY=%d",sizeBytes,id,frame,posX, posY);
+}
+
+bool EstadoAvion::getTieneArmaMejorada(){
+	return tieneArmaMejorada;
+}
+
+void EstadoAvion::setTieneArmaMejorada(bool tiene){
+	this->tieneArmaMejorada;
 }
