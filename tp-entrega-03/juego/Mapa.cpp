@@ -6,7 +6,7 @@ Mapa::Mapa(ServidorXml* servidorXml){
 	this->tamanioMaximoMapa = MAX_ALTO_MAPA;
 	this->cantidadDePixelesQuePasaron = 0;
 	this->estado = new EstadoMapa();
-	this->cantidadEtapas = 10;// Aca debería cargarse desde el XML la cantidad de etapas/niveles
+	this->cantidadEtapas = servidorXml->getCanEsc();
 	this->idEtapaActual = 0;
 }
 

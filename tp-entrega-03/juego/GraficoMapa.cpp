@@ -3,7 +3,6 @@
 GraficoMapa::GraficoMapa(SDL_Renderer* renderer, FondoView * fondoView, int posicionInicial) {
 
 	char * pathFondo = fondoView->spriteXml->getPath();
-	tamanioMaximoMapa = fondoView->altoFondo;
 	textura = new Textura();
 	this->renderer = renderer;
 

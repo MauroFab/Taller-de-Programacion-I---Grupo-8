@@ -18,16 +18,16 @@ VistaJuego::VistaJuego(){
 	this->estadoJuego = NULL;
 	mut = SDL_CreateMutex();
 	jugar=false;
-	//inicializar elementos de la vista
-	for(int i = 0; i < MAX_ELEM_VIEW; i++){
-		this->listaElemView[i] = NULL;
-	}
-	this->canElemV = 0;
 	//inicializar aviones de la vista
 	for(int i = 0; i < MAX_AVION_VIEW; i++){
 		this->listaAvionView[i] = NULL;
 	}
 	this->canAvionV = 0;
+	//inicializar escenarios de la vista
+	for(int i = 0; i < MAX_ESCENARIO_VIEW; i++){
+		this->listaEscenariosView[i] = NULL;
+	}
+	this->canEscenariosV = 0;
 	this->balaView = NULL;
 	this->controlador = new ControladorTeclado();
 }
@@ -36,12 +36,12 @@ VistaJuego::~VistaJuego(){
 	delete this->jugador;
 	SDL_DestroyMutex(mut);
 	close();
-	//liberar elementos de la vista
-	for(int i = 0; i < MAX_ELEM_VIEW; i++){
-		if (this->listaElemView[i] != NULL)
-			delete this->listaElemView[i];
+	//liberar escenarios de la vista
+	for(int i = 0; i < MAX_ESCENARIO_VIEW; i++){
+		if (this->listaEscenariosView[i] != NULL)
+			delete this->listaEscenariosView[i];
 	}
-	this->canElemV = 0;
+	this->canEscenariosV = 0;
 	//liberar aviones de la vista
 	for(int i = 0; i < MAX_AVION_VIEW; i++){
 		if (this->listaAvionView[i] != NULL)
@@ -165,26 +165,6 @@ Jugador * VistaJuego::getJugador(){
 	return this->jugador;
 }
 
-int VistaJuego::cargarElementos(ServidorXml * confServidorXml){
-	//sprites
-	int cantS = confServidorXml->getCanSprs();
-	SpriteXml ** listaS = confServidorXml->getListaSprites();
-
-	//elementos
-	int cantE = confServidorXml->getListaEscenario()[0]->getCanElems();
-	ElementoXml ** listaE = confServidorXml->getListaEscenario()[0]->getListaElementos();
-	for(int i = 0;i <cantE; i++){
-		ElementoXml * elemX = listaE[i];
-		//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
-		SpriteXml * spriteX = SpriteXml::findSpriteById(elemX->getIdSprite(),listaS,cantS);
-		if (spriteX != NULL){	//solo en caso de encontrarlo
-			ElementoModel * elemModel = new ElementoModel(elemX);
-			this->listaElemView[i] = new ElementoView(elemModel,spriteX);
-			this->canElemV++;
-		}
-	}
-	return 0;
-}
 //---carga de aviones de la vista
 int VistaJuego::cargarAviones(ServidorXml * confServidorXml){
 	//sprites
@@ -206,16 +186,54 @@ int VistaJuego::cargarAviones(ServidorXml * confServidorXml){
 	return 0;
 }
 
-int VistaJuego::cargarFondo(ServidorXml * confServidorXml,int altoFondo){
-	FondoXml * fondoXml = confServidorXml->getListaEscenario()[0]->getFondoXmlCopy();
-	FondoModel * fondoModel = new FondoModel(fondoXml);
+// carga los power-ups del escenario correspondiente a idEscenario
+int VistaJuego::cargarPowerUps(ServidorXml * confServidorXml, EscenarioView* escenarioV, int idEscenario) {
+
+	// todavia no se hace nada
+	return 0;
+}
+
+// carga elementos del escenario correpondiente a idEscenario
+int VistaJuego::cargarElementos(ServidorXml * confServidorXml, EscenarioView* escenarioV, int idEscenario){
 	//sprites
 	int cantS = confServidorXml->getCanSprs();
 	SpriteXml ** listaS = confServidorXml->getListaSprites();
-	//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
-	SpriteXml * spriteX = SpriteXml::findSpriteById(fondoXml->getIdSprite(),listaS,cantS);
-	this->fondoView = new FondoView(fondoModel,spriteX);
-	this->fondoView->altoFondo = altoFondo;
+	//elementos
+	int cantE = confServidorXml->getListaEscenario()[idEscenario]->getCanElems();
+	ElementoXml ** listaE = confServidorXml->getListaEscenario()[idEscenario]->getListaElementos();
+	for(int i = 0;i <cantE; i++){
+		ElementoXml * elemX = listaE[i];
+		//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
+		SpriteXml * spriteX = SpriteXml::findSpriteById(elemX->getIdSprite(),listaS,cantS);
+		if (spriteX != NULL){ //solo en caso de encontrarlo
+			ElementoModel * elemModel = new ElementoModel(elemX);
+			escenarioV->addElementoView(new ElementoView(elemModel,spriteX));
+		}
+	}
+	return 0;
+}
+
+int VistaJuego::cargarEscenarios(ServidorXml* confServidorXml) {
+	//sprites
+	int cantS = confServidorXml->getCanSprs();
+	SpriteXml ** listaS = confServidorXml->getListaSprites();
+	//Escenarios
+	int cantE = confServidorXml->getCanEsc();
+	EscenarioXml ** listaE = confServidorXml->getListaEscenario();
+	for (int e = 0; e < cantE; e++) {
+		FondoXml* fondoXml = listaE[e]->getFondoXmlCopy();
+		FondoModel * fondoModel = new FondoModel(fondoXml);
+		//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
+		SpriteXml * spriteX = SpriteXml::findSpriteById(fondoXml->getIdSprite(),listaS,cantS);
+		if (spriteX != NULL) {
+			FondoView* fondoV = new FondoView(fondoModel,spriteX);
+			EscenarioView* escenarioV = new EscenarioView(fondoV);
+			cargarElementos(confServidorXml, escenarioV, e);
+			cargarPowerUps(confServidorXml, escenarioV, e);
+			this->listaEscenariosView[e] = escenarioV;
+			this->canEscenariosV++;
+		}
+	}
 	return 0;
 }
 
@@ -235,20 +253,6 @@ int VistaJuego::cargarBala(ServidorXml * confServidorXml){
 }
 
 //operaciones de reset
-//se encarga del reset de los elementos liberando la memoria usada por los objetos
-//tanto de la view como de los que estos contienen
-int VistaJuego::resetElementos(){
-	//liberar elementos de la vista
-	for(int i = 0; i < MAX_ELEM_VIEW; i++){
-		if (this->listaElemView[i] != NULL){
-			delete this->listaElemView[i];
-			this->listaElemView[i] = NULL;
-		}
-
-	}
-	this->canElemV = 0;
-	return 0;
-}
 //se encarga del reset de los aviones liberando la memoria usada por los objetos
 //tanto de la view como de los que estos contienen
 int VistaJuego::resetAviones(){
@@ -263,23 +267,32 @@ int VistaJuego::resetAviones(){
 	return 0;
 }
 
-//Se que no es correcto proteger todo el metodo con un mutex, peroooo el señor
-// hilo recibir_mensajes esta tocando cosas que solo el hilo main deberia de tocar
-// el hilo recibir_mensajes solo deberia de notificar los cambios.
+int VistaJuego::resetEscenarios() {
+	//liberar aviones de la vista
+	for(int i = 0; i < MAX_ESCENARIO_VIEW; i++){
+		if (this->listaEscenariosView[i] != NULL){
+			delete this->listaEscenariosView[i];
+			this->listaEscenariosView[i] = NULL;
+		}
+	}
+	this->canEscenariosV = 0;
+	return 0;
+}
+
+// Por ahora este metodo no está en uso
 void VistaJuego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 	SDL_mutexP(mut);
-	resetElementos();
+
+	resetEscenarios();
 	resetAviones();
-	static int tamanioMaximoMapa = 2000;
-	cargarElementos(confServidorXml);
 	cargarAviones(confServidorXml);
-	cargarFondo(confServidorXml,tamanioMaximoMapa);
+	cargarEscenarios(confServidorXml);
 	cargarBala(confServidorXml);
 
 	Graficador::getInstance()->inicializar(gRenderer, this->ventanaAncho, this->ventanaAlto);
 	Graficador::getInstance()->agregarDatosAviones(this->listaAvionView, this->canAvionV);
 	Graficador::getInstance()->agregarDatosBala(this->balaView);
-	Graficador::getInstance()->agregarDatosMapa(this->fondoView, this->listaElemView, this->canElemV, posicionInicialMapa);
+	Graficador::getInstance()->agregarDatosMapa(this->listaEscenariosView, this->canEscenariosV, posicionInicialMapa);
 	Graficador::getInstance()->reiniciarMapa();
 
 	SDL_mutexV(mut);
@@ -299,12 +312,11 @@ void VistaJuego::agregarDatosDeAvionesEnemigosHardcodeados(){
 	avionView[0] = new AvionView(avionModel,spriteNaveEnemiga);
 	Graficador::getInstance()->agregarDatosAviones(avionView,1);
 }
+
 void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
 
-	static int tamanioMaximoMapa = 2000;
-	cargarElementos(confServidorXml);
 	cargarAviones(confServidorXml);
-	cargarFondo(confServidorXml,tamanioMaximoMapa);
+	cargarEscenarios(confServidorXml);
 	cargarBala(confServidorXml);
 
  	dibujarFondoInicio();
@@ -315,7 +327,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 	Graficador::getInstance()->inicializar(gRenderer, this->ventanaAncho, this->ventanaAlto);
 	Graficador::getInstance()->agregarDatosAviones(this->listaAvionView, this->canAvionV);
 	Graficador::getInstance()->agregarDatosBala(this->balaView);
-	Graficador::getInstance()->agregarDatosMapa(this->fondoView, this->listaElemView, this->canElemV, posicionInicialMapa);
+	Graficador::getInstance()->agregarDatosMapa(this->listaEscenariosView, this->canEscenariosV, posicionInicialMapa);
 
 	agregarDatosDeAvionesEnemigosHardcodeados();
 	/*------------------------------------------------------------------*/
@@ -345,11 +357,6 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 		SDL_RenderClear( gRenderer );
 
 		SDL_mutexP(mut);
-		
-		//actualizar el modelo
-		//=====================================
-		//juego->update();
-		//=====================================
 		
 		//recibir actualizaciones
 		Graficador::getInstance()->graficarJuego(estadoJuego, jugador->getIdCliente());

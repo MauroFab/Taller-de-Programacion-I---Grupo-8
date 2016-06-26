@@ -16,10 +16,11 @@
 #include "../common/view/BalaView.h"
 #include "../common/view/ElementoView.h"
 #include "../common/view/FondoView.h"
+#include "../common/view/EscenarioView.h"
 #include <list>
 #include <map>
 
-#define CANTIDAD_MAXIMA_DE_ETAPAS 20
+#define MAX_CANTIDAD_ESCENARIOS 10
 
 class Graficador {
 
@@ -34,7 +35,7 @@ public:
 	void inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto);
 	void agregarDatosAviones(AvionView* *avionView, int canAvionV);
 	void agregarDatosBala(BalaView * balaView);
-	void agregarDatosMapa(FondoView * fondoView, ElementoView* *listaElementosView, int canElemV, int posicionInicial);
+	void agregarDatosMapa(EscenarioView ** listaEscenariosView, int canEscenariosV, int posicionInicial);
 
 	void reiniciarMapa();
 	void actualizarMapa(EstadoMapa* estadoMapa);
@@ -53,7 +54,10 @@ private:
 	int ventanaAlto;
 	std::map<int, GraficoAvion*> mapaGraficosAvion;
 	GraficoProyectil* graficoProyectil;
+	//grafico actual del mapa
 	GraficoMapa* graficoMapa;
+	//vector de grafico de mapas
+	GraficoMapa* graficosMapa[MAX_CANTIDAD_ESCENARIOS];
 	GraficadorPuntaje* graficoPuntaje;
 	GraficadorPuntosVida* graficoPuntosVida;
 	GraficadorPowerUp* graficadorPowerUp;
@@ -66,9 +70,6 @@ private:
 	void graficoLosPuntosDeVidaDelAvionDeEsteCliente(EstadoAvion* estadoAvion);
 
 	int buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id);
-
-	//vector de grafico de mapas
-	GraficoMapa* graficosMapa[CANTIDAD_MAXIMA_DE_ETAPAS];
 };
 
 #endif //_GRAFICADOR_H_
