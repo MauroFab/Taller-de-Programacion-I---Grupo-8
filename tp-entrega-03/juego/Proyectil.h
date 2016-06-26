@@ -5,6 +5,8 @@
 #include "Textura.h"
 #include "EstadoProyectil.h"
 #include "../common/view/BalaView.h"
+#include "../servidor1942/src/SuperficieOcupada.h"
+
 //************************
 //esto NOO tiene que estar
 
@@ -17,16 +19,16 @@ private:
 	int anchoFotograma;
 	int altoFotograma;
 	// Posicion del proyectil
-	int posicionX;
-	int posicionY;
 	int velocidad;
 	// Velocidad del proyectil
 	int velocidadX;
 	int velocidadY;
 	bool mejorado;
+	SuperficieOcupada superficie;
+
 public:
-	static const int ANCHO_PROYECTIL = 11;
-	static const int ALTO_PROYECTIL = 25;
+	static const int ANCHO_PROYECTIL_SIN_MEJORA = 7;
+	static const int ALTO_PROYECTIL_SIN_MEJORA = 16;
 	Proyectil(BalaView * balaView, bool mejorado);
 	virtual ~Proyectil(void);
 	bool estaEnPantalla();

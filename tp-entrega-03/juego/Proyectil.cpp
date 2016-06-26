@@ -11,24 +11,30 @@ Proyectil::Proyectil(BalaView * balaView, bool mejorado) {
 	velocidad = balaView->balaModel->velBala;
 	velocidadY -= velocidad;
 	this->mejorado = mejorado;
+	
 }
 
 Proyectil::~Proyectil(void) {
 }
 
 void Proyectil::setCoordenasDeComienzo(int posX, int posY) {
-	posicionX = posX;
-	posicionY = posY;
+	if(mejorado){
+		this->superficie = SuperficieOcupada(posX,posY,anchoFotograma,altoFotograma);
+	}else{
+		this->superficie = SuperficieOcupada(posX,posY,
+								ANCHO_PROYECTIL_SIN_MEJORA, ALTO_PROYECTIL_SIN_MEJORA);
+	}
 }
 
 bool Proyectil::estaEnPantalla() {
-	return (posicionY >= - FAKE_2_SCREEN_HEIGHT);
+	return (superficie.obtenerPosicion().getPosY() >= - FAKE_2_SCREEN_HEIGHT);
 }
 
 void Proyectil::mover() {
-	posicionY += velocidadY;
+	superficie.desplazarEnYObteniendoHitbox(velocidadY);
 }
 
 EstadoProyectil* Proyectil::createEstado() {
-	return new EstadoProyectil(frame, posicionX, posicionY, mejorado);
+	return new EstadoProyectil(frame, superficie.obtenerPosicion().getPosX() , 
+										superficie.obtenerPosicion().getPosY() , mejorado);
 }

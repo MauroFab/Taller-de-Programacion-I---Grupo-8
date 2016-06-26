@@ -228,6 +228,9 @@
     <ClCompile Include="..\common\view\EscenarioView.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="..\servidor1942\src\SuperficieOcupada.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -400,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="..\common\view\EscenarioView.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\servidor1942\src\SuperficieOcupada.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
