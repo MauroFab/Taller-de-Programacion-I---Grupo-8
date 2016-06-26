@@ -11,12 +11,11 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	 powerUps.push_back(PowerUp(10,1000,500, TIPO_PUNTOS));
 	 powerUps.push_back(PowerUp(100,800,500, TIPO_PUNTOS));
 	 powerUps.push_back(PowerUp(200,600,500, TIPO_PUNTOS));
-	 powerUps.push_back(PowerUp(300,400,500, TIPO_PUNTOS));
+	 powerUps.push_back(PowerUp(300,400,500, TIPO_AMETRALLADORA));
 }
 
 ModeloDelJuego::~ModeloDelJuego(){
 	delete this->avionEnemigoBeta;
-
 }
 
 void ModeloDelJuego::crearAviones(ServidorXml* servidorXml){
