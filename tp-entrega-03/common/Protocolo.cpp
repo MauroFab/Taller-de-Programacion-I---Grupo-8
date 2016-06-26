@@ -1345,7 +1345,7 @@ int Protocolo::decodificar(char* buffer, EstadoPowerUp &estadoPowerUp) {
 	memcpy(&y,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
-	estadoPowerUp = EstadoPowerUp(tipo, fueUsado, 5, 5);
+	estadoPowerUp = EstadoPowerUp(tipo, fueUsado, x, y);
 
 	return offset;
 }
