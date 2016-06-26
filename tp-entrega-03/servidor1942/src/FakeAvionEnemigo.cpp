@@ -3,15 +3,26 @@
 FakeAvionEnemigo::FakeAvionEnemigo(int xInicial, int yInicial, int ancho, int alto, int velocidad){
 
 	superficieOcupada = new SuperficieOcupada(xInicial,yInicial,ancho,alto);
+
 	this->velocidad = velocidad;
 	puntosDeVida = vidaMaximaFakeAvionEnemigo;
 	this->frame = 0;
 	id = 100;
 	this->puntosQueOtorga = 100;
+	velocidadX = - rand() % velocidad - 1;
+	velocidadY = - rand() % velocidad - 1;
+	if(rand() % 2 == 1)
+		velocidadX = - velocidadX;
 }
 
 void FakeAvionEnemigo::continuarMovimiento(){
-	superficieOcupada->desplazarEnYObteniendoHitbox(-velocidad);
+	//Voy bajando con el mapa
+	superficieOcupada->desplazarEnYObteniendoHitbox(-1);
+	if(superficieOcupada->obtenerPosicion().getPosY() < 640){
+		//Activo todo el movimiento despues de que este en pantalla
+		superficieOcupada->desplazarEnYObteniendoHitbox(velocidadY);
+		superficieOcupada->desplazarEnXObteniendoHitbox(velocidadX);
+	}
 }
 
 void FakeAvionEnemigo::reducirPuntosDeVidaEn(int puntosDeDanio){

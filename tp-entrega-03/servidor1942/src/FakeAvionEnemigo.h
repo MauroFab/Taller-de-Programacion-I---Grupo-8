@@ -36,6 +36,8 @@ private:
 	static const int vidaMaximaFakeAvionEnemigo = 1;
 	int puntosDeVida;
 	int velocidad;
+	int velocidadX;
+	int velocidadY;
 	int id;
 	int frame;
 };
