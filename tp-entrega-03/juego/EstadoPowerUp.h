@@ -16,6 +16,8 @@ public:
 	int getY();
 	
 private:
-	int tipo,x,y;
+	int tipo;
+	int x;
+	int y;
 	bool fueUsado;
 };

@@ -40,7 +40,8 @@ private:
 
 	static const int vidaMaximaAvion = 3;
 	int puntosDeVida;
-	bool soyInvulnerable, tengoElArmaMejorada;
+	bool soyInvulnerable;
+	bool tengoElArmaMejorada;
 public:
 
 	Avion(int ventanaAncho, int ventalaAlto, AvionView* avionView, BalaView* balaView);
@@ -102,7 +103,8 @@ private:
 	void revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &avionesEnemigos);
 	void revisoColisiones(SuperficieOcupada hitbox, list<PowerUp> &powerUps);
 
-	int centroProyectilMejorado, centroProyectilSinMejora;
+	int centroProyectilMejorado;
+	int centroProyectilSinMejora;
 	
 	void resolverColisionEntreElAvionY(PowerUp &powerUp);
 
