@@ -89,7 +89,7 @@ void ModeloDelJuego::actualizarMovimientos(){
 		int x_avion = this->avionEnemigoBeta->x;
 		if (pos_y_real >= y_avion && !this->avionEnemigoBeta->getVisible()){
 			this->avionEnemigoBeta->setVisible(true);
-			avionesEnemigos.push_back(FakeAvionEnemigo(x_avion,500,68,120,1));
+			avionesEnemigos.push_back(FakeAvionEnemigo(x_avion,500,68,120,2));
 		}
 		//una vez que se vuelve visible se puede mover
 		if (this->avionEnemigoBeta->getVisible()){
