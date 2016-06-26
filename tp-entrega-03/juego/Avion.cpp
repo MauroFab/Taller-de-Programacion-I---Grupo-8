@@ -145,11 +145,11 @@ void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos,
 		continuarElRoll();
 	}
 }
-void Avion::continuarMovimientoDeLosProyectiles(){
+void Avion::continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo> &avionesEnemigos){
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
 		if ((*it)->estaEnPantalla()) {
-			(*it)->mover();
+			(*it)->mover(avionesEnemigos);
 		}
 	}
 }
@@ -161,21 +161,12 @@ void Avion::eliminarLosProyectilesQueSalieronDeLaPantalla(){
 			delete ultimoProyectil;
 		}
 }
-void Avion::mover() {
-	continuarMovimientoDelAvion();
-	//Avanzo los proyectiles
-	continuarMovimientoDeLosProyectiles();
-	//Si hay proyectiles
-	if(!proyectiles.empty())
-		eliminarLosProyectilesQueSalieronDeLaPantalla();
-
-}
 
 
 void Avion::mover(list<FakeAvionEnemigo> &avionesEnemigos, list<PowerUp> &powerUps) {
 	continuarMovimientoDelAvion(avionesEnemigos, powerUps);
 	//Avanzo los proyectiles
-	continuarMovimientoDeLosProyectiles();
+	continuarMovimientoDeLosProyectiles(avionesEnemigos);
 	//Si hay proyectiles
 	if(!proyectiles.empty())
 		eliminarLosProyectilesQueSalieronDeLaPantalla();

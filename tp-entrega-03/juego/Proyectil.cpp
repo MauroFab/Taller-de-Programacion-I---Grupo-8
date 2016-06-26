@@ -32,6 +32,20 @@ bool Proyectil::estaEnPantalla() {
 
 void Proyectil::mover() {
 	superficie.desplazarEnYObteniendoHitbox(velocidadY);
+
+}
+
+void Proyectil::mover(std::list<FakeAvionEnemigo> &avionesEnemigos) {
+	SuperficieOcupada hitbox;
+	hitbox = superficie.desplazarEnYObteniendoHitbox(velocidadY);
+	std::list<FakeAvionEnemigo>::iterator it;
+	for(it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++){
+		SuperficieOcupada superficieEnemigo;
+		superficieEnemigo = (*it).obtenerSuperficieOcupada();
+		if(hitbox.meSolapoCon(superficieEnemigo)){
+			(*it).recibeUnImpacto();
+		}
+	}
 }
 
 EstadoProyectil* Proyectil::createEstado() {

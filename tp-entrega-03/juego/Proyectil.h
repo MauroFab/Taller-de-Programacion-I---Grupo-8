@@ -6,6 +6,7 @@
 #include "EstadoProyectil.h"
 #include "../common/view/BalaView.h"
 #include "../servidor1942/src/SuperficieOcupada.h"
+#include "../servidor1942/src/FakeAvionEnemigo.h"
 
 //************************
 //esto NOO tiene que estar
@@ -33,6 +34,7 @@ public:
 	virtual ~Proyectil(void);
 	bool estaEnPantalla();
 	void mover();
+	void mover(std::list<FakeAvionEnemigo> &avionesEnemigos);
 	void setCoordenasDeComienzo(int posX, int posY);
 	/**
 	 * esta funcion crea nuevos estados

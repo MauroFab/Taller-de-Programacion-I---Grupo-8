@@ -78,10 +78,6 @@ public:
 
 private:
 
-	//Este mover no considera ningun tipo de colision, fuera de uso
-	void mover();
-
-
 	void darVelocidadHaciaArriba();
 	void darVelocidadHaciaAbajo();
 
@@ -94,11 +90,9 @@ private:
 	void continuarMovimientoDelAvion();
 	void continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos,
 									 list<PowerUp> &powerUps);
-	void continuarMovimientoDeLosProyectiles();
+	void continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo>& avionesEnemigos);
 	void eliminarLosProyectilesQueSalieronDeLaPantalla();
 	int velocidad;
-
-	void continuarMovimientoproyectiles(void);
 
 	SuperficieOcupada actualizarPosicionEnX();
 	SuperficieOcupada actualizarPosicionEnY();
