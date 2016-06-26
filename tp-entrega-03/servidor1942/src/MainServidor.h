@@ -24,7 +24,6 @@ using std::ofstream;
 
 #include "../../common/Log.h"
 #include "../../common/StringUtil.h"
-#include "asignadorDeUsuarios.h"
 #include "../../common/xml/ParserXml.h"
 #include "../../common/xml/MensajeXml.h"
 #include "../../juego/EstadoAvion.h"
@@ -36,6 +35,10 @@ using std::ofstream;
 #include "../../common/model/AvionModel.h"
 #include "../../common/model/BalaModel.h"
 #include "ModeloDelJuego.h"
+#include "asignadorDeUsuarios.h"
+#include "ConfiguracionInicialJuego.h"
+
+#define MODO_EQUIPO "Equipo"
 
 //funciondes de hilos de SDL
 void freeSocketsSDL (SOCKET* s);

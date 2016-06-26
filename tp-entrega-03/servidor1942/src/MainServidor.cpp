@@ -255,6 +255,22 @@ void MainServidor::enviarModeloXmlxConexionAceptadaAl(int idCliente, SOCKET* soc
 	mensajeEnvio.setTipo(TIPO_STRING);
 	mensajeEnvio.calculateSizeBytes();
 	offset = Protocolo::codificar(mensajeEnvio,buffEnvio + offset);
+	// Modo de Juego
+	MensajeXml mensajeModoDeJuego;
+	char* modoDeJuego = ConfiguracionInicialJuego::getInstance()->getModoDeJuego();
+	mensajeModoDeJuego.setValor(modoDeJuego, strlen(modoDeJuego));
+	mensajeModoDeJuego.setTipo(TIPO_STRING);
+	mensajeModoDeJuego.calculateSizeBytes();
+	offset += Protocolo::codificar(mensajeModoDeJuego,buffEnvio + offset);
+	// Depenediendo del modo de juego se envia la disponibilidad de los equipos
+	if (strcmp(modoDeJuego, MODO_EQUIPO) == 0) {
+		MensajeXml mensajeDisponibilidad;
+		char* disponibilidad = ConfiguracionInicialJuego::getInstance()->getDisponibilidad();
+		mensajeDisponibilidad.setValor(disponibilidad, strlen(disponibilidad));
+		mensajeDisponibilidad.setTipo(TIPO_STRING);
+		mensajeDisponibilidad.calculateSizeBytes();
+		offset += Protocolo::codificar(mensajeDisponibilidad,buffEnvio + offset);
+	}
 	// ID del usuario
 	string idString = StringUtil::intToString(idCliente);
 	mensajeEnvio.setValor((char*)idString.c_str(), strlen(idString.c_str()));
@@ -372,6 +388,22 @@ int MainServidor::recibirConexiones(void*){
 						idYPunteroAlSocket.id = usuarios->reconectar(usuario);
 						idYPunteroAlSocket.punteroAlSocket = socketConexion;
 						enviarModeloXmlxConexionAceptadaAl(idYPunteroAlSocket.id, socketConexion);
+						// Verifico si se juega por equipos
+						if (ConfiguracionInicialJuego::getInstance()->seJuegaPorEquipos()) {
+							// Recibe en qué equipo se conectó si es que había disponibilidad
+							if (ConfiguracionInicialJuego::getInstance()->hayDisponibilidad()) {
+								MensajeXml mensajeEquipo;
+								receiveMensajeXml(socketConexion, &mensajeEquipo);
+								char* equipo = mensajeEquipo.getValor();
+								ConfiguracionInicialJuego::getInstance()->asociarUsuarioAEquipo(idYPunteroAlSocket.id, equipo);
+							}
+							else {
+								ConfiguracionInicialJuego::getInstance()->agregarUsuario(idYPunteroAlSocket.id);
+							}
+						}
+						else {
+							ConfiguracionInicialJuego::getInstance()->agregarUsuario(idYPunteroAlSocket.id);
+						}
 						sendEstadoAvionJuegoIniciado(socketConexion);
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
@@ -389,6 +421,22 @@ int MainServidor::recibirConexiones(void*){
 							Log::getInstance()->info("Se ha alcanzado el limite de usuarios.");
 						}
 						enviarModeloXmlxConexionAceptadaAl(idYPunteroAlSocket.id, socketConexion);
+						// Verifico si se juega por equipos
+						if (ConfiguracionInicialJuego::getInstance()->seJuegaPorEquipos()) {
+							// Recibe en qué equipo se conectó si es que había disponibilidad
+							if (ConfiguracionInicialJuego::getInstance()->hayDisponibilidad()) {
+								MensajeXml mensajeEquipo;
+								receiveMensajeXml(socketConexion, &mensajeEquipo);
+								char* equipo = mensajeEquipo.getValor();
+								ConfiguracionInicialJuego::getInstance()->asociarUsuarioAEquipo(idYPunteroAlSocket.id, equipo);
+							}
+							else {
+								ConfiguracionInicialJuego::getInstance()->agregarUsuario(idYPunteroAlSocket.id);
+							}
+						}
+						else {
+							ConfiguracionInicialJuego::getInstance()->agregarUsuario(idYPunteroAlSocket.id);
+						}
 						vectorHilos.push_back(SDL_CreateThread(MainServidor::fun_atenderCliente, "atenderAlCliente", (void*) &idYPunteroAlSocket));
 						vectorSockets.push_back(socketConexion);
 				}else if(!usuarios->puedoTenerUsuariosNuevos()){
@@ -492,15 +540,20 @@ int MainServidor::mainPrincipal(){
 		mutColaDeUsuario[i] = SDL_CreateMutex();
 	}
 	printf("\nEscriba 'cerrar' si desea cerrar el servidor\n");
+
+	// Configura la etapa anterior al juego sobre cómo se organizan los jugadores dependiendo del modo del juego
+	ConfiguracionInicialJuego::getInstance()->inicializar(this->servidorXml);
+
 	SDL_Thread* receptor = SDL_CreateThread(MainServidor::fun_recibirConexiones, "recibirConexiones", NULL);
 	SDL_Thread* consola = SDL_CreateThread(MainServidor::fun_consola, "recibirConexiones", NULL);
 	SDL_LockMutex(mutLogger);
 	Log::getInstance()->debug("Servidor - Main Principal: se inician los thread recibirConexiones");
 	SDL_UnlockMutex(mutLogger);
 
+	esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
+
 	modeloJuego = new ModeloDelJuego(servidorXml, usuarios->getCantidadMaximaDeUsuarios());
 
-	esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
 	avisarATodosLosUsuariosQueComenzoLaPartida();
 
 	//Bucle principal

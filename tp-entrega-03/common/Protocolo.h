@@ -20,7 +20,7 @@
 
 #define MAX_CADENA	300
 //buffer suficientemente grande para todo el escenario (2Kb de datos)
-#define MAX_BUFFER	4096
+#define MAX_BUFFER	5120
 //TODO corregir
 
 #define MSJ_CONEX_ACEPT "Conexion aceptada."

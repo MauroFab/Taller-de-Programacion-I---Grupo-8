@@ -2,6 +2,7 @@
 
 #include <SDL2\SDL.h>
 #include <SDL2\SDL_ttf.h>
+#include <stdlib.h>
 
 #include "TexturaFuente.h"
 #include <string>
@@ -17,6 +18,7 @@ public:
 	void manejarEvento(SDL_Event evento);
 	void render();
 	void limpiar();
+	bool contieneLetras();
 
 private:
 	SDL_Renderer* renderer;

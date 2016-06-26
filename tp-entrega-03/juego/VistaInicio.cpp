@@ -86,6 +86,7 @@ void VistaInicio::cargarFondos() {
 	this->fondos[0] = new FondoInicio(PATH_FONDO_IP, this->gRenderer);
 	this->fondos[1] = new FondoInicio(PATH_FONDO_PUERTO, this->gRenderer);
 	this->fondos[2] = new FondoInicio(PATH_FONDO_USUARIO, this->gRenderer);
+	this->fondos[3] = new FondoInicio(PATH_FONDO_ELECCION_EQUIPO, this->gRenderer);
 }
 
 void VistaInicio::mostrar() {
@@ -125,7 +126,7 @@ void VistaInicio::mostrar() {
 			}
 		}
 
-		if (numeroFondo == CANTIDAD_FONDOS) {
+		if (numeroFondo == (CANTIDAD_FONDOS-1)) {
 			quit = true;
 		} 
 		else {
@@ -176,6 +177,54 @@ void VistaInicio::mostrarMensajeInformacion(string mensaje) {
 		SDL_RenderPresent( gRenderer );
 	}
 
+	delete fondo;
+	delete etiquetaMensaje;
+	close();
+}
+
+void VistaInicio::mostrarSeleccionDeEquipos() {
+
+	this->textoDeEntrada->limpiar();
+
+	bool quit = false;
+	SDL_Event e;
+
+	// Se habilita el ingreso de texto
+	SDL_StartTextInput();
+
+	FondoInicio* fondoActual = this->fondos[3];
+
+	fondoActual->render();
+
+	while( !quit ) {
+
+		while( SDL_PollEvent( &e ) != 0 ) {
+
+			// Si se desea salir del juego
+			if( e.type == SDL_QUIT || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE) ) {
+				quit = true;
+			}
+
+			if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_RETURN && (textoDeEntrada->getTexto().compare("") != 0) && !textoDeEntrada->contieneLetras()) {
+				this->datos[EQUIPO] = textoDeEntrada->getTexto();
+				textoDeEntrada->limpiar();
+				quit = true;
+			} else {
+				textoDeEntrada->manejarEvento(e);
+			}
+		}
+	
+		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+		SDL_RenderClear( gRenderer );
+
+		fondoActual->render();
+		textoDeEntrada->render();
+			
+		SDL_RenderPresent( gRenderer );
+	}
+
+	// Se desahabilita el ingreso de texto
+	SDL_StopTextInput();
 	close();
 }
 
@@ -203,4 +252,8 @@ string VistaInicio::getPuerto() {
 
 string VistaInicio::getUsuario() {
 	return this->datos[USUARIO];
+}
+
+string VistaInicio::getEquipo() {
+	return this->datos[EQUIPO];
 }
