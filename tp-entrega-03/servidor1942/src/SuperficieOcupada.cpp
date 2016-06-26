@@ -59,7 +59,7 @@ bool SuperficieOcupada::compartoUnaRegionEnXCon(SuperficieOcupada otraSuperficie
 	if(x < otraSuperficieOcupada.x){
 		meSolapo = (otraSuperficieOcupada.x > x && otraSuperficieOcupada.x < (x + ancho));
 	}else{
-		meSolapo = (x > otraSuperficieOcupada.x && x < (otraSuperficieOcupada.x + otraSuperficieOcupada.ancho));
+		meSolapo = (x >= otraSuperficieOcupada.x && x <= (otraSuperficieOcupada.x + otraSuperficieOcupada.ancho));
 	}
 	return(meSolapo);
 }
