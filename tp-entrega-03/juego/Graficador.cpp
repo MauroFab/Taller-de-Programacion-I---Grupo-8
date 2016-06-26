@@ -125,14 +125,12 @@ void Graficador::graficoProyectilConLaTexturaHardcodeada(EstadoProyectil* estado
 
 void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles, bool esElMejorado) {
 	std::list<EstadoProyectil*>::iterator it;
-	if(esElMejorado){
-		for (it = listaProyectiles.begin(); it != listaProyectiles.end(); it++) {
+	for (it = listaProyectiles.begin(); it != listaProyectiles.end(); it++) {
+		if((*it)->getMejorado()){
  			SDL_Rect* clip = graficoProyectilMejorado->getCurrentClip((*it)->getFrame());
 			Textura* textura = graficoProyectilMejorado->getTextura();
 			textura->render((*it)->getPosX(), (*it)->getPosY(), renderer, clip);
-		}
-	}else{
-		for (it = listaProyectiles.begin(); it != listaProyectiles.end(); it++) {
+		}else{
 			graficoProyectilConLaTexturaHardcodeada((*it));
 		}
 	}
