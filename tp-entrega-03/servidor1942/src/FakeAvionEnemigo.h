@@ -26,9 +26,11 @@ public:
 
 	bool estaDestruido();
 
+	virtual int getPuntosQueOtorga();
+
 	SuperficieOcupada obtenerSuperficieOcupada();
 private:
-
+	
 	void reducirPuntosDeVidaEn(int puntosDeDanio);
 	SuperficieOcupada* superficieOcupada;
 	static const int vidaMaximaFakeAvionEnemigo = 1;
@@ -36,6 +38,7 @@ private:
 	int velocidad;
 	int id;
 	int frame;
+	int puntosQueOtorga;
 };
 
 #endif //_FAKEAVIONENEMIGO_H_

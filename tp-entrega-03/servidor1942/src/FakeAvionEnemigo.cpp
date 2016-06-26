@@ -7,6 +7,7 @@ FakeAvionEnemigo::FakeAvionEnemigo(int xInicial, int yInicial, int ancho, int al
 	puntosDeVida = vidaMaximaFakeAvionEnemigo;
 	this->frame = 0;
 	id = 100;
+	this->puntosQueOtorga = 100;
 }
 
 void FakeAvionEnemigo::continuarMovimiento(){
@@ -42,4 +43,8 @@ EstadoAvion* FakeAvionEnemigo::getEstado() {
 	miPosicionEnX = superficieOcupada->obtenerPosicion().getPosX();
 	EstadoAvion*  estado =  new EstadoAvion(id, frame, puntosDeVida,miPosicionEnX, miPosicionEnY);
 	return estado;
+}
+
+int FakeAvionEnemigo::getPuntosQueOtorga(){
+	return puntosQueOtorga;
 }

@@ -97,7 +97,7 @@ void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &a
 			(*it).recibeUnImpacto();
 			//Sumo 100 puntos cuando impacto
 			if((*it).estaDestruido())
-				this->jugadorAsociado->sumarPuntos(100);
+				this->jugadorAsociado->sumarPuntos((*it).getPuntosQueOtorga());
 		}
 	}
 }
