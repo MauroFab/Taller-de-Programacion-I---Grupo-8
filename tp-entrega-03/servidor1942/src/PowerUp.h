@@ -38,7 +38,7 @@ public:
 	//bool esDeMuerte();
 	int obtenerPuntosQueOtorga();	
 	EstadoPowerUp getEstado();
-	
+	void continuarMovimiento();
 private:
 	//El ancho y alto es el que corresponde a la sprite
 	//Como se que es 30 para cualquiera lo hardcodeo por ahora

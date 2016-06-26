@@ -8,7 +8,10 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	//Creo un avionEnemigo fijo para probar la colision
 	 avionesEnemigos.push_back(FakeAvionEnemigo(200,200,68,120,1));
 	//Creo un powerUp fijo para probar la colision
-	 powerUps.push_back(PowerUp(10,10,500, TIPO_PUNTOS));
+	 powerUps.push_back(PowerUp(10,1000,500, TIPO_PUNTOS));
+	 powerUps.push_back(PowerUp(100,800,500, TIPO_PUNTOS));
+	 powerUps.push_back(PowerUp(200,600,500, TIPO_PUNTOS));
+	 powerUps.push_back(PowerUp(300,400,500, TIPO_PUNTOS));
 }
 
 ModeloDelJuego::~ModeloDelJuego(){
@@ -56,6 +59,7 @@ void ModeloDelJuego::setPosicionInicialListAvion(){
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 		this->listAvion[i]->setPosicion(posicionInicialParaTodos);
 	}
+
 }
 
 void ModeloDelJuego::actualizarMovimientos(){
@@ -63,6 +67,11 @@ void ModeloDelJuego::actualizarMovimientos(){
 		this->listAvion[i]->mover(avionesEnemigos, powerUps);
 	}
 	this->mapa->actualizar();
+	std::list<EstadoPowerUp> estadoPowerUps;
+	std::list<PowerUp>::iterator itP;
+	for (itP = powerUps.begin(); itP != powerUps.end(); itP++) {
+		(*itP).continuarMovimiento();
+	}
 }
 
 EstadoAvion* ModeloDelJuego::getEstadoAvionJugador(int idAvion){

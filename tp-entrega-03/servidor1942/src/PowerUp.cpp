@@ -41,3 +41,7 @@ EstadoPowerUp PowerUp::getEstado(){
 	int y = superficieOcupada.obtenerPosicion().getPosY();
 	return(EstadoPowerUp(tipo,usado,x,y));
 }
+
+void PowerUp::continuarMovimiento(){
+	this->superficieOcupada.desplazarEnYObteniendoHitbox(-1);
+}
