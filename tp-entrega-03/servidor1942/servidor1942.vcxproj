@@ -123,11 +123,15 @@
     <ClCompile Include="..\juego\Mapa.cpp" />
     <ClCompile Include="..\juego\Proyectil.cpp" />
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
+    <ClCompile Include="src\ConfiguracionInicialJuego.cpp" />
     <ClCompile Include="src\FakeAvionEnemigo.cpp" />
     <ClCompile Include="src\ModeloJugador.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainServidor.cpp" />
     <ClCompile Include="src\ModeloDelJuego.cpp" />
+    <ClCompile Include="src\ModoColaboracion.cpp" />
+    <ClCompile Include="src\ModoDeJuego.cpp" />
+    <ClCompile Include="src\ModoEquipo.cpp" />
     <ClCompile Include="src\PowerUp.cpp" />
     <ClCompile Include="src\SuperficieOcupada.cpp" />
   </ItemGroup>
@@ -167,10 +171,14 @@
     <ClInclude Include="..\juego\Mapa.h" />
     <ClInclude Include="..\juego\Proyectil.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />
+    <ClInclude Include="src\ConfiguracionInicialJuego.h" />
     <ClInclude Include="src\FakeAvionEnemigo.h" />
     <ClInclude Include="src\ModeloJugador.h" />
     <ClInclude Include="src\MainServidor.h" />
     <ClInclude Include="src\ModeloDelJuego.h" />
+    <ClInclude Include="src\ModoColaboracion.h" />
+    <ClInclude Include="src\ModoDeJuego.h" />
+    <ClInclude Include="src\ModoEquipo.h" />
     <ClInclude Include="src\PowerUp.h" />
     <ClInclude Include="src\SuperficieOcupada.h" />
   </ItemGroup>

@@ -201,48 +201,90 @@ int MainCliente::conectarYEjecutar(){
 			mensajeUsuario.setValor((char*)VistaJuego::getInstance()->getJugador()->nombreDeUsuario.c_str(), strlen(VistaJuego::getInstance()->getJugador()->nombreDeUsuario.c_str()));
 			mensajeUsuario.setTipo(TIPO_STRING);
 			mensajeUsuario.calculateSizeBytes();
-
 			char bufferSalida [MAX_BUFFER];
 			int size = Protocolo::codificar(mensajeUsuario, bufferSalida);
 			MensajeSeguro::enviar(sock, bufferSalida, size);
-			char bufferEntrada[MAX_BUFFER];
 
-			// Se rerrcibe la confirmación de la validación del nombre de usuario
+			char bufferEntrada[MAX_BUFFER];
+			// Se recibe la confirmación de la validación del nombre de usuario
 			int len2 = MensajeSeguro::recibir(sock,bufferEntrada);
 			if (len2 <= 0){// Es un error
 				chequearConexion(len2);
 			}
 			else{
 				//decodificar el mensaje
-				MensajeXml mensaXml;
-				int offset = Protocolo::decodificar(bufferEntrada,&mensaXml);
-				char * respuesta = mensaXml.getValor();
-
+				MensajeXml mensaXmlRespuestaUsuario;
+				int offset = Protocolo::decodificar(bufferEntrada,&mensaXmlRespuestaUsuario);
+				char * respuesta = mensaXmlRespuestaUsuario.getValor();
 				if (strcmp(respuesta,MSJ_CONEX_ACEPT) == 0){
-					// Cierra la vista del menu
-					VistaInicio::getInstance()->close();
-
-					// Si el server nos envia respuesta es que la conexion ha sido satisfactoria
+					//VistaInicio::getInstance()->close();
+					char* idUsuario;
+					Posicion posicion;
+					Posicion posicionMapa;
+					// Si el server nos envia respuesta, es que la conexion ha sido satisfactoria
 					Log::getInstance()->info("El cliente se ha conectado correctamente.");
 					conectado = true;
 					MainCliente::serverDesconectado = false;
 					MainCliente::cerrarConexion = false;
 
-					offset += Protocolo::decodificar(bufferEntrada + offset,&mensaXml);
-					char* idUsuario = mensaXml.getValor();
+					// Decodifica cómo se juega
+					MensajeXml mensaXmlModoDeJuego;
+					offset += Protocolo::decodificar(bufferEntrada + offset,&mensaXmlModoDeJuego);
+					char * modoDeJuego = mensaXmlModoDeJuego.getValor();
 
-					Posicion posicion;
-					// Se decodifica la posicion inicial desde donde arranca el avión
-					offset += Protocolo::decodificar(bufferEntrada + offset, &posicion);
+					if (strcmp(modoDeJuego, MODO_EQUIPO) == 0) {
+						// Decodifica si hay equipos libres
+						MensajeXml mensaXmlDisponibilidadEquipos;
+						offset += Protocolo::decodificar(bufferEntrada + offset,&mensaXmlDisponibilidadEquipos);
+						char * disponibilidadEquipos = mensaXmlDisponibilidadEquipos.getValor();
 
-					Posicion posicionMapa;
-					// Se decodifica la posicion del mapa, que tiene solo una componente: Y
-					offset += Protocolo::decodificar(bufferEntrada + offset, &posicionMapa);
+						if (strcmp(disponibilidadEquipos, HAY_DISPONIBILIDAD) == 0) {
+							VistaInicio::getInstance()->mostrarSeleccionDeEquipos();
+							string equipo = VistaInicio::getInstance()->getEquipo();
 
-					//se procede a decodificar el resto del mensaje
-					//se decodifica el escenario completo
-					offset += Protocolo::decodificar(bufferEntrada + offset,this->servidorXml);
+							// Envio qué equipo se seleccionó
+							MensajeXml mensajeEquipo;
+							mensajeEquipo.setValor((char*)equipo.c_str(), strlen(equipo.c_str()));
+							mensajeEquipo.setTipo(TIPO_STRING);
+							mensajeEquipo.calculateSizeBytes();
+							char bufferSalida [MAX_BUFFER];
+							int size = Protocolo::codificar(mensajeEquipo, bufferSalida);
+							MensajeSeguro::enviar(sock, bufferSalida, size);
+						}
 
+						MensajeXml mensaXml;
+						offset += Protocolo::decodificar(bufferEntrada + offset,&mensaXml);
+						idUsuario = mensaXml.getValor();
+
+						// Se decodifica la posicion inicial desde donde arranca el avión
+						offset += Protocolo::decodificar(bufferEntrada + offset, &posicion);
+
+						// Se decodifica la posicion del mapa, que tiene solo una componente: Y
+						offset += Protocolo::decodificar(bufferEntrada + offset, &posicionMapa);
+
+						//se procede a decodificar el resto del mensaje
+						//se decodifica el escenario completo
+						offset += Protocolo::decodificar(bufferEntrada + offset,this->servidorXml);
+					}
+					else {
+						// Se juega sin equipos
+						MensajeXml mensaXml;
+						offset += Protocolo::decodificar(bufferEntrada + offset,&mensaXml);
+						idUsuario = mensaXml.getValor();
+
+						// Se decodifica la posicion inicial desde donde arranca el avión
+						offset += Protocolo::decodificar(bufferEntrada + offset, &posicion);
+
+						// Se decodifica la posicion del mapa, que tiene solo una componente: Y
+						offset += Protocolo::decodificar(bufferEntrada + offset, &posicionMapa);
+
+						//se procede a decodificar el resto del mensaje
+						//se decodifica el escenario completo
+						offset += Protocolo::decodificar(bufferEntrada + offset,this->servidorXml);
+					}
+
+					// Se cierra la ventana del menu de inicio
+					VistaInicio::getInstance()->close();
 					// Creo un hilo para escuchar los mensajes
 					receptor=SDL_CreateThread(fun_recibirMensajes, "recibirMensajes", &sock);
 	//----------------------CONECTAR-END------------------
@@ -262,9 +304,7 @@ int MainCliente::conectarYEjecutar(){
 				}
 				else if (strcmp(respuesta,MSJ_SUPERO_MAX) == 0){
 					// El server envia un mensaje al superar la cantidad de clientes
-
 					Log::getInstance()->error(bufferEntrada);
-
 				#ifndef FAKE_DEBUG_CLIENTE
 					VistaInicio::getInstance()->mostrarMensajeInformacion(MSJ_SUPERO_MAX);
 				#endif
@@ -278,7 +318,6 @@ int MainCliente::conectarYEjecutar(){
 				#ifndef FAKE_DEBUG_CLIENTE
 					VistaInicio::getInstance()->mostrarMensajeInformacion(MSJ_USR_YA_CONECT);
 				#endif
-
 					desconectar();
 					terminarElCliente();
 				}

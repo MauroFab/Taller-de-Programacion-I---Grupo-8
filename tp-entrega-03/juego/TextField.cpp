@@ -69,3 +69,11 @@ void TextField::manejarEvento(SDL_Event e) {
 void TextField::limpiar() {
 	this->texto.assign("");
 }
+
+bool TextField::contieneLetras() {
+	const char* texto  = this->texto.c_str();
+	for (int i = 0; i < strlen(texto); i++) {
+		if (!isdigit(texto[i])) return true;
+	}
+	return false;
+}

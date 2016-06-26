@@ -39,6 +39,9 @@
 #define OPT_SALIR		3
 #define OPT_ENVIAR		4
 
+#define MODO_EQUIPO "Equipo"
+#define HAY_DISPONIBILIDAD "Disponibilidad"
+
 //este flag esta para trabajar sin cargar los datos
 //pues servidor y puerto los levanta del XML
 //#define FAKE_DEBUG_CLIENTE		1
