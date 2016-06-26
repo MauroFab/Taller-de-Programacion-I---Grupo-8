@@ -29,9 +29,9 @@ public:
 
 	virtual SuperficieOcupada obtenerSuperficieOcupada();
 
-	virtual int obtenerPuntosQueOtorga();
+	virtual int getPuntosQueOtorga();
 private:
-
+	int puntosQueOtorga;
 	void reducirPuntosDeVidaEn(int puntosDeDanio);
 	SuperficieOcupada* superficieOcupada;
 	static const int vidaMaximaFakeAvionEnemigo = 1;
