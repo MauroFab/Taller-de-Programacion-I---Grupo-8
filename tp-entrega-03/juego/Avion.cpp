@@ -18,6 +18,7 @@ Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* 
 	superficieQueOcupo = SuperficieOcupada(0,0,anchoAvion,altoAvion);
 	puntosDeVida = vidaMaximaAvion;
 	this->jugadorAsociado = new ModeloJugador(id);
+	soyInvulnerable = false;
 }
 
 Avion::~Avion() {
@@ -89,7 +90,8 @@ void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &a
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
 		if(hitbox.meSolapoCon((*it).obtenerSuperficieOcupada()) && !(*it).estaDestruido()){
 			//Cuando colisionan los aviones, danio a ambos
-			this->puntosDeVida--;
+			if(!soyInvulnerable)
+				this->puntosDeVida--;
 			(*it).recibeUnImpacto();
 			//Sumo 100 puntos cuando impacto
 			if((*it).estaDestruido())
@@ -273,4 +275,11 @@ EstadoJugador Avion::getEstadoJugadorAsociado(){
 
 void Avion::sumarPuntosAlJugadorAsociado(int puntos){
 	this->jugadorAsociado->sumarPuntos(puntos);
+}
+
+void Avion::volverseInvulnerable(){
+	this->soyInvulnerable = true;
+}
+void Avion::dejarDeSerInvulnerable(){
+	this->soyInvulnerable = false;
 }

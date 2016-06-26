@@ -40,7 +40,7 @@ private:
 
 	static const int vidaMaximaAvion = 3;
 	int puntosDeVida;
-
+	bool soyInvulnerable;
 public:
 
 	Avion(int ventanaAncho, int ventalaAlto, AvionView* avionView, BalaView* balaView);
@@ -72,6 +72,9 @@ public:
 	void sumarPuntosAlJugadorAsociado(int puntos);
 
 	void recibirUnImpacto();
+
+	void volverseInvulnerable();
+	void dejarDeSerInvulnerable();
 
 private:
 
