@@ -90,18 +90,23 @@ void ModeloDelJuego::actualizarMovimientos(){
 		int x_avion = this->avionEnemigoBeta->x;
 		if (pos_y_real >= y_avion && !this->avionEnemigoBeta->getVisible()){
 			this->avionEnemigoBeta->setVisible(true);
-			avionesEnemigos.push_back(FakeAvionEnemigo(x_avion,500,68,120,-1));
+			avionesEnemigos.push_back(FakeAvionEnemigo(x_avion,500,68,120,1));
 		}
 		//una vez que se vuelve visible se puede mover
-		/*
 		if (this->avionEnemigoBeta->getVisible()){
 			y_avion += this->avionEnemigoBeta->velocity.y;
 			this->avionEnemigoBeta->y = y_avion;
-			printf("\ny_avion=%d",y_avion);
+//			printf("\ny_avion=%d",y_avion);
+			list<FakeAvionEnemigo>::iterator it;
+			int i = 0;
+			for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
+				if (i == 1)
+					(*it).continuarMovimiento();
+				i++;
+			}
 		}
-		*/
 	}
-	///---------	
+	///---------
 }
 
 EstadoAvion* ModeloDelJuego::getEstadoAvionJugador(int idAvion){

@@ -7,6 +7,7 @@
 #include "../../juego/Mapa.h"
 #include "../../estructura/AvionEnemigo.h"
 
+using namespace std;
 //MainServidor
 class ModeloDelJuego {
 
