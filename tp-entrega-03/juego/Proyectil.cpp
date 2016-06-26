@@ -9,7 +9,7 @@ Proyectil::Proyectil(BalaView * balaView, bool mejorado) {
 	anchoFotograma = balaView->spriteXml->getAncho();
 	cantDeFotogramas = balaView->spriteXml->getCantidad();
 	velocidad = balaView->balaModel->velBala;
-	velocidadY -= velocidad;
+	velocidadY += velocidad;
 	this->mejorado = mejorado;
 	huboUnImpacto = false;
 	

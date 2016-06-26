@@ -260,12 +260,12 @@ void Avion::disparar(){
 		if(tengoElArmaMejorada){
 		
 			proyectil->setCoordenasDeComienzo(miPosicionEnX + (anchoAvion / 2) - centroProyectilMejorado, 
-												this->ventanaAlto - (miPosicionEnY + altoAvion));
+												(miPosicionEnY + altoAvion));
 		
 		}else{
 
 			proyectil->setCoordenasDeComienzo(miPosicionEnX + (anchoAvion / 2) - centroProyectilSinMejora, 
-												this->ventanaAlto - (miPosicionEnY + altoAvion));
+												(miPosicionEnY + altoAvion));
 		}
 		proyectiles.push_back(proyectil);
 	}
