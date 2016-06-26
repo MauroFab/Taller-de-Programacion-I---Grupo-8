@@ -16,6 +16,8 @@ public:
 	bool hayDisponibilidad();
 	void asociarUsuarioAEquipo(int idUsuario, char* equipo);
 	void agregarUsuario(int idUsuario);
+	virtual std::list<int> getJugadoresEquipo(int equipo);
+	virtual std::list<int> getJugadores();
 private:
 	std::list<int> usuarios;
 };

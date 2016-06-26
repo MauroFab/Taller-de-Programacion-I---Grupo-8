@@ -27,3 +27,13 @@ void ModoDeJuego::asociarUsuarioAEquipo(int idUsuario, char* equipo) {
 
 void ModoDeJuego::agregarUsuario(int idUsuario) {
 }
+
+std::list<int> ModoDeJuego::getJugadoresEquipo(int equipo) {
+	std::list<int> lista;
+	return lista;
+}
+
+std::list<int> ModoDeJuego::getJugadores() {
+	std::list<int> lista;
+	return lista;
+}

@@ -29,3 +29,11 @@ void ModoColaboracion::asociarUsuarioAEquipo(int idUsuario, char* equipo) {
 void ModoColaboracion::agregarUsuario(int idUsuario) {
 	this->usuarios.push_back(idUsuario);
 }
+
+std::list<int> ModoColaboracion::getJugadoresEquipo(int equipo) {
+	return this->usuarios;
+}
+
+std::list<int> ModoColaboracion::getJugadores() {
+	return this->usuarios;
+}

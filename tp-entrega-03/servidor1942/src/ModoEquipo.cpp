@@ -58,3 +58,31 @@ void ModoEquipo::agregarUsuario(int idUsuario) {
 		this->equipo2.push_back(idUsuario);
 	}
 }
+
+std::list<int> ModoEquipo::getJugadoresEquipo(int equipo) {
+	if (equipo == 1) {
+		return this->equipo1;
+	}
+	else if (equipo == 2) {
+		return this->equipo2;
+	}
+	std::list<int> lista;
+	return lista;
+}
+
+std::list<int> ModoEquipo::getJugadores() {
+	
+	std::list<int> lista;
+	std::list<int>::iterator it;
+	
+	// Primero, los del equipo 1
+	for (it = this->equipo1.begin(); it != this->equipo1.end(); it++) {
+		lista.push_back(*it);
+	}
+
+	// Segundo, los del equipo 2
+	for (it = this->equipo2.begin(); it != this->equipo2.end(); it++) {
+		lista.push_back(*it);
+	}
+	return lista;
+}
