@@ -159,5 +159,5 @@ void Graficador::graficarJuego(EstadoJuego* estadoJuego, int idDelJugador){
 	graficarAviones(estadoJuego->getEstadoDeLosAviones(), idDelJugador);
 	int puntajeDelJugador = buscarPuntajeDelJugadorEn(estadoJuego, idDelJugador);
 	Graficador::getInstance()->graficarPuntaje(puntajeDelJugador);
-	//this->graficadorPowerUp->graficarPowerUps(estadoJuego->getEstadoPowerUps());
+	this->graficadorPowerUp->graficarPowerUps(estadoJuego->getEstadoPowerUps());
 }
