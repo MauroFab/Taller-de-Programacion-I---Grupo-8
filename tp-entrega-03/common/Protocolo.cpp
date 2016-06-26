@@ -1090,7 +1090,8 @@ int Protocolo::decodificar(char* buffer,EstadoProyectil *estadoProyectil){
 	int posX = -1;
 	int posY = -1;
 	int offset = 0;
-	bool mejorado;
+	bool mejorado, visible;
+
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
@@ -1106,11 +1107,14 @@ int Protocolo::decodificar(char* buffer,EstadoProyectil *estadoProyectil){
 	memcpy(&mejorado,buffer + offset,sizeof(bool));
 	offset += sizeof(bool);
 
+	memcpy(&visible,buffer + offset,sizeof(bool));
+	offset += sizeof(bool);
+
 	estadoProyectil->setFrame(frame);
 	estadoProyectil->setPosX(posX);
 	estadoProyectil->setPosY(posY);
 	estadoProyectil->setMejorado(mejorado);
-	estadoProyectil->calculateSizeBytes();
+	estadoProyectil->setVisible(visible);
 
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
@@ -1121,12 +1125,13 @@ int Protocolo::decodificar(char* buffer,EstadoProyectil *estadoProyectil){
 }
 int Protocolo::codificar(EstadoProyectil &estadoProyectil,char * buffer){
 
-	int sizeBytes = sizeof(int)*4 + sizeof(bool);
+	int sizeBytes = sizeof(int)*4 + 2*sizeof(bool);
 	int frame = estadoProyectil.getFrame();
 	int posX = estadoProyectil.getPosX();
 	int posY = estadoProyectil.getPosY();
 	int offset = 0;
 	bool mejorado = estadoProyectil.getMejorado();
+	bool visible = estadoProyectil.getVisible();
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
@@ -1141,6 +1146,9 @@ int Protocolo::codificar(EstadoProyectil &estadoProyectil,char * buffer){
 	offset += sizeof(int);
 
 	memcpy(buffer + offset,&mejorado,sizeof(bool));
+	offset += sizeof(bool);
+
+	memcpy(buffer + offset,&visible,sizeof(bool));
 	offset += sizeof(bool);
 
 #ifdef FAKE_DEBUG_PROTO

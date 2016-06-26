@@ -6,7 +6,7 @@ EstadoProyectil::EstadoProyectil(){
 	this->posY = -1;
 	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;	
 }
-EstadoProyectil::EstadoProyectil(int frame, int posX, int posY, bool estaMejorado) {
+EstadoProyectil::EstadoProyectil(int frame, int posX, int posY, bool estaMejorado, bool visible) {
 
 	this->sizeBytes = -1;
 	this->frame = frame;
@@ -14,6 +14,7 @@ EstadoProyectil::EstadoProyectil(int frame, int posX, int posY, bool estaMejorad
 	this->posY = posY;
 	this->mejorado = estaMejorado;
 	this->sizeBytes = sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) ;
+	this->visible = visible;
 }
 
 EstadoProyectil::~EstadoProyectil(void) {
@@ -67,4 +68,12 @@ void EstadoProyectil::setMejorado(bool mejorado){
 
 bool EstadoProyectil::getMejorado(){
 	return mejorado;
+}
+
+bool EstadoProyectil::getVisible(){
+	return visible;
+}
+
+void EstadoProyectil::setVisible(bool visible){
+	this->visible = visible;
 }

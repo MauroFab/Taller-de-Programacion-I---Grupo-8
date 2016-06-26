@@ -26,7 +26,7 @@ private:
 	int velocidadY;
 	bool mejorado;
 	SuperficieOcupada superficie;
-
+	bool huboUnImpacto;
 public:
 	static const int ANCHO_PROYECTIL_SIN_MEJORA = 7;
 	static const int ALTO_PROYECTIL_SIN_MEJORA = 16;
@@ -36,6 +36,7 @@ public:
 	void mover();
 	void mover(std::list<FakeAvionEnemigo> &avionesEnemigos);
 	void setCoordenasDeComienzo(int posX, int posY);
+	bool getHuboUnImpacto();
 	/**
 	 * esta funcion crea nuevos estados
 	 * @return un nuevo estado 

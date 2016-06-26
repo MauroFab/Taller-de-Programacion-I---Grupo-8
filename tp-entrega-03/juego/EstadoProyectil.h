@@ -12,10 +12,11 @@ private:
 	int posX;
 	int posY;
 	bool mejorado;
+	bool visible;
 public:
 	//No usar el constructor sin parametos por fuera del protocolo
 	EstadoProyectil();
-	EstadoProyectil(int frame, int posX, int posY, bool estaMejorado);
+	EstadoProyectil(int frame, int posX, int posY, bool estaMejorado, bool visible);
 	~EstadoProyectil();
 	void setId(int id);
 	int getId();
@@ -31,5 +32,7 @@ public:
 	void setMejorado(bool mejorado);
 	bool getMejorado();
 	void toString(TCadena1000 cadena);	
+	bool getVisible();
+	void setVisible(bool visible);
 };
 #endif //_ESTADOPROYECTIL_H_

@@ -11,6 +11,7 @@ Proyectil::Proyectil(BalaView * balaView, bool mejorado) {
 	velocidad = balaView->balaModel->velBala;
 	velocidadY -= velocidad;
 	this->mejorado = mejorado;
+	huboUnImpacto = false;
 	
 }
 
@@ -42,13 +43,20 @@ void Proyectil::mover(std::list<FakeAvionEnemigo> &avionesEnemigos) {
 	for(it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++){
 		SuperficieOcupada superficieEnemigo;
 		superficieEnemigo = (*it).obtenerSuperficieOcupada();
-		if(hitbox.meSolapoCon(superficieEnemigo)){
+		if(hitbox.meSolapoCon(superficieEnemigo) && !huboUnImpacto && !(*it).estaDestruido()){
 			(*it).recibeUnImpacto();
+			huboUnImpacto = true;
 		}
 	}
 }
 
 EstadoProyectil* Proyectil::createEstado() {
+	bool visible = !huboUnImpacto;
 	return new EstadoProyectil(frame, superficie.obtenerPosicion().getPosX() , 
-										superficie.obtenerPosicion().getPosY() , mejorado);
+										superficie.obtenerPosicion().getPosY() , mejorado,
+										visible);
+}
+
+bool Proyectil::getHuboUnImpacto() {
+	return huboUnImpacto;
 }

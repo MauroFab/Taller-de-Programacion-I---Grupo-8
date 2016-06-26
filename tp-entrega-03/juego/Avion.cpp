@@ -156,7 +156,7 @@ void Avion::continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo> &avi
 
 void Avion::eliminarLosProyectilesQueSalieronDeLaPantalla(){
 		Proyectil* ultimoProyectil = proyectiles.front();
-		if(!ultimoProyectil->estaEnPantalla() ){
+		if(!ultimoProyectil->estaEnPantalla()){
 			proyectiles.pop_front();
 			delete ultimoProyectil;
 		}
