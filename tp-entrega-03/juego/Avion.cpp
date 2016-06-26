@@ -188,7 +188,7 @@ EstadoAvion* Avion::getEstado() {
 	int miPosicionEnX;
 	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
 	EstadoAvion*  estado =  new EstadoAvion(id, frame, puntosDeVida, 
-											miPosicionEnX, miPosicionEnY,tengoElArmaMejorada);
+											miPosicionEnX, miPosicionEnY);
 	std::list<EstadoProyectil*> lista;
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {

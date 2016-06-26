@@ -65,7 +65,7 @@ private:
 	GraficadorPuntosVida* graficoPuntosVida;
 	GraficadorPowerUp* graficadorPowerUp;
 	bool estaDestruidoElAvion(EstadoAvion* estadoAvion);
-	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles, bool esElMejorado);
+	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
 
 	EstadoAvion* obtengoElEstadoAvionDelClienteYGraficoLosDemasAviones
 								(std::list<EstadoAvion*> listaAviones,int idDelJugador);

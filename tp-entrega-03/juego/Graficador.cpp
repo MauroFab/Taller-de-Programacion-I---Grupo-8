@@ -80,7 +80,7 @@ EstadoAvion* Graficador::obtengoElEstadoAvionDelClienteYGraficoLosDemasAviones
 				SDL_Rect* clip = grafico->getCurrentClip((*it)->getFrame());
 				Textura* textura = grafico->getTextura();
 				textura->render((*it)->getPosX(), this->ventanaAlto - (*it)->getPosY() - textura->getHeight(), renderer, clip);
-				this->graficarProyectiles((*it)->getEstadosProyectiles(), (*it)->getTieneArmaMejorada());
+				this->graficarProyectiles((*it)->getEstadosProyectiles());
 			}
 		}else{
 			estadoDelAvionDeEsteCliente = (*it);
@@ -96,8 +96,7 @@ void Graficador::graficoElAvionDelCliente(EstadoAvion* estadoDelAvionDeEsteClien
 		SDL_Rect* clip = grafico->getCurrentClip(estadoDelAvionDeEsteCliente->getFrame());
 		Textura* textura = grafico->getTextura();
 		textura->render(estadoDelAvionDeEsteCliente->getPosX(), this->ventanaAlto - estadoDelAvionDeEsteCliente->getPosY() - textura->getHeight(), renderer, clip);
-		this->graficarProyectiles(estadoDelAvionDeEsteCliente->getEstadosProyectiles(),
-									estadoDelAvionDeEsteCliente->getTieneArmaMejorada());
+		this->graficarProyectiles(estadoDelAvionDeEsteCliente->getEstadosProyectiles());
 	}
 }
 
@@ -123,7 +122,7 @@ void Graficador::graficoProyectilConLaTexturaHardcodeada(EstadoProyectil* estado
 	this->texturaProyectilSinMejora->render(x,y,renderer);
 }
 
-void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles, bool esElMejorado) {
+void Graficador::graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles) {
 	std::list<EstadoProyectil*>::iterator it;
 	for (it = listaProyectiles.begin(); it != listaProyectiles.end(); it++) {
 		if((*it)->getMejorado()){

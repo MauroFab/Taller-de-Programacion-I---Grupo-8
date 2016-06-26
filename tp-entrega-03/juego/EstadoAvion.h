@@ -16,12 +16,11 @@ private:
 	int posX;
 	int posY;
 	int puntosDeVida;
-	bool tieneArmaMejorada;
 	list<EstadoProyectil*> estadosProyectiles;
 	
 public:
 	EstadoAvion();
-	EstadoAvion(int id, int frame, int puntosDeVida, int posX, int posY, bool tieneArmaMejorada);
+	EstadoAvion(int id, int frame, int puntosDeVida, int posX, int posY);
 	~EstadoAvion();
 
 	//No incluye el tamanio de los proyectiles
@@ -38,10 +37,6 @@ public:
 	int getPosY();
 	void setPuntosDeVida(int puntosDeVida);
 	int getPuntosDeVida();
-
-
-	bool getTieneArmaMejorada();
-	void setTieneArmaMejorada(bool tiene);
 
 	list<EstadoProyectil*> getEstadosProyectiles();
 //	void setEstadoProyectiles(std::list<EstadoProyectil*> lista);
