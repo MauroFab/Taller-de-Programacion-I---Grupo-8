@@ -80,3 +80,11 @@ PowerUp FakeAvionEnemigo::getPowerUpQueDejaAlSerDestruido(){
 void FakeAvionEnemigo::destruir(){
 	this->puntosDeVida = 0;
 }
+
+bool FakeAvionEnemigo::estaEnPantalla(){
+	int miPosicionEnY;
+	miPosicionEnY = superficieOcupada->obtenerPosicion().getPosY();
+	int miPosicionEnX;
+	miPosicionEnX = superficieOcupada->obtenerPosicion().getPosX();
+	return(miPosicionEnX < 400 && miPosicionEnX >= 0 && miPosicionEnY < 640 && miPosicionEnY > 0);
+}

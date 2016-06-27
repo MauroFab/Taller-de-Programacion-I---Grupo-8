@@ -38,9 +38,10 @@ public:
 	static const int idAvionMiddle = 101;
 	static const int idAvionMini = 102;
 
+	virtual bool estaEnPantalla();
 	virtual void destruir();
-
 protected:
+	
 	static const int altoAvionBig = 200;
 	static const int anchoAvionBig = 118;
 	static const int altoAvionMiddle = 120;

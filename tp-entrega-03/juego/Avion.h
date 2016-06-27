@@ -109,7 +109,7 @@ private:
 	int centroProyectilMejorado;
 	int centroProyectilSinMejora;
 	
-	void destruir(list<FakeAvionEnemigo*> &avionesEnemigos);
+	void destruirEnemigosEnPantalla(list<FakeAvionEnemigo*> &avionesEnemigos);
 
 	void resolverColisionEntreElAvionYElPowerUp(PowerUp &powerUp, 
 											    list<FakeAvionEnemigo*> &avionesEnemigos);

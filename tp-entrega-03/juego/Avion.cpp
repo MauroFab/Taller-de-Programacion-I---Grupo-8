@@ -104,11 +104,13 @@ void Avion::revisoColisionesConEnemigos(SuperficieOcupada hitbox, list<FakeAvion
 		}
 	}
 }
-void Avion::destruir(list<FakeAvionEnemigo*> &avionesEnemigos){
+void Avion::destruirEnemigosEnPantalla(list<FakeAvionEnemigo*> &avionesEnemigos){
 	std::list<FakeAvionEnemigo*>::iterator it;
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
-		(*it)->destruir();
-		this->jugadorAsociado->sumarPuntos((*it)->getPuntosQueOtorgaAlSerDestruido());
+		if((*it)->estaEnPantalla()){
+			(*it)->destruir();
+			this->jugadorAsociado->sumarPuntos((*it)->getPuntosQueOtorgaAlSerDestruido());
+		}
 	}
 }
 void Avion::resolverColisionEntreElAvionYElPowerUp(PowerUp &powerUp, 
@@ -123,7 +125,7 @@ void Avion::resolverColisionEntreElAvionYElPowerUp(PowerUp &powerUp,
 			tengoElArmaMejorada = true;
 		}
 		if(powerUp.esDeMuerte()){
-			destruir(enemigos);
+			destruirEnemigosEnPantalla(enemigos);
 		}
 		//Aca irian los otros casos de power ups.
 	}
