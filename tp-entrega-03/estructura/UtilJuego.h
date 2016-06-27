@@ -21,6 +21,7 @@ public:
 	int calcRandom(int desde, int hasta);
 	double piso(double arg1);
 	double techo(double arg1);
+	void updatePolarToCartesiana(double v_hipot,double v_ang,double * pX,double * pY);
 };
 
 #endif //_UTILJUEGO_H_

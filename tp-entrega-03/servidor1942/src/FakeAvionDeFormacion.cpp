@@ -20,8 +20,21 @@ void FakeAvionDeFormacion::continuarMovimiento(){
 		//Me voy moviendo con el mapa
 		superficieOcupada->desplazarEnYObteniendoHitbox(-1);
 	}else{
-		superficieOcupada->desplazarEnXObteniendoHitbox(-velocidadAvionMini);
+		if (this->angulo < 100){
+			this->angulo += DELTA_TITA;
+			UtilJuego * utilJ = UtilJuego::getInstance();
+			double pX = this->superficieOcupada->x;
+			double pY = this->superficieOcupada->y;
+			utilJ->updatePolarToCartesiana(V_RADIO,this->angulo,&pX,&pY);
+			this->superficieOcupada->x = pX;
+			this->superficieOcupada->y= pY;
+		}
+		else{
+			superficieOcupada->desplazarEnXObteniendoHitbox(-velocidadAvionMini);
 		//En algun x habria que empezar un giro. Junto con este hay que actualizar la frame.
+		//incrementar el angulo
+		}
+
 	}
-	//incrementar el angulo
+	
 }
