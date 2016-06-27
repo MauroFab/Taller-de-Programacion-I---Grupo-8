@@ -1,5 +1,6 @@
 #pragma once
 #include "SuperficieOcupada.h"
+#include "../../juego/EstadoProyectil.h"
 class ProyectilEnemigo
 {
 public:
@@ -8,6 +9,7 @@ public:
 	void mover();
 	ProyectilEnemigo(void);
 	~ProyectilEnemigo(void);
+	EstadoProyectil* createEstado();
 private:
 	static const int anchoBala = 7;
 	static const int altoBala = 16;
