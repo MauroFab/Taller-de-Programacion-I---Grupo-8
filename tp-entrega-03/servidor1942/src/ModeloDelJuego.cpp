@@ -30,7 +30,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 
 	 //Creo power ups
 	 powerUps.push_back(PowerUp(10,1000,500, TIPO_PUNTOS));
-	 powerUps.push_back(PowerUp(100,800,500, TIPO_PUNTOS));
+	 powerUps.push_back(PowerUp(100,800,500, TIPO_MUERTE));
 	 powerUps.push_back(PowerUp(200,600,500, TIPO_PUNTOS));
 	 powerUps.push_back(PowerUp(300,400,500, TIPO_AMETRALLADORA));
 }

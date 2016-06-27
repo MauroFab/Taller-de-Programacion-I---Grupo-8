@@ -8,6 +8,9 @@ GraficadorPowerUp::GraficadorPowerUp(SDL_Renderer* renderer){
 	textura = new Textura();
 	textura->cargarDeArchivo("../cliente1942/power_up_arma.bmp",renderer);
 	mapaTexturasPowerUps[TIPO_AMETRALLADORA] = textura;
+	textura = new Textura();
+	textura->cargarDeArchivo("../cliente1942/power_up_muerte.bmp",renderer);
+	mapaTexturasPowerUps[TIPO_MUERTE] = textura;
 	this->renderer = renderer;
 }
 
