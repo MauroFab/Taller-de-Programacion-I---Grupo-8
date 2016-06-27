@@ -9,6 +9,7 @@
 	puntosQueOtorgaAlSerDestruido = 100;
 	this->alturaDeLaQueSalgo = alturaDeLaQueSalgo;
 	listoParaSalir = false;
+	this->angulo = 0.0;
 }
 
 void FakeAvionDeFormacion::continuarMovimiento(){
@@ -21,5 +22,6 @@ void FakeAvionDeFormacion::continuarMovimiento(){
 	}else{
 		superficieOcupada->desplazarEnXObteniendoHitbox(-velocidadAvionMini);
 		//En algun x habria que empezar un giro. Junto con este hay que actualizar la frame.
-	}	
+	}
+	//incrementar el angulo
 }
