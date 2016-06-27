@@ -10,10 +10,14 @@ public:
 	ProyectilEnemigo(void);
 	~ProyectilEnemigo(void);
 	EstadoProyectil* createEstado();
+	SuperficieOcupada getSuperficieOcupada();
+	void destruir();
+	bool estaDestruido();
 private:
 	static const int anchoBala = 7;
 	static const int altoBala = 16;
 	SuperficieOcupada superficieQueOcupo;
+	bool destruido;
 	//Para apuntar bien voy a usar doubles
 	//Pero la posicion de la superficie sera siempre un entero
 	//La ire redondeando

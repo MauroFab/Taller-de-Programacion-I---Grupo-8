@@ -128,3 +128,7 @@ bool FakeAvionEnemigo::estaEnPantalla(){
 	SuperficieOcupada superficieDelJuego(0,0,anchoPantalla,altoPantalla);
 	return(this->superficieOcupada->meSolapoCon(superficieDelJuego));
 }
+
+std::list<ProyectilEnemigo> FakeAvionEnemigo::getProyectiles(){
+	return proyectiles;
+}

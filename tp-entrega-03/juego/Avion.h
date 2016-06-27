@@ -114,6 +114,7 @@ private:
 
 	void resolverColisionEntreElAvionYElPowerUp(PowerUp &powerUp, 
 											    list<FakeAvionEnemigo*> &avionesEnemigos);
+	void revisoColisionesConProyectilesDe(FakeAvionEnemigo* enemigo, SuperficieOcupada& hitbox);
 
 	bool estoyDestruido();
 	//No cree una clase jugador completa, y preferi meterla adentro del avion

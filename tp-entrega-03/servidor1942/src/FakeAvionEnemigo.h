@@ -42,6 +42,8 @@ public:
 
 	virtual bool estaEnPantalla();
 	virtual void destruir();
+
+	std::list<ProyectilEnemigo> getProyectiles();
 protected:
 	
 	static const int altoAvionBig = 200;

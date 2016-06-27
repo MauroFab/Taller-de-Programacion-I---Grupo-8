@@ -7,6 +7,7 @@ ProyectilEnemigo::ProyectilEnemigo(int x, int y, double velocidadX,double veloci
 	velocidadEnY = velocidadY;
 	posX = x;
 	posY = y;
+	destruido = false;
 }
 
 
@@ -17,7 +18,19 @@ void ProyectilEnemigo::mover(){
 	this->posX = posX + velocidadEnX;
 	this->posY = (posY + velocidadEnY);
 	superficieQueOcupo.moverAPosicionXObteniendoHitbox(static_cast<int>(posX));
-	superficieQueOcupo.moverAPosicionXObteniendoHitbox(static_cast<int>(posY));
+	superficieQueOcupo.moverAPosicionYObteniendoHitbox(static_cast<int>(posY));
+}
+
+SuperficieOcupada ProyectilEnemigo::getSuperficieOcupada(){
+	return superficieQueOcupo;
+}
+
+void ProyectilEnemigo::destruir(){
+	destruido = true;
+}
+
+bool ProyectilEnemigo::estaDestruido(){
+	return destruido;
 }
 
 EstadoProyectil* ProyectilEnemigo::createEstado(){
@@ -25,7 +38,7 @@ EstadoProyectil* ProyectilEnemigo::createEstado(){
 	int intY = static_cast<int>(posY);
 	//Los proyectiles enemigos son siempre los basicos
 	bool mejorado = false;
-	bool visible = true;
+	bool visible = !destruido;
 	int frame = 0;
 	return (new EstadoProyectil(frame,intX,intY,mejorado,visible));
 }
