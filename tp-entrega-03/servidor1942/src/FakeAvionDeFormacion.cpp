@@ -16,9 +16,10 @@ void FakeAvionDeFormacion::continuarMovimiento(){
 		listoParaSalir = true;
 	}
 	if(!listoParaSalir){
+		//Me voy moviendo con el mapa
 		superficieOcupada->desplazarEnYObteniendoHitbox(-1);
 	}else{
 		superficieOcupada->desplazarEnXObteniendoHitbox(-velocidadAvionMini);
-	}
-	
+		//En algun x habria que empezar un giro. Junto con este hay que actualizar la frame.
+	}	
 }
