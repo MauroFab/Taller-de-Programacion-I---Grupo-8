@@ -90,6 +90,14 @@ void ModeloDelJuego::setPosicionInicialListAvion(){
 
 }
 
+list<SuperficieOcupada> ModeloDelJuego::getSuperficiesOcupadasPorJugadores(){
+	list<SuperficieOcupada> superficies;
+	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
+		superficies.push_back(this->listAvion[i]->getSuperficieOcupada());
+	}
+	return superficies;
+}
+
 void ModeloDelJuego::actualizarMovimientos(){
 
 	// Mientras se este en una determinada etapa
@@ -107,13 +115,10 @@ void ModeloDelJuego::actualizarMovimientos(){
 			(*itP).continuarMovimiento();
 		}
 
-		//Deberia pasarle a los aviones enemigos esto para saber done estan y
-		//poder apuntar los disparos
-		list<SuperficieOcupada> superficiesOcupadasPorLosJugadores;
-
 		list<FakeAvionEnemigo*>::iterator it;
+		list<SuperficieOcupada> superficies = getSuperficiesOcupadasPorJugadores();
 		for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
-			(*it)->continuarMovimiento(superficiesOcupadasPorLosJugadores);
+			(*it)->continuarMovimiento(superficies);
 		}
 	}
 	else {

@@ -32,6 +32,9 @@ public:
 
 	Posicion obtenerPosicion();
 
+	//Para apuntar acá cuando le disparo a un avion
+	Posicion obtenerPosicionCentro();
+
 	bool meSolapoCon(SuperficieOcupada otraSuperficieOcupada);
 
 public:

@@ -111,3 +111,9 @@ void SuperficieOcupada::moverAX(int x){
 void SuperficieOcupada::moverAY(int y){
 	this->y = y;
 }
+
+Posicion SuperficieOcupada::obtenerPosicionCentro(){
+	int xCentro = x + ancho/2;
+	int yCentro = y + alto/2;
+	return(Posicion(xCentro,yCentro));
+}

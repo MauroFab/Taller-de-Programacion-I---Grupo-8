@@ -37,4 +37,5 @@ private:
 	int cantidadMaximaDeUsuarios;
 	void crearAviones(ServidorXml* servidorXml);
 	AvionEnemigo * avionEnemigoBeta;
+	list<SuperficieOcupada> getSuperficiesOcupadasPorJugadores();
 };
