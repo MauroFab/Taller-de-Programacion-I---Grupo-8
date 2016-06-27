@@ -90,11 +90,11 @@ void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &
 	std::list<FakeAvionEnemigo*>::iterator it;
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
 		if(hitbox.meSolapoCon((*it)->obtenerSuperficieOcupada()) && !(*it)->estaDestruido()){
-			//Cuando colisionan los aviones, danio a ambos
+		
 			if(!soyInvulnerable)
 				this->puntosDeVida--;
 			(*it)->recibeUnImpacto(this->jugadorAsociado->getId());
-			//Sumo 100 puntos cuando impacto
+
 			if((*it)->estaDestruido())
 				this->jugadorAsociado->sumarPuntos((*it)->getPuntosQueOtorgaAlSerDestruido());
 		}
