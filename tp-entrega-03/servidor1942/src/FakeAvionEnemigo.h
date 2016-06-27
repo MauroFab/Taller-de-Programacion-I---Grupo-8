@@ -61,6 +61,9 @@ protected:
 	virtual bool elijoAlAzarSiDisparo();
 	virtual void disparar(std::list<SuperficieOcupada> superficiesAvionesJugadores);
 	virtual void moverProyectiles();
+
+	SuperficieOcupada obtenerElementoiDeLaLista(int i, std::list<SuperficieOcupada> superficiesAvionesJugadores);
+
 	SuperficieOcupada* superficieOcupada;
 	static const int vidaMaximaFakeAvionEnemigo = 1;
 	int puntosDeVida;

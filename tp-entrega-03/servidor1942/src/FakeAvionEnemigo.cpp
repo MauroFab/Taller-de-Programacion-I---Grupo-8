@@ -27,16 +27,43 @@ bool FakeAvionEnemigo::elijoAlAzarSiDisparo(){
 	return(numeroAlAzar == 0);
 }
 
+SuperficieOcupada FakeAvionEnemigo::obtenerElementoiDeLaLista(int i, std::list<SuperficieOcupada> lista){
+	std::list<SuperficieOcupada>::iterator it;
+	it = lista.begin();
+	std::advance(it, i);
+	return((*it));
+}
+
+
 void FakeAvionEnemigo::disparar(std::list<SuperficieOcupada> superficiesAvionesJugadores){
-	int miPosicionEnY;
-	miPosicionEnY = superficieOcupada->obtenerPosicion().getPosY();
-	int miPosicionEnX;
-	miPosicionEnX = superficieOcupada->obtenerPosicionCentro().getPosX();
-	int posXProyectil = miPosicionEnX;
-	int posYProyectil = miPosicionEnY;
+
+	int posXProyectil = superficieOcupada->obtenerPosicionCentro().getPosX();
+	int posYProyectil = superficieOcupada->obtenerPosicion().getPosY();
+	int avionAlQueApunto = rand() % superficiesAvionesJugadores.size();
+
+	SuperficieOcupada superficieEnemigoApuntado;
+	superficieEnemigoApuntado = obtenerElementoiDeLaLista(avionAlQueApunto, superficiesAvionesJugadores); 
+
+	int xAlQueApunto = superficieEnemigoApuntado.obtenerPosicionCentro().getPosX();
+	int yAlQueApunto = superficieEnemigoApuntado.obtenerPosicionCentro().getPosY();
+
+	//Calculo primero para donde apunta el vector velocidad, luego ajusto su modulo
+	//Esto es la resta entre los vectores posicion
+	double xVectorVelocidad = (xAlQueApunto - posXProyectil );
+	double yVectorVelocidad = (yAlQueApunto - posYProyectil );
+
+	//Aca podriamos normalizar el vector y ver en que velocidad lo dejamos
+	//Esto es una forma mas rapida de hacerlo, quiero asegurarme de que no vayan muy rapido
+	//los proyectiles
+	while(abs(xVectorVelocidad) > 2 && abs(yVectorVelocidad) > 2){
+		xVectorVelocidad = xVectorVelocidad/2;
+		yVectorVelocidad = yVectorVelocidad/2;
+	}
 
 	int velocidadYProyectil = velocidadY - 1;
-	proyectiles.push_back(new ProyectilEnemigo(posXProyectil,posYProyectil,0, velocidadYProyectil));
+
+	//defino de donde sale
+	proyectiles.push_back(new ProyectilEnemigo(posXProyectil,posYProyectil,xVectorVelocidad, yVectorVelocidad));
 }
 
 void FakeAvionEnemigo::moverProyectiles(){
