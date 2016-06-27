@@ -29,6 +29,11 @@ VistaJuego::VistaJuego(){
 	}
 	this->canEscenariosV = 0;
 	this->balaView = NULL;
+	//inicializar enemigos de la vista
+	for(int i = 0; i < MAX_ENEMIGO_VIEW; i++){
+		this->listaTemplateEnemigoView[i] = NULL;
+	}
+	this->canEnemigoV = 0;
 	this->controlador = new ControladorTeclado();
 }
 
@@ -48,6 +53,11 @@ VistaJuego::~VistaJuego(){
 			delete this->listaAvionView[i];
 	}
 	this->canAvionV = 0;
+	//liberar enemigos de la vista
+	for(int i = 0; i < MAX_ENEMIGO_VIEW; i++){
+		delete this->listaTemplateEnemigoView[i];
+	}
+	this->canEnemigoV = 0;
 }
 
 int VistaJuego::readServidorXml(ServidorXml * servidorXml){
@@ -267,6 +277,26 @@ int VistaJuego::cargarBala(ServidorXml * confServidorXml){
 	this->balaView = new BalaView(balaModel,spriteX);
 	return 0;
 }
+//---carga de Enemigos de la vista
+int VistaJuego::cargarTemplateEnemigos(ServidorXml * confServidorXml){
+	//sprites
+	int cantS = confServidorXml->getCanSprs();
+	SpriteXml ** listaS = confServidorXml->getListaSprites();
+	//Enemigos
+	int canEnes = confServidorXml->getCanEnes();
+	AvionEnemigoXml ** listaA = confServidorXml->getListaEnemigos();
+	for(int i = 0;i <canEnes; i++){
+		AvionEnemigoXml * avionX = listaA[i];
+		//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
+		SpriteXml * spriteX = SpriteXml::findSpriteById(avionX->getIdSprite(),listaS,cantS);
+		if (spriteX != NULL){	//solo en caso de encontrarlo
+			AvionEnemigoModel * avionEnemigoModel = new AvionEnemigoModel(avionX);
+			this->listaTemplateEnemigoView[i] = new AvionEnemigoView(avionEnemigoModel,spriteX);
+			this->canEnemigoV++;
+		}
+	}
+	return 0;
+}
 
 //operaciones de reset
 //se encarga del reset de los aviones liberando la memoria usada por los objetos
@@ -304,6 +334,7 @@ void VistaJuego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMap
 	cargarAviones(confServidorXml);
 	cargarEscenarios(confServidorXml);
 	cargarBala(confServidorXml);
+	cargarTemplateEnemigos(confServidorXml);
 
 	Graficador::getInstance()->inicializar(gRenderer, this->ventanaAncho, this->ventanaAlto);
 	Graficador::getInstance()->agregarDatosAviones(this->listaAvionView, this->canAvionV);
@@ -355,6 +386,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 	cargarAviones(confServidorXml);
 	cargarEscenarios(confServidorXml);
 	cargarBala(confServidorXml);
+	cargarTemplateEnemigos(confServidorXml);
 
  	dibujarFondoInicio();
 	inicializarMusica();

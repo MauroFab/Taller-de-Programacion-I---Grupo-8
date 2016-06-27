@@ -88,12 +88,14 @@
     <ClCompile Include="..\common\evento.cpp" />
     <ClCompile Include="..\common\Jugador.cpp" />
     <ClCompile Include="..\common\MensajeSeguro.cpp" />
+    <ClCompile Include="..\common\model\AvionEnemigoModel.cpp" />
     <ClCompile Include="..\common\model\AvionModel.cpp" />
     <ClCompile Include="..\common\model\BalaModel.cpp" />
     <ClCompile Include="..\common\model\ElementoModel.cpp" />
     <ClCompile Include="..\common\model\FondoModel.cpp" />
     <ClCompile Include="..\common\observer\Observable.cpp" />
     <ClCompile Include="..\common\Posicion.cpp" />
+    <ClCompile Include="..\common\view\AvionEnemigoView.cpp" />
     <ClCompile Include="..\common\view\AvionView.cpp" />
     <ClCompile Include="..\common\view\BalaView.cpp" />
     <ClCompile Include="..\common\view\ElementoView.cpp" />
@@ -150,6 +152,7 @@
     <ClInclude Include="..\common\evento.h" />
     <ClInclude Include="..\common\Jugador.h" />
     <ClInclude Include="..\common\MensajeSeguro.h" />
+    <ClInclude Include="..\common\model\AvionEnemigoModel.h" />
     <ClInclude Include="..\common\model\AvionModel.h" />
     <ClInclude Include="..\common\model\BalaModel.h" />
     <ClInclude Include="..\common\model\ElementoModel.h" />
@@ -157,6 +160,7 @@
     <ClInclude Include="..\common\observer\Observable.h" />
     <ClInclude Include="..\common\observer\Observador.h" />
     <ClInclude Include="..\common\Posicion.h" />
+    <ClInclude Include="..\common\view\AvionEnemigoView.h" />
     <ClInclude Include="..\common\view\AvionView.h" />
     <ClInclude Include="..\common\view\BalaView.h" />
     <ClInclude Include="..\common\view\ElementoView.h" />

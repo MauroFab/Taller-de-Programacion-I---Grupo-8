@@ -1090,7 +1090,8 @@ int Protocolo::decodificar(char* buffer,EstadoProyectil *estadoProyectil){
 	int posX = -1;
 	int posY = -1;
 	int offset = 0;
-	bool mejorado, visible;
+	bool mejorado;
+	bool visible;
 
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);

@@ -237,6 +237,12 @@
     <ClCompile Include="..\servidor1942\src\ModeloJugador.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\view\AvionEnemigoView.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\model\AvionEnemigoModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -418,6 +424,12 @@
     </ClInclude>
     <ClInclude Include="..\servidor1942\src\ModeloJugador.h">
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\view\AvionEnemigoView.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\model\AvionEnemigoModel.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
