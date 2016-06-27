@@ -12,13 +12,14 @@
 void FakeAvionBig::continuarMovimiento(){
 	
 	//Voy bajando con el mapa
-	superficieOcupada->desplazarEnYObteniendoHitbox(-1);
-	if(superficieOcupada->obtenerPosicion().getPosY() < 640){
-		//Aparezco desde abajo
-		superficieOcupada->moverAPosicionYObteniendoHitbox(FakeAvionBig::altoAvionBig);
-		meMoviAbajoDeLaPantalla = true;
-	}
-	if(meMoviAbajoDeLaPantalla){
+	if(!meMoviAbajoDeLaPantalla){
+		superficieOcupada->desplazarEnYObteniendoHitbox(-1);
+	}else{
 		superficieOcupada->desplazarEnYObteniendoHitbox(velocidadAvionBig);
+	}
+	if(superficieOcupada->obtenerPosicion().getPosY() < 640 && !meMoviAbajoDeLaPantalla){
+		//Aparezco desde abajo
+		superficieOcupada->moverAPosicionYObteniendoHitbox(-FakeAvionBig::altoAvionBig);
+		meMoviAbajoDeLaPantalla = true;
 	}
 }

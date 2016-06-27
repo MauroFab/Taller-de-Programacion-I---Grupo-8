@@ -55,7 +55,7 @@ public:
 	//Este es uno que valida la colision, y cambia el estado del avion en base a eso
 	//Se puede cambiar al avionEnemigo por una lista de avionesEnemigo posteriormente
 
-	void mover(list<FakeAvionEnemigo> &avionesEnemigos, list<PowerUp> &powerUps);
+	void mover(list<FakeAvionEnemigo*> &avionesEnemigos, list<PowerUp> &powerUps);
 
 	
 
@@ -89,9 +89,9 @@ private:
 	void hacerUnRoll();
 
 	void continuarMovimientoDelAvion();
-	void continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos,
+	void continuarMovimientoDelAvion(list<FakeAvionEnemigo*> &avionesEnemigos,
 									 list<PowerUp> &powerUps);
-	void continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo>& avionesEnemigos);
+	void continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo*>& avionesEnemigos);
 	void eliminarLosProyectilesQueSalieronDeLaPantalla();
 	int velocidad;
 
@@ -100,7 +100,7 @@ private:
 
 	void continuarElRoll();
 
-	void revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &avionesEnemigos);
+	void revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos);
 	void revisoColisiones(SuperficieOcupada hitbox, list<PowerUp> &powerUps);
 
 	int centroProyectilMejorado;

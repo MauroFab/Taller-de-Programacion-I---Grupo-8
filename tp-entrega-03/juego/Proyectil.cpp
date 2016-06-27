@@ -35,17 +35,17 @@ void Proyectil::mover() {
 
 }
 
-void Proyectil::mover(std::list<FakeAvionEnemigo> &avionesEnemigos, ModeloJugador* jugadorQueDisparo) {
+void Proyectil::mover(std::list<FakeAvionEnemigo*> &avionesEnemigos, ModeloJugador* jugadorQueDisparo) {
 	SuperficieOcupada hitbox;
 	hitbox = superficie.desplazarEnYObteniendoHitbox(velocidadY);
-	std::list<FakeAvionEnemigo>::iterator it;
+	std::list<FakeAvionEnemigo*>::iterator it;
 	for(it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++){
 		SuperficieOcupada superficieEnemigo;
-		superficieEnemigo = (*it).obtenerSuperficieOcupada();
-		if(hitbox.meSolapoCon(superficieEnemigo) && !huboUnImpacto && !(*it).estaDestruido()){
-			(*it).recibeUnImpacto();
+		superficieEnemigo = (*it)->obtenerSuperficieOcupada();
+		if(hitbox.meSolapoCon(superficieEnemigo) && !huboUnImpacto && !(*it)->estaDestruido()){
+			(*it)->recibeUnImpacto();
 			huboUnImpacto = true;
-			jugadorQueDisparo->sumarPuntos((*it).getPuntosQueOtorga());
+			jugadorQueDisparo->sumarPuntos((*it)->getPuntosQueOtorga());
 		}
 	}
 }

@@ -87,17 +87,17 @@ void Avion::continuarMovimientoDelAvion(){
 	}
 }
 
-void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo> &avionesEnemigos){
-	std::list<FakeAvionEnemigo>::iterator it;
+void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos){
+	std::list<FakeAvionEnemigo*>::iterator it;
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
-		if(hitbox.meSolapoCon((*it).obtenerSuperficieOcupada()) && !(*it).estaDestruido()){
+		if(hitbox.meSolapoCon((*it)->obtenerSuperficieOcupada()) && !(*it)->estaDestruido()){
 			//Cuando colisionan los aviones, danio a ambos
 			if(!soyInvulnerable)
 				this->puntosDeVida--;
-			(*it).recibeUnImpacto();
+			(*it)->recibeUnImpacto();
 			//Sumo 100 puntos cuando impacto
-			if((*it).estaDestruido())
-				this->jugadorAsociado->sumarPuntos((*it).getPuntosQueOtorga());
+			if((*it)->estaDestruido())
+				this->jugadorAsociado->sumarPuntos((*it)->getPuntosQueOtorga());
 		}
 	}
 }
@@ -127,7 +127,7 @@ void Avion::revisoColisiones(SuperficieOcupada hitbox, list<PowerUp> &powerUps){
 }
 
 
-void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos,
+void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo*> &avionesEnemigos,
 										list<PowerUp> &powerUps){
 	//Los movimientos se hacen unidimensionalmente
 	//Primero en X y luego en Y
@@ -145,7 +145,7 @@ void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo> &avionesEnemigos,
 		continuarElRoll();
 	}
 }
-void Avion::continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo> &avionesEnemigos){
+void Avion::continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo*> &avionesEnemigos){
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
 		if ((*it)->estaEnPantalla()) {
@@ -163,7 +163,7 @@ void Avion::eliminarLosProyectilesQueSalieronDeLaPantalla(){
 }
 
 
-void Avion::mover(list<FakeAvionEnemigo> &avionesEnemigos, list<PowerUp> &powerUps) {
+void Avion::mover(list<FakeAvionEnemigo*> &avionesEnemigos, list<PowerUp> &powerUps) {
 	continuarMovimientoDelAvion(avionesEnemigos, powerUps);
 	//Avanzo los proyectiles
 	continuarMovimientoDeLosProyectiles(avionesEnemigos);
