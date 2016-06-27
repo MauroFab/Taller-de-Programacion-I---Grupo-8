@@ -24,3 +24,15 @@ void FakeAvionBig::continuarMovimiento(){
 		meMoviAbajoDeLaPantalla = true;
 	}
 }
+
+
+bool FakeAvionBig::dejaUnPowerUpAlSerDestruido(){
+	return true;
+}
+
+PowerUp FakeAvionBig::getPowerUpQueDejaAlSerDestruido(){
+	int x, y;
+	x = superficieOcupada->obtenerPosicion().getPosX() + anchoAvionBig/2;
+	y = superficieOcupada->obtenerPosicion().getPosY() + altoAvionBig/2;
+	return PowerUp(x,y,1500,TIPO_PUNTOS);
+}

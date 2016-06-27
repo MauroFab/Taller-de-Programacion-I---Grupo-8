@@ -3,7 +3,7 @@
 #define _FAKEAVIONENEMIGO_H_
 #include "SuperficieOcupada.h"
 #include "../../juego/EstadoAvion.h"
-
+#include "PowerUp.h"
 class FakeAvionEnemigo
 {
 public:
@@ -29,6 +29,10 @@ public:
 
 	virtual int getPuntosQueOtorgaAlSerDestruido();
 	virtual int getPuntosQueOtorgaAlSerImpactado();
+
+	virtual bool dejaUnPowerUpAlSerDestruido();
+	//No llamar si dejaUnPowerUpAlSerDestruido indica false
+	virtual PowerUp getPowerUpQueDejaAlSerDestruido();
 
 	static const int idAvionBig = 100;
 	static const int idAvionMiddle = 101;

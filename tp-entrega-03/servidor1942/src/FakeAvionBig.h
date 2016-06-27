@@ -8,6 +8,9 @@ public:
 	static const int velocidadAvionBig = 2;
 	FakeAvionBig(int x, int y);
 	void continuarMovimiento();
+	bool dejaUnPowerUpAlSerDestruido();
+	//No llamar si dejaUnPowerUpAlSerDestruido indica false
+	PowerUp getPowerUpQueDejaAlSerDestruido();
 private:
 	static const int puntosDeVidaMaximoBig = 10;
 	bool meMoviAbajoDeLaPantalla;

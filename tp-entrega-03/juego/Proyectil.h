@@ -34,7 +34,8 @@ public:
 	virtual ~Proyectil(void);
 	bool estaEnPantalla();
 	void mover();
-	void mover(std::list<FakeAvionEnemigo*> &avionesEnemigos, ModeloJugador* jugadorQueDisparo);
+	void mover(std::list<FakeAvionEnemigo*> &avionesEnemigos, ModeloJugador* jugadorQueDisparo,
+			   std::list<PowerUp> &powerUps);
 	void setCoordenasDeComienzo(int posX, int posY);
 	bool getHuboUnImpacto();
 	/**

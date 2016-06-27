@@ -67,3 +67,12 @@ int FakeAvionEnemigo::getPuntosQueOtorgaAlSerDestruido(){
 int FakeAvionEnemigo::getPuntosQueOtorgaAlSerImpactado(){
 	return puntosQueOtorgaAlSerImpactado;
 }
+
+//Por defecto no dejan power ups
+bool FakeAvionEnemigo::dejaUnPowerUpAlSerDestruido(){
+	return false;
+}
+//No debe ser llamado si no deja un power up
+PowerUp FakeAvionEnemigo::getPowerUpQueDejaAlSerDestruido(){
+	return PowerUp(-1,-1,-1,-1);
+}

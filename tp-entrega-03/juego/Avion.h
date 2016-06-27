@@ -91,7 +91,8 @@ private:
 	void continuarMovimientoDelAvion();
 	void continuarMovimientoDelAvion(list<FakeAvionEnemigo*> &avionesEnemigos,
 									 list<PowerUp> &powerUps);
-	void continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo*>& avionesEnemigos);
+	void continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo*>& avionesEnemigos,
+											 std::list<PowerUp> &powerUps);
 	void eliminarLosProyectilesQueSalieronDeLaPantalla();
 	int velocidad;
 
@@ -100,7 +101,8 @@ private:
 
 	void continuarElRoll();
 
-	void revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos);
+	void revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos,
+						  list<PowerUp> &powerUps);
 	void revisoColisiones(SuperficieOcupada hitbox, list<PowerUp> &powerUps);
 
 	int centroProyectilMejorado;

@@ -86,7 +86,8 @@ void Avion::continuarMovimientoDelAvion(){
 	}
 }
 
-void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos){
+void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos,
+							 list<PowerUp> &powerUps){
 	std::list<FakeAvionEnemigo*>::iterator it;
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
 		if(hitbox.meSolapoCon((*it)->obtenerSuperficieOcupada()) && !(*it)->estaDestruido()){
@@ -95,8 +96,11 @@ void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &
 				this->puntosDeVida--;
 			(*it)->recibeUnImpacto(this->jugadorAsociado->getId());
 
-			if((*it)->estaDestruido())
+			if((*it)->estaDestruido()){
 				this->jugadorAsociado->sumarPuntos((*it)->getPuntosQueOtorgaAlSerDestruido());
+				if((*it)->dejaUnPowerUpAlSerDestruido())
+					powerUps.push_back((*it)->getPowerUpQueDejaAlSerDestruido());
+			}
 		}
 	}
 }
@@ -134,21 +138,23 @@ void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo*> &avionesEnemigos
 	
 	if(!rollFlag){
 		hitbox = actualizarPosicionEnX();
-		revisoColisiones(hitbox,avionesEnemigos);
+		//Los power ups son solo para agregar si se destruye un avion que libera uno
+		revisoColisiones(hitbox,avionesEnemigos, powerUps);
 		revisoColisiones(hitbox,powerUps);
 		hitbox = actualizarPosicionEnY();
-		revisoColisiones(hitbox,avionesEnemigos);
+		revisoColisiones(hitbox,avionesEnemigos, powerUps);
 		revisoColisiones(hitbox,powerUps);
 	//Si estoy haciendo un roll, no colisiono tampoco
 	}else{
 		continuarElRoll();
 	}
 }
-void Avion::continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo*> &avionesEnemigos){
+void Avion::continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo*> &avionesEnemigos,
+												std::list<PowerUp> &powerUps){
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
 		if ((*it)->estaEnPantalla()) {
-			(*it)->mover(avionesEnemigos, jugadorAsociado);
+			(*it)->mover(avionesEnemigos, jugadorAsociado, powerUps);
 		}
 	}
 }
@@ -166,7 +172,7 @@ void Avion::mover(list<FakeAvionEnemigo*> &avionesEnemigos, list<PowerUp> &power
 	if(!estoyDestruido()){
 		continuarMovimientoDelAvion(avionesEnemigos, powerUps);
 		//Avanzo los proyectiles
-		continuarMovimientoDeLosProyectiles(avionesEnemigos);
+		continuarMovimientoDeLosProyectiles(avionesEnemigos, powerUps);
 		//Si hay proyectiles
 		if(!proyectiles.empty())
 			eliminarLosProyectilesQueSalieronDeLaPantalla();
