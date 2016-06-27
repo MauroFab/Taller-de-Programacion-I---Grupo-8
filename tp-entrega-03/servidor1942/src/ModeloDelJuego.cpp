@@ -6,9 +6,9 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	setPosicionInicialListAvion();
 	this->mapa = new Mapa(servidorXml);
 	//Creo un avionEnemigo fijo para probar la colision
-	 avionesEnemigos.push_back(new FakeAvionEnemigo(200,500,68,120,2));
-	 avionesEnemigos.push_back(new FakeAvionEnemigo(100,800,68,120,2));
-	 avionesEnemigos.push_back(new FakeAvionEnemigo(300,800,68,120,2));
+	 avionesEnemigos.push_back(new FakeAvionMiddle(200,500));
+	 avionesEnemigos.push_back(new FakeAvionMiddle(100,800));
+	 avionesEnemigos.push_back(new FakeAvionMiddle(300,800));
 	 avionesEnemigos.push_back(new FakeAvionBig(300,800));
 	//Creo un powerUp fijo para probar la colision
 	 powerUps.push_back(PowerUp(10,1000,500, TIPO_PUNTOS));

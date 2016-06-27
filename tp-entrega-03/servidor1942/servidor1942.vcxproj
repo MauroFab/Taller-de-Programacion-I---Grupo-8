@@ -129,6 +129,7 @@
     <ClCompile Include="src\ConfiguracionInicialJuego.cpp" />
     <ClCompile Include="src\FakeAvionBig.cpp" />
     <ClCompile Include="src\FakeAvionEnemigo.cpp" />
+    <ClCompile Include="src\FakeAvionMiddle.cpp" />
     <ClCompile Include="src\ModeloJugador.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainServidor.cpp" />
@@ -165,7 +166,6 @@
     <ClInclude Include="..\common\xml\SpriteXml.h" />
     <ClInclude Include="..\common\xml\tinyxml2.h" />
     <ClInclude Include="..\common\xml\VentanaXml.h" />
-    <ClInclude Include="..\estructura\AvionEnemigo.h" />
     <ClInclude Include="..\estructura\ObjetoItem.h" />
     <ClInclude Include="..\estructura\UtilJuego.h" />
     <ClInclude Include="..\juego\Avion.h" />
@@ -181,6 +181,7 @@
     <ClInclude Include="src\ConfiguracionInicialJuego.h" />
     <ClInclude Include="src\FakeAvionBig.h" />
     <ClInclude Include="src\FakeAvionEnemigo.h" />
+    <ClInclude Include="src\FakeAvionMiddle.h" />
     <ClInclude Include="src\ModeloJugador.h" />
     <ClInclude Include="src\MainServidor.h" />
     <ClInclude Include="src\ModeloDelJuego.h" />
