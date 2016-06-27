@@ -82,9 +82,7 @@ void FakeAvionEnemigo::destruir(){
 }
 
 bool FakeAvionEnemigo::estaEnPantalla(){
-	int miPosicionEnY;
-	miPosicionEnY = superficieOcupada->obtenerPosicion().getPosY();
-	int miPosicionEnX;
-	miPosicionEnX = superficieOcupada->obtenerPosicion().getPosX();
-	return(miPosicionEnX < 400 && miPosicionEnX >= 0 && miPosicionEnY < 640 && miPosicionEnY > 0);
+	
+	SuperficieOcupada superficieDelJuego(0,0,anchoPantalla,altoPantalla);
+	return(this->superficieOcupada->meSolapoCon(superficieDelJuego));
 }

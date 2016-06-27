@@ -48,6 +48,8 @@ protected:
 	static const int anchoAvionMiddle = 68;
 	static const int altoAvionMini = 16;
 	static const int anchoAvionMini = 19;
+	static const int anchoPantalla = 480;
+	static const int altoPantalla = 640;
 	int puntosQueOtorgaAlSerImpactado;
 	int puntosQueOtorgaAlSerDestruido;
 	void reducirPuntosDeVidaEn(int puntosDeDanio);
