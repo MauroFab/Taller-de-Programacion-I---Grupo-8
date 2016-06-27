@@ -7,7 +7,7 @@ FakeAvionEnemigo::FakeAvionEnemigo(int xInicial, int yInicial, int ancho, int al
 	this->velocidad = velocidad;
 	puntosDeVida = vidaMaximaFakeAvionEnemigo;
 	this->frame = 0;
-	id = idAvionMini;
+	id = idAvionMiddle;
 	this->puntosQueOtorga = 100;
 	velocidadX = rand() % velocidad - (velocidad/2);
 	velocidadY = - rand() % velocidad - 1;
