@@ -16,14 +16,20 @@ Mapa::~Mapa(){
 
 void Mapa::actualizar() {
 	this->cantidadDePixelesQuePasaron++;
-	if (this->cantidadDePixelesQuePasaron > this->tamanioMaximoMapa) {
-		this->cantidadDePixelesQuePasaron = 0;
-		this->idEtapaActual++;
-		this->estado->setIdEtapa(this->idEtapaActual);
-	}
 	this->estado->actualizar(this->cantidadDePixelesQuePasaron);
 }
 
 EstadoMapa* Mapa::getEstado() {
 	return this->estado;
+}
+
+bool Mapa::seTerminoEtapa() {
+	return (this->cantidadDePixelesQuePasaron > this->tamanioMaximoMapa);
+}
+
+void Mapa::avanzarEtapa() {
+	this->cantidadDePixelesQuePasaron = 0;
+	this->idEtapaActual++;
+	this->estado->setIdEtapa(this->idEtapaActual);
+	this->estado->actualizar(this->cantidadDePixelesQuePasaron);
 }

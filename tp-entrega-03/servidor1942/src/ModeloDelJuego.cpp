@@ -5,6 +5,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	crearAviones(servidorXml);
 	setPosicionInicialListAvion();
 	this->mapa = new Mapa(servidorXml);
+	this->temporizadorEtapa = new Temporizador(10);
 	//A partir de acá es una carga media manual de aviones enemigos
 	//Primero armo una formacion
 	 int cantidadDeAvionesDeLaFormacion = 10;
@@ -35,6 +36,8 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 
 ModeloDelJuego::~ModeloDelJuego(){
 	delete this->avionEnemigoBeta;
+	delete this->mapa;
+	delete this->temporizadorEtapa;
 }
 
 void ModeloDelJuego::crearAviones(ServidorXml* servidorXml){
@@ -87,20 +90,35 @@ void ModeloDelJuego::setPosicionInicialListAvion(){
 }
 
 void ModeloDelJuego::actualizarMovimientos(){
-	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
-		this->listAvion[i]->mover(avionesEnemigos, powerUps);
+
+	if (!this->mapa->seTerminoEtapa()) {
+
+		this->mapa->actualizar();
+
+		for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
+			this->listAvion[i]->mover(avionesEnemigos, powerUps);
+		}
+	
+		std::list<EstadoPowerUp> estadoPowerUps;
+		std::list<PowerUp>::iterator itP;
+		for (itP = powerUps.begin(); itP != powerUps.end(); itP++) {
+			(*itP).continuarMovimiento();
+		}
+
+		list<FakeAvionEnemigo*>::iterator it;
+		for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
+			(*it)->continuarMovimiento();
+		}
 	}
-	this->mapa->actualizar();
-	std::list<EstadoPowerUp> estadoPowerUps;
-	std::list<PowerUp>::iterator itP;
-	for (itP = powerUps.begin(); itP != powerUps.end(); itP++) {
-		(*itP).continuarMovimiento();
+	else {
+		if (this->temporizadorEtapa->pasoElTiempoEstablecido()){
+			this->mapa->avanzarEtapa();
+			this->temporizadorEtapa->resetear();
+		} else {
+			this->temporizadorEtapa->avanzarTiempo();
+		}
 	}
 
-	list<FakeAvionEnemigo*>::iterator it;
-	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
-		(*it)->continuarMovimiento();
-	}
 	/*
 	//---------
 	int pixPasaron = this->mapa->getEstado()->getCantidadDePixeles();

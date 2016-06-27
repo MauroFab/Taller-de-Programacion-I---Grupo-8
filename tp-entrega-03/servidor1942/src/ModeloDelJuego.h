@@ -3,6 +3,7 @@
 #include "../../juego/Avion.h"
 #include "../../common/Evento.h"
 #include "../../common/xml/ServidorXml.h"
+#include "../../common/Temporizador.h"
 #include "../../juego/EstadoJuego.h"
 #include "../../juego/Mapa.h"
 #include "../../estructura/AvionEnemigo.h"
@@ -32,6 +33,7 @@ private:
 	void setPosicionInicialListAvion();
 	Avion** listAvion;
 	Mapa* mapa;
+	Temporizador* temporizadorEtapa;
 	int cantidadMaximaDeUsuarios;
 	void crearAviones(ServidorXml* servidorXml);
 	AvionEnemigo * avionEnemigoBeta;

@@ -18,6 +18,8 @@ public:
 	~Mapa();
 	void actualizar();
 	EstadoMapa* getEstado();
+	bool seTerminoEtapa();
+	void avanzarEtapa();
 
 //private:
 public:
