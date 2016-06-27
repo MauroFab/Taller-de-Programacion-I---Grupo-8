@@ -34,10 +34,11 @@ public:
 
 	bool meSolapoCon(SuperficieOcupada otraSuperficieOcupada);
 
-private:
+public:
 	
 	int x;
 	int y;
+private:
 	int ancho;
 	int alto;
 	int valorMinimoEntre(int a, int b);

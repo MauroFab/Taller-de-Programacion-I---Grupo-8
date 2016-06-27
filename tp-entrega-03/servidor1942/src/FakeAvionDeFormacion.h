@@ -1,5 +1,6 @@
 #pragma once
 #include "FakeAvionEnemigo.h"
+#include "../../estructura/UtilJuego.h"
 
 #define PI 3.14159265
 
@@ -7,6 +8,8 @@
 #define DOUBLE_MAX_CAN_ANG	16.0
 
 #define DELTA_TITA (2.0*PI) / DOUBLE_MAX_CAN_ANG;
+
+#define V_RADIO 80.0
 
 class FakeAvionDeFormacion :
 	public FakeAvionEnemigo

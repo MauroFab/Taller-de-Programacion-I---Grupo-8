@@ -34,3 +34,11 @@ double UtilJuego::piso(double arg1){
 double UtilJuego::techo(double arg1){
 	return ceil(arg1);
 }
+
+void UtilJuego::updatePolarToCartesiana(double v_hipot,double v_ang,double * pX,double * pY){
+	double x = v_hipot*cos(v_ang) + *pX;
+	double y = v_hipot*sin(v_ang) + *pY;	
+	*pX = x;
+	*pY = y;
+//	printf("\nang=%f x=%f y=%f ",v_ang,x,y);
+}
