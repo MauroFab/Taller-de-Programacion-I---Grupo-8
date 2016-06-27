@@ -128,6 +128,7 @@
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
     <ClCompile Include="src\ConfiguracionInicialJuego.cpp" />
     <ClCompile Include="src\FakeAvionBig.cpp" />
+    <ClCompile Include="src\FakeAvionDeFormacion.cpp" />
     <ClCompile Include="src\FakeAvionEnemigo.cpp" />
     <ClCompile Include="src\FakeAvionMiddle.cpp" />
     <ClCompile Include="src\ModeloJugador.cpp" />
@@ -177,9 +178,11 @@
     <ClInclude Include="..\juego\EstadoMapa.h" />
     <ClInclude Include="..\juego\Mapa.h" />
     <ClInclude Include="..\juego\Proyectil.h" />
+    <ClInclude Include="AvionParaFormacion.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />
     <ClInclude Include="src\ConfiguracionInicialJuego.h" />
     <ClInclude Include="src\FakeAvionBig.h" />
+    <ClInclude Include="src\FakeAvionDeFormacion.h" />
     <ClInclude Include="src\FakeAvionEnemigo.h" />
     <ClInclude Include="src\FakeAvionMiddle.h" />
     <ClInclude Include="src\ModeloJugador.h" />
