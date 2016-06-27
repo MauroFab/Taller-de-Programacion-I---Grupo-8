@@ -19,6 +19,10 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 
 	 //Creo un avion mediano, 300 y 800 son las coordenadas iniciales
 	 avionesEnemigos.push_back(new FakeAvionMiddle(300,800));
+	 //Y otro
+	 avionesEnemigos.push_back(new FakeAvionMiddle(200,1000));
+	  //Y otro
+	 avionesEnemigos.push_back(new FakeAvionMiddle(100,1200));
 	 //Lo mismo para el grande
 	 avionesEnemigos.push_back(new FakeAvionBig(300,800));
 
