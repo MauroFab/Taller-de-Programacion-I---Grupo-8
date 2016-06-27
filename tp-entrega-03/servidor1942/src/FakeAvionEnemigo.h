@@ -55,6 +55,10 @@ protected:
 	int puntosQueOtorgaAlSerImpactado;
 	int puntosQueOtorgaAlSerDestruido;
 	void reducirPuntosDeVidaEn(int puntosDeDanio);
+
+	virtual bool elijoAlAzarSiDisparo();
+	virtual void disparar();
+	virtual void moverProyectiles();
 	SuperficieOcupada* superficieOcupada;
 	static const int vidaMaximaFakeAvionEnemigo = 1;
 	int puntosDeVida;

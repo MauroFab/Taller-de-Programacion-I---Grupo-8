@@ -15,15 +15,53 @@ FakeAvionEnemigo::FakeAvionEnemigo(int xInicial, int yInicial, int ancho, int al
 	if(rand() % 2 == 1)
 		velocidadX = - velocidadX;
 }
+bool FakeAvionEnemigo::elijoAlAzarSiDisparo(){
+	double probabilidadDeDisparo = 0.01;
+	int esperanzaPrimerDisparo = (1/probabilidadDeDisparo);
+	//En este caso la esperanza seria 100,
+	//Quiero que una de cada 100 veces que me muevo dispare en promedio
+	int numeroAlAzar;
+	numeroAlAzar = rand() % esperanzaPrimerDisparo;
+	//numero al azar es un numero entre 0 y 99 en este caso
+	//Si toca el 0 elijo disparar
+	return(numeroAlAzar == 0);
+}
+
+void FakeAvionEnemigo::disparar(){
+	int miPosicionEnY;
+	miPosicionEnY = superficieOcupada->obtenerPosicion().getPosY();
+	int miPosicionEnX;
+	miPosicionEnX = superficieOcupada->obtenerPosicion().getPosX();
+	int posXProyectil = miPosicionEnX;
+	int posYProyectil = miPosicionEnY;
+	int velocidadYProyectil = velocidadY - 1;
+	proyectiles.push_back(ProyectilEnemigo(posXProyectil,posYProyectil,0, velocidadYProyectil));
+}
+
+void FakeAvionEnemigo::moverProyectiles(){
+	std::list<ProyectilEnemigo>::iterator it;
+	for(it = proyectiles.begin(); it != proyectiles.end(); it++){
+		(*it).mover();
+	}
+}
 
 void FakeAvionEnemigo::continuarMovimiento(){
 	//Voy bajando con el mapa
-	superficieOcupada->desplazarEnYObteniendoHitbox(-1);
-	if(superficieOcupada->obtenerPosicion().getPosY() < 640){
-		//Activo todo el movimiento despues de que este en pantalla
+	SuperficieOcupada superficiePantalla(0,0,480,640);
+	//Si estoy en pantalla
+	if(this->superficieOcupada->meSolapoCon(superficiePantalla)){
+		//Activo todo el movimiento
 		superficieOcupada->desplazarEnYObteniendoHitbox(velocidadY);
 		superficieOcupada->desplazarEnXObteniendoHitbox(velocidadX);
+		if(elijoAlAzarSiDisparo() == true){
+			disparar();
+		}
+		moverProyectiles();
+	}else{//si no estoy en pantalla
+		//bajo con el mapa
+		superficieOcupada->desplazarEnYObteniendoHitbox(-1);
 	}
+
 }
 
 void FakeAvionEnemigo::reducirPuntosDeVidaEn(int puntosDeDanio){
