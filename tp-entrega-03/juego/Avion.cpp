@@ -99,13 +99,13 @@ void Avion::resuelvoColisionConEnemigo(FakeAvionEnemigo* enemigo, list<PowerUp> 
 }
 
 void Avion::revisoColisionesConProyectilesDe(FakeAvionEnemigo* avionEnemigo, SuperficieOcupada& hitbox){
-	std::list<ProyectilEnemigo>::iterator it;
-	std::list<ProyectilEnemigo> proyectiles = avionEnemigo->getProyectiles();
+	std::list<ProyectilEnemigo*>::iterator it;
+	std::list<ProyectilEnemigo*> proyectiles = avionEnemigo->getProyectiles();
 	for(it = proyectiles.begin(); it != proyectiles.end(); it++){
 		//Si colisiono contra el proyectil y este no estra destruido
-		if((!(*it).estaDestruido()) && hitbox.meSolapoCon((*it).getSuperficieOcupada())){
+		if((!(*it)->estaDestruido()) && hitbox.meSolapoCon((*it)->getSuperficieOcupada())){
 			this->puntosDeVida--;
-			(*it).destruir();
+			(*it)->destruir();
 		}
 	}
 }

@@ -43,7 +43,7 @@ public:
 	virtual bool estaEnPantalla();
 	virtual void destruir();
 
-	std::list<ProyectilEnemigo> getProyectiles();
+	std::list<ProyectilEnemigo*> getProyectiles();
 protected:
 	
 	static const int altoAvionBig = 200;
@@ -70,7 +70,7 @@ protected:
 	int id;
 	int frame;
 	int idDelQueMeDestruyo;
-	std::list<ProyectilEnemigo> proyectiles;
+	std::list<ProyectilEnemigo*> proyectiles;
 };
 
 #endif //_FAKEAVIONENEMIGO_H_

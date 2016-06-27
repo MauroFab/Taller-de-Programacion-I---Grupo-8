@@ -17,7 +17,7 @@ FakeAvionEnemigo::FakeAvionEnemigo(int xInicial, int yInicial, int ancho, int al
 }
 bool FakeAvionEnemigo::elijoAlAzarSiDisparo(){
 	double probabilidadDeDisparo = 0.01;
-	int esperanzaPrimerDisparo = (1/probabilidadDeDisparo);
+	int esperanzaPrimerDisparo = static_cast<int> (1/probabilidadDeDisparo);
 	//En este caso la esperanza seria 100,
 	//Quiero que una de cada 100 veces que me muevo dispare en promedio
 	int numeroAlAzar;
@@ -35,13 +35,13 @@ void FakeAvionEnemigo::disparar(){
 	int posXProyectil = miPosicionEnX;
 	int posYProyectil = miPosicionEnY;
 	int velocidadYProyectil = velocidadY - 1;
-	proyectiles.push_back(ProyectilEnemigo(posXProyectil,posYProyectil,0, velocidadYProyectil));
+	proyectiles.push_back(new ProyectilEnemigo(posXProyectil,posYProyectil,0, velocidadYProyectil));
 }
 
 void FakeAvionEnemigo::moverProyectiles(){
-	std::list<ProyectilEnemigo>::iterator it;
+	std::list<ProyectilEnemigo*>::iterator it;
 	for(it = proyectiles.begin(); it != proyectiles.end(); it++){
-		(*it).mover();
+		(*it)->mover();
 	}
 }
 
@@ -96,9 +96,9 @@ EstadoAvion* FakeAvionEnemigo::getEstado() {
 	miPosicionEnX = superficieOcupada->obtenerPosicion().getPosX();
 	EstadoAvion*  estado =  new EstadoAvion(id, frame, puntosDeVida,miPosicionEnX, miPosicionEnY);
 
-	std::list<ProyectilEnemigo>::iterator it;
+	std::list<ProyectilEnemigo*>::iterator it;
 	for(it = proyectiles.begin(); it != proyectiles.end(); it++){
-		estado->agregarEstadoProyectil((*it).createEstado());
+		estado->agregarEstadoProyectil((*it)->createEstado());
 	}
 	return estado;
 }
@@ -129,6 +129,6 @@ bool FakeAvionEnemigo::estaEnPantalla(){
 	return(this->superficieOcupada->meSolapoCon(superficieDelJuego));
 }
 
-std::list<ProyectilEnemigo> FakeAvionEnemigo::getProyectiles(){
+std::list<ProyectilEnemigo*> FakeAvionEnemigo::getProyectiles(){
 	return proyectiles;
 }
