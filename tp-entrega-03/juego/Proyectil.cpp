@@ -45,7 +45,10 @@ void Proyectil::mover(std::list<FakeAvionEnemigo*> &avionesEnemigos, ModeloJugad
 		if(hitbox.meSolapoCon(superficieEnemigo) && !huboUnImpacto && !(*it)->estaDestruido()){
 			(*it)->recibeUnImpacto();
 			huboUnImpacto = true;
-			jugadorQueDisparo->sumarPuntos((*it)->getPuntosQueOtorga());
+			jugadorQueDisparo->sumarPuntos((*it)->getPuntosQueOtorgaAlSerImpactado());
+			if((*it)->estaDestruido()){
+				jugadorQueDisparo->sumarPuntos((*it)->getPuntosQueOtorgaAlSerDestruido());
+			}
 		}
 	}
 }

@@ -28,7 +28,8 @@ public:
 
 	virtual SuperficieOcupada obtenerSuperficieOcupada();
 
-	virtual int getPuntosQueOtorga();
+	virtual int getPuntosQueOtorgaAlSerDestruido();
+	virtual int getPuntosQueOtorgaAlSerImpactado();
 
 	static const int idAvionBig = 100;
 	static const int idAvionMiddle = 101;
@@ -37,7 +38,8 @@ public:
 protected:
 	static const int altoAvionBig = 200;
 	static const int anchoAvionBig = 118;
-	int puntosQueOtorga;
+	int puntosQueOtorgaAlSerImpactado;
+	int puntosQueOtorgaAlSerDestruido;
 	void reducirPuntosDeVidaEn(int puntosDeDanio);
 	SuperficieOcupada* superficieOcupada;
 	static const int vidaMaximaFakeAvionEnemigo = 1;

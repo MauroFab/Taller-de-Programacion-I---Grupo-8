@@ -6,7 +6,8 @@
 	meMoviAbajoDeLaPantalla = false;
 	id = idAvionBig;
 	puntosDeVida = puntosDeVidaMaximoBig;
-	puntosQueOtorga = 100;
+	puntosQueOtorgaAlSerImpactado = 100;
+	puntosQueOtorgaAlSerDestruido = 1000;
 }
 
 void FakeAvionBig::continuarMovimiento(){

@@ -8,7 +8,8 @@ FakeAvionEnemigo::FakeAvionEnemigo(int xInicial, int yInicial, int ancho, int al
 	puntosDeVida = vidaMaximaFakeAvionEnemigo;
 	this->frame = 0;
 	id = idAvionMiddle;
-	this->puntosQueOtorga = 100;
+	this->puntosQueOtorgaAlSerDestruido = 100;
+	this->puntosQueOtorgaAlSerImpactado = 0;
 	velocidadX = rand() % velocidad - (velocidad/2);
 	velocidadY = - rand() % velocidad - 1;
 	if(rand() % 2 == 1)
@@ -56,6 +57,10 @@ EstadoAvion* FakeAvionEnemigo::getEstado() {
 	return estado;
 }
 
-int FakeAvionEnemigo::getPuntosQueOtorga(){
-	return puntosQueOtorga;
+int FakeAvionEnemigo::getPuntosQueOtorgaAlSerDestruido(){
+	return puntosQueOtorgaAlSerDestruido;
+}
+
+int FakeAvionEnemigo::getPuntosQueOtorgaAlSerImpactado(){
+	return puntosQueOtorgaAlSerImpactado;
 }

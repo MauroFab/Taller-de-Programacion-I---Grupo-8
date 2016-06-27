@@ -9,7 +9,7 @@ public:
 	FakeAvionBig(int x, int y);
 	void continuarMovimiento();
 private:
-	static const int puntosDeVidaMaximoBig = 5;
+	static const int puntosDeVidaMaximoBig = 10;
 	bool meMoviAbajoDeLaPantalla;
 };
 
