@@ -86,21 +86,23 @@ void Avion::continuarMovimientoDelAvion(){
 	}
 }
 
+void Avion::resuelvoColisionConEnemigo(FakeAvionEnemigo* enemigo, list<PowerUp> &powerUps){
+	if(!soyInvulnerable)
+		this->puntosDeVida--;
+	enemigo->recibeUnImpacto(this->jugadorAsociado->getId());
+
+	if(enemigo->estaDestruido()){
+		this->jugadorAsociado->sumarPuntos(enemigo->getPuntosQueOtorgaAlSerDestruido());
+		if(enemigo->dejaUnPowerUpAlSerDestruido())
+			powerUps.push_back(enemigo->getPowerUpQueDejaAlSerDestruido());
+	}
+}
 void Avion::revisoColisionesConEnemigos(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos,
 							 list<PowerUp> &powerUps){
 	std::list<FakeAvionEnemigo*>::iterator it;
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
 		if(hitbox.meSolapoCon((*it)->obtenerSuperficieOcupada()) && !(*it)->estaDestruido()){
-		
-			if(!soyInvulnerable)
-				this->puntosDeVida--;
-			(*it)->recibeUnImpacto(this->jugadorAsociado->getId());
-
-			if((*it)->estaDestruido()){
-				this->jugadorAsociado->sumarPuntos((*it)->getPuntosQueOtorgaAlSerDestruido());
-				if((*it)->dejaUnPowerUpAlSerDestruido())
-					powerUps.push_back((*it)->getPowerUpQueDejaAlSerDestruido());
-			}
+			resuelvoColisionConEnemigo((*it),powerUps);
 		}
 	}
 }

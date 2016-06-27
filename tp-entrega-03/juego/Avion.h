@@ -105,6 +105,7 @@ private:
 						  list<PowerUp> &powerUps);
 	void revisoColisionesConPowerUps(SuperficieOcupada hitbox, list<PowerUp> &powerUps,
 						  list<FakeAvionEnemigo*> &avionesEnemigos);
+	void resuelvoColisionConEnemigo(FakeAvionEnemigo* enemigo, list<PowerUp> &powerUps);
 
 	int centroProyectilMejorado;
 	int centroProyectilSinMejora;
