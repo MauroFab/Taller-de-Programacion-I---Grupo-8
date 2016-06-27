@@ -11,6 +11,10 @@ ModeloJugador::~ModeloJugador(){
 
 }
 
+int ModeloJugador::getId(){
+	return id;
+}
+
 void ModeloJugador::sumarPuntos(int cantidadDePuntos){
 	this->puntajeAcumulado += cantidadDePuntos;
 }

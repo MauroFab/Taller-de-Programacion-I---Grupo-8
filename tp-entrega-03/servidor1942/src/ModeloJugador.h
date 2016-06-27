@@ -13,6 +13,7 @@ public:
 	~ModeloJugador(void);
 	EstadoJugador getEstadoJugador();
 	void sumarPuntos(int cantidadDePuntos);
+	int getId();
 private:
 	int id;
 	int puntajeAcumulado;

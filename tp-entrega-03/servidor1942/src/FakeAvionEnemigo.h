@@ -22,7 +22,7 @@ public:
 	virtual EstadoAvion* getEstado(); 
 
 	//Dania al avion. A ser usado cuando colisiona contra algo.
-	virtual void recibeUnImpacto();
+	virtual void recibeUnImpacto(int idDelJugadorQueLoDanio);
 
 	virtual bool estaDestruido();
 
@@ -49,6 +49,7 @@ protected:
 	int velocidadY;
 	int id;
 	int frame;
+	int idDelQueMeDestruyo;
 };
 
 #endif //_FAKEAVIONENEMIGO_H_

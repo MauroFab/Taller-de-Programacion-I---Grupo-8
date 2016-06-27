@@ -34,8 +34,11 @@ bool FakeAvionEnemigo::estaDestruido(){
 	return (puntosDeVida <= 0);
 }
 
-void FakeAvionEnemigo::recibeUnImpacto(){
+void FakeAvionEnemigo::recibeUnImpacto(int idDelJugadorQueLoDanio){
 	reducirPuntosDeVidaEn(1);
+	//Si me destruyen guardo quien fue
+	if(this->estaDestruido())
+		idDelQueMeDestruyo = idDelJugadorQueLoDanio;
 }
 FakeAvionEnemigo::~FakeAvionEnemigo(){
 	//Deberia eliminar la superficie, pero esta explotando si lo hago en las pruebas como estan ahora
