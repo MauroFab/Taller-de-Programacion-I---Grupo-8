@@ -141,6 +141,7 @@
     <ClCompile Include="..\servidor1942\src\FakeAvionEnemigo.cpp" />
     <ClCompile Include="..\servidor1942\src\ModeloJugador.cpp" />
     <ClCompile Include="..\servidor1942\src\PowerUp.cpp" />
+    <ClCompile Include="..\servidor1942\src\ProyectilEnemigo.cpp" />
     <ClCompile Include="..\servidor1942\src\SuperficieOcupada.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainCliente.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="..\servidor1942\src\FakeAvionEnemigo.h" />
     <ClInclude Include="..\servidor1942\src\ModeloJugador.h" />
     <ClInclude Include="..\servidor1942\src\PowerUp.h" />
+    <ClInclude Include="..\servidor1942\src\ProyectilEnemigo.h" />
     <ClInclude Include="..\servidor1942\src\SuperficieOcupada.h" />
     <ClInclude Include="src\MainCliente.h" />
     <ClInclude Include="..\common\xml\MensajeXml.h" />

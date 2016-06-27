@@ -64,6 +64,7 @@ protected:
 	int id;
 	int frame;
 	int idDelQueMeDestruyo;
+	std::list<ProyectilEnemigo> proyectiles;
 };
 
 #endif //_FAKEAVIONENEMIGO_H_

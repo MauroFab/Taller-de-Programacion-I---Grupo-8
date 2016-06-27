@@ -246,6 +246,9 @@
     <ClCompile Include="..\servidor1942\src\PowerUp.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
+    <ClCompile Include="..\servidor1942\src\ProyectilEnemigo.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\xml\AvionXml.h">
@@ -435,6 +438,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\servidor1942\src\PowerUp.h">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\servidor1942\src\ProyectilEnemigo.h">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>

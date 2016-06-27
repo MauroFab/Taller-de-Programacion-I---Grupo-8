@@ -57,6 +57,11 @@ EstadoAvion* FakeAvionEnemigo::getEstado() {
 	int miPosicionEnX;
 	miPosicionEnX = superficieOcupada->obtenerPosicion().getPosX();
 	EstadoAvion*  estado =  new EstadoAvion(id, frame, puntosDeVida,miPosicionEnX, miPosicionEnY);
+
+	std::list<ProyectilEnemigo>::iterator it;
+	for(it = proyectiles.begin(); it != proyectiles.end(); it++){
+		estado->agregarEstadoProyectil((*it).createEstado());
+	}
 	return estado;
 }
 
@@ -82,7 +87,6 @@ void FakeAvionEnemigo::destruir(){
 }
 
 bool FakeAvionEnemigo::estaEnPantalla(){
-	
 	SuperficieOcupada superficieDelJuego(0,0,anchoPantalla,altoPantalla);
 	return(this->superficieOcupada->meSolapoCon(superficieDelJuego));
 }
