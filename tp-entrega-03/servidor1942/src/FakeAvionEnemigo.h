@@ -29,6 +29,11 @@ public:
 	virtual SuperficieOcupada obtenerSuperficieOcupada();
 
 	virtual int getPuntosQueOtorga();
+
+	static const int idAvionBig = 100;
+	static const int idAvionMiddle = 101;
+	static const int idAvionMini = 102;
+
 private:
 	int puntosQueOtorga;
 	void reducirPuntosDeVidaEn(int puntosDeDanio);

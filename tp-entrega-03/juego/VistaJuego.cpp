@@ -316,17 +316,40 @@ void VistaJuego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMap
 
 //Como no los cargo del xml, lo cargo desde aca.
 void VistaJuego::agregarDatosDeAvionesEnemigosHardcodeados(){
-	char spriteStr[20] = "nave";
+	char spriteStr[20] = "nave_mediana";
 	char path[100] = "nave_mediana.bmp";
-
-	//Que la id sea 100 fue una convencion para los aviones enemigos. Minimamente
-	//Se cambiare a una constante con nombre
-	SpriteXml* spriteNaveEnemiga = new SpriteXml(100, spriteStr,path,1,68,120);
-	AvionXml* avionXml = new AvionXml(100,5,5,100,spriteStr,5,"asd",3,"zxc");
+	int idMiddle = FakeAvionEnemigo::idAvionMiddle;
+	SpriteXml* spriteNaveEnemigaMediana = new SpriteXml(idMiddle, spriteStr,path,1,68,120);
+	AvionXml* avionXml = new AvionXml(idMiddle,5,5,idMiddle,spriteStr,5,"asd",3,"zxc");
 	AvionModel* avionModel = new AvionModel(avionXml);
 	AvionView** avionView = new AvionView*;
-	avionView[0] = new AvionView(avionModel,spriteNaveEnemiga);
+	avionView[0] = new AvionView(avionModel,spriteNaveEnemigaMediana);
 	Graficador::getInstance()->agregarDatosAviones(avionView,1);
+	
+
+	char spriteStr2[20] = "nave_grande";
+	char path2[100] = "nave_grande.bmp";
+	int idBig = FakeAvionEnemigo::idAvionBig;
+	SpriteXml* spriteNaveEnemigaGrande = new SpriteXml(idBig, spriteStr2,path2,1,118,200);
+	AvionXml* avionXml2 = new AvionXml(idBig,5,5,idBig,spriteStr2,5,"asd",3,"zxc");
+	AvionModel* avionModel2 = new AvionModel(avionXml2);
+	AvionView** avionView2 = new AvionView*;
+	avionView2[0] = new AvionView(avionModel2,spriteNaveEnemigaGrande);
+	Graficador::getInstance()->agregarDatosAviones(avionView2,1);
+	
+
+	//Esta habra que retocarla, porque tiene varias imagenes
+	/*
+	char spriteStr3[20] = "nave_chica";
+	char path3[100] = "nave_chica.bmp";
+	int idMini = FakeAvionEnemigo::idAvionMini;
+	SpriteXml* spriteNaveEnemigaChica = new SpriteXml(idMini, spriteStr3,path3,1,68,120);
+	AvionXml* avionXml3 = new AvionXml(idMini,5,5,idMini,spriteStr3,5,"asd",3,"zxc");
+	AvionModel* avionModel3 = new AvionModel(avionXml3);
+	AvionView** avionView3 = new AvionView*;
+	avionView3[0] = new AvionView(avionModel3,spriteNaveEnemigaChica);
+	Graficador::getInstance()->agregarDatosAviones(avionView,1);
+	*/
 }
 
 void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa) {
