@@ -5,6 +5,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	crearAviones(servidorXml);
 	setPosicionInicialListAvion();
 	this->mapa = new Mapa(servidorXml);
+	// Crea un temporizador con 10 segundos
 	this->temporizadorEtapa = new Temporizador(10);
 	//A partir de acá es una carga media manual de aviones enemigos
 	//Primero armo una formacion
@@ -91,6 +92,7 @@ void ModeloDelJuego::setPosicionInicialListAvion(){
 
 void ModeloDelJuego::actualizarMovimientos(){
 
+	// Mientras se este en una determinada etapa
 	if (!this->mapa->seTerminoEtapa()) {
 
 		this->mapa->actualizar();
@@ -111,6 +113,7 @@ void ModeloDelJuego::actualizarMovimientos(){
 		}
 	}
 	else {
+		// Ahora empieza a mostrarse la informacion durante al menos 10 segundos
 		if (this->temporizadorEtapa->pasoElTiempoEstablecido()){
 			this->mapa->avanzarEtapa();
 			this->temporizadorEtapa->resetear();
