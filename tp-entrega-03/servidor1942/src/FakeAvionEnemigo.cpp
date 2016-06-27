@@ -55,13 +55,12 @@ void FakeAvionEnemigo::continuarMovimiento(){
 		superficieOcupada->desplazarEnXObteniendoHitbox(velocidadX);
 		if(elijoAlAzarSiDisparo() == true){
 			disparar();
-		}
-		moverProyectiles();
+		}	
 	}else{//si no estoy en pantalla
 		//bajo con el mapa
 		superficieOcupada->desplazarEnYObteniendoHitbox(-1);
 	}
-
+	moverProyectiles();
 }
 
 void FakeAvionEnemigo::reducirPuntosDeVidaEn(int puntosDeDanio){
