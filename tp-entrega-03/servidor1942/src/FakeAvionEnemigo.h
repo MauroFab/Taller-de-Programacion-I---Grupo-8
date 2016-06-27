@@ -4,6 +4,8 @@
 #include "SuperficieOcupada.h"
 #include "../../juego/EstadoAvion.h"
 #include "PowerUp.h"
+#include "ProyectilEnemigo.h"
+
 class FakeAvionEnemigo
 {
 public:

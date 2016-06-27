@@ -192,6 +192,9 @@
     <ClCompile Include="..\common\Temporizador.cpp">
       <Filter>Archivos de código fuente\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProyectilEnemigo.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AsignadorDeUsuarios.h">
@@ -352,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="..\common\Temporizador.h">
       <Filter>Archivos de encabezado\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProyectilEnemigo.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

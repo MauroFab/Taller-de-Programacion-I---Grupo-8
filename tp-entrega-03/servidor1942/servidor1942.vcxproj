@@ -97,7 +97,7 @@
     <ClCompile Include="..\common\Posicion.cpp" />
     <ClCompile Include="..\common\Protocolo.cpp" />
     <ClCompile Include="..\common\StringUtil.cpp" />
-	<ClCompile Include="..\common\Temporizador.cpp" />
+    <ClCompile Include="..\common\Temporizador.cpp" />
     <ClCompile Include="..\common\view\AvionView.cpp" />
     <ClCompile Include="..\common\view\BalaView.cpp" />
     <ClCompile Include="..\common\xml\AvionEnemigoXml.cpp" />
@@ -141,6 +141,7 @@
     <ClCompile Include="src\ModoDeJuego.cpp" />
     <ClCompile Include="src\ModoEquipo.cpp" />
     <ClCompile Include="src\PowerUp.cpp" />
+    <ClCompile Include="src\ProyectilEnemigo.cpp" />
     <ClCompile Include="src\SuperficieOcupada.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +154,7 @@
     <ClInclude Include="..\common\Posicion.h" />
     <ClInclude Include="..\common\Protocolo.h" />
     <ClInclude Include="..\common\StringUtil.h" />
-	<ClInclude Include="..\common\Temporizador.h" />
+    <ClInclude Include="..\common\Temporizador.h" />
     <ClInclude Include="..\common\view\AvionView.h" />
     <ClInclude Include="..\common\view\BalaView.h" />
     <ClInclude Include="..\common\xml\AvionEnemigoXml.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="src\ModoDeJuego.h" />
     <ClInclude Include="src\ModoEquipo.h" />
     <ClInclude Include="src\PowerUp.h" />
+    <ClInclude Include="src\ProyectilEnemigo.h" />
     <ClInclude Include="src\SuperficieOcupada.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
