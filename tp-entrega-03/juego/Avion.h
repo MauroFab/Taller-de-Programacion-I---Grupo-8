@@ -108,11 +108,13 @@ private:
 	
 	void resolverColisionEntreElAvionY(PowerUp &powerUp);
 
+	bool estoyDestruido();
 	//No cree una clase jugador completa, y preferi meterla adentro del avion
 	//Esto es porque de esta forma puedo resolver los puntajes cuando colisiono en el mover
 	//Y porque facilita la comunicacion en el protocolo
 	//Entonces un avion tiene un jugadorAsociado, el cual esta jugando con él
 	ModeloJugador* jugadorAsociado;
+
 public:
 	BalaView * balaView; //[AGREGACION] NO eliminar
 };

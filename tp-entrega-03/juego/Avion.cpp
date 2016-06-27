@@ -80,7 +80,6 @@ void Avion::continuarMovimientoDelAvion(){
 	SuperficieOcupada hitbox;
 	if(!rollFlag){
 		hitbox = actualizarPosicionEnX();
-
 		actualizarPosicionEnY();
 	}else{
 		continuarElRoll();
@@ -164,12 +163,14 @@ void Avion::eliminarLosProyectilesQueSalieronDeLaPantalla(){
 
 
 void Avion::mover(list<FakeAvionEnemigo*> &avionesEnemigos, list<PowerUp> &powerUps) {
-	continuarMovimientoDelAvion(avionesEnemigos, powerUps);
-	//Avanzo los proyectiles
-	continuarMovimientoDeLosProyectiles(avionesEnemigos);
-	//Si hay proyectiles
-	if(!proyectiles.empty())
-		eliminarLosProyectilesQueSalieronDeLaPantalla();
+	if(!estoyDestruido()){
+		continuarMovimientoDelAvion(avionesEnemigos, powerUps);
+		//Avanzo los proyectiles
+		continuarMovimientoDeLosProyectiles(avionesEnemigos);
+		//Si hay proyectiles
+		if(!proyectiles.empty())
+			eliminarLosProyectilesQueSalieronDeLaPantalla();
+	}
 }
 
 EstadoAvion* Avion::getEstado() {
@@ -288,4 +289,8 @@ void Avion::volverseInvulnerable(){
 }
 void Avion::dejarDeSerInvulnerable(){
 	this->soyInvulnerable = false;
+}
+
+bool Avion::estoyDestruido(){
+	return (puntosDeVida <= 0);
 }
