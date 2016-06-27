@@ -60,8 +60,6 @@ void FakeAvionEnemigo::disparar(std::list<SuperficieOcupada> superficiesAvionesJ
 		yVectorVelocidad = yVectorVelocidad/2;
 	}
 
-	int velocidadYProyectil = velocidadY - 1;
-
 	//defino de donde sale
 	proyectiles.push_back(new ProyectilEnemigo(posXProyectil,posYProyectil,xVectorVelocidad, yVectorVelocidad));
 }
