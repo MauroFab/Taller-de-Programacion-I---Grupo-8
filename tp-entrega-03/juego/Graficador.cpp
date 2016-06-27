@@ -80,8 +80,8 @@ EstadoAvion* Graficador::obtengoElEstadoAvionDelClienteYGraficoLosDemasAviones
 				SDL_Rect* clip = grafico->getCurrentClip((*it)->getFrame());
 				Textura* textura = grafico->getTextura();
 				textura->render((*it)->getPosX(), this->ventanaAlto - (*it)->getPosY() - textura->getHeight(), renderer, clip);
-				this->graficarProyectiles((*it)->getEstadosProyectiles());
 			}
+			this->graficarProyectiles((*it)->getEstadosProyectiles());
 		}else{
 			estadoDelAvionDeEsteCliente = (*it);
 		}
