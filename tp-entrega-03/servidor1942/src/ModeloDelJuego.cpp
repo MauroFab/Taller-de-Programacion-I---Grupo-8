@@ -9,6 +9,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	 avionesEnemigos.push_back(FakeAvionEnemigo(200,500,68,120,2));
 	 avionesEnemigos.push_back(FakeAvionEnemigo(100,800,68,120,2));
 	 avionesEnemigos.push_back(FakeAvionEnemigo(300,800,68,120,2));
+	 avionesEnemigos.push_back(FakeAvionBig(300,800));
 	//Creo un powerUp fijo para probar la colision
 	 powerUps.push_back(PowerUp(10,1000,500, TIPO_PUNTOS));
 	 powerUps.push_back(PowerUp(100,800,500, TIPO_PUNTOS));

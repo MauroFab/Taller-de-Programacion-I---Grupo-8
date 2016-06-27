@@ -177,6 +177,9 @@
     <ClCompile Include="..\estructura\ObjetoItem.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="src\FakeAvionBig.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AsignadorDeUsuarios.h">
@@ -322,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="..\estructura\ObjetoItem.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FakeAvionBig.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

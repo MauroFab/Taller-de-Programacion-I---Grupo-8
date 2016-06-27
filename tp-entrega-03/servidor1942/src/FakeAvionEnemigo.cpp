@@ -26,7 +26,7 @@ void FakeAvionEnemigo::continuarMovimiento(){
 }
 
 void FakeAvionEnemigo::reducirPuntosDeVidaEn(int puntosDeDanio){
-	puntosDeVida =- puntosDeDanio;
+	puntosDeVida = puntosDeVida - puntosDeDanio;
 }
 
 bool FakeAvionEnemigo::estaDestruido(){

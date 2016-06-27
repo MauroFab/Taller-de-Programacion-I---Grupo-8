@@ -6,7 +6,7 @@
 #include "../../juego/EstadoJuego.h"
 #include "../../juego/Mapa.h"
 #include "../../estructura/AvionEnemigo.h"
-
+#include "FakeAvionBig.h"
 using namespace std;
 //MainServidor
 class ModeloDelJuego {

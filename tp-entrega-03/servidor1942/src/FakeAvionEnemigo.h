@@ -15,7 +15,7 @@ public:
 	//Voy a mirar colisiones solo cuando muevo el avion del jugador (y sus proyectiles), 
 	//este movimiento solo necesita mover el avionEnemigo
 	virtual void continuarMovimiento();
-	virtual ~FakeAvionEnemigo();
+	~FakeAvionEnemigo();
 	
 	//En la id devuelve siempre 100. El cliente la recibe asi. 
 	//Luego se cambiara minimamente a una constante.
@@ -34,7 +34,9 @@ public:
 	static const int idAvionMiddle = 101;
 	static const int idAvionMini = 102;
 
-private:
+protected:
+	static const int altoAvionBig = 200;
+	static const int anchoAvionBig = 118;
 	int puntosQueOtorga;
 	void reducirPuntosDeVidaEn(int puntosDeDanio);
 	SuperficieOcupada* superficieOcupada;

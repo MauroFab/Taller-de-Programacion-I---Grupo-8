@@ -127,6 +127,7 @@
     <ClCompile Include="..\juego\Proyectil.cpp" />
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
     <ClCompile Include="src\ConfiguracionInicialJuego.cpp" />
+    <ClCompile Include="src\FakeAvionBig.cpp" />
     <ClCompile Include="src\FakeAvionEnemigo.cpp" />
     <ClCompile Include="src\ModeloJugador.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="..\juego\Proyectil.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />
     <ClInclude Include="src\ConfiguracionInicialJuego.h" />
+    <ClInclude Include="src\FakeAvionBig.h" />
     <ClInclude Include="src\FakeAvionEnemigo.h" />
     <ClInclude Include="src\ModeloJugador.h" />
     <ClInclude Include="src\MainServidor.h" />
