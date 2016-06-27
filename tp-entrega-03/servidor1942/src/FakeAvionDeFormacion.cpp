@@ -2,7 +2,7 @@
 #include "FakeAvionDeFormacion.h"
 
  FakeAvionDeFormacion::FakeAvionDeFormacion(int y, int alturaDeLaQueSalgo) : 
-					FakeAvionEnemigo(xInicial,y,anchoAvionBig,altoAvionBig,velocidadAvionMini){
+					FakeAvionEnemigo(xInicial,y,anchoAvionMini,altoAvionMini,velocidadAvionMini){
 	id = idAvionMini;
 	puntosDeVida = puntosDeVidaMaximoMini;
 	puntosQueOtorgaAlSerImpactado = 0;

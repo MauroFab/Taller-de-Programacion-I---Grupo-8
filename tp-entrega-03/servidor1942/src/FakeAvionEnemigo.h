@@ -14,14 +14,13 @@ public:
 
 	//Voy a mirar colisiones solo cuando muevo el avion del jugador (y sus proyectiles), 
 	//este movimiento solo necesita mover el avionEnemigo
+	//Si no se redefine en las clases que heredan de esta, el avion viene de arriba
+	//Y toma una trayectoria al azar
 	virtual void continuarMovimiento();
 	~FakeAvionEnemigo();
 	
-	//En la id devuelve siempre 100. El cliente la recibe asi. 
-	//Luego se cambiara minimamente a una constante.
 	virtual EstadoAvion* getEstado(); 
 
-	//Dania al avion. A ser usado cuando colisiona contra algo.
 	virtual void recibeUnImpacto(int idDelJugadorQueLoDanio);
 
 	virtual bool estaDestruido();
@@ -38,6 +37,10 @@ public:
 protected:
 	static const int altoAvionBig = 200;
 	static const int anchoAvionBig = 118;
+	static const int altoAvionMiddle = 120;
+	static const int anchoAvionMiddle = 68;
+	static const int altoAvionMini = 16;
+	static const int anchoAvionMini = 19;
 	int puntosQueOtorgaAlSerImpactado;
 	int puntosQueOtorgaAlSerDestruido;
 	void reducirPuntosDeVidaEn(int puntosDeDanio);
