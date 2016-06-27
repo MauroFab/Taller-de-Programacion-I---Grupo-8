@@ -31,9 +31,10 @@ void FakeAvionEnemigo::disparar(std::list<SuperficieOcupada> superficiesAvionesJ
 	int miPosicionEnY;
 	miPosicionEnY = superficieOcupada->obtenerPosicion().getPosY();
 	int miPosicionEnX;
-	miPosicionEnX = superficieOcupada->obtenerPosicion().getPosX();
+	miPosicionEnX = superficieOcupada->obtenerPosicionCentro().getPosX();
 	int posXProyectil = miPosicionEnX;
 	int posYProyectil = miPosicionEnY;
+
 	int velocidadYProyectil = velocidadY - 1;
 	proyectiles.push_back(new ProyectilEnemigo(posXProyectil,posYProyectil,0, velocidadYProyectil));
 }
