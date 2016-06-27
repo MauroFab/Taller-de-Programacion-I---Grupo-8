@@ -14,7 +14,7 @@ void FakeAvionBig::continuarMovimiento(){
 	//Voy bajando con el mapa
 	if(!meMoviAbajoDeLaPantalla){
 		superficieOcupada->desplazarEnYObteniendoHitbox(-1);
-	}else{
+	}else if(superficieOcupada->obtenerPosicion().getPosY() < 640 - altoAvionBig){
 		superficieOcupada->desplazarEnYObteniendoHitbox(velocidadAvionBig);
 	}
 	if(superficieOcupada->obtenerPosicion().getPosY() < 640 && !meMoviAbajoDeLaPantalla){
