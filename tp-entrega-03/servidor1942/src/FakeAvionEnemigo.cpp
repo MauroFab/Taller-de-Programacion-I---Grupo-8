@@ -76,3 +76,7 @@ bool FakeAvionEnemigo::dejaUnPowerUpAlSerDestruido(){
 PowerUp FakeAvionEnemigo::getPowerUpQueDejaAlSerDestruido(){
 	return PowerUp(-1,-1,-1,-1);
 }
+
+void FakeAvionEnemigo::destruir(){
+	this->puntosDeVida = 0;
+}

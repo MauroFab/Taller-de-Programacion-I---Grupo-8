@@ -21,6 +21,10 @@ bool PowerUp::esDePuntos(){
 bool PowerUp::esDeAmetralladora(){
 	return (tipo == TIPO_AMETRALLADORA);
 }
+
+bool PowerUp::esDeMuerte(){
+	return (tipo == TIPO_MUERTE);
+}
 PowerUp::~PowerUp(){
 }
 

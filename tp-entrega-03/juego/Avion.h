@@ -101,14 +101,18 @@ private:
 
 	void continuarElRoll();
 
-	void revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos,
+	void revisoColisionesConEnemigos(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos,
 						  list<PowerUp> &powerUps);
-	void revisoColisiones(SuperficieOcupada hitbox, list<PowerUp> &powerUps);
+	void revisoColisionesConPowerUps(SuperficieOcupada hitbox, list<PowerUp> &powerUps,
+						  list<FakeAvionEnemigo*> &avionesEnemigos);
 
 	int centroProyectilMejorado;
 	int centroProyectilSinMejora;
 	
-	void resolverColisionEntreElAvionY(PowerUp &powerUp);
+	void destruir(list<FakeAvionEnemigo*> &avionesEnemigos);
+
+	void resolverColisionEntreElAvionYElPowerUp(PowerUp &powerUp, 
+											    list<FakeAvionEnemigo*> &avionesEnemigos);
 
 	bool estoyDestruido();
 	//No cree una clase jugador completa, y preferi meterla adentro del avion

@@ -35,7 +35,7 @@ public:
 	void marcarComoUsado();
 	SuperficieOcupada obtenerSuperficieOcupada();
 	bool esDeAmetralladora();
-	//bool esDeMuerte();
+	bool esDeMuerte();
 	int obtenerPuntosQueOtorga();	
 	EstadoPowerUp getEstado();
 	void continuarMovimiento();

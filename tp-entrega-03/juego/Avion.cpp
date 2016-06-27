@@ -86,7 +86,7 @@ void Avion::continuarMovimientoDelAvion(){
 	}
 }
 
-void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos,
+void Avion::revisoColisionesConEnemigos(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos,
 							 list<PowerUp> &powerUps){
 	std::list<FakeAvionEnemigo*>::iterator it;
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
@@ -104,8 +104,15 @@ void Avion::revisoColisiones(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &
 		}
 	}
 }
-
-void Avion::resolverColisionEntreElAvionY(PowerUp &powerUp){
+void Avion::destruir(list<FakeAvionEnemigo*> &avionesEnemigos){
+	std::list<FakeAvionEnemigo*>::iterator it;
+	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
+		(*it)->destruir();
+		this->jugadorAsociado->sumarPuntos((*it)->getPuntosQueOtorgaAlSerDestruido());
+	}
+}
+void Avion::resolverColisionEntreElAvionYElPowerUp(PowerUp &powerUp, 
+											       list<FakeAvionEnemigo*> &enemigos){
 	//Si nunca fue usado (Los power ups tienen un solo uso)
 	if(!powerUp.fueUsado()){
 		powerUp.marcarComoUsado();
@@ -115,16 +122,21 @@ void Avion::resolverColisionEntreElAvionY(PowerUp &powerUp){
 		if(powerUp.esDeAmetralladora()){
 			tengoElArmaMejorada = true;
 		}
+		if(powerUp.esDeMuerte()){
+			destruir(enemigos);
+		}
 		//Aca irian los otros casos de power ups.
 	}
 }
 
-void Avion::revisoColisiones(SuperficieOcupada hitbox, list<PowerUp> &powerUps){
+void Avion::revisoColisionesConPowerUps(SuperficieOcupada hitbox, list<PowerUp> &powerUps, 
+							 list<FakeAvionEnemigo*>& avionesEnemigos){
 	std::list<PowerUp>::iterator it;
 	for (it = powerUps.begin(); it != powerUps.end(); it++) {
 		//Si toco al power up
 		if(hitbox.meSolapoCon((*it).obtenerSuperficieOcupada()) && !(*it).fueUsado()){
-			resolverColisionEntreElAvionY(*it);
+			//Revis con los power ups, los avionesEnemigos son por si es de muerte
+			resolverColisionEntreElAvionYElPowerUp(*it, avionesEnemigos);
 		}
 	}
 }
@@ -139,11 +151,13 @@ void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo*> &avionesEnemigos
 	if(!rollFlag){
 		hitbox = actualizarPosicionEnX();
 		//Los power ups son solo para agregar si se destruye un avion que libera uno
-		revisoColisiones(hitbox,avionesEnemigos, powerUps);
-		revisoColisiones(hitbox,powerUps);
+		//Reviso colisiones con power ups
+		revisoColisionesConEnemigos(hitbox,avionesEnemigos, powerUps);
+		//Reviso colisiones con aviones enemigos
+		revisoColisionesConPowerUps(hitbox,powerUps, avionesEnemigos);
 		hitbox = actualizarPosicionEnY();
-		revisoColisiones(hitbox,avionesEnemigos, powerUps);
-		revisoColisiones(hitbox,powerUps);
+		revisoColisionesConEnemigos(hitbox,avionesEnemigos, powerUps);
+		revisoColisionesConPowerUps(hitbox,powerUps, avionesEnemigos);
 	//Si estoy haciendo un roll, no colisiono tampoco
 	}else{
 		continuarElRoll();
