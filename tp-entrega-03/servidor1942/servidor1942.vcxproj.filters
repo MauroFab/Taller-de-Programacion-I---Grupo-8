@@ -186,6 +186,9 @@
     <ClCompile Include="src\FakeAvionDeFormacion.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
+    <ClCompile Include="src\FakeFormacionDeEnemigos.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AsignadorDeUsuarios.h">
@@ -339,6 +342,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="src\FakeAvionDeFormacion.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FakeFormacionDeEnemigos.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,6 +9,7 @@
 #include "FakeAvionBig.h"
 #include "FakeAvionDeFormacion.h"
 #include "FakeAvionMiddle.h"
+#include "FakeFormacionDeEnemigos.h"
 using namespace std;
 //MainServidor
 class ModeloDelJuego {

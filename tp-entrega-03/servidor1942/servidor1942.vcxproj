@@ -131,6 +131,7 @@
     <ClCompile Include="src\FakeAvionDeFormacion.cpp" />
     <ClCompile Include="src\FakeAvionEnemigo.cpp" />
     <ClCompile Include="src\FakeAvionMiddle.cpp" />
+    <ClCompile Include="src\FakeFormacionDeEnemigos.cpp" />
     <ClCompile Include="src\ModeloJugador.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainServidor.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="src\FakeAvionDeFormacion.h" />
     <ClInclude Include="src\FakeAvionEnemigo.h" />
     <ClInclude Include="src\FakeAvionMiddle.h" />
+    <ClInclude Include="src\FakeFormacionDeEnemigos.h" />
     <ClInclude Include="src\ModeloJugador.h" />
     <ClInclude Include="src\MainServidor.h" />
     <ClInclude Include="src\ModeloDelJuego.h" />

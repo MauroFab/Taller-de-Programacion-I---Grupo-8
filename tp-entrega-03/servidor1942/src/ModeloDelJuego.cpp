@@ -5,19 +5,24 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	crearAviones(servidorXml);
 	setPosicionInicialListAvion();
 	this->mapa = new Mapa(servidorXml);
-	//Creo un avionEnemigo fijo para probar la colision
-	 avionesEnemigos.push_back(new FakeAvionDeFormacion(800,600));
-	 avionesEnemigos.push_back(new FakeAvionDeFormacion(820,600));
-	 avionesEnemigos.push_back(new FakeAvionDeFormacion(840,600));
-	 avionesEnemigos.push_back(new FakeAvionDeFormacion(860,600));
-	 avionesEnemigos.push_back(new FakeAvionDeFormacion(880,600));
-	 avionesEnemigos.push_back(new FakeAvionDeFormacion(900,600));
-	 avionesEnemigos.push_back(new FakeAvionDeFormacion(920,600));
-	 avionesEnemigos.push_back(new FakeAvionDeFormacion(940,600));
+	//A partir de acá es una carga media manual de aviones enemigos
+	//Primero armo una formacion
+	 int cantidadDeAvionesDeLaFormacion = 10;
+	 int posicionEnElMapa = 800;
+	 int posicionPantallaSalida = 500;
+	 //La formacion crea automaticamente todo los aviones, en un futuro servira para validar la destruccion completa de la misma
+	 FakeFormacionDeEnemigos formacion(cantidadDeAvionesDeLaFormacion,posicionPantallaSalida,posicionEnElMapa);
 
+	 //Luego los agrego a los avionesEnemigos del juego, poniendo la lista de aviones de la formacion en la de enemigos del juego
+	 std::list<FakeAvionEnemigo*> avionesDeLaFormacion =  formacion.getAvionesDeLaFormacion();
+	 avionesEnemigos.insert(avionesEnemigos.end(), avionesDeLaFormacion.begin(), avionesDeLaFormacion.end());
+
+	 //Creo un avion mediano, 300 y 800 son las coordenadas iniciales
 	 avionesEnemigos.push_back(new FakeAvionMiddle(300,800));
+	 //Lo mismo para el grande
 	 avionesEnemigos.push_back(new FakeAvionBig(300,800));
-	//Creo un powerUp fijo para probar la colision
+
+	 //Creo power ups
 	 powerUps.push_back(PowerUp(10,1000,500, TIPO_PUNTOS));
 	 powerUps.push_back(PowerUp(100,800,500, TIPO_PUNTOS));
 	 powerUps.push_back(PowerUp(200,600,500, TIPO_PUNTOS));
