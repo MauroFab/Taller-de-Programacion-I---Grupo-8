@@ -8,3 +8,5 @@
 	puntosQueOtorgaAlSerImpactado = 100;
 	puntosQueOtorgaAlSerDestruido = 500;
 }
+
+

@@ -7,7 +7,7 @@ public:
 	
 	static const int velocidadAvionBig = 2;
 	FakeAvionBig(int x, int y);
-	void continuarMovimiento();
+	void continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores);
 	bool dejaUnPowerUpAlSerDestruido();
 	//No llamar si dejaUnPowerUpAlSerDestruido indica false
 	PowerUp getPowerUpQueDejaAlSerDestruido();

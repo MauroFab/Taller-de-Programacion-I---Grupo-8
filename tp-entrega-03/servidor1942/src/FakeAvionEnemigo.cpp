@@ -27,7 +27,7 @@ bool FakeAvionEnemigo::elijoAlAzarSiDisparo(){
 	return(numeroAlAzar == 0);
 }
 
-void FakeAvionEnemigo::disparar(){
+void FakeAvionEnemigo::disparar(std::list<SuperficieOcupada> superficiesAvionesJugadores){
 	int miPosicionEnY;
 	miPosicionEnY = superficieOcupada->obtenerPosicion().getPosY();
 	int miPosicionEnX;
@@ -45,7 +45,7 @@ void FakeAvionEnemigo::moverProyectiles(){
 	}
 }
 
-void FakeAvionEnemigo::continuarMovimiento(){
+void FakeAvionEnemigo::continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores){
 	//Voy bajando con el mapa
 	SuperficieOcupada superficiePantalla(0,0,480,640);
 	//Si estoy en pantalla
@@ -54,7 +54,7 @@ void FakeAvionEnemigo::continuarMovimiento(){
 		superficieOcupada->desplazarEnYObteniendoHitbox(velocidadY);
 		superficieOcupada->desplazarEnXObteniendoHitbox(velocidadX);
 		if(elijoAlAzarSiDisparo() == true){
-			disparar();
+			disparar(superficiesAvionesJugadores);
 		}	
 	}else{//si no estoy en pantalla
 		//bajo con el mapa

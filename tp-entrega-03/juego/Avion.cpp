@@ -333,3 +333,7 @@ void Avion::dejarDeSerInvulnerable(){
 bool Avion::estoyDestruido(){
 	return (puntosDeVida <= 0);
 }
+
+SuperficieOcupada Avion::getSuperficieOcupada(){
+	return superficieQueOcupo;
+}

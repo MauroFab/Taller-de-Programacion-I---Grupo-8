@@ -18,7 +18,7 @@ public:
 	//este movimiento solo necesita mover el avionEnemigo
 	//Si no se redefine en las clases que heredan de esta, el avion viene de arriba
 	//Y toma una trayectoria al azar
-	virtual void continuarMovimiento();
+	virtual void continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores);
 	~FakeAvionEnemigo();
 	
 	virtual EstadoAvion* getEstado(); 
@@ -59,7 +59,7 @@ protected:
 	void reducirPuntosDeVidaEn(int puntosDeDanio);
 
 	virtual bool elijoAlAzarSiDisparo();
-	virtual void disparar();
+	virtual void disparar(std::list<SuperficieOcupada> superficiesAvionesJugadores);
 	virtual void moverProyectiles();
 	SuperficieOcupada* superficieOcupada;
 	static const int vidaMaximaFakeAvionEnemigo = 1;

@@ -12,7 +12,7 @@
 	this->angulo = 0.0;
 }
 
-void FakeAvionDeFormacion::continuarMovimiento(){
+void FakeAvionDeFormacion::continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores){
 	if(superficieOcupada->obtenerPosicion().getPosY() < alturaDeLaQueSalgo){
 		listoParaSalir = true;
 	}

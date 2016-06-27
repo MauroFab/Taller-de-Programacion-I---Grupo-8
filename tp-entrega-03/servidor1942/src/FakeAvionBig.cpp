@@ -10,7 +10,7 @@
 	puntosQueOtorgaAlSerDestruido = 1000;
 }
 
-void FakeAvionBig::continuarMovimiento(){
+void FakeAvionBig::continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores){
 	
 	//Voy bajando con el mapa
 	if(!meMoviAbajoDeLaPantalla){

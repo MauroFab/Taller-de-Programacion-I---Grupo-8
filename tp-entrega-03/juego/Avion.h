@@ -77,6 +77,8 @@ public:
 	void volverseInvulnerable();
 	void dejarDeSerInvulnerable();
 
+	SuperficieOcupada getSuperficieOcupada();
+
 private:
 
 	void darVelocidadHaciaArriba();
