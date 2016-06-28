@@ -20,6 +20,7 @@ public:
 	void agregarUsuario(int idUsuario);
 	std::list<int> getJugadoresEquipo(int equipo);
 	std::list<int> getJugadores();
+	int getEquipoDeJugador(int idUsuario);
 private:
 	ConfiguracionInicialJuego(void);
 	static ConfiguracionInicialJuego* instance;

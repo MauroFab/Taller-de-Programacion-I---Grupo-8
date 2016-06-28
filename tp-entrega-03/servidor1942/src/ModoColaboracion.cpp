@@ -37,3 +37,7 @@ std::list<int> ModoColaboracion::getJugadoresEquipo(int equipo) {
 std::list<int> ModoColaboracion::getJugadores() {
 	return this->usuarios;
 }
+
+int ModoColaboracion::getEquipoDeJugador(int idUsuario) {
+	return 0;
+}
