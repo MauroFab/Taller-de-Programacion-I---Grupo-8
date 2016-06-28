@@ -75,19 +75,20 @@ void FakeAvionEnemigo::moverProyectiles(){
 }
 
 void FakeAvionEnemigo::continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores){
-	//Voy bajando con el mapa
-	SuperficieOcupada superficiePantalla(0,0,480,640);
-	//Si estoy en pantalla
-	if(this->superficieOcupada->meSolapoCon(superficiePantalla)){
-		//Activo todo el movimiento
-		superficieOcupada->desplazarEnYObteniendoHitbox(velocidadY);
-		superficieOcupada->desplazarEnXObteniendoHitbox(velocidadX);
-		if(elijoAlAzarSiDisparo() == true){
-			disparar(superficiesAvionesJugadores);
-		}	
-	}else{//si no estoy en pantalla
-		//bajo con el mapa
-		superficieOcupada->desplazarEnYObteniendoHitbox(-1);
+	if(!this->estaDestruido()){
+		SuperficieOcupada superficiePantalla(0,0,480,640);
+		//Si estoy en pantalla
+		if(this->superficieOcupada->meSolapoCon(superficiePantalla)){
+			//Activo todo el movimiento
+			superficieOcupada->desplazarEnYObteniendoHitbox(velocidadY);
+			superficieOcupada->desplazarEnXObteniendoHitbox(velocidadX);
+			if(elijoAlAzarSiDisparo() == true){
+				disparar(superficiesAvionesJugadores);
+			}	
+		}else{//si no estoy en pantalla
+			//bajo con el mapa
+			superficieOcupada->desplazarEnYObteniendoHitbox(-1);
+		}
 	}
 	moverProyectiles();
 }

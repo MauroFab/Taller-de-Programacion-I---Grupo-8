@@ -11,6 +11,8 @@ public:
 	bool dejaUnPowerUpAlSerDestruido();
 	//No llamar si dejaUnPowerUpAlSerDestruido indica false
 	PowerUp getPowerUpQueDejaAlSerDestruido();
+
+	void disparar();
 private:
 	static const int puntosDeVidaMaximoBig = 10;
 	bool meMoviAbajoDeLaPantalla;
