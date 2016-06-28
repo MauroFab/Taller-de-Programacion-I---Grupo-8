@@ -135,6 +135,7 @@
     <ClCompile Include="..\juego\GraficoMapa.cpp" />
     <ClCompile Include="..\juego\TextField.cpp" />
     <ClCompile Include="..\juego\TexturaFuente.cpp" />
+    <ClCompile Include="..\juego\VistaExplosion.cpp" />
     <ClCompile Include="..\juego\VistaJuego.cpp" />
     <ClCompile Include="..\juego\VistaInicio.cpp" />
     <ClCompile Include="..\juego\VistaInformacion.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="..\juego\GraficoMapa.h" />
     <ClInclude Include="..\juego\TextField.h" />
     <ClInclude Include="..\juego\TexturaFuente.h" />
+    <ClInclude Include="..\juego\VistaExplosion.h" />
     <ClInclude Include="..\juego\VistaJuego.h" />
     <ClInclude Include="..\juego\VistaInicio.h" />
     <ClInclude Include="..\juego\VistaInformacion.h" />

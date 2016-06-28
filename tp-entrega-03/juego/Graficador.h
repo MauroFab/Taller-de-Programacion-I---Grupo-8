@@ -19,6 +19,7 @@
 #include "../common/view/FondoView.h"
 #include "../common/view/EscenarioView.h"
 #include <list>
+#include "VistaExplosion.h"
 #include <map>
 
 #define MAX_CANTIDAD_ESCENARIOS 10
@@ -77,6 +78,7 @@ private:
 	void graficoLosPuntosDeVidaDelAvionDeEsteCliente(EstadoAvion* estadoAvion);
 
 	int buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id);
+	VistaExplosion vistaExplosion;
 };
 
 #endif //_GRAFICADOR_H_

@@ -87,6 +87,8 @@ EstadoAvion* Graficador::obtengoElEstadoAvionDelClienteYGraficoLosDemasAviones
 				SDL_Rect* clip = grafico->getCurrentClip((*it)->getFrame());
 				Textura* textura = grafico->getTextura();
 				textura->render((*it)->getPosX(), this->ventanaAlto - (*it)->getPosY() - textura->getHeight(), renderer, clip);
+			}else{
+				vistaExplosion.procesarEstadoAvionQueEstaDestruido((*it));
 			}
 			this->graficarProyectiles((*it)->getEstadosProyectiles());
 		}else{
@@ -104,6 +106,8 @@ void Graficador::graficoElAvionDelCliente(EstadoAvion* estadoDelAvionDeEsteClien
 		Textura* textura = grafico->getTextura();
 		textura->render(estadoDelAvionDeEsteCliente->getPosX(), this->ventanaAlto - estadoDelAvionDeEsteCliente->getPosY() - textura->getHeight(), renderer, clip);
 		this->graficarProyectiles(estadoDelAvionDeEsteCliente->getEstadosProyectiles());
+	}else{
+		vistaExplosion.procesarEstadoAvionQueEstaDestruido(estadoDelAvionDeEsteCliente);
 	}
 }
 
