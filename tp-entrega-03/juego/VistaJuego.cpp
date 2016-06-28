@@ -373,7 +373,7 @@ void VistaJuego::agregarDatosDeAvionesEnemigosHardcodeados(){
 	int numeroDeFramesDeLaNaveChica = 16;
 	int idMini = 102;
 	SpriteXml* spriteNaveEnemigaChica = new SpriteXml(idMini, spriteStr3,path3,
-														numeroDeFramesDeLaNaveChica,16,19);
+														numeroDeFramesDeLaNaveChica,19,16);
 	AvionXml* avionXml3 = new AvionXml(idMini,5,5,idMini,spriteStr3,5,"asd",3,"zxc");
 	AvionModel* avionModel3 = new AvionModel(avionXml3);
 	AvionView** avionView3 = new AvionView*;
