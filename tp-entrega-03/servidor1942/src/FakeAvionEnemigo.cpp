@@ -56,16 +56,14 @@ void FakeAvionEnemigo::disparar(std::list<SuperficieOcupada> superficiesAvionesJ
 	int xAlQueApunto = superficieEnemigoApuntado.obtenerPosicionCentro().getPosX();
 	int yAlQueApunto = superficieEnemigoApuntado.obtenerPosicionCentro().getPosY();
 
-	//Calculo primero para donde apunta el vector velocidad, luego ajusto su modulo
+	//Calculo primero para donde apunta el vector velocidad, luego ajusto su norma
 	//Esto es la resta entre los vectores posicion
 	double xVectorVelocidad = (xAlQueApunto - posXProyectil );
 	double yVectorVelocidad = (yAlQueApunto - posYProyectil );
 
-	//Fijo su norma en 4, manteniendo la orientacion
 	int norma = 8;
 	ajustarLaNormaDelVector(xVectorVelocidad, yVectorVelocidad, norma);
 
-	//defino de donde sale
 	proyectiles.push_back(new ProyectilEnemigo(posXProyectil,posYProyectil,xVectorVelocidad, yVectorVelocidad));
 }
 
