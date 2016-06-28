@@ -11,14 +11,15 @@
 	this->estoyHaciendoElGiro = false;
 	yaTermineElGiro = false;
 	cargarPosicionesDelCirculo();
-	this->frame = convertirFrameQueQuieroAFrameReal(14);
+	this->frame = convertirFrameQueQuieroAFrameReal(12);
 }
 
 //El avion le daba varios numeros a las frames para demorar el giro, por esas cosas ahora aca
 //hay que hacer un ajuste con esta funcion
+//las frames aca van de la 0 a la 12
 int FakeAvionDeFormacion::convertirFrameQueQuieroAFrameReal(int frameQueQuiero){
 	//16 es la cantidad de frames que tiene la sprite
-	return (frameQueQuiero)*16;
+	return ((frameQueQuiero)*16);
 }
 
 void FakeAvionDeFormacion::cargarPosicionesDelCirculo(){
@@ -38,13 +39,13 @@ void FakeAvionDeFormacion::configurarFrameSabiendoQueQuedan(int cantidadDePosici
 	if(cantidadDePosiciones != 0){
 		//16 es la cantidad de frames
 		int tamanioDeIntervalos = 360/16;
-		if(cantidadDePosiciones/tamanioDeIntervalos >= 3){
-			this->frame = convertirFrameQueQuieroAFrameReal(cantidadDePosiciones/tamanioDeIntervalos - 3);
+		if(cantidadDePosiciones/tamanioDeIntervalos >= 4){
+			this->frame = convertirFrameQueQuieroAFrameReal(cantidadDePosiciones/tamanioDeIntervalos - 4);
 		}else{
-			this->frame = convertirFrameQueQuieroAFrameReal(14 + cantidadDePosiciones/tamanioDeIntervalos);
+			this->frame = convertirFrameQueQuieroAFrameReal(12 + cantidadDePosiciones/tamanioDeIntervalos);
 		}
 	}else{
-		this->frame = convertirFrameQueQuieroAFrameReal(14);
+		this->frame = convertirFrameQueQuieroAFrameReal(12);
 	}
 }
 void FakeAvionDeFormacion::continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores){
