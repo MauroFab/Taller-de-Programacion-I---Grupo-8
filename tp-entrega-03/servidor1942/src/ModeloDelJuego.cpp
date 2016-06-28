@@ -12,7 +12,10 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	 int cantidadDeAvionesDeLaFormacion = 4;
 	 int posicionEnElMapa = 800;
 	 int posicionPantallaSalida = 500;
-
+	 int cantidadMaximaDeNiveles = 10;
+	 formacionesDeLosNiveles.resize(cantidadMaximaDeNiveles);
+	 enemigosDeLosNiveles.resize(cantidadMaximaDeNiveles);
+	 powerUpsDeLosNiveles.resize(cantidadMaximaDeNiveles);
 
 	 preparoElPrimerNivel();
 	 preparoElSegundoNivel();
@@ -54,10 +57,6 @@ void ModeloDelJuego::preparoElPrimerNivel(){
 	 powerUpsEnPreparacion.push_back(PowerUp(100,800,500, TIPO_MUERTE));
 	 powerUpsEnPreparacion.push_back(PowerUp(200,600,500, TIPO_PUNTOS));
 	 powerUpsEnPreparacion.push_back(PowerUp(300,400,500, TIPO_AMETRALLADORA));
-
-	 formacionesDeLosNiveles.resize(10);
-	 enemigosDeLosNiveles.resize(10);
-	 powerUpsDeLosNiveles.resize(10);
 
 	 this->formacionesDeLosNiveles.at(0) = formacionesEnPreparacion;
 	 this->enemigosDeLosNiveles.at(0) = avionesEnemigosEnPreparacion;
