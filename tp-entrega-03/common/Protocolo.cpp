@@ -1293,7 +1293,7 @@ int Protocolo::codificar(EstadoJugador &estadoJugador, char* buffer) {
 	memcpy(buffer + offset, nombre, lenNombre);
 	offset += strlen(nombre);
 
-	delete nombre;
+	delete[] nombre;
 
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
