@@ -1265,10 +1265,11 @@ int Protocolo::codificar(EstadoJugador &estadoJugador, char* buffer) {
 	int id = -1;
 	int puntajeAcumulado = -1;
 	int equipo = -1;
-	char* nombre = (char*)estadoJugador.getNombreUsuario().c_str();
-	char lenNombre = strlen(nombre);
+	char* nombre = new char[50];
+    std::strcpy (nombre, estadoJugador.getNombreUsuario().c_str());
+	int lenNombre = strlen(nombre);
 	int offset = 0;
-	sizeBytes = sizeof(int)*3;
+	sizeBytes = sizeof(int)*4;
 
 	puntajeAcumulado = estadoJugador.getPuntajeAcumulado();
 	id = estadoJugador.getid();
@@ -1286,12 +1287,13 @@ int Protocolo::codificar(EstadoJugador &estadoJugador, char* buffer) {
 	memcpy(buffer + offset,&equipo,sizeof(int));
 	offset += sizeof(int);
 
-	memcpy(buffer + offset,&lenNombre,sizeof(char));
-	offset += sizeof(char);
+	memcpy(buffer + offset,&lenNombre,sizeof(int));
+	offset += sizeof(int);
 
-	printf("%s\n", nombre);
 	memcpy(buffer + offset, nombre, lenNombre);
-	offset += lenNombre;
+	offset += strlen(nombre);
+
+	delete nombre;
 
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
@@ -1307,8 +1309,8 @@ int Protocolo::decodificar(char* buffer, EstadoJugador &estadoJugador) {
 	int id = -1;
 	int puntajeAcumulado = -1;
 	int equipo = -1;
-	char lenNombre = -1;
-	char nombre[MAX_CADENA] = "";
+	int lenNombre = -1;
+	char nombre[MAX_CADENA] = {0};
 	int offset = 0;
 
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
@@ -1323,14 +1325,15 @@ int Protocolo::decodificar(char* buffer, EstadoJugador &estadoJugador) {
 	memcpy(&equipo,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
-	memcpy(&lenNombre,buffer + offset,sizeof(char));
-	offset += sizeof(char);
+	memcpy(&lenNombre,buffer + offset,sizeof(int));
+	offset += sizeof(int);
 
 	memcpy(nombre, buffer + offset, lenNombre);
 	offset += lenNombre;
-	nombre[lenNombre] = '/0';
 
-	estadoJugador = EstadoJugador(id, puntajeAcumulado, equipo, nombre);
+	string nombreString(nombre);
+
+	estadoJugador = EstadoJugador(id, puntajeAcumulado, equipo, nombreString);
 
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
