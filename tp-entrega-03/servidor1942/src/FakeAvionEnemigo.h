@@ -41,7 +41,7 @@ public:
 	static const int idAvionMini = 102;
 
 	virtual bool estaEnPantalla();
-	virtual void destruir();
+	virtual void destruir(int idDelJugadorQueLoDestruyo);
 
 	virtual int getIdDelQueMeDestruyo();
 	std::list<ProyectilEnemigo*> getProyectiles();

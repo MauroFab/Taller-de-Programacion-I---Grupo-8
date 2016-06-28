@@ -165,8 +165,9 @@ PowerUp FakeAvionEnemigo::getPowerUpQueDejaAlSerDestruido(){
 	return PowerUp(-1,-1,-1,-1);
 }
 
-void FakeAvionEnemigo::destruir(){
+void FakeAvionEnemigo::destruir(int idDelQueJugadorQueLoDestruyo){
 	this->puntosDeVida = 0;
+	idDelQueMeDestruyo = idDelQueJugadorQueLoDestruyo;
 }
 
 bool FakeAvionEnemigo::estaEnPantalla(){
