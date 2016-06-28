@@ -12,6 +12,10 @@ Graficador* Graficador::getInstance() {
 }
 
 Graficador::Graficador() {
+	for (int i = 0;i < MAX_CANTIDAD_ESCENARIOS; i++){
+		this->graficosMapa[i] = NULL;
+	}
+	
 }
 
 Graficador::~Graficador(void) {
@@ -20,6 +24,10 @@ Graficador::~Graficador(void) {
 		delete ((*it).second);
 	}
 	delete graficoProyectilMejorado;
+	for (int i = 0;i < MAX_CANTIDAD_ESCENARIOS; i++){
+		if (this->graficosMapa[i] != NULL)
+			delete this->graficosMapa[i];
+	}
 	delete graficoMapa;
 	delete graficoPuntaje;
 	delete graficoPuntosVida;
@@ -151,7 +159,9 @@ void Graficador::reiniciarMapa() {
 void Graficador::actualizarMapa(EstadoMapa* estadoMapa) {
 	
 	this->graficoMapa = this->graficosMapa[estadoMapa->getIdEtapa()];
-	this->graficoMapa->actualizar(estadoMapa);
+	if (this->graficoMapa != NULL){
+		this->graficoMapa->actualizar(estadoMapa);
+	}
 }
 
 void Graficador::mostrarInformacion(std::list<EstadoJugador> estadosJugadores) {
