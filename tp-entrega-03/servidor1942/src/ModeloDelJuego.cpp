@@ -9,7 +9,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	this->temporizadorEtapa = new Temporizador(10);
 	//A partir de acá es una carga media manual de aviones enemigos
 	//Primero armo una formacion
-	 int cantidadDeAvionesDeLaFormacion = 10;
+	 int cantidadDeAvionesDeLaFormacion = 4;
 	 int posicionEnElMapa = 800;
 	 int posicionPantallaSalida = 500;
 	 //La formacion crea automaticamente todo los aviones, en un futuro servira para validar la destruccion completa de la misma

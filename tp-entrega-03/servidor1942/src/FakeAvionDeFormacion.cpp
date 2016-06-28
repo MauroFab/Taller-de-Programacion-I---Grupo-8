@@ -9,7 +9,18 @@
 	this->alturaDeLaQueSalgo = alturaDeLaQueSalgo;
 	listoParaSalir = false;
 	this->estoyHaciendoElGiro = false;
-	this->angulo = 0.0;
+	yaTermineElGiro = false;
+	cargarPosicionesDelCirculo();
+}
+
+void FakeAvionDeFormacion::cargarPosicionesDelCirculo(){
+	double xi, yi;
+	for(double i = 270; i <= 630 ; i++){
+		xi = radioCirculo*cos(i*PI/180) + xDondeGiro;
+		yi = radioCirculo*sin(i*PI/180) + radioCirculo + alturaDeLaQueSalgo;
+		Posicion* posicionCirculo = new Posicion(static_cast<int> (xi),static_cast<int> (yi));
+		posicionesDelCirculo.push_back(posicionCirculo);
+	}
 }
 
 void FakeAvionDeFormacion::continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores){
@@ -24,20 +35,17 @@ void FakeAvionDeFormacion::continuarMovimiento(std::list<SuperficieOcupada> supe
 		if(!estoyHaciendoElGiro){
 			superficieOcupada->desplazarEnXObteniendoHitbox(-velocidadAvionMini);
 		}
-		if(superficieOcupada->obtenerPosicion().getPosX() == 200){
+		if(superficieOcupada->obtenerPosicion().getPosX() == 200 && !yaTermineElGiro){
 			estoyHaciendoElGiro = true;
-			pXGiro = this->superficieOcupada->x;
-			pYGiro = this->superficieOcupada->y;
 		}
 
-		if(estoyHaciendoElGiro){
-			//continuoElGiro
-			this->angulo += DELTA_TITA;
-			UtilJuego * utilJ = UtilJuego::getInstance();
-			utilJ->updatePolarToCartesiana(V_RADIO,this->angulo,&pXGiro,&pYGiro);
-			this->superficieOcupada->moverAPosicion(Posicion(static_cast<int> (pXGiro),static_cast<int> (pYGiro)));
-			if(angulo > 360)
-				estoyHaciendoElGiro = false;
+		if(estoyHaciendoElGiro && !yaTermineElGiro){
+			Posicion* nuevaPosicion = posicionesDelCirculo.back();
+			posicionesDelCirculo.pop_back();
+			this->superficieOcupada->moverAPosicion(*nuevaPosicion);
+			delete nuevaPosicion;
+			yaTermineElGiro = posicionesDelCirculo.empty();
+			estoyHaciendoElGiro = !yaTermineElGiro;
 		}
 	}
 }
