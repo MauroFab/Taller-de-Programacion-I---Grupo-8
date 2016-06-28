@@ -155,6 +155,10 @@ void Graficador::actualizarMapa(EstadoMapa* estadoMapa) {
 	this->graficoMapa->actualizar(estadoMapa);
 }
 
+void Graficador::mostrarInformacion(std::list<EstadoJugador> estadosJugadores) {
+
+}
+
 int Graficador::buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id){
 	std::list<EstadoJugador>::iterator it;
 	std::list<EstadoJugador> listaDeEstados;
@@ -172,10 +176,15 @@ int Graficador::buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id){
 }
 
 void Graficador::graficarJuego(EstadoJuego* estadoJuego, int idDelJugador){
-	actualizarMapa(estadoJuego->getEstadoDelMapa());
-	graficarMapa();	
-	graficarAviones(estadoJuego->getEstadoDeLosAviones(), idDelJugador);
-	int puntajeDelJugador = buscarPuntajeDelJugadorEn(estadoJuego, idDelJugador);
-	Graficador::getInstance()->graficarPuntaje(puntajeDelJugador);
-	this->graficadorPowerUp->graficarPowerUps(estadoJuego->getEstadoPowerUps());
+	
+	if (estadoJuego->getEstadoDelMapa()->hayQueMostrarInformacion()) {
+		mostrarInformacion(estadoJuego->getEstadoDeLosJugadores());
+	} else {
+		actualizarMapa(estadoJuego->getEstadoDelMapa());
+		graficarMapa();	
+		graficarAviones(estadoJuego->getEstadoDeLosAviones(), idDelJugador);
+		int puntajeDelJugador = buscarPuntajeDelJugadorEn(estadoJuego, idDelJugador);
+		Graficador::getInstance()->graficarPuntaje(puntajeDelJugador);
+		this->graficadorPowerUp->graficarPowerUps(estadoJuego->getEstadoPowerUps());
+	}
 }

@@ -41,11 +41,13 @@ public:
 	void actualizarMapa(EstadoMapa* estadoMapa);
 
 private:
+
 	Graficador();
 	void graficarAviones(std::list<EstadoAvion*> listaAviones, int idDelJugador);
 	void graficarMapa();
 	void graficarPuntaje(int puntaje);
 	void graficoProyectilConLaTexturaHardcodeada(EstadoProyectil* estadoProyectil);
+	void mostrarInformacion(std::list<EstadoJugador> estadosJugadores);
 	static bool instanceFlag;
 	static Graficador* instance;
 
