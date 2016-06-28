@@ -79,6 +79,8 @@ public:
 
 	SuperficieOcupada getSuperficieOcupada();
 
+	ModeloJugador* getJugadorAsociado();
+
 private:
 
 	void darVelocidadHaciaArriba();

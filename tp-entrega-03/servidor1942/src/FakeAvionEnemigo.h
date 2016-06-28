@@ -43,6 +43,7 @@ public:
 	virtual bool estaEnPantalla();
 	virtual void destruir();
 
+	virtual int getIdDelQueMeDestruyo();
 	std::list<ProyectilEnemigo*> getProyectiles();
 protected:
 	

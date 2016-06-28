@@ -318,6 +318,9 @@ void Avion::hacerUnRoll(){
 EstadoJugador Avion::getEstadoJugadorAsociado(){
 	return(jugadorAsociado->getEstadoJugador());
 }
+ModeloJugador* Avion::getJugadorAsociado(){
+	return(jugadorAsociado);
+}
 
 void Avion::sumarPuntosAlJugadorAsociado(int puntos){
 	this->jugadorAsociado->sumarPuntos(puntos);
