@@ -26,6 +26,10 @@ private:
 	std::list<Posicion*> posicionesDelCirculo;
 	bool yaTermineElGiro;
 	void cargarPosicionesDelCirculo();
+
+	int convertirFrameQueQuieroAFrameReal(int frameQueQuiero);
+	//Y siendo que hay 360 posiciones
+	void configurarFrameSabiendoQueQuedan(int cantidadDePosiciones);
 public:
 	//angulo de la rotacion del avion
 	double angulo;
