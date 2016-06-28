@@ -140,3 +140,7 @@ void AsignadorDeUsuarios::setPosicionAUsuario(int idUsuario, Posicion pos) {
 	posicion->setPosX(pos.getPosX());
 	posicion->setPosY(pos.getPosY());
 }
+
+string AsignadorDeUsuarios::getNombreDeUsuarioDeJugador(int idUsuario) {
+	return this->listUsuario[idUsuario].nombreDeUsuario;
+}

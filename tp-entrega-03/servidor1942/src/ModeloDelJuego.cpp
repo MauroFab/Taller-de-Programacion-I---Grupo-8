@@ -1,8 +1,8 @@
 #include "ModeloDelJuego.h"
 
-ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsuarios){
-	this->cantidadMaximaDeUsuarios = cantidadMaximaDeUsuarios;
-	crearAviones(servidorXml);
+ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios){
+	this->cantidadMaximaDeUsuarios = usuarios->getCantidadMaximaDeUsuarios();
+	crearAviones(servidorXml, usuarios);
 	setPosicionInicialListAvion();
 	this->mapa = new Mapa(servidorXml);
 	// Crea un temporizador con 10 segundos
@@ -44,7 +44,7 @@ ModeloDelJuego::~ModeloDelJuego(){
 	delete this->temporizadorEtapa;
 }
 
-void ModeloDelJuego::crearAviones(ServidorXml* servidorXml){
+void ModeloDelJuego::crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios){
 	this->listAvion = new Avion*;
 	AvionXml** avionXml;
 	avionXml = servidorXml->getListaAviones();
@@ -71,7 +71,7 @@ void ModeloDelJuego::crearAviones(ServidorXml* servidorXml){
 		spriteAvion = SpriteXml::findSpriteById(avionXml[i]->getIdSpAvion(),spriteXml,servidorXml->getCanSprs());
 		avionModel = new AvionModel(avionXml[i]);
 		avionView = new AvionView(avionModel, spriteAvion);
-		this->listAvion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, avionView, balaView);
+		this->listAvion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, avionView, balaView, usuarios->getNombreDeUsuarioDeJugador(i));
 	}
 	//---------agregado para TEST de movimiento
 	UtilJuego * utilJ = UtilJuego::getInstance();

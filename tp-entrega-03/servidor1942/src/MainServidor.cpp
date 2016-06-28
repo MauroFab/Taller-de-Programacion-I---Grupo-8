@@ -552,7 +552,7 @@ int MainServidor::mainPrincipal(){
 
 	esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
 
-	modeloJuego = new ModeloDelJuego(servidorXml, usuarios->getCantidadMaximaDeUsuarios());
+	modeloJuego = new ModeloDelJuego(servidorXml, usuarios);
 
 	avisarATodosLosUsuariosQueComenzoLaPartida();
 

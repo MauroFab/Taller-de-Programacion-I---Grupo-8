@@ -1265,6 +1265,8 @@ int Protocolo::codificar(EstadoJugador &estadoJugador, char* buffer) {
 	int id = -1;
 	int puntajeAcumulado = -1;
 	int equipo = -1;
+	char* nombre = (char*)estadoJugador.getNombreUsuario().c_str();
+	int lenNombre = strlen(nombre);
 	int offset = 0;
 	sizeBytes = sizeof(int)*3;
 
@@ -1284,6 +1286,12 @@ int Protocolo::codificar(EstadoJugador &estadoJugador, char* buffer) {
 	memcpy(buffer + offset,&equipo,sizeof(int));
 	offset += sizeof(int);
 
+	memcpy(buffer + offset,&lenNombre,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(buffer + offset, nombre, lenNombre);
+	offset += strlen(nombre);
+
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	estadoJugador.toString(cadena);
@@ -1298,6 +1306,8 @@ int Protocolo::decodificar(char* buffer, EstadoJugador &estadoJugador) {
 	int id = -1;
 	int puntajeAcumulado = -1;
 	int equipo = -1;
+	int lenNombre = -1;
+	char nombre[MAX_CADENA] = {0};
 	int offset = 0;
 
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
@@ -1312,7 +1322,16 @@ int Protocolo::decodificar(char* buffer, EstadoJugador &estadoJugador) {
 	memcpy(&equipo,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
-	estadoJugador = EstadoJugador(id, puntajeAcumulado, equipo);
+	memcpy(&lenNombre,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	memcpy(nombre, buffer + offset, lenNombre);
+	offset += lenNombre;
+	nombre[lenNombre] = '/0';
+
+	string nombreString(nombre);
+
+	estadoJugador = EstadoJugador(id, puntajeAcumulado, equipo, nombreString);
 
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
