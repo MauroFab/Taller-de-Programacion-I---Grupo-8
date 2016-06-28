@@ -26,31 +26,18 @@ void FakeAvionDeFormacion::continuarMovimiento(std::list<SuperficieOcupada> supe
 		}
 		if(superficieOcupada->obtenerPosicion().getPosX() == 200){
 			estoyHaciendoElGiro = true;
+			pXGiro = this->superficieOcupada->x;
+			pYGiro = this->superficieOcupada->y;
 		}
 
 		if(estoyHaciendoElGiro){
 			//continuoElGiro
 			this->angulo += DELTA_TITA;
 			UtilJuego * utilJ = UtilJuego::getInstance();
-			double pX = this->superficieOcupada->x;
-			double pY = this->superficieOcupada->y;
-			utilJ->updatePolarToCartesiana(V_RADIO,this->angulo,&pX,&pY);
-			this->superficieOcupada->moverAPosicion(Posicion(static_cast<int> (pX),static_cast<int> (pY)));
+			utilJ->updatePolarToCartesiana(V_RADIO,this->angulo,&pXGiro,&pYGiro);
+			this->superficieOcupada->moverAPosicion(Posicion(static_cast<int> (pXGiro),static_cast<int> (pYGiro)));
 			if(angulo > 360)
 				estoyHaciendoElGiro = false;
 		}
-		/*if (this->angulo < 100){
-			
-			
-			
-			
-			this->superficieOcupada->x = pX;
-			this->superficieOcupada->y= pY;
-		}
-		else{
-			
-		}*/
-
 	}
-	
 }
