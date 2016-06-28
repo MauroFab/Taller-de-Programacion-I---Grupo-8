@@ -35,6 +35,15 @@ SuperficieOcupada FakeAvionEnemigo::obtenerElementoiDeLaLista(int i, std::list<S
 }
 
 
+void FakeAvionEnemigo::ajustarLaNormaDelVector(double &xVector, double &yVector, double norma){
+	double coeficienteParaAjustarElModulo;
+	//Esto sale de plantear que la norma debe ser igual a un numero
+	//Y que el x nuevo y el y nuevo deben ser un multiplo de los viejos
+	coeficienteParaAjustarElModulo = sqrt(norma/(xVector*xVector+yVector*yVector));
+	xVector = xVector * coeficienteParaAjustarElModulo;
+	yVector = yVector * coeficienteParaAjustarElModulo;
+}
+
 void FakeAvionEnemigo::disparar(std::list<SuperficieOcupada> superficiesAvionesJugadores){
 
 	int posXProyectil = superficieOcupada->obtenerPosicionCentro().getPosX();
@@ -52,13 +61,9 @@ void FakeAvionEnemigo::disparar(std::list<SuperficieOcupada> superficiesAvionesJ
 	double xVectorVelocidad = (xAlQueApunto - posXProyectil );
 	double yVectorVelocidad = (yAlQueApunto - posYProyectil );
 
-	//Aca podriamos normalizar el vector y ver en que velocidad lo dejamos
-	//Esto es una forma mas rapida de hacerlo, quiero asegurarme de que no vayan muy rapido
-	//los proyectiles
-	while(abs(xVectorVelocidad) > 2 && abs(yVectorVelocidad) > 2){
-		xVectorVelocidad = xVectorVelocidad/2;
-		yVectorVelocidad = yVectorVelocidad/2;
-	}
+	//Fijo su norma en 4, manteniendo la orientacion
+	int norma = 8;
+	ajustarLaNormaDelVector(xVectorVelocidad, yVectorVelocidad, norma);
 
 	//defino de donde sale
 	proyectiles.push_back(new ProyectilEnemigo(posXProyectil,posYProyectil,xVectorVelocidad, yVectorVelocidad));
