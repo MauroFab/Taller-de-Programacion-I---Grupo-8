@@ -24,6 +24,7 @@ Graficador::~Graficador(void) {
 	delete graficoPuntaje;
 	delete graficoPuntosVida;
 	delete graficadorPowerUp;
+	delete graficadorInformacion;
 }
 
 void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto) {
@@ -33,6 +34,7 @@ void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int venta
 	this->graficoPuntaje = new GraficadorPuntaje(renderer);
 	this->graficoPuntosVida = new GraficadorPuntosVida(renderer);
 	this->graficadorPowerUp = new GraficadorPowerUp(renderer);
+	this->graficadorInformacion = new GraficadorInformacion(renderer);
 }
 
 void Graficador::agregarDatosAviones(AvionView* *listaAvionView, int canAvionV) {
@@ -157,6 +159,11 @@ void Graficador::actualizarMapa(EstadoMapa* estadoMapa) {
 
 void Graficador::mostrarInformacion(std::list<EstadoJugador> estadosJugadores) {
 
+	int numeroDeEquipo = estadosJugadores.front().getEquipo();
+	int cantidadJugadores = estadosJugadores.size();
+
+	this->graficadorInformacion->seleccionarVista(numeroDeEquipo, cantidadJugadores);
+	this->graficadorInformacion->render(estadosJugadores);
 }
 
 int Graficador::buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id){

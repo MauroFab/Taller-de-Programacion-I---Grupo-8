@@ -129,6 +129,7 @@
     <ClCompile Include="..\juego\GraficadorPowerUp.cpp" />
     <ClCompile Include="..\juego\GraficadorPuntaje.cpp" />
     <ClCompile Include="..\juego\GraficadorPuntosVida.cpp" />
+    <ClCompile Include="..\juego\GraficadorInformacion.cpp" />
     <ClCompile Include="..\juego\GraficoAvion.cpp" />
     <ClCompile Include="..\juego\GraficoProyectil.cpp" />
     <ClCompile Include="..\juego\GraficoMapa.cpp" />
@@ -136,13 +137,14 @@
     <ClCompile Include="..\juego\TexturaFuente.cpp" />
     <ClCompile Include="..\juego\VistaJuego.cpp" />
     <ClCompile Include="..\juego\VistaInicio.cpp" />
+	<ClCompile Include="..\juego\VistaInformacion.cpp" />
     <ClCompile Include="..\juego\Textura.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\MainCliente.cpp" />
     <ClCompile Include="..\common\xml\MensajeXml.cpp" />
     <ClCompile Include="..\common\xml\ParserXml.cpp" />
     <ClCompile Include="..\common\xml\ServidorXml.cpp" />
     <ClCompile Include="..\common\xml\tinyxml2.cpp" />
+	<ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MainCliente.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\evento.h" />
@@ -190,6 +192,7 @@
     <ClInclude Include="..\juego\GraficadorPowerUp.h" />
     <ClInclude Include="..\juego\GraficadorPuntaje.h" />
     <ClInclude Include="..\juego\GraficadorPuntosVida.h" />
+    <ClInclude Include="..\juego\GraficadorInformacion.h" />
     <ClInclude Include="..\juego\GraficoAvion.h" />
     <ClInclude Include="..\juego\GraficoProyectil.h" />
     <ClInclude Include="..\juego\GraficoMapa.h" />
@@ -197,12 +200,13 @@
     <ClInclude Include="..\juego\TexturaFuente.h" />
     <ClInclude Include="..\juego\VistaJuego.h" />
     <ClInclude Include="..\juego\VistaInicio.h" />
+	<ClInclude Include="..\juego\VistaInformacion.h" />
     <ClInclude Include="..\juego\Textura.h" />
-    <ClInclude Include="src\MainCliente.h" />
     <ClInclude Include="..\common\xml\MensajeXml.h" />
     <ClInclude Include="..\common\xml\ParserXml.h" />
     <ClInclude Include="..\common\xml\ServidorXml.h" />
     <ClInclude Include="..\common\xml\tinyxml2.h" />
+	<ClInclude Include="src\MainCliente.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

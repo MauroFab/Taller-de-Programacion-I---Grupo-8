@@ -10,6 +10,7 @@
 #include "GraficadorPuntaje.h"
 #include "GraficadorPuntosVida.h"
 #include "GraficadorPowerUp.h"
+#include "GraficadorInformacion.h"
 #include "Textura.h"
 #include "Etiqueta.h"
 #include "../common/view/AvionView.h"
@@ -66,6 +67,7 @@ private:
 	GraficadorPuntaje* graficoPuntaje;
 	GraficadorPuntosVida* graficoPuntosVida;
 	GraficadorPowerUp* graficadorPowerUp;
+	GraficadorInformacion* graficadorInformacion;
 	bool estaDestruidoElAvion(EstadoAvion* estadoAvion);
 	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
 
