@@ -63,7 +63,8 @@ protected:
 	virtual void moverProyectiles();
 
 	SuperficieOcupada obtenerElementoiDeLaLista(int i, std::list<SuperficieOcupada> superficiesAvionesJugadores);
-
+	
+	void ajustarLaNormaDelVector(double &xVector, double &yVector, double norma);
 	SuperficieOcupada* superficieOcupada;
 	static const int vidaMaximaFakeAvionEnemigo = 1;
 	int puntosDeVida;
