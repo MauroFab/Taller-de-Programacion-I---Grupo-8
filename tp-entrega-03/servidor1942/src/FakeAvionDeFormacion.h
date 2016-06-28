@@ -5,11 +5,11 @@
 #define PI 3.14159265
 
 //la maxima cantidad de angulos a rotar
-#define DOUBLE_MAX_CAN_ANG	16.0
+#define DOUBLE_MAX_CAN_ANG	10.0
 
 #define DELTA_TITA (2.0*PI) / DOUBLE_MAX_CAN_ANG;
 
-#define V_RADIO 80.0
+#define V_RADIO 15.0
 
 class FakeAvionDeFormacion :
 	public FakeAvionEnemigo
@@ -26,6 +26,10 @@ private:
 	static const int puntosDeVidaMaximoMini = 1;
 	int alturaDeLaQueSalgo;
 	bool listoParaSalir;
+	bool estoyHaciendoElGiro;
+	bool yaHiceElGiro;
+	double pXGiro;
+	double pYGiro;
 public:
 	//angulo de la rotacion del avion
 	double angulo;
