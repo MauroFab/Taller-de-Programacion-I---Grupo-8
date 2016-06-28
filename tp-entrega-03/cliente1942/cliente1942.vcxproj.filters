@@ -126,9 +126,6 @@
     <ClCompile Include="..\juego\EstadoProyectil.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
-    <ClCompile Include="..\juego\Proyectil.cpp">
-      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
-    </ClCompile>
     <ClCompile Include="..\juego\Textura.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
@@ -228,26 +225,11 @@
     <ClCompile Include="..\common\view\EscenarioView.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\servidor1942\src\SuperficieOcupada.cpp">
-      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\servidor1942\src\FakeAvionEnemigo.cpp">
-      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\servidor1942\src\ModeloJugador.cpp">
-      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\view\AvionEnemigoView.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="..\common\model\AvionEnemigoModel.cpp">
       <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\servidor1942\src\PowerUp.cpp">
-      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\servidor1942\src\ProyectilEnemigo.cpp">
-      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,9 +283,6 @@
     </ClInclude>
     <ClInclude Include="..\juego\GraficoAvion.h">
       <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
-    </ClInclude>
-    <ClInclude Include="..\juego\Proyectil.h">
-      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="..\juego\Textura.h">
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
@@ -422,26 +401,11 @@
     <ClInclude Include="..\common\view\EscenarioView.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\servidor1942\src\SuperficieOcupada.h">
-      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\servidor1942\src\FakeAvionEnemigo.h">
-      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\servidor1942\src\ModeloJugador.h">
-      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\view\AvionEnemigoView.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\common\model\AvionEnemigoModel.h">
       <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\servidor1942\src\PowerUp.h">
-      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\servidor1942\src\ProyectilEnemigo.h">
-      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

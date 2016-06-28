@@ -24,12 +24,19 @@ EstadoMapa* Mapa::getEstado() {
 }
 
 bool Mapa::seTerminoEtapa() {
-	return (this->cantidadDePixelesQuePasaron > this->tamanioMaximoMapa);
+
+	if (this->cantidadDePixelesQuePasaron > this->tamanioMaximoMapa) {
+		this->estado->terminoEtapa();
+		return true;
+	} else {
+		return false;
+	}
 }
 
 void Mapa::avanzarEtapa() {
 	this->cantidadDePixelesQuePasaron = 0;
 	this->idEtapaActual++;
+	this->estado->empezoEtapa();
 	this->estado->setIdEtapa(this->idEtapaActual);
 	this->estado->actualizar(this->cantidadDePixelesQuePasaron);
 }

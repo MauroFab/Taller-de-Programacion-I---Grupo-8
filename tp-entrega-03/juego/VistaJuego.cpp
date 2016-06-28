@@ -349,18 +349,18 @@ void VistaJuego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMap
 void VistaJuego::agregarDatosDeAvionesEnemigosHardcodeados(){
 	char spriteStr[20] = "nave_mediana";
 	char path[100] = "nave_mediana.bmp";
-	int idMiddle = FakeAvionEnemigo::idAvionMiddle;
+
+	int idMiddle = 101;
 	SpriteXml* spriteNaveEnemigaMediana = new SpriteXml(idMiddle, spriteStr,path,1,68,120);
 	AvionXml* avionXml = new AvionXml(idMiddle,5,5,idMiddle,spriteStr,5,"asd",3,"zxc");
 	AvionModel* avionModel = new AvionModel(avionXml);
 	AvionView** avionView = new AvionView*;
 	avionView[0] = new AvionView(avionModel,spriteNaveEnemigaMediana);
 	Graficador::getInstance()->agregarDatosAviones(avionView,1);
-	
 
 	char spriteStr2[20] = "nave_grande";
 	char path2[100] = "nave_grande.bmp";
-	int idBig = FakeAvionEnemigo::idAvionBig;
+	int idBig = 100;
 	SpriteXml* spriteNaveEnemigaGrande = new SpriteXml(idBig, spriteStr2,path2,1,118,200);
 	AvionXml* avionXml2 = new AvionXml(idBig,5,5,idBig,spriteStr2,5,"asd",3,"zxc");
 	AvionModel* avionModel2 = new AvionModel(avionXml2);
@@ -371,7 +371,7 @@ void VistaJuego::agregarDatosDeAvionesEnemigosHardcodeados(){
 	char spriteStr3[20] = "nave_chica";
 	char path3[100] = "nave_chica.bmp";
 	int numeroDeFramesDeLaNaveChica = 16;
-	int idMini = FakeAvionEnemigo::idAvionMini;
+	int idMini = 102;
 	SpriteXml* spriteNaveEnemigaChica = new SpriteXml(idMini, spriteStr3,path3,
 														numeroDeFramesDeLaNaveChica,16,19);
 	AvionXml* avionXml3 = new AvionXml(idMini,5,5,idMini,spriteStr3,5,"asd",3,"zxc");
