@@ -44,7 +44,7 @@ private:
 	bool tengoElArmaMejorada;
 public:
 
-	Avion(int ventanaAncho, int ventalaAlto, AvionView* avionView, BalaView* balaView);
+	Avion(int ventanaAncho, int ventalaAlto, AvionView* avionView, BalaView* balaView, string nombreDeUsuario);
 	~Avion();
 
 	//Mover se debe llamar para actualizar el movimiento, si hay que hacer un roll,

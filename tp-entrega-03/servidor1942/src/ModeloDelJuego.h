@@ -7,6 +7,7 @@
 #include "../../juego/EstadoJuego.h"
 #include "../../juego/Mapa.h"
 #include "../../estructura/AvionEnemigo.h"
+#include "AsignadorDeUsuarios.h"
 #include "FakeAvionBig.h"
 #include "FakeAvionDeFormacion.h"
 #include "FakeAvionMiddle.h"
@@ -16,7 +17,7 @@ using namespace std;
 class ModeloDelJuego {
 
 public:
-	ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsuarios);
+	ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios);
 	~ModeloDelJuego();
 	void actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento);
 	void actualizarMovimientos();
@@ -35,7 +36,7 @@ private:
 	Mapa* mapa;
 	Temporizador* temporizadorEtapa;
 	int cantidadMaximaDeUsuarios;
-	void crearAviones(ServidorXml* servidorXml);
+	void crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios);
 	AvionEnemigo * avionEnemigoBeta;
 	list<SuperficieOcupada> getSuperficiesOcupadasPorJugadores();
 };

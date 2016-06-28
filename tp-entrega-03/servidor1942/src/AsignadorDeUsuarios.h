@@ -35,6 +35,7 @@ public:
 	Posicion* getPosicionDeUsuario(int idUsuario);
 	void setPosicionAUsuario(int idUsuario, Posicion pos);
 	bool puedoTenerUsuariosNuevos();
+	string getNombreDeUsuarioDeJugador(int idUsuario);
 private:
 	
 	Usuario* listUsuario;	//contiene un listado de usuarios

@@ -1,6 +1,6 @@
 #include "Avion.h"
 
-Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* balaView) {
+Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* balaView, string nombreDeUsuario) {
 	//Las posicion inicial queda sin definir
 	this->ventanaAncho = ventanaAncho;
 	this->ventanaAlto = ventanaAlto;
@@ -18,7 +18,7 @@ Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* 
 	centroProyectilSinMejora = 3;
 	superficieQueOcupo = SuperficieOcupada(0,0,anchoAvion,altoAvion);
 	puntosDeVida = vidaMaximaAvion;
-	this->jugadorAsociado = new ModeloJugador(id);
+	this->jugadorAsociado = new ModeloJugador(id, nombreDeUsuario);
 	soyInvulnerable = false;
 	tengoElArmaMejorada = false;
 }
