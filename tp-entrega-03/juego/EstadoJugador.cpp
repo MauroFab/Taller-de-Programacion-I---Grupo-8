@@ -1,16 +1,17 @@
 #include "EstadoJugador.h"
 
 
-EstadoJugador::EstadoJugador(int id, int puntajeAcumulado, int equipo, string nommbre){
+EstadoJugador::EstadoJugador(int id, int puntajeAcumulado, int equipo, string nombre){
 	this->id = id;
 	this->puntajeAcumulado = puntajeAcumulado;
 	this->equipo = equipo;
-	this->nombre = nombre;
+	this->nombre.assign(nombre);
 }
 EstadoJugador::EstadoJugador(){
 	this->id = -1;
 	this->puntajeAcumulado = -1;
 	this->equipo = -1;
+	this->nombre.assign("");
 }
 
 int EstadoJugador::getid(){

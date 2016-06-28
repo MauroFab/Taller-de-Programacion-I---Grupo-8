@@ -7,6 +7,7 @@
 #include "EstadoJugador.h"
 #include "FondoInicio.h"
 #include "Etiqueta.h"
+#include "..\common\StringUtil.h"
 
 #define FUENTE_PATH "./sfd/DejaVuSans.ttf"
 

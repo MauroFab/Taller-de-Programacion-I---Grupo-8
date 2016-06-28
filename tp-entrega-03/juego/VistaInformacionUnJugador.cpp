@@ -18,4 +18,16 @@ VistaInformacionUnJugador::~VistaInformacionUnJugador(void) {
 }
 
 void VistaInformacionUnJugador::mostrar(std::list<EstadoJugador> estadosJugadores) {
+
+	EstadoJugador estado = estadosJugadores.front();
+
+	string nombre = estado.getNombreUsuario();
+	string puntos = StringUtil::intToString(estado.getPuntajeAcumulado());
+
+	this->nombreUsuario->setTexto(nombre);
+	this->puntos->setTexto(puntos);
+
+	this->fondo->render();
+	this->nombreUsuario->render();
+	this->puntos->render();
 }
