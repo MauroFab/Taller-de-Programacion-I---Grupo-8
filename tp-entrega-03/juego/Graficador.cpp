@@ -59,9 +59,6 @@ void Graficador::agregarDatosMapa(EscenarioView ** listaEscenariosView, int canE
 	for (int i = 0; i < canEscenariosV; i++) {
 		GraficoMapa* graficoMapa = new GraficoMapa(renderer, listaEscenariosView[i]->getFondoView(), posicionInicial);
 		graficoMapa->crearElementos(listaEscenariosView[i]->getElementosView(), listaEscenariosView[i]->getCanElemV());
-		/*
-		graficoMapa->crearPowerUps(listaEscenariosView[i]->getPowerUpsView(), listaEscenariosView[i]->getCanPowerUps());
-		*/
 		graficosMapa[i] = graficoMapa;
 	}
 	this->graficoMapa = graficosMapa[0];
