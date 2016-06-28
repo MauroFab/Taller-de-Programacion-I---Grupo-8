@@ -15,6 +15,9 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, int cantidadMaximaDeUsu
 	 //La formacion crea automaticamente todo los aviones, en un futuro servira para validar la destruccion completa de la misma
 	 FakeFormacionDeEnemigos formacion(cantidadDeAvionesDeLaFormacion,posicionPantallaSalida,posicionEnElMapa);
 
+	 //Agrego la formacion a la lista de formaciones, que se usa para chequear los bonus de puntos
+	 formaciones.push_front(formacion);
+
 	 //Luego los agrego a los avionesEnemigos del juego, poniendo la lista de aviones de la formacion en la de enemigos del juego
 	 std::list<FakeAvionEnemigo*> avionesDeLaFormacion =  formacion.getAvionesDeLaFormacion();
 	 avionesEnemigos.insert(avionesEnemigos.end(), avionesDeLaFormacion.begin(), avionesDeLaFormacion.end());
@@ -119,6 +122,17 @@ void ModeloDelJuego::actualizarMovimientos(){
 		list<SuperficieOcupada> superficies = getSuperficiesOcupadasPorJugadores();
 		for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
 			(*it)->continuarMovimiento(superficies);
+		}
+
+		//Luego de todos los movimientos, chequeo si tengo que bonificar a alguien por destruir
+		//una formacion
+		list<FakeFormacionDeEnemigos>::iterator itF;
+		for (itF = formaciones.begin(); itF != formaciones.end(); itF++) {
+			//Si esa formacion fue destruida por un mismo avion
+			//Y nunca entrego puntos
+			if((*itF).todosLosAvionesFueronDestruidosPorUnMismoAvion() && !(*itF).getEntreguePuntos()){
+				(*itF).entregarPuntosAlJugadorQueDestruyoLaFormacion(listAvion);
+			}
 		}
 	}
 	else {

@@ -177,3 +177,7 @@ bool FakeAvionEnemigo::estaEnPantalla(){
 std::list<ProyectilEnemigo*> FakeAvionEnemigo::getProyectiles(){
 	return proyectiles;
 }
+
+int FakeAvionEnemigo::getIdDelQueMeDestruyo(){
+	return idDelQueMeDestruyo;
+}

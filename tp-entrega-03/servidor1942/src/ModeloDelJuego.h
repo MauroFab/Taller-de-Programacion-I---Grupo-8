@@ -27,7 +27,7 @@ public:
 	EstadoJuego* obtenerEstadoDelJuego();
 private:
 	EstadoAvion* getEstadoAvionJugador(int idAvion);
-
+	std::list<FakeFormacionDeEnemigos> formaciones;
 	std::list<FakeAvionEnemigo*> avionesEnemigos;
 	std::list<PowerUp> powerUps;
 	void setPosicionInicialListAvion();
