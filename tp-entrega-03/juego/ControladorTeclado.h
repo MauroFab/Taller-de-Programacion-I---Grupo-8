@@ -2,7 +2,6 @@
 #define _CONTROLADORTECLADO_H_
 #include <SDL2/SDL.h>
 #include <SDL2\SDL_mixer.h>
-#include "Avion.h"
 #include "CacheSonido.h"
 #include "../common/observer/Observable.h"
 #include "../common/Evento.h"

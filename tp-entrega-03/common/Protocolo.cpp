@@ -1260,12 +1260,14 @@ int Protocolo::decodificar(char* buffer, Evento* evento) {
 int Protocolo::codificar(EstadoJugador &estadoJugador, char* buffer) {
 	int sizeBytes = -1;
 	int id = -1;
-	int puntajeAcumulado;
+	int puntajeAcumulado = -1;
+	int equipo = -1;
 	int offset = 0;
-	sizeBytes = sizeof(int)*2;
+	sizeBytes = sizeof(int)*3;
 
 	puntajeAcumulado = estadoJugador.getPuntajeAcumulado();
 	id = estadoJugador.getid();
+	equipo = estadoJugador.getEquipo();
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
@@ -1275,6 +1277,10 @@ int Protocolo::codificar(EstadoJugador &estadoJugador, char* buffer) {
 
 	memcpy(buffer + offset,&puntajeAcumulado,sizeof(int));
 	offset += sizeof(int);
+
+	memcpy(buffer + offset,&equipo,sizeof(int));
+	offset += sizeof(int);
+
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	estadoJugador.toString(cadena);
@@ -1287,7 +1293,8 @@ int Protocolo::codificar(EstadoJugador &estadoJugador, char* buffer) {
 int Protocolo::decodificar(char* buffer, EstadoJugador &estadoJugador) {
 	int sizeBytes = -1;
 	int id = -1;
-	int puntajeAcumulado;
+	int puntajeAcumulado = -1;
+	int equipo = -1;
 	int offset = 0;
 
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
@@ -1299,12 +1306,17 @@ int Protocolo::decodificar(char* buffer, EstadoJugador &estadoJugador) {
 	memcpy(&puntajeAcumulado,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
-	estadoJugador = EstadoJugador(id, puntajeAcumulado);
+	memcpy(&equipo,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+
+	estadoJugador = EstadoJugador(id, puntajeAcumulado, equipo);
+
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	estadoJugador.toString(cadena);
 	printf("%s\n",cadena);
 #endif
+
 	return offset;
 }
 
@@ -1515,6 +1527,7 @@ int Protocolo::codificar(EstadoMapa &estadoMapa, char* buffer) {
 	int cantidadDePixelesQuePasaron = estadoMapa.getCantidadDePixeles();
 	int codigoDeReinicio = estadoMapa.getCodigoReinicio();
 	int idEtapa = estadoMapa.getIdEtapa();
+	bool mmostrarInformacion = estadoMapa.hayQueMostrarInformacion();
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
 	offset += sizeof(int);
@@ -1527,11 +1540,16 @@ int Protocolo::codificar(EstadoMapa &estadoMapa, char* buffer) {
 
 	memcpy(buffer + offset,&idEtapa,sizeof(int));
 	offset += sizeof(int);
+
+	memcpy(buffer + offset,&mmostrarInformacion,sizeof(bool));
+	offset += sizeof(bool);
+
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	estadoMapa.toString(cadena);
 	printf("%s\n",cadena);
-#endif	
+#endif
+
 	return offset;
 }
 
@@ -1541,6 +1559,7 @@ int Protocolo::decodificar(char* buffer, EstadoMapa* estadoMapa) {
 	int cantidadDePixelesQuePasaron = -1;
 	int codigoDeReinicio = -1;
 	int idEtapa = -1;
+	bool mostrarInformacion = -1;
 	int offset = 0;
 
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
@@ -1555,13 +1574,24 @@ int Protocolo::decodificar(char* buffer, EstadoMapa* estadoMapa) {
 	memcpy(&idEtapa,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
+	memcpy(&mostrarInformacion,buffer + offset,sizeof(bool));
+	offset += sizeof(bool);
+
 	estadoMapa->setCantidaDePixeles(cantidadDePixelesQuePasaron);
 	estadoMapa->setCodigoReinicio(codigoDeReinicio);
 	estadoMapa->setIdEtapa(idEtapa);
+
+	if (mostrarInformacion) {
+		estadoMapa->terminoEtapa();
+	} else {
+		estadoMapa->empezoEtapa();
+	}
+
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	estadoMapa->toString(cadena);
 	printf("%s\n",cadena);
 #endif
+
 	return offset;
 }

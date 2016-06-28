@@ -136,13 +136,7 @@
     <ClCompile Include="..\juego\TexturaFuente.cpp" />
     <ClCompile Include="..\juego\VistaJuego.cpp" />
     <ClCompile Include="..\juego\VistaInicio.cpp" />
-    <ClCompile Include="..\juego\Proyectil.cpp" />
     <ClCompile Include="..\juego\Textura.cpp" />
-    <ClCompile Include="..\servidor1942\src\FakeAvionEnemigo.cpp" />
-    <ClCompile Include="..\servidor1942\src\ModeloJugador.cpp" />
-    <ClCompile Include="..\servidor1942\src\PowerUp.cpp" />
-    <ClCompile Include="..\servidor1942\src\ProyectilEnemigo.cpp" />
-    <ClCompile Include="..\servidor1942\src\SuperficieOcupada.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainCliente.cpp" />
     <ClCompile Include="..\common\xml\MensajeXml.cpp" />
@@ -203,13 +197,7 @@
     <ClInclude Include="..\juego\TexturaFuente.h" />
     <ClInclude Include="..\juego\VistaJuego.h" />
     <ClInclude Include="..\juego\VistaInicio.h" />
-    <ClInclude Include="..\juego\Proyectil.h" />
     <ClInclude Include="..\juego\Textura.h" />
-    <ClInclude Include="..\servidor1942\src\FakeAvionEnemigo.h" />
-    <ClInclude Include="..\servidor1942\src\ModeloJugador.h" />
-    <ClInclude Include="..\servidor1942\src\PowerUp.h" />
-    <ClInclude Include="..\servidor1942\src\ProyectilEnemigo.h" />
-    <ClInclude Include="..\servidor1942\src\SuperficieOcupada.h" />
     <ClInclude Include="src\MainCliente.h" />
     <ClInclude Include="..\common\xml\MensajeXml.h" />
     <ClInclude Include="..\common\xml\ParserXml.h" />

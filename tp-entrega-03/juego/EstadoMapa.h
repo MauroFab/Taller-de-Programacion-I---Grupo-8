@@ -1,13 +1,17 @@
 #pragma once
+
 #include <stdio.h>
 #include <string.h>
 #include "../common/IGenericaVO.h"
-class EstadoMapa : public IGenericaVO{
+
+class EstadoMapa : public IGenericaVO {
+
 private:
 	int sizeBytes;
 	int cantidadDePixelesQuePasaron;
 	int codigoReinicio;	//flag que indica si se debe reinicar o no 1=true,0=false
 	int idEtapa;
+	bool mostrarInformacion;
 public:
 	EstadoMapa();
 	virtual ~EstadoMapa(void);
@@ -16,6 +20,9 @@ public:
 	int getCantidadDePixeles();
 	int getCodigoReinicio();
 	int getIdEtapa();
+	void terminoEtapa();
+	void empezoEtapa();
+	bool hayQueMostrarInformacion();
 	void setCantidaDePixeles(int pixeles);
 	void setCodigoReinicio(int codigo);
 	void setIdEtapa(int id);

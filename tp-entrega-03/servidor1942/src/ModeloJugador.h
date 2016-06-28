@@ -1,13 +1,13 @@
 #pragma once
-#include "../../juego/EstadoJugador.h"
 
-//Por ahora solamente tiene los puntajes del jugador
-//En un futuro tendra algo mas de relacion con los equipos tambien
+#include "../../juego/EstadoJugador.h"
+#include "ConfiguracionInicialJuego.h"
 
 //Hay otra clase llamada jugador del lado del cliente 
 //No confundir. Esta se usa en el modelo.
-class ModeloJugador
-{
+
+class ModeloJugador {
+
 public:
 	ModeloJugador(int id);
 	~ModeloJugador(void);
@@ -17,5 +17,6 @@ public:
 private:
 	int id;
 	int puntajeAcumulado;
+	int equipo;
 };
 
