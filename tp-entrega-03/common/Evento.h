@@ -29,6 +29,10 @@ const int soltadaLaTeclaDeReinicio = 14;
 
 const int seNecesitaLaPosicionDelMapa = 15;
 
+const int apretadaLaTeclaDeFinalizacionDePartida = 16;
+
+const int apretadaLaTeclaDeCambioDeModo = 17;
+
 //Los siguientes se usan solamente para mandar mensajes del servidor al cliente
 //Se podria separar todo en 2 clases de eventos distintos
 const int comienzaLaPartida = -1;

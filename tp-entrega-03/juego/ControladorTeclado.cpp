@@ -44,6 +44,24 @@ void ControladorTeclado::procesarTeclasPresionadas(SDL_Event& e){
 				notificar(evento);
 				};
 				break;
+			case SDLK_r:{
+				// Reinicia el juego
+				evento = new Evento(apretadaLaTeclaDeReinicio);
+				notificar(evento);
+				};
+				break;
+			case SDLK_f:{
+				// Finaliza la partida en modo practica
+				evento = new Evento(apretadaLaTeclaDeFinalizacionDePartida);
+				notificar(evento);
+				};
+				break;
+			case SDLK_c:{
+				// Cambia el modo de juego cuando se esta en modo practica
+				evento = new Evento(apretadaLaTeclaDeCambioDeModo);
+				notificar(evento);
+				};
+				break;
 		}
 	}
     // Si se libero una tecla

@@ -86,3 +86,16 @@ std::list<int> ModoEquipo::getJugadores() {
 	}
 	return lista;
 }
+
+int ModoEquipo::getEquipoDeJugador(int idUsuario) {
+
+	std::list<int>::iterator it;
+
+	for (it = this->equipo1.begin(); it != this->equipo1.end(); it++) {
+		if ((*it) == idUsuario) return 1;
+	}
+
+	for (it = this->equipo2.begin(); it != this->equipo2.end(); it++) {
+		if ((*it) == idUsuario) return 2;
+	}
+}

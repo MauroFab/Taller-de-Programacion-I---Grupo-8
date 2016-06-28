@@ -18,5 +18,6 @@ public:
 	virtual void agregarUsuario(int idUsuario);
 	virtual std::list<int> getJugadoresEquipo(int equipo);
 	virtual std::list<int> getJugadores();
+	virtual int getEquipoDeJugador(int idUsuario);
 };
 
