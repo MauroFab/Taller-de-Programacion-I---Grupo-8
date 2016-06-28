@@ -43,6 +43,7 @@ void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int venta
 	this->graficoPuntosVida = new GraficadorPuntosVida(renderer);
 	this->graficadorPowerUp = new GraficadorPowerUp(renderer);
 	this->graficadorInformacion = new GraficadorInformacion(renderer);
+	this->vistaExplosion = new VistaExplosion(renderer);
 }
 
 void Graficador::agregarDatosAviones(AvionView* *listaAvionView, int canAvionV) {
@@ -88,7 +89,7 @@ EstadoAvion* Graficador::obtengoElEstadoAvionDelClienteYGraficoLosDemasAviones
 				Textura* textura = grafico->getTextura();
 				textura->render((*it)->getPosX(), this->ventanaAlto - (*it)->getPosY() - textura->getHeight(), renderer, clip);
 			}else{
-				vistaExplosion.procesarEstadoAvionQueEstaDestruido((*it));
+				vistaExplosion->procesarEstadoAvionQueEstaDestruido((*it));
 			}
 			this->graficarProyectiles((*it)->getEstadosProyectiles());
 		}else{
@@ -107,7 +108,7 @@ void Graficador::graficoElAvionDelCliente(EstadoAvion* estadoDelAvionDeEsteClien
 		textura->render(estadoDelAvionDeEsteCliente->getPosX(), this->ventanaAlto - estadoDelAvionDeEsteCliente->getPosY() - textura->getHeight(), renderer, clip);
 		this->graficarProyectiles(estadoDelAvionDeEsteCliente->getEstadosProyectiles());
 	}else{
-		vistaExplosion.procesarEstadoAvionQueEstaDestruido(estadoDelAvionDeEsteCliente);
+		vistaExplosion->procesarEstadoAvionQueEstaDestruido(estadoDelAvionDeEsteCliente);
 	}
 }
 

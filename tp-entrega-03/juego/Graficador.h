@@ -78,7 +78,7 @@ private:
 	void graficoLosPuntosDeVidaDelAvionDeEsteCliente(EstadoAvion* estadoAvion);
 
 	int buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id);
-	VistaExplosion vistaExplosion;
+	VistaExplosion* vistaExplosion;
 };
 
 #endif //_GRAFICADOR_H_
