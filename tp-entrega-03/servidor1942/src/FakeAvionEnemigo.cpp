@@ -91,6 +91,22 @@ void FakeAvionEnemigo::continuarMovimiento(std::list<SuperficieOcupada> superfic
 		}
 	}
 	moverProyectiles();
+	//La libero de a poco. Se llama muchas veces a este metodo.
+	//Con esto descargo algo de trabajo revisando todo el tiempo todos los proyectiles
+	revisoMemoriaDelProyectilMasNuevo();
+}
+
+void FakeAvionEnemigo::revisoMemoriaDelProyectilMasNuevo(){
+	if(!proyectiles.empty()){
+		SuperficieOcupada superficiePantalla(0,0,480,640);
+		ProyectilEnemigo* proyectil;
+		proyectil = proyectiles.front();
+		//Si esta destruido o no esta en pantalla, se puede borrar
+		if(proyectil->estaDestruido() || !superficiePantalla.meSolapoCon(proyectil->getSuperficieOcupada())){
+			proyectiles.pop_front();
+			delete proyectil;
+		}
+	}
 }
 
 void FakeAvionEnemigo::reducirPuntosDeVidaEn(int puntosDeDanio){

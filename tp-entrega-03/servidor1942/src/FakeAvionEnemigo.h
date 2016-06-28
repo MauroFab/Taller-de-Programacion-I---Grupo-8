@@ -67,6 +67,7 @@ protected:
 	void ajustarLaNormaDelVector(double &xVector, double &yVector, double norma);
 	SuperficieOcupada* superficieOcupada;
 	static const int vidaMaximaFakeAvionEnemigo = 1;
+	void revisoMemoriaDelProyectilMasNuevo();
 	int puntosDeVida;
 	int velocidad;
 	int velocidadX;

@@ -39,6 +39,7 @@ void FakeAvionBig::continuarMovimiento(std::list<SuperficieOcupada> superficiesA
 		}
 	}
 	moverProyectiles();
+	revisoMemoriaDelProyectilMasNuevo();
 }
 
 void FakeAvionBig::disparar(){
