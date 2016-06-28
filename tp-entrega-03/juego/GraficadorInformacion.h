@@ -4,6 +4,11 @@
 #include <list>
 #include "EstadoJugador.h"
 #include "VistaInformacion.h"
+#include "VistaInformacionEquipos.h"
+#include "VistaInformacionUnJugador.h"
+#include "VistaInformacionDosJugadores.h"
+#include "VistaInformacionTresJugadores.h"
+#include "VistaInformacionCuatroJugadores.h"
 
 #define CANTIDAD_VISTAS 4
 

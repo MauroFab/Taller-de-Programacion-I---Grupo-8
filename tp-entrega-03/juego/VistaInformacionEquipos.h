@@ -1,9 +1,16 @@
 #pragma once
 
-class VistaInformacionEquipos {
+#include <list>
+#include "EstadoJugador.h"
+#include "VistaInformacion.h"
+
+using namespace std;
+
+class VistaInformacionEquipos : public VistaInformacion {
 
 public:
-	VistaInformacionEquipos(void);
+	VistaInformacionEquipos(SDL_Renderer* renderer);
 	virtual ~VistaInformacionEquipos(void);
+	void mostrar(std::list<EstadoJugador> estadosJugadores);
 };
 

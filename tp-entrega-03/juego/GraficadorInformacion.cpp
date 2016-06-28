@@ -1,9 +1,17 @@
 #include "GraficadorInformacion.h"
 
 GraficadorInformacion::GraficadorInformacion(SDL_Renderer* renderer) {
+	this->vistas[0] = new VistaInformacionEquipos(renderer);
+	this->vistas[1] = new VistaInformacionUnJugador(renderer);
+	this->vistas[2] = new VistaInformacionDosJugadores(renderer);
+	this->vistas[3] = new VistaInformacionTresJugadores(renderer);
+	this->vistas[4] = new VistaInformacionCuatroJugadores(renderer);
 }
 
 GraficadorInformacion::~GraficadorInformacion(void) {
+	for (int i = 0; i < CANTIDAD_VISTAS; i++) {
+		delete this->vistas[i];
+	}
 }
 
 void GraficadorInformacion::seleccionarVista(int numeroEquipo, int cantidadJugadores) {

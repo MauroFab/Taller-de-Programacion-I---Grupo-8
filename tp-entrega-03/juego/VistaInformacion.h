@@ -1,7 +1,10 @@
 #pragma once
 
+#include <SDL2\SDL.h>
 #include <list>
 #include "EstadoJugador.h"
+
+using namespace std;
 
 class VistaInformacion {
 
