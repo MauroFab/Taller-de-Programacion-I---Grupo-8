@@ -137,13 +137,18 @@
     <ClCompile Include="..\juego\TexturaFuente.cpp" />
     <ClCompile Include="..\juego\VistaJuego.cpp" />
     <ClCompile Include="..\juego\VistaInicio.cpp" />
-	<ClCompile Include="..\juego\VistaInformacion.cpp" />
+    <ClCompile Include="..\juego\VistaInformacion.cpp" />
+	<ClCompile Include="..\juego\VistaInformacionEquipos.cpp" />
+	<ClCompile Include="..\juego\VistaInformacionUnJugador.cpp" />
+	<ClCompile Include="..\juego\VistaInformacionDosJugadores.cpp" />
+	<ClCompile Include="..\juego\VistaInformacionTresJugadores.cpp" />
+    <ClCompile Include="..\juego\VistaInformacionCuatroJugadores.cpp" />
     <ClCompile Include="..\juego\Textura.cpp" />
     <ClCompile Include="..\common\xml\MensajeXml.cpp" />
     <ClCompile Include="..\common\xml\ParserXml.cpp" />
     <ClCompile Include="..\common\xml\ServidorXml.cpp" />
     <ClCompile Include="..\common\xml\tinyxml2.cpp" />
-	<ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainCliente.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -200,13 +205,18 @@
     <ClInclude Include="..\juego\TexturaFuente.h" />
     <ClInclude Include="..\juego\VistaJuego.h" />
     <ClInclude Include="..\juego\VistaInicio.h" />
-	<ClInclude Include="..\juego\VistaInformacion.h" />
+    <ClInclude Include="..\juego\VistaInformacion.h" />
+	<ClInclude Include="..\juego\VistaInformacionEquipos.h" />
+	<ClInclude Include="..\juego\VistaInformacionUnJugador.h" />
+	<ClInclude Include="..\juego\VistaInformacionDosJugadores.h" />
+	<ClInclude Include="..\juego\VistaInformacionTresJugadores.h" />
+	<ClInclude Include="..\juego\VistaInformacionCuatroJugadores.h" />
     <ClInclude Include="..\juego\Textura.h" />
     <ClInclude Include="..\common\xml\MensajeXml.h" />
     <ClInclude Include="..\common\xml\ParserXml.h" />
     <ClInclude Include="..\common\xml\ServidorXml.h" />
     <ClInclude Include="..\common\xml\tinyxml2.h" />
-	<ClInclude Include="src\MainCliente.h" />
+    <ClInclude Include="src\MainCliente.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
