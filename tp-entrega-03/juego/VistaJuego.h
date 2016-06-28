@@ -30,7 +30,6 @@
 
 #define PATH_FONDO_INICIO "fondoInicio.bmp"
 #define MAX_AVION_VIEW	4
-#define MAX_ENEMIGO_VIEW	5
 #define MAX_ESCENARIO_VIEW 10
 
 using namespace std;
@@ -45,8 +44,6 @@ public:
 	//por ahora solo 1(UNA) bala, pero deberian ser N balas, 1 por avion
 	BalaView * balaView;
 	Juego * juego;
-	AvionEnemigoView * listaTemplateEnemigoView[MAX_ENEMIGO_VIEW];
-	int canEnemigoV;
 private:
 	ControladorTeclado* controlador;
 	static VistaJuego* instance;
@@ -87,14 +84,14 @@ public:
 	int cargarAviones(ServidorXml * confServidorXml);
 	//---carga de elementos de la vista
 	int cargarElementos(ServidorXml * confServidorXml, EscenarioView* escenarioV, int idEscenario);
+	//---carga de los enemigos
+	int cargarEnemigos(ServidorXml * confServidorXml, EscenarioView* escenarioV, int idEscenario);
 	//---carga de los power-ups
 	int cargarPowerUps(ServidorXml * confServidorXml, EscenarioView* escenarioV, int idEscenario);
 	//realiza la carga de los escenarios
 	int cargarEscenarios(ServidorXml * servidorXml);
 	//realiza la carga de una bala tipo, con la velocidad del 1er avion
 	int cargarBala(ServidorXml * confServidorXml);
-	//realiza la carga de los templates de los enemigos
-	int cargarTemplateEnemigos(ServidorXml * confServidorXml);
 	Jugador * getJugador();
 	//operaciones de reset
 	//se encarga del reset de los aviones liberando la memoria usada por los objetos

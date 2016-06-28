@@ -7,14 +7,10 @@
 #include "VentanaXml.h"
 #include "SpriteXml.h"
 #include "AvionXml.h"
-#include "AvionEnemigoXml.h"
-#include "PowerUpXml.h"
 #include "../IGenericaVO.h"
 
 #define MAX_SPRITES	300
 #define MAX_AVIONES	10
-#define MAX_ENEMIGOS 10
-#define MAX_POWERUPS 10
 #define MAX_ESCENARIOS 10
 
 #define M_MODO_PRACTICA_COLABORACION	1
@@ -42,10 +38,6 @@ private:
 	int canSprs;
 	AvionXml * listaAviones[MAX_AVIONES];
 	int canAvs;
-	AvionEnemigoXml * listaEnemigos[MAX_ENEMIGOS];
-	int canEnes;
-	PowerUpXml * listaPowerUp[MAX_POWERUPS];
-	int canPows;
 public:
 	ServidorXml();
 	virtual ~ServidorXml();
@@ -74,18 +66,7 @@ public:
 	AvionXml * * getListaAviones();
 	int getCanAvs();
 
-	void addEnemigo(AvionEnemigoXml * enemigo,int pos);
-	//listado de punteros a Enemigos
-	AvionEnemigoXml * * getListaEnemigos();
-	int getCanEnes();
-
-	void addPowerUp(PowerUpXml * powU,int pos);
-	//listado de punteros a PowerUpXml
-	PowerUpXml * * getListaPowerUp();
-	int getCanPows();
-
 	void toString(TCadena1000 cadena);
-
 };
 
 #endif //_SERVIDORXML_H_

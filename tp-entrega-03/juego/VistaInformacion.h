@@ -2,6 +2,7 @@
 
 #include <SDL2\SDL.h>
 #include <SDL2\SDL_ttf.h>
+#include <SDL2\SDL_image.h>
 #include <list>
 #include "EstadoJugador.h"
 #include "FondoInicio.h"

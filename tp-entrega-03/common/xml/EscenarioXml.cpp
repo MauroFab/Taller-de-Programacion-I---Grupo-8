@@ -11,6 +11,14 @@ EscenarioXml::EscenarioXml()
 		this->lista[i] = NULL;
 	}
 	this->canElems = 0;
+	for (int i = 0; i < MAX_ENEMIGOS; i++){
+		this->listaEnemigos[i] = NULL;
+	}
+	this->canEnes = 0;
+	for (int i = 0; i < MAX_POWERUPS; i++){
+		this->listaPowerUp[i] = NULL;
+	}
+	this->canPows = 0;
 }
 EscenarioXml::EscenarioXml(int id)
 {
@@ -22,6 +30,14 @@ EscenarioXml::EscenarioXml(int id)
 		this->lista[i] = NULL;
 	}
 	this->canElems = 0;
+	for (int i = 0; i < MAX_ENEMIGOS; i++){
+		this->listaEnemigos[i] = NULL;
+	}
+	this->canEnes = 0;
+	for (int i = 0; i < MAX_POWERUPS; i++){
+		this->listaPowerUp[i] = NULL;
+	}
+	this->canPows = 0;
 }
 
 EscenarioXml::~EscenarioXml()
@@ -29,6 +45,14 @@ EscenarioXml::~EscenarioXml()
 	for (int i = 0; i < MAX_ELEMENTOS; i++){
 		if (this->lista[i] != NULL)
 			delete this->lista[i];
+	}
+	for (int i = 0; i < MAX_ENEMIGOS; i++){
+		if (this->listaEnemigos[i] != NULL)
+			delete this->listaEnemigos[i];
+	}
+	for (int i = 0; i < MAX_POWERUPS; i++){
+		if (this->listaPowerUp[i] != NULL)
+			delete this->listaPowerUp[i];
 	}
 }
 EscenarioXml & EscenarioXml::operator = (const EscenarioXml & source)
@@ -57,7 +81,9 @@ void EscenarioXml::calculateSizeBytes(){
 		+ sizeof(int)//id
 		+ sizeof(int)//ancho
 		+ sizeof(int)//alto
-		+ sizeof(int);//canElems
+		+ sizeof(int)//canElems
+		+ sizeof(int)//canEnem
+		+ sizeof(int);//canPows
 }
 void EscenarioXml::setId(int id){
 	this->id = id;
@@ -97,6 +123,29 @@ int EscenarioXml::getCanElems(){
 	return this->canElems;
 }
 
+void EscenarioXml::addEnemigo(AvionEnemigoXml * enemigo,int pos){
+	this->canEnes++;
+	this->listaEnemigos[pos] = enemigo;
+}
+//listado de punteros a Enemigos
+AvionEnemigoXml * * EscenarioXml::getListaEnemigos(){
+	return this->listaEnemigos;
+}
+int EscenarioXml::getCanEnes(){
+	return this->canEnes;
+}
+void EscenarioXml::addPowerUp(PowerUpXml * powU,int pos){
+	this->canPows++;
+	this->listaPowerUp[pos] = powU;
+}
+//listado de punteros a PowerUpXml
+PowerUpXml * * EscenarioXml::getListaPowerUp(){
+	return this->listaPowerUp;
+}
+int EscenarioXml::getCanPows(){
+	return this->canPows;
+}
+
 void EscenarioXml::toString(TCadena1000 cadena){
-	sprintf(cadena,"EscenarioXml:ancho=%d,alto=%d,canElems=%d",ancho,alto,canElems);
+	sprintf(cadena,"EscenarioXml:ancho=%d,alto=%d,canElems=%d,canEnemigos=%d,canPowUp=%d",ancho,alto,canElems,canEnes,canPows);
 }

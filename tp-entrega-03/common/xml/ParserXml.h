@@ -85,10 +85,10 @@ public:
 	void createDataListAvionXml(ServidorXml *servidorXml,XMLElement* listAviones);	
 	AvionXml * createDataAvionXml(XMLElement* elemAvion,int idxAvs);
 	
-	void createDataListEnemigoXml(ServidorXml *servidorXml,XMLElement* listEnemigo);	
+	void createDataListEnemigoXml(EscenarioXml *escenarioXml,XMLElement* listEnemigo);	
 	AvionEnemigoXml * createDataEnemigoXml(XMLElement* elemEnemigo,int idxEne);
 	
-	void createDataListPowerXml(ServidorXml *servidorXml,XMLElement* listPower);	
+	void createDataListPowerXml(EscenarioXml *escenarioXml,XMLElement* listPower);	
 	PowerUpXml * createDataPowerXml(XMLElement* elemPower,int idxPow);
 
 	int findSpriteIdByName(char * strIdSprite);

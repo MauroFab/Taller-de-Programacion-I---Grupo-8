@@ -966,10 +966,6 @@ ServidorXml * ParserXml::createDataServidorXml(){
 	createDataListEscenariosXml(servidorXml,listEscenarios);
 	XMLElement* listAviones = (XMLElement*)listEscenarios->NextSibling();
 	createDataListAvionXml(servidorXml,listAviones);
-	XMLElement* listEnemigo = (XMLElement*)listAviones->NextSibling();
-	createDataListEnemigoXml(servidorXml,listEnemigo);
-	XMLElement* listPower = (XMLElement*)listEnemigo->NextSibling();
-	createDataListPowerXml(servidorXml,listPower);
 
 	return servidorXml;
 }
@@ -1073,8 +1069,14 @@ EscenarioXml * ParserXml::createDataEscenarioXml(XMLElement* elemEscenario,int i
 	//obtiene la listaELEMENTOS
 	XMLElement* listElementos = (XMLElement*)elemFONDO->NextSibling();
 	createDataListElementosXml(escenarioXml,listElementos);
+	//obtiene la listaENEMIGOS
+	XMLElement* listEnemigo = (XMLElement*)listElementos->NextSibling();
+	createDataListEnemigoXml(escenarioXml,listEnemigo);
+	//obtiene la listaPOWER-UPS
+	XMLElement* listPower = (XMLElement*)listEnemigo->NextSibling();
+	createDataListPowerXml(escenarioXml,listPower);
+
 	return escenarioXml;
-	
 }
 
 
@@ -1196,7 +1198,7 @@ AvionXml * ParserXml::createDataAvionXml(XMLElement* elemAvion,int idxAvs){
 	return new AvionXml(idxAvs,velAvion,velBala,idSpAvion,strSpAvion,idSpVuelta,strSpVuelta,idSpBala,strSpBala);
 }
 
-void ParserXml::createDataListEnemigoXml(ServidorXml *servidorXml,XMLElement* listEnemigo){
+void ParserXml::createDataListEnemigoXml(EscenarioXml *escenarioXml,XMLElement* listEnemigo){
 	XMLNode * elemEne = NULL;
 	int idxEne = 0;
 //	char * texto;
@@ -1208,14 +1210,14 @@ void ParserXml::createDataListEnemigoXml(ServidorXml *servidorXml,XMLElement* li
 		while (elemEne != listEnemigo->LastChild()){
 			//se procesa el mensaje
 			AvionEnemigoXml * avionEneX = createDataEnemigoXml((XMLElement*)elemEne,idxEne);
-			servidorXml->addEnemigo(avionEneX,idxEne);
+			escenarioXml->addEnemigo(avionEneX,idxEne);
 			//leo siguiente mensaje
 			elemEne = elemEne->NextSibling();
 			idxEne++; // contador de mensajes del cliente
 		}
 		//leo el ultimo mensaje dado que elemSprite es el lastchild
 		AvionEnemigoXml * avionEneX = createDataEnemigoXml((XMLElement*)elemEne,idxEne);
-		servidorXml->addEnemigo(avionEneX,idxEne);
+		escenarioXml->addEnemigo(avionEneX,idxEne);
 	}
 }
 AvionEnemigoXml * ParserXml::createDataEnemigoXml(XMLElement* elemEnemigo,int idxEne){
@@ -1252,7 +1254,8 @@ AvionEnemigoXml * ParserXml::createDataEnemigoXml(XMLElement* elemEnemigo,int id
 
 	return new AvionEnemigoXml(idSprite,strIdSprite,coorX,coorY,tipo);
 }
-void ParserXml::createDataListPowerXml(ServidorXml *servidorXml,XMLElement* listPower){
+
+void ParserXml::createDataListPowerXml(EscenarioXml *escenarioXml,XMLElement* listPower){
 	XMLNode * elemPow = NULL;
 	int idxPow = 0;
 //	char * texto;
@@ -1264,16 +1267,17 @@ void ParserXml::createDataListPowerXml(ServidorXml *servidorXml,XMLElement* list
 		while (elemPow != listPower->LastChild()){
 			//se procesa el mensaje
 			PowerUpXml * powerX = createDataPowerXml((XMLElement*)elemPow,idxPow);
-			servidorXml->addPowerUp(powerX,idxPow);
+			escenarioXml->addPowerUp(powerX,idxPow);
 			//leo siguiente mensaje
 			elemPow = elemPow->NextSibling();
 			idxPow++; // contador de mensajes del cliente
 		}
 		//leo el ultimo mensaje dado que elemSprite es el lastchild
 		PowerUpXml * powerX = createDataPowerXml((XMLElement*)elemPow,idxPow);
-		servidorXml->addPowerUp(powerX,idxPow);
+		escenarioXml->addPowerUp(powerX,idxPow);
 	}
 }
+
 PowerUpXml * ParserXml::createDataPowerXml(XMLElement* elemPower,int idxPow){
 /*
 		<powerUp>
@@ -1539,19 +1543,9 @@ int ParserXml::validarXmlArchivoServidor(){
 	XMLElement* listAviones =  (XMLElement*)listEscenario->NextSibling();
 	if (validarListaAvionXml(listAviones) < 0)
 		return -1;
-	XMLElement* listEnemigo =  (XMLElement*)listAviones->NextSibling();
-	if (validarListEnemigoXml(listEnemigo) < 0)
-		return -1;
-	XMLElement* listPower =  (XMLElement*)listEnemigo->NextSibling();
-	if (validarListPowerXml(listPower) < 0)
-		return -1;
-/*
-	//error en tag de ventana
-	if (strcmp(elemVentana->Name(),"ventana") != 0)
-		return -1;
-*/
+
 	//repetidos
-	if (listPower != elemServidor->LastChild())
+	if (listAviones != elemServidor->LastChild())
 		return -1;
 	return 0;
 }
@@ -1756,7 +1750,13 @@ int ParserXml::validarEscenarioXml(XMLElement* elemEscenario){
 	XMLElement* listElementos = (XMLElement*)elemFondo->NextSibling();
 	if (validarListaElementosXml(listElementos) < 0)
 		return -1;
-	if (elemEscenario->LastChild() != listElementos)
+	XMLElement* listEnemigo =  (XMLElement*)listElementos->NextSibling();
+	if (validarListEnemigoXml(listEnemigo) < 0)
+		return -1;
+	XMLElement* listPower =  (XMLElement*)listEnemigo->NextSibling();
+	if (validarListPowerXml(listPower) < 0)
+		return -1;
+	if (elemEscenario->LastChild() != listPower)
 		return -1;
 	return 0;
 }

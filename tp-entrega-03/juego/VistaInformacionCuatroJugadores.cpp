@@ -2,7 +2,7 @@
 
 VistaInformacionCuatroJugadores::VistaInformacionCuatroJugadores(SDL_Renderer* renderer) {
 	this->renderer = renderer;
-	this->fondo = new FondoInicio("fondoInformacionColaboracionCuatroJugador.bmp", this->renderer);
+	this->fondo = new FondoInicio("fondoInformacionColaboracionCuatroJugadores.bmp", this->renderer);
 	this->font = TTF_OpenFont(FUENTE_PATH, 15);
 
 	this->usuario1 = new Etiqueta(this->renderer, this->font);

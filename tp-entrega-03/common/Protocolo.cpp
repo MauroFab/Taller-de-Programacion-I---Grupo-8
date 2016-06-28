@@ -568,6 +568,8 @@ int Protocolo::codificar(EscenarioXml &escenarioXml,char * buffer){
 	int ancho = escenarioXml.getAncho();
 	int alto = escenarioXml.getAlto();
 	int canElems = escenarioXml.getCanElems();
+	int canEnes = escenarioXml.getCanEnes();
+	int canPows = escenarioXml.getCanPows();
 	int offset = 0;
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
@@ -590,6 +592,22 @@ int Protocolo::codificar(EscenarioXml &escenarioXml,char * buffer){
 		ElementoXml * elem = escenarioXml.getListaElementos()[idx];
 		offset += codificar(*elem,buffer + offset);
 	}
+	//-----------
+	memcpy(buffer + offset,&canEnes,sizeof(int));
+	offset += sizeof(int);
+	for (int idx = 0; idx<canEnes;idx++){
+		AvionEnemigoXml * avEneX = escenarioXml.getListaEnemigos()[idx];
+		offset += codificar(*avEneX,buffer + offset);
+	}
+	//-----------	
+	memcpy(buffer + offset,&canPows,sizeof(int));
+	offset += sizeof(int);
+	for (int idx = 0; idx<canPows;idx++){
+		PowerUpXml * powU = escenarioXml.getListaPowerUp()[idx];
+		offset += codificar(*powU,buffer + offset);
+	}
+	//-----------	
+
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	escenarioXml.toString(cadena);
@@ -604,7 +622,10 @@ int Protocolo::decodificar(char * buffer,EscenarioXml *escenarioXml){
 	int ancho = -1;
 	int alto = -1;
 	int canElems = -1;
+	int canEnes = -1;
+	int canPows = -1;
 	int offset = 0;
+
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
@@ -630,13 +651,28 @@ int Protocolo::decodificar(char * buffer,EscenarioXml *escenarioXml){
 	// Muevo el canElems
 	memcpy(&canElems,buffer + offset,sizeof(int));
 	offset += sizeof(int);
-
 	for (int idx = 0; idx < canElems;idx++){
 		ElementoXml * elem = new ElementoXml();
 		offset += decodificar(buffer + offset,elem);
 		escenarioXml->addElemento(elem,idx);
 	}
 	//-----------
+	memcpy(&canEnes,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	for (int idx = 0; idx < canEnes;idx++){
+		AvionEnemigoXml * avEneX = new AvionEnemigoXml();
+		offset += decodificar(buffer + offset,avEneX);
+		escenarioXml->addEnemigo(avEneX,idx);
+	}
+	//-----------
+	memcpy(&canPows,buffer + offset,sizeof(int));
+	offset += sizeof(int);
+	for (int idx = 0; idx < canPows;idx++){
+		PowerUpXml * powU = new PowerUpXml();
+		offset += decodificar(buffer + offset,powU);
+		escenarioXml->addPowerUp(powU,idx);
+	}
+	//-----------	
 	escenarioXml->calculateSizeBytes();
 
 #ifdef FAKE_DEBUG_PROTO
@@ -655,8 +691,6 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 	int canEsc = servidorXml.getCanEsc();
 	int canSprs = servidorXml.getCanSprs();
 	int canAvs = servidorXml.getCanAvs();
-	int canEnes = servidorXml.getCanEnes();
-	int canPows = servidorXml.getCanPows();
 	int offset = 0;
 
 	memcpy(buffer + offset,&sizeBytes,sizeof(int));
@@ -693,21 +727,6 @@ int Protocolo::codificar(ServidorXml &servidorXml,char * buffer){
 		AvionXml * avX = servidorXml.getListaAviones()[idx];
 		offset += codificar(*avX,buffer + offset);
 	}
-	//-----------
-	memcpy(buffer + offset,&canEnes,sizeof(int));
-	offset += sizeof(int);
-	for (int idx = 0; idx<canEnes;idx++){
-		AvionEnemigoXml * avEneX = servidorXml.getListaEnemigos()[idx];
-		offset += codificar(*avEneX,buffer + offset);
-	}
-	//-----------	
-	memcpy(buffer + offset,&canPows,sizeof(int));
-	offset += sizeof(int);
-	for (int idx = 0; idx<canPows;idx++){
-		PowerUpXml * powU = servidorXml.getListaPowerUp()[idx];
-		offset += codificar(*powU,buffer + offset);
-	}
-	//-----------	
 
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
@@ -724,9 +743,8 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 	int canEsc = -1;
 	int canSprs = -1;
 	int canAvs = -1;
-	int canEnes = -1;
-	int canPows = -1;
 	int offset = 0;
+
 	memcpy(&sizeBytes,buffer + offset,sizeof(int));
 	offset += sizeof(int);
 
@@ -766,27 +784,12 @@ int Protocolo::decodificar(char * buffer,ServidorXml *servidorXml){
 		offset += decodificar(buffer + offset,avX);
 		servidorXml->addAvion(avX,idx);
 	}
-	//-----------
-	memcpy(&canEnes,buffer + offset,sizeof(int));
-	offset += sizeof(int);
-	for (int idx = 0; idx < canEnes;idx++){
-		AvionEnemigoXml * avEneX = new AvionEnemigoXml();
-		offset += decodificar(buffer + offset,avEneX);
-		servidorXml->addEnemigo(avEneX,idx);
-	}
-	//-----------
-	memcpy(&canPows,buffer + offset,sizeof(int));
-	offset += sizeof(int);
-	for (int idx = 0; idx < canPows;idx++){
-		PowerUpXml * powU = new PowerUpXml();
-		offset += decodificar(buffer + offset,powU);
-		servidorXml->addPowerUp(powU,idx);
-	}
-	//-----------	
+
 	servidorXml->setCantidadMaximaClientes(cantidadMaximaClientes);
 	servidorXml->setPuerto(puerto);
 	servidorXml->setModo(modo);
 	servidorXml->calculateSizeBytes();
+
 #ifdef FAKE_DEBUG_PROTO
 	TCadena1000 cadena;
 	servidorXml->toString(cadena);

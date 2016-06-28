@@ -20,14 +20,6 @@ ServidorXml::ServidorXml()
 		this->listaAviones[i] = NULL;
 	}
 	this->canAvs = 0;
-	for (int i = 0; i < MAX_ENEMIGOS; i++){
-		this->listaEnemigos[i] = NULL;
-	}
-	this->canEnes = 0;
-	for (int i = 0; i < MAX_POWERUPS; i++){
-		this->listaPowerUp[i] = NULL;
-	}
-	this->canPows = 0;
 }
 
 ServidorXml::~ServidorXml()
@@ -44,14 +36,6 @@ ServidorXml::~ServidorXml()
 		if (this->listaAviones[i] != NULL)
 			delete this->listaAviones[i];
 	}
-	for (int i = 0; i < MAX_ENEMIGOS; i++){
-		if (this->listaEnemigos[i] != NULL)
-			delete this->listaEnemigos[i];
-	}
-	for (int i = 0; i < MAX_POWERUPS; i++){
-		if (this->listaPowerUp[i] != NULL)
-			delete this->listaPowerUp[i];
-	}
 }
 int ServidorXml::getSizeBytes(){
 	return this->sizeBytes;
@@ -67,9 +51,7 @@ void ServidorXml::calculateSizeBytes(){
 		+ sizeof(int)//puerto
 		+ sizeof(int)//canEsc
 		+ sizeof(int)//canSprs
-		+ sizeof(int)//canAvs
-		+ sizeof(int)//canEnes
-		+ sizeof(int);//canPows
+		+ sizeof(int);//canAvs
 }
 
 void ServidorXml::setCantidadMaximaClientes(int cantidadMaximaClientes){
@@ -134,28 +116,6 @@ AvionXml * * ServidorXml::getListaAviones(){
 }
 int ServidorXml::getCanAvs(){
 	return this->canAvs;
-}
-void ServidorXml::addEnemigo(AvionEnemigoXml * enemigo,int pos){
-	this->canEnes++;
-	this->listaEnemigos[pos] = enemigo;
-}
-//listado de punteros a Enemigos
-AvionEnemigoXml * * ServidorXml::getListaEnemigos(){
-	return this->listaEnemigos;
-}
-int ServidorXml::getCanEnes(){
-	return this->canEnes;
-}
-void ServidorXml::addPowerUp(PowerUpXml * powU,int pos){
-	this->canPows++;
-	this->listaPowerUp[pos] = powU;
-}
-//listado de punteros a PowerUpXml
-PowerUpXml * * ServidorXml::getListaPowerUp(){
-	return this->listaPowerUp;
-}
-int ServidorXml::getCanPows(){
-	return this->canPows;
 }
 
 void ServidorXml::toString(TCadena1000 cadena){
