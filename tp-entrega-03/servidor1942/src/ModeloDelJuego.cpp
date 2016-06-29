@@ -22,15 +22,24 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 		 preparoEliNivel(i, servidorXml);
 	 }
 	 if(servidorXml->getModo() == M_MODO_PRACTICA_COLABORACION || servidorXml->getModo() == M_MODO_PRACTICA_EQUIPO){
-		 hacerInvulnerablesALosAviones();
+		 hacerInvulnerablesALosJugadores();
+		 estoyEnModoPractica = true;
+	 }else{
+		 estoyEnModoPractica = false;
 	 }
 	 //preparoElPrimerNivel();
 	 //preparoElSegundoNivel();
 }
 
-void ModeloDelJuego::hacerInvulnerablesALosAviones(){
+void ModeloDelJuego::hacerInvulnerablesALosJugadores(){
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 		this->listAvion[i]->volverseInvulnerable();
+	}
+}
+
+void ModeloDelJuego::hacerVulnerablesALosJugadores(){
+	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
+		this->listAvion[i]->dejarDeSerInvulnerable();
 	}
 }
 
@@ -218,6 +227,15 @@ void ModeloDelJuego::crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios*
 
 void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento){
 	this->listAvion[idDelJugadorQueMandoElEvento]->realizarAccionEnBaseA(evento);
+	if(evento->getNumeroDeEvento() == apretadaLaTeclaDeCambioDeModo){
+		if(!estoyEnModoPractica){
+			hacerInvulnerablesALosJugadores();
+			estoyEnModoPractica = true;
+		}else{
+			hacerVulnerablesALosJugadores();
+			estoyEnModoPractica = false;
+		}
+	}	
 }
 
 // La posición (0,0) es en la esquina inferior izquierda
