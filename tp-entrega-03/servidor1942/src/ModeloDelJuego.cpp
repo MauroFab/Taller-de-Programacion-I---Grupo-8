@@ -17,8 +17,62 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	 enemigosDeLosNiveles.resize(cantidadMaximaDeNiveles);
 	 powerUpsDeLosNiveles.resize(cantidadMaximaDeNiveles);
 
-	 preparoElPrimerNivel();
-	 preparoElSegundoNivel();
+	 servidorXml->getListaEscenario()[0]->getListaEnemigos();
+	 for(int i = 0; i < servidorXml->getCanEsc(); i++){
+		 preparoEliNivel(i, servidorXml);
+	 }
+	 //preparoElPrimerNivel();
+	 //preparoElSegundoNivel();
+}
+
+void ModeloDelJuego::preparoEliNivel(int i, ServidorXml* servidorXml){
+	std::list<FakeFormacionDeEnemigos> formacionesEnPreparacion;
+	std::list<FakeAvionEnemigo*> avionesEnemigosEnPreparacion;
+	std::list<PowerUp> powerUpsEnPreparacion;
+
+	//Cargo aviones
+	AvionEnemigoXml** enemigosXml = servidorXml->getListaEscenario()[i]->getListaEnemigos();
+	for(int j = 0; j < servidorXml->getListaEscenario()[i]->getCanEnes(); j++){
+		int x = enemigosXml[j]->getPosicion().coorX;
+		int y = enemigosXml[j]->getPosicion().coorY;
+		if(enemigosXml[j]->getTipo() ==  A_TIPO_BIG){
+			avionesEnemigosEnPreparacion.push_back(new FakeAvionBig(x,y));
+		}else if(enemigosXml[j]->getTipo() ==  A_TIPO_MIDDLE){
+			avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(x,y));
+		}else if(enemigosXml[j]->getTipo() ==  A_TIPO_FORMACION){
+			//Salen de la posicion 500 de alto en el mapa. Son 10 aviones
+			FakeFormacionDeEnemigos formacion(10,500,y);
+			formacionesEnPreparacion.push_front(formacion);
+			avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(300,800));
+			std::list<FakeAvionEnemigo*> avionesDeLaFormacion =  formacion.getAvionesDeLaFormacion();
+			avionesEnemigosEnPreparacion.insert(avionesEnemigosEnPreparacion.end(), avionesDeLaFormacion.begin(), avionesDeLaFormacion.end());
+		}
+	}
+	
+	
+	PowerUpXml** powerUpXml = servidorXml->getListaEscenario()[i]->getListaPowerUp();
+	//Cargo power ups
+	for(int j = 0; j < servidorXml->getListaEscenario()[i]->getCanPows(); j++){
+		int x = powerUpXml[j]->getPosicion().coorX;
+		int y = powerUpXml[j]->getPosicion().coorY;
+		if(powerUpXml[j]->getTipo() ==  P_TIPO_MUERTE){
+			powerUpsEnPreparacion.push_back(PowerUp(x,y,0,TIPO_MUERTE));
+		}else if(powerUpXml[j]->getTipo() ==  P_TIPO_AMETRALLADORA){
+			powerUpsEnPreparacion.push_back(PowerUp(x,y,0,TIPO_AMETRALLADORA));
+		}else if(powerUpXml[j]->getTipo() ==  P_TIPO_PUNTOS){
+			powerUpsEnPreparacion.push_back(PowerUp(x,y,0,TIPO_PUNTOS));
+		}
+	}
+
+	 if(i == 0){
+		 formaciones = formacionesEnPreparacion;
+		 avionesEnemigos = avionesEnemigosEnPreparacion;
+		 powerUps = powerUpsEnPreparacion;
+	 }
+
+	this->formacionesDeLosNiveles.at(i) = formacionesEnPreparacion;
+	this->enemigosDeLosNiveles.at(i) = avionesEnemigosEnPreparacion;
+	this->powerUpsDeLosNiveles.at(i) = powerUpsEnPreparacion;
 }
 
 void ModeloDelJuego::preparoElPrimerNivel(){

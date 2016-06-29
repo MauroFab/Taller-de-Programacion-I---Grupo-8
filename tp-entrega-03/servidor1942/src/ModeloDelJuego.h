@@ -29,6 +29,7 @@ public:
 	// liberar cuando se termina de usar
 	EstadoJuego* obtenerEstadoDelJuego();
 private:
+	void preparoEliNivel(int i, ServidorXml* servidorXml);
 	void preparoElPrimerNivel();
 	void preparoElSegundoNivel();
 	EstadoAvion* getEstadoAvionJugador(int idAvion);
