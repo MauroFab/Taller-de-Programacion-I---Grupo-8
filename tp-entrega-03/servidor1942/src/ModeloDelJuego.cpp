@@ -235,7 +235,9 @@ void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQu
 			hacerVulnerablesALosJugadores();
 			estoyEnModoPractica = false;
 		}
-	}	
+	} else if (evento->getNumeroDeEvento() == apretadaLaTeclaDeFinalizacionDePartida) {
+		this->mapa->finalizarJuegoPorEvento();
+	}
 }
 
 // La posición (0,0) es en la esquina inferior izquierda
