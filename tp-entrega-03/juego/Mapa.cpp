@@ -8,6 +8,7 @@ Mapa::Mapa(ServidorXml* servidorXml){
 	this->estado = new EstadoMapa();
 	this->cantidadEtapas = servidorXml->getCanEsc();
 	this->idEtapaActual = 0;
+	this->finalizacionAbrupta = false;
 }
 
 Mapa::~Mapa(){
@@ -24,7 +25,6 @@ EstadoMapa* Mapa::getEstado() {
 }
 
 bool Mapa::seTerminoEtapa() {
-
 	if (this->cantidadDePixelesQuePasaron > this->tamanioMaximoMapa) {
 		this->estado->terminoEtapa();
 		return true;
@@ -42,10 +42,14 @@ void Mapa::avanzarEtapa() {
 }
 
 bool Mapa::seTerminoJuego() {
-	return (this->idEtapaActual == (this->cantidadEtapas-1));
+	return (this->idEtapaActual == (this->cantidadEtapas-1) || finalizacionAbrupta);
 }
 
 void Mapa::setJuegoFinalizado() {
 	// El 2 es que se termino el juego
 	this->estado->setCodigoReinicio(2);
+}
+
+void Mapa::finalizarJuegoPorEvento() {
+	this->finalizacionAbrupta = true;
 }

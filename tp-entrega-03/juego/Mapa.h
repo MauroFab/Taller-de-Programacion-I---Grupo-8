@@ -13,7 +13,6 @@
 class Mapa {
 
 public:
-
 	Mapa(ServidorXml* servidorXml);
 	~Mapa();
 	void actualizar();
@@ -22,7 +21,7 @@ public:
 	void avanzarEtapa();
 	bool seTerminoJuego();
 	void setJuegoFinalizado();
-//private:
+	void finalizarJuegoPorEvento();
 public:
 	EstadoMapa* estado;
 	int altoVentana;
@@ -30,6 +29,7 @@ public:
 	int cantidadDePixelesQuePasaron;
 	int cantidadEtapas;
 	int idEtapaActual;
+	bool finalizacionAbrupta;
 };
 
 #endif //_MAPA_H_
