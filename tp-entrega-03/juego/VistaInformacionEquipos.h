@@ -4,6 +4,10 @@
 #include "EstadoJugador.h"
 #include "VistaInformacion.h"
 
+#define EQUIPO_1 1
+#define EQUIPO_2 2
+#define CANTIDAD_MAXIMA_POR_EQUIPO 3
+
 using namespace std;
 
 class VistaInformacionEquipos : public VistaInformacion {
@@ -27,5 +31,11 @@ private:
 	Etiqueta* puntos3E2;
 	Etiqueta* equipoGanadaor;
 	Etiqueta* puntosGanador;
+	
+	Etiqueta* equipoU1[CANTIDAD_MAXIMA_POR_EQUIPO];
+	Etiqueta* equipoU2[CANTIDAD_MAXIMA_POR_EQUIPO];
+
+	Etiqueta* puntos1[CANTIDAD_MAXIMA_POR_EQUIPO];
+	Etiqueta* puntos2[CANTIDAD_MAXIMA_POR_EQUIPO];
 };
 
