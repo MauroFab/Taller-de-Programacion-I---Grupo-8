@@ -15,7 +15,9 @@ ConfiguracionInicialJuego* ConfiguracionInicialJuego::getInstance() {
 	}
 	return instance;
 }
-
+void ConfiguracionInicialJuego::liberar(){
+delete instance;
+}
 void ConfiguracionInicialJuego::inicializar(ServidorXml* servidorXml) {
 
 	int modoDeJuego = servidorXml->getModo();
