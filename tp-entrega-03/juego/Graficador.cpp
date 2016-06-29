@@ -33,6 +33,7 @@ Graficador::~Graficador(void) {
 	delete graficoPuntosVida;
 	delete graficadorPowerUp;
 	delete graficadorInformacion;
+	delete vistaExplosion;
 }
 
 void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int ventanaAlto) {
@@ -44,6 +45,7 @@ void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int venta
 	this->graficadorPowerUp = new GraficadorPowerUp(renderer);
 	this->graficadorInformacion = new GraficadorInformacion(renderer);
 	this->vistaExplosion = new VistaExplosion(renderer);
+	this->vistaFinalJuego = new FondoInicio(PATH_FINAL_JUEGO, renderer);
 }
 
 void Graficador::agregarDatosAviones(AvionView* *listaAvionView, int canAvionV) {
@@ -196,14 +198,22 @@ int Graficador::buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id){
 
 void Graficador::graficarJuego(EstadoJuego* estadoJuego, int idDelJugador){
 	
-	if (estadoJuego->getEstadoDelMapa()->hayQueMostrarInformacion()) {
-		mostrarInformacion(estadoJuego->getEstadoDeLosJugadores());
+	if (estadoJuego->getEstadoDelMapa()->getCodigoReinicio() == JUEGO_FINALIZADO) {
+		graficarFinalJuego();
 	} else {
-		actualizarMapa(estadoJuego->getEstadoDelMapa());
-		graficarMapa();	
-		graficarAviones(estadoJuego->getEstadoDeLosAviones(), idDelJugador);
-		int puntajeDelJugador = buscarPuntajeDelJugadorEn(estadoJuego, idDelJugador);
-		Graficador::getInstance()->graficarPuntaje(puntajeDelJugador);
-		this->graficadorPowerUp->graficarPowerUps(estadoJuego->getEstadoPowerUps());
+		if (estadoJuego->getEstadoDelMapa()->hayQueMostrarInformacion()) {
+			mostrarInformacion(estadoJuego->getEstadoDeLosJugadores());
+		} else {
+			actualizarMapa(estadoJuego->getEstadoDelMapa());
+			graficarMapa();	
+			graficarAviones(estadoJuego->getEstadoDeLosAviones(), idDelJugador);
+			int puntajeDelJugador = buscarPuntajeDelJugadorEn(estadoJuego, idDelJugador);
+			Graficador::getInstance()->graficarPuntaje(puntajeDelJugador);
+			this->graficadorPowerUp->graficarPowerUps(estadoJuego->getEstadoPowerUps());
+		}
 	}
+}
+
+void Graficador::graficarFinalJuego() {
+	this->vistaFinalJuego->render();
 }

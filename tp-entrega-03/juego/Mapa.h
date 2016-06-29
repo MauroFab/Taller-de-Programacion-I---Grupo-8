@@ -20,7 +20,8 @@ public:
 	EstadoMapa* getEstado();
 	bool seTerminoEtapa();
 	void avanzarEtapa();
-
+	bool seTerminoJuego();
+	void setJuegoFinalizado();
 //private:
 public:
 	EstadoMapa* estado;

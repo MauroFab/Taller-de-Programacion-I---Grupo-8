@@ -40,3 +40,12 @@ void Mapa::avanzarEtapa() {
 	this->estado->setIdEtapa(this->idEtapaActual);
 	this->estado->actualizar(this->cantidadDePixelesQuePasaron);
 }
+
+bool Mapa::seTerminoJuego() {
+	return (this->idEtapaActual == (this->cantidadEtapas-1));
+}
+
+void Mapa::setJuegoFinalizado() {
+	// El 2 es que se termino el juego
+	this->estado->setCodigoReinicio(2);
+}
