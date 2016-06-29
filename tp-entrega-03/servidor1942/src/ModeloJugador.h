@@ -15,6 +15,7 @@ public:
 	EstadoJugador getEstadoJugador();
 	void sumarPuntos(int cantidadDePuntos);
 	int getId();
+	void reiniciar();
 private:
 	int id;
 	int puntajeAcumulado;

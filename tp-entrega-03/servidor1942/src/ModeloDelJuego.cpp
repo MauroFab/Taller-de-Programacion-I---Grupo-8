@@ -4,7 +4,8 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	this->cantidadMaximaDeUsuarios = usuarios->getCantidadMaximaDeUsuarios();
 	crearAviones(servidorXml, usuarios);
 	setPosicionInicialListAvion();
-	this->mapa = new Mapa(servidorXml);
+	this->servidorXml = servidorXml;
+	this->mapa = new Mapa(this->servidorXml);
 	// Crea un temporizador con 7 segundos
 	this->temporizadorEtapa = new Temporizador(7);
 	//A partir de acá es una carga media manual de aviones enemigos
@@ -17,9 +18,8 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	 enemigosDeLosNiveles.resize(cantidadMaximaDeNiveles);
 	 powerUpsDeLosNiveles.resize(cantidadMaximaDeNiveles);
 
-	 servidorXml->getListaEscenario()[0]->getListaEnemigos();
 	 for(int i = 0; i < servidorXml->getCanEsc(); i++){
-		 preparoEliNivel(i, servidorXml);
+		 preparoEliNivel(i, this->servidorXml);
 	 }
 	 if(servidorXml->getModo() == M_MODO_PRACTICA_COLABORACION || servidorXml->getModo() == M_MODO_PRACTICA_EQUIPO){
 		 hacerInvulnerablesALosJugadores();
@@ -236,6 +236,14 @@ void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQu
 		}
 	} else if (evento->getNumeroDeEvento() == apretadaLaTeclaDeFinalizacionDePartida) {
 		this->mapa->finalizarJuegoPorEvento();
+	} else if (evento->getNumeroDeEvento() == apretadaLaTeclaDeReinicio) {
+		this->mapa->reiniciar();
+		for (int i = 0; i < cantidadMaximaDeUsuarios; i++) {
+			this->listAvion[i]->reiniciar();
+		}
+		for(int i = 0; i < servidorXml->getCanEsc(); i++){
+			preparoEliNivel(i, this->servidorXml);
+		}
 	}
 }
 

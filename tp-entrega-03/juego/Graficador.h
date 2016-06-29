@@ -41,7 +41,7 @@ public:
 	void agregarDatosBala(BalaView * balaView);
 	void agregarDatosMapa(EscenarioView ** listaEscenariosView, int canEscenariosV, int posicionInicial);
 
-	void reiniciarMapa();
+	void reiniciar();
 	void actualizarMapa(EstadoMapa* estadoMapa);
 
 private:

@@ -85,6 +85,7 @@ public:
 	ModeloJugador* getJugadorAsociado();
 	bool estoyDestruido();
 	int getVelocidad();
+	void reiniciar();
 
 private:
 

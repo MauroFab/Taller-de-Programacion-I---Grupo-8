@@ -25,6 +25,7 @@ public:
 	void setJuegoFinalizado();
 	void finalizarJuegoPorEvento();
 	void finalizarJuegoPorQueNoHayAviones();
+	void reiniciar();
 public:
 	EstadoMapa* estado;
 	int altoVentana;

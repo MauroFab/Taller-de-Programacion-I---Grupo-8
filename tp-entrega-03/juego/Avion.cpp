@@ -357,3 +357,9 @@ void Avion::cambiarMovimiento(Movimiento* movimiento) {
 int Avion::getVelocidad() {
 	return this->velocidad;
 }
+
+void Avion::reiniciar() {
+	this->puntosDeVida = 3;
+	this->jugadorAsociado->reiniciar();
+	this->superficieQueOcupo.moverAPosicion(Posicion(240, 50));
+}

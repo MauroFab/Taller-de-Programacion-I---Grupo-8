@@ -22,3 +22,7 @@ void ModeloJugador::sumarPuntos(int cantidadDePuntos){
 EstadoJugador ModeloJugador::getEstadoJugador(){
 	return(EstadoJugador(id,puntajeAcumulado,equipo,nombreDeUsuario));
 }
+
+void ModeloJugador::reiniciar() {
+	this->puntajeAcumulado = 0;
+}

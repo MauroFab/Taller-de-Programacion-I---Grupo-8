@@ -9,7 +9,7 @@ public:
 	VistaExplosion(SDL_Renderer* renderer);
 	~VistaExplosion(void);
 	void procesarEstadoAvionQueEstaDestruido(EstadoAvion* estadoAvion);
-
+	void reiniciar();
 private:
 	bool esUnAvionDeUnJugador(EstadoAvion* estadoAvion);
 	bool yaPaseElSonidoDeExplosionDe(EstadoAvion* estadoAvion);

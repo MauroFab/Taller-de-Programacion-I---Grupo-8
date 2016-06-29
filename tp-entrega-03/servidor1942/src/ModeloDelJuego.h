@@ -46,6 +46,7 @@ private:
 	void setPosicionInicialListAvion();
 	Avion** listAvion;
 	Mapa* mapa;
+	ServidorXml* servidorXml;
 	Temporizador* temporizadorEtapa;
 	int cantidadMaximaDeUsuarios;
 	void crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios);

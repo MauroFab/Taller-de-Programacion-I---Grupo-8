@@ -52,3 +52,13 @@ bool VistaExplosion::esUnAvionDeUnJugador(EstadoAvion* estadoAvion){
 	//Las ids de los enemigos son mayores o iguales a 100, las chiquitas son de aviones jugadores
 	return(estadoAvion->getId() < 10);
 }
+
+void VistaExplosion::reiniciar() {
+	//Pongo todas las posiciones relevantes del mapa en false
+	for(int i = 0; i < 10; i++){
+		this->yaPaseElSonidoDelJugador[i] = false;
+	}
+	for(int i = 0; i < 10; i++){
+		this->iteracionesDesdeQueExplotoElAvion[i] = 0;
+	}
+}

@@ -66,3 +66,10 @@ bool Mapa::seEstaLLegandoAlFinalDeLaEtapa() {
 bool Mapa::empezoUnaNuevaEtapa() {
 	return (this->cantidadDePixelesQuePasaron == 0);
 }
+
+void Mapa::reiniciar() {
+	this->cantidadDePixelesQuePasaron = 0;
+	this->idEtapaActual = 0;
+	this->finalizacionAbrupta = false;
+	this->noHayMasAviones = false;
+}

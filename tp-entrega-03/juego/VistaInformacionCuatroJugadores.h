@@ -4,7 +4,7 @@
 #include "EstadoJugador.h"
 #include "VistaInformacion.h"
 
-#define CANTIDAD_USUARIOS 4
+#define CANTIDAD_USUARIOS_CUATRO 4
 
 using namespace std;
 
@@ -25,7 +25,7 @@ private:
 	Etiqueta* puntos4;
 	Etiqueta* usuarioGanadaor;
 	Etiqueta* puntosGanador;
-	Etiqueta* usuarios[CANTIDAD_USUARIOS];
-	Etiqueta* puntos[CANTIDAD_USUARIOS];
+	Etiqueta* usuarios[CANTIDAD_USUARIOS_CUATRO];
+	Etiqueta* puntos[CANTIDAD_USUARIOS_CUATRO];
 };
 

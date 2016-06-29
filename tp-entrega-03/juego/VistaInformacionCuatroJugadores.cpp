@@ -54,7 +54,7 @@ VistaInformacionCuatroJugadores::~VistaInformacionCuatroJugadores(void) {
 void VistaInformacionCuatroJugadores::mostrar(std::list<EstadoJugador> estadosJugadores) {
 
 	EstadoJugador jugadorGanador;
-	EstadoJugador jugadores[CANTIDAD_USUARIOS];
+	EstadoJugador jugadores[CANTIDAD_USUARIOS_CUATRO];
 	int i = 0;
 
 	std::list<EstadoJugador>::iterator it;
@@ -73,7 +73,7 @@ void VistaInformacionCuatroJugadores::mostrar(std::list<EstadoJugador> estadosJu
 
 	// Busca el jugador con mas puntos
 	i = 0; jugadorGanador = jugadores[i]; i++;
-	while (i < CANTIDAD_USUARIOS) {
+	while (i < CANTIDAD_USUARIOS_CUATRO) {
 		if (jugadores[i].getPuntajeAcumulado() > jugadorGanador.getPuntajeAcumulado()) {
 			jugadorGanador = jugadores[i];
 		}
@@ -85,7 +85,7 @@ void VistaInformacionCuatroJugadores::mostrar(std::list<EstadoJugador> estadosJu
 
 	this->fondo->render();
 
-	for (int i = 0; i < CANTIDAD_USUARIOS; i++) {
+	for (int i = 0; i < CANTIDAD_USUARIOS_CUATRO; i++) {
 		this->usuarios[i]->render();
 		this->puntos[i]->render();
 	}

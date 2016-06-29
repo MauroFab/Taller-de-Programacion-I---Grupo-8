@@ -312,7 +312,7 @@ void VistaJuego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMap
 	Graficador::getInstance()->agregarDatosAviones(this->listaAvionView, this->canAvionV);
 	Graficador::getInstance()->agregarDatosBala(this->balaView);
 	Graficador::getInstance()->agregarDatosMapa(this->listaEscenariosView, this->canEscenariosV, posicionInicialMapa);
-	Graficador::getInstance()->reiniciarMapa();
+	Graficador::getInstance()->reiniciar();
 
 	SDL_mutexV(mut);
 }
@@ -390,6 +390,11 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 			}
 			//Notifica al servidor de lo presionado
 			controlador->procesarTeclasPresionadas( e );
+			if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
+				if (e.key.keysym.sym == SDLK_r) {
+					Graficador::getInstance()->reiniciar();
+				}
+			}
 		}
 
 		//Clear screen

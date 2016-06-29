@@ -159,7 +159,8 @@ void Graficador::graficarPuntaje(int puntaje) {
 	graficoPuntaje->renderizarPuntaje(puntaje);
 }
 
-void Graficador::reiniciarMapa() {
+void Graficador::reiniciar() {
+	vistaExplosion->reiniciar();
 	graficoMapa->reiniciar();
 }
 
