@@ -13,16 +13,18 @@
 #include "GraficadorInformacion.h"
 #include "Textura.h"
 #include "Etiqueta.h"
+#include "VistaExplosion.h"
 #include "../common/view/AvionView.h"
 #include "../common/view/BalaView.h"
 #include "../common/view/ElementoView.h"
 #include "../common/view/FondoView.h"
 #include "../common/view/EscenarioView.h"
 #include <list>
-#include "VistaExplosion.h"
 #include <map>
 
 #define MAX_CANTIDAD_ESCENARIOS 10
+#define JUEGO_FINALIZADO 2
+#define PATH_FINAL_JUEGO "fondoFinalJuego.bmp"
 
 class Graficador {
 
@@ -50,6 +52,7 @@ private:
 	void graficarPuntaje(int puntaje);
 	void graficoProyectilConLaTexturaHardcodeada(EstadoProyectil* estadoProyectil);
 	void mostrarInformacion(std::list<EstadoJugador> estadosJugadores);
+	void graficarFinalJuego();
 	static bool instanceFlag;
 	static Graficador* instance;
 
@@ -69,6 +72,8 @@ private:
 	GraficadorPuntosVida* graficoPuntosVida;
 	GraficadorPowerUp* graficadorPowerUp;
 	GraficadorInformacion* graficadorInformacion;
+	FondoInicio* vistaFinalJuego;
+	VistaExplosion* vistaExplosion;
 	bool estaDestruidoElAvion(EstadoAvion* estadoAvion);
 	void graficarProyectiles(std::list<EstadoProyectil*> listaProyectiles);
 
@@ -78,7 +83,6 @@ private:
 	void graficoLosPuntosDeVidaDelAvionDeEsteCliente(EstadoAvion* estadoAvion);
 
 	int buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id);
-	VistaExplosion* vistaExplosion;
 };
 
 #endif //_GRAFICADOR_H_

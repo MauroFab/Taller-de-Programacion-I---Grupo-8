@@ -260,8 +260,6 @@ void ModeloDelJuego::actualizarMovimientos(){
 	// Mientras se este en una determinada etapa
 	if (!this->mapa->seTerminoEtapa()) {
 
-	
-
 		this->mapa->actualizar();
 
 		for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
@@ -292,15 +290,23 @@ void ModeloDelJuego::actualizarMovimientos(){
 		}
 	}
 	else {
-		// Ahora empieza a mostrarse la informacion durante al menos 10 segundos
-		if (this->temporizadorEtapa->pasoElTiempoEstablecido()){
-			this->mapa->avanzarEtapa();
-			this->temporizadorEtapa->resetear();
-			this->powerUps = this->powerUpsDeLosNiveles.at(mapa->idEtapaActual);
-			this->avionesEnemigos = this->enemigosDeLosNiveles.at(mapa->idEtapaActual);
-			this->powerUps = this->powerUpsDeLosNiveles.at(mapa->idEtapaActual);
+		if (this->mapa->seTerminoEtapa() && !this->mapa->seTerminoJuego()) {
+			// Ahora empieza a mostrarse la informacion durante al menos 10 segundos
+			if (this->temporizadorEtapa->pasoElTiempoEstablecido()){
+				this->mapa->avanzarEtapa();
+				this->temporizadorEtapa->resetear();
+				this->powerUps = this->powerUpsDeLosNiveles.at(mapa->idEtapaActual);
+				this->avionesEnemigos = this->enemigosDeLosNiveles.at(mapa->idEtapaActual);
+				this->powerUps = this->powerUpsDeLosNiveles.at(mapa->idEtapaActual);
+			} else {
+				this->temporizadorEtapa->avanzarTiempo();
+			}
 		} else {
-			this->temporizadorEtapa->avanzarTiempo();
+			if (this->mapa->seTerminoEtapa() && this->mapa->seTerminoJuego() && !this->temporizadorEtapa->pasoElTiempoEstablecido()) {
+				this->temporizadorEtapa->avanzarTiempo();
+			} else {
+				this->mapa->setJuegoFinalizado();
+			}
 		}
 	}
 
