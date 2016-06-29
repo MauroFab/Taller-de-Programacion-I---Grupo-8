@@ -21,8 +21,17 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	 for(int i = 0; i < servidorXml->getCanEsc(); i++){
 		 preparoEliNivel(i, servidorXml);
 	 }
+	 if(servidorXml->getModo() == M_MODO_PRACTICA_COLABORACION || servidorXml->getModo() == M_MODO_PRACTICA_EQUIPO){
+		 hacerInvulnerablesALosAviones();
+	 }
 	 //preparoElPrimerNivel();
 	 //preparoElSegundoNivel();
+}
+
+void ModeloDelJuego::hacerInvulnerablesALosAviones(){
+	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
+		this->listAvion[i]->volverseInvulnerable();
+	}
 }
 
 void ModeloDelJuego::preparoEliNivel(int i, ServidorXml* servidorXml){

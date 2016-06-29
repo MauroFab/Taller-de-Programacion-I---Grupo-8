@@ -104,7 +104,8 @@ void Avion::revisoColisionesConProyectilesDe(FakeAvionEnemigo* avionEnemigo, Sup
 	for(it = proyectiles.begin(); it != proyectiles.end(); it++){
 		//Si colisiono contra el proyectil y este no estra destruido
 		if((!(*it)->estaDestruido()) && hitbox.meSolapoCon((*it)->getSuperficieOcupada())){
-			this->puntosDeVida--;
+			if(!this->soyInvulnerable)
+				this->puntosDeVida--;
 			(*it)->destruir();
 		}
 	}

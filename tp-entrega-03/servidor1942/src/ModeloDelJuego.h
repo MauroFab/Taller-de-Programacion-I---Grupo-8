@@ -51,4 +51,5 @@ private:
 	void crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios);
 	AvionEnemigo * avionEnemigoBeta;
 	list<SuperficieOcupada> getSuperficiesOcupadasPorJugadores();
+	void hacerInvulnerablesALosAviones();
 };
