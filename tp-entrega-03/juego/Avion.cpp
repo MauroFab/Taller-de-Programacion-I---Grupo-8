@@ -350,8 +350,14 @@ SuperficieOcupada Avion::getSuperficieOcupada(){
 }
 
 void Avion::cambiarMovimiento(Movimiento* movimiento) {
+	bool cambioDeMovimiento = (movimiento->hayQueResponderAEventoExterno() != 
+							logicaDeMovimiento->hayQueResponderAEventoExterno());
 	delete this->logicaDeMovimiento;
 	this->logicaDeMovimiento = movimiento;
+	if(cambioDeMovimiento && movimiento->hayQueResponderAEventoExterno() ){
+		this->velocidadX = 0;
+		this->velocidadY = 0;
+	}
 }
 
 int Avion::getVelocidad() {
