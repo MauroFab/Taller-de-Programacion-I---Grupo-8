@@ -47,7 +47,6 @@ void ModeloDelJuego::preparoEliNivel(int i, ServidorXml* servidorXml){
 			std::list<FakeAvionEnemigo*> avionesDeLaFormacion =  formacion.getAvionesDeLaFormacion();
 			avionesEnemigosEnPreparacion.insert(avionesEnemigosEnPreparacion.end(), avionesDeLaFormacion.begin(), avionesDeLaFormacion.end());
 		}else if(enemigosXml[j]->getTipo() ==  A_TIPO_MINI){
-			//Salen de la posicion 500 de alto en el mapa. Son 10 aviones
 			avionesEnemigosEnPreparacion.push_back(new FakeAvionMini(x,y));
 		}
 	}
