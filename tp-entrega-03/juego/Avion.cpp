@@ -250,25 +250,33 @@ void Avion::realizarAccionEnBaseA(Evento* evento){
 			this->darVelocidadHaciaLaIzquierda();
 		   break;
 		case soltadaLaTeclaDeMovimientoHaciaIzquierda   :
-			this->darVelocidadHaciaLaDerecha();
+			if(velocidadX != 0){
+				this->darVelocidadHaciaLaDerecha();
+			}
 		   break;
 		case apretadaLaTeclaDeMovimientoHaciaDerecha   :
 			this->darVelocidadHaciaLaDerecha();
 		   break;
 		case soltadaLaTeclaDeMovimientoHaciaDerecha    :
-			this->darVelocidadHaciaLaIzquierda();
+			if(velocidadX != 0){
+				this->darVelocidadHaciaLaIzquierda();
+			}
 		   break;
 		case apretadaLaTeclaDeMovimientoHaciaArriba   :
 			this->darVelocidadHaciaArriba();
 		   break;
 		case soltadaLaTeclaDeMovimientoHaciaArriba  :
-			this->darVelocidadHaciaAbajo();
+			if(velocidadY != 0){
+				this->darVelocidadHaciaAbajo();
+			}
 		   break;
 		case apretadaLaTeclaDeMovimientoHaciaAbajo  :
 			this->darVelocidadHaciaAbajo();
 		   break;
-		case soltadaLaTeclaDeMovimientoHaciaAbajo  :
-			this->darVelocidadHaciaArriba();
+		case soltadaLaTeclaDeMovimientoHaciaAbajo  :{
+			if(velocidadY != 0);
+				this->darVelocidadHaciaArriba();
+			}
 		   break;
 		case apretadaLaTeclaDeDisparo :
 			this->disparar();
