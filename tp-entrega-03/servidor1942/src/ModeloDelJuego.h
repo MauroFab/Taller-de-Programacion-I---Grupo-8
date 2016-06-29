@@ -12,6 +12,9 @@
 #include "FakeAvionDeFormacion.h"
 #include "FakeAvionMiddle.h"
 #include "FakeFormacionDeEnemigos.h"
+#include "ConfiguracionInicialJuego.h"
+#include <vector>
+
 using namespace std;
 //MainServidor
 class ModeloDelJuego {
@@ -21,16 +24,24 @@ public:
 	~ModeloDelJuego();
 	void actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento);
 	void actualizarMovimientos();
-
 	
 	//El estado es uno que se aloja dinamicamente, y no afecta al juego
 	// liberar cuando se termina de usar
 	EstadoJuego* obtenerEstadoDelJuego();
 private:
+	void preparoEliNivel(int i, ServidorXml* servidorXml);
+	void preparoElPrimerNivel();
+	void preparoElSegundoNivel();
 	EstadoAvion* getEstadoAvionJugador(int idAvion);
+
+	vector<std::list<FakeFormacionDeEnemigos>> formacionesDeLosNiveles;
+	vector<std::list<FakeAvionEnemigo*>> enemigosDeLosNiveles;
+	vector<std::list<PowerUp>> powerUpsDeLosNiveles;
+
 	std::list<FakeFormacionDeEnemigos> formaciones;
 	std::list<FakeAvionEnemigo*> avionesEnemigos;
 	std::list<PowerUp> powerUps;
+
 	void setPosicionInicialListAvion();
 	Avion** listAvion;
 	Mapa* mapa;
