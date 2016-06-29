@@ -6,7 +6,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	setPosicionInicialListAvion();
 	this->mapa = new Mapa(servidorXml);
 	// Crea un temporizador con 10 segundos
-	this->temporizadorEtapa = new Temporizador(10);
+	this->temporizadorEtapa = new Temporizador(7);
 	//A partir de acá es una carga media manual de aviones enemigos
 	//Primero armo una formacion
 	 int cantidadDeAvionesDeLaFormacion = 4;
@@ -46,6 +46,9 @@ void ModeloDelJuego::preparoEliNivel(int i, ServidorXml* servidorXml){
 			avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(300,800));
 			std::list<FakeAvionEnemigo*> avionesDeLaFormacion =  formacion.getAvionesDeLaFormacion();
 			avionesEnemigosEnPreparacion.insert(avionesEnemigosEnPreparacion.end(), avionesDeLaFormacion.begin(), avionesDeLaFormacion.end());
+		}else if(enemigosXml[j]->getTipo() ==  A_TIPO_MINI){
+			//Salen de la posicion 500 de alto en el mapa. Son 10 aviones
+			avionesEnemigosEnPreparacion.push_back(new FakeAvionMini(x,y));
 		}
 	}
 	

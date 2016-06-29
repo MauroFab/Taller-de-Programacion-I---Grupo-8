@@ -11,6 +11,7 @@
 #include "FakeAvionBig.h"
 #include "FakeAvionDeFormacion.h"
 #include "FakeAvionMiddle.h"
+#include "FakeAvionMini.h"
 #include "FakeFormacionDeEnemigos.h"
 #include "ConfiguracionInicialJuego.h"
 #include <vector>

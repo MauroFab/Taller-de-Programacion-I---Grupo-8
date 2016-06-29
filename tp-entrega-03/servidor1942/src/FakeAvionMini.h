@@ -1,13 +1,11 @@
-#ifndef _FAKEAVIONMINI_H_
-#define _FAKEAVIONMINI_H_
-
-#include "FakeAvionEnemigo.h"
-
-class FakeAvionMini : public FakeAvionEnemigo
+#pragma once
+#include "fakeavionenemigo.h"
+class FakeAvionMini :
+	public FakeAvionEnemigo
 {
 public:
-	FakeAvionMini();
-	virtual ~FakeAvionMini();
+	FakeAvionMini(int x, int y);
+private:
+	static const int puntosDeVidaMaximoMiddle = 1;
+	bool meMoviAbajoDeLaPantalla;
 };
-
-#endif //_FAKEAVIONMINI_H_
