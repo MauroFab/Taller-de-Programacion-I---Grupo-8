@@ -273,8 +273,8 @@
 					<tipo>formacion</tipo>
 					<spriteId>avion_formacion</spriteId>
 					<posicion>
-						<x>50<x>
-						<y>900</y>
+						<x>5</x>
+						<y>800</y>
 					</posicion>
 				</avionEnemigo>		
 				<avionEnemigo>
