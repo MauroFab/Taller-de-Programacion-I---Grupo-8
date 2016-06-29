@@ -258,8 +258,13 @@ int MainCliente::conectarYEjecutar(){
 						}
 
 						MensajeXml mensaXml;
+
 						offset += Protocolo::decodificar(bufferEntrada + offset,&mensaXml);
-						idUsuario = mensaXml.getValor();
+
+						char* idUsuarioXml = mensaXml.getValor();
+
+						idUsuario= new char[strlen(idUsuarioXml) + 1];
+						std::copy(idUsuarioXml, idUsuarioXml + strlen(idUsuarioXml), idUsuario);
 
 						// Se decodifica la posicion inicial desde donde arranca el avión
 						offset += Protocolo::decodificar(bufferEntrada + offset, &posicion);
@@ -275,7 +280,10 @@ int MainCliente::conectarYEjecutar(){
 						// Se juega sin equipos
 						MensajeXml mensaXml;
 						offset += Protocolo::decodificar(bufferEntrada + offset,&mensaXml);
-						idUsuario = mensaXml.getValor();
+
+						char* idUsuarioXml = mensaXml.getValor();
+						idUsuario= new char[strlen(idUsuarioXml) + 1];
+						std::copy(idUsuarioXml, idUsuarioXml + strlen(idUsuarioXml), idUsuario);
 
 						// Se decodifica la posicion inicial desde donde arranca el avión
 						offset += Protocolo::decodificar(bufferEntrada + offset, &posicion);
