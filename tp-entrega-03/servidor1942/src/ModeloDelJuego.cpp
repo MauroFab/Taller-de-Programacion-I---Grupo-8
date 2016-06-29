@@ -79,7 +79,7 @@ void ModeloDelJuego::preparoEliNivel(int i, ServidorXml* servidorXml){
 		}else if(powerUpXml[j]->getTipo() ==  P_TIPO_AMETRALLADORA){
 			powerUpsEnPreparacion.push_back(PowerUp(x,y,0,TIPO_AMETRALLADORA));
 		}else if(powerUpXml[j]->getTipo() ==  P_TIPO_PUNTOS){
-			powerUpsEnPreparacion.push_back(PowerUp(x,y,0,TIPO_PUNTOS));
+			powerUpsEnPreparacion.push_back(PowerUp(x,y,1000,TIPO_PUNTOS));
 		}
 	}
 
