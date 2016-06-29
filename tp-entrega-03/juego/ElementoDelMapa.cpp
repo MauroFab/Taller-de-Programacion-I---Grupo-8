@@ -7,7 +7,6 @@ ElementoDelMapa::ElementoDelMapa(int xInicial, int yInicial, SDL_Renderer* gRend
 	gRenderer = gRendererRecibido;
 	textura = texturaRecibida;
 	meHanGraficadoAlgunaVez = false;
-	cantidadDePixelesQuePasaronDesdeQueMeGrafico = 0;
 }
 
 ElementoDelMapa::~ElementoDelMapa(void){
