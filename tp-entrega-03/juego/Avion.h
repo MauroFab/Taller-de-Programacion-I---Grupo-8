@@ -27,7 +27,7 @@ private:
 	int anchoAvion;
 	int altoAvion;
 	int cantDeFotogramas;
-	int frame;
+	double frame;
 
 	bool rollFlag;
 	std::list<Proyectil*> proyectiles;

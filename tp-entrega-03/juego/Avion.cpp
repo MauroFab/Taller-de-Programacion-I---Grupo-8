@@ -73,7 +73,7 @@ void Avion::continuarElRoll(){
 			frame = 0;
 			rollFlag = false;
 	}
-	frame++;
+	frame = frame + 0.5;
 }
 
 void Avion::continuarMovimientoDelAvion(){
@@ -219,7 +219,7 @@ EstadoAvion* Avion::getEstado() {
 	miPosicionEnY = superficieQueOcupo.obtenerPosicion().getPosY();
 	int miPosicionEnX;
 	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
-	EstadoAvion*  estado =  new EstadoAvion(id, frame, puntosDeVida, 
+	EstadoAvion*  estado =  new EstadoAvion(id, static_cast<int> (frame), puntosDeVida, 
 											miPosicionEnX, miPosicionEnY);
 	std::list<EstadoProyectil*> lista;
 	std::list<Proyectil*>::iterator it;
