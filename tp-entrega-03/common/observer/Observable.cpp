@@ -8,6 +8,13 @@ Observable::Observable() {
 
 Observable::~Observable() {
 	SDL_DestroyMutex(mutObs);
+
+	vector<Observador*>::iterator it;
+	for (it = this->observadores.begin(); it != this->observadores.end(); it++) {
+		delete (*it);	
+	}
+
+	this->observadores.clear();
 }
 
 void Observable::agregarObservador(Observador* obs) {

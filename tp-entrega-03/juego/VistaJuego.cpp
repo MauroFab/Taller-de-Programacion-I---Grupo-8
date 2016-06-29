@@ -33,9 +33,11 @@ VistaJuego::VistaJuego(){
 }
 
 VistaJuego::~VistaJuego(){
+
 	delete this->jugador;
 	SDL_DestroyMutex(mut);
 	close();
+	
 	//liberar escenarios de la vista
 	for(int i = 0; i < MAX_ESCENARIO_VIEW; i++){
 		if (this->listaEscenariosView[i] != NULL)
@@ -48,6 +50,10 @@ VistaJuego::~VistaJuego(){
 			delete this->listaAvionView[i];
 	}
 	this->canAvionV = 0;
+
+	if(estadoJuego != NULL){
+		delete this->estadoJuego;
+	}
 }
 
 int VistaJuego::readServidorXml(ServidorXml * servidorXml){

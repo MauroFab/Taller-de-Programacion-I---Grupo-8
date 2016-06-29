@@ -33,13 +33,18 @@ EstadoJuego::EstadoJuego(std::list<EstadoAvion*> estadoAvion, std::list<EstadoJu
 } 
 
 EstadoJuego::~EstadoJuego(){
+
 	delete evento;
-	std::list<EstadoAvion*> lista;
+	// delete estadoMapa;
+
 	std::list<EstadoAvion*>::iterator it;
-	for (it = lista.begin(); it != lista.end(); it++) {
+	if(!estadoDeLosAviones.empty())
+	for (it = estadoDeLosAviones.begin(); it != estadoDeLosAviones.end(); it++) {
 		delete (*it);
+	
 	}
-	lista.clear();
+
+	estadoDeLosAviones.clear();
 }
 
 std::list<EstadoAvion*> EstadoJuego::getEstadoDeLosAviones(){

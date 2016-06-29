@@ -89,6 +89,9 @@ Log::~Log(){
 	instanceFlag = false;
 }
 
+void Log::liberar(){
+	delete single;
+}
 Log* Log::getInstance(){
     
 	if(!instanceFlag){

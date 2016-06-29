@@ -21,7 +21,13 @@ MainServidor::~MainServidor(){
 		delete servidorXml;
 		servidorXml = NULL;
 	}
+	delete usuarios;
+	delete modeloJuego;
+}
 
+void MainServidor::liberar(){
+	Log::liberar();
+	delete single;
 }
 MainServidor* MainServidor::getInstance(){
 	if(single==NULL){

@@ -30,6 +30,11 @@ MainCliente::~MainCliente(){
 		delete this->servidorXml;
 }
 
+void MainCliente::liberar(){
+	Log::liberar();
+	delete single;
+}
+
 // Ahora se carga la IP y el Puerto por consola, se deja esta función para configuraciones del cliente
 void MainCliente::parsearArchivoXml(int argc, char* argv[]){
 	getParserXml()->cargarXmlCliente(argc,argv);

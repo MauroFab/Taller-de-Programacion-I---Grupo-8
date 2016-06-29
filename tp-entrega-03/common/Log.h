@@ -34,8 +34,9 @@ private:
 public:
 	
 	static Log* getInstance();
+	static void liberar();
 	virtual ~Log();
-
+	
 	void debug(string message);
 	void info(string message);
 	void warn(string message);

@@ -105,6 +105,7 @@ public:
 
 	/*Funciones*/
 
+	static void liberar();
 	static MainServidor* getInstance();
 	virtual ~MainServidor();
 	void parsearArchivoXml(int argc, char* argv[]);

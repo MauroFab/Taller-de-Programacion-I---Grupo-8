@@ -12,9 +12,14 @@ AsignadorDeUsuarios::AsignadorDeUsuarios(int usuariosMaximos){
 	}
 }
 
+
 AsignadorDeUsuarios::~AsignadorDeUsuarios(void)
 {
-
+	for(int i = 0; i<cantidadMaximaDeUsuarios; i++){
+		delete listUsuario[i].colaDeMensajesDeUsuario;
+		delete listUsuario[i].posicion;
+	}
+	delete []listUsuario;
 }
 
 bool AsignadorDeUsuarios::elServidorEstaLleno(void)

@@ -76,6 +76,7 @@ private:
 	ServidorXml * servidorXml;
 public:
 	static MainCliente* getInstance();
+	static void liberar();
 	virtual ~MainCliente();
 	void parsearArchivoXml(int argc, char* argv[]);
 	ParserXml * getParserXml();

@@ -3,6 +3,7 @@
 #pragma comment(lib,"ws2_32.lib")
 
 #include "MainCliente.h"
+//#include <vld.h>
 
 int main(int argc, char* argv[]){
 	MainCliente* mainCliente = MainCliente::getInstance();
@@ -11,5 +12,6 @@ int main(int argc, char* argv[]){
 #endif		
 
 	mainCliente->menu();
+	mainCliente->liberar();
 	return 0;
 }
