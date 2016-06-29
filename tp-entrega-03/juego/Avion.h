@@ -80,6 +80,7 @@ public:
 	SuperficieOcupada getSuperficieOcupada();
 
 	ModeloJugador* getJugadorAsociado();
+	bool estoyDestruido();
 
 private:
 
@@ -120,7 +121,6 @@ private:
 											    list<FakeAvionEnemigo*> &avionesEnemigos);
 	void revisoColisionesConProyectilesDe(FakeAvionEnemigo* enemigo, SuperficieOcupada& hitbox);
 
-	bool estoyDestruido();
 	//No cree una clase jugador completa, y preferi meterla adentro del avion
 	//Esto es porque de esta forma puedo resolver los puntajes cuando colisiono en el mover
 	//Y porque facilita la comunicacion en el protocolo

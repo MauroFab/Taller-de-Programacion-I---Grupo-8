@@ -69,7 +69,6 @@ void ModeloDelJuego::preparoEliNivel(int i, ServidorXml* servidorXml){
 		}
 	}
 	
-	
 	PowerUpXml** powerUpXml = servidorXml->getListaEscenario()[i]->getListaPowerUp();
 	//Cargo power ups
 	for(int j = 0; j < servidorXml->getListaEscenario()[i]->getCanPows(); j++){
@@ -246,7 +245,6 @@ void ModeloDelJuego::setPosicionInicialListAvion(){
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 		this->listAvion[i]->setPosicion(posicionInicialParaTodos);
 	}
-
 }
 
 list<SuperficieOcupada> ModeloDelJuego::getSuperficiesOcupadasPorJugadores(){
@@ -255,6 +253,14 @@ list<SuperficieOcupada> ModeloDelJuego::getSuperficiesOcupadasPorJugadores(){
 		superficies.push_back(this->listAvion[i]->getSuperficieOcupada());
 	}
 	return superficies;
+}
+
+bool ModeloDelJuego::hayDestruccionDeTodosLosAviones() {
+
+	for (int i = 0; i < cantidadMaximaDeUsuarios; i++){
+		if (!this->listAvion[i]->estoyDestruido()) return false;
+	}
+	return true;
 }
 
 void ModeloDelJuego::actualizarMovimientos(){
@@ -267,7 +273,11 @@ void ModeloDelJuego::actualizarMovimientos(){
 		for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 			this->listAvion[i]->mover(avionesEnemigos, powerUps);
 		}
-	
+
+		if (hayDestruccionDeTodosLosAviones()) {
+			this->mapa->finalizarJuegoPorQueNoHayAviones();
+		}
+
 		std::list<EstadoPowerUp> estadoPowerUps;
 		std::list<PowerUp>::iterator itP;
 		for (itP = powerUps.begin(); itP != powerUps.end(); itP++) {

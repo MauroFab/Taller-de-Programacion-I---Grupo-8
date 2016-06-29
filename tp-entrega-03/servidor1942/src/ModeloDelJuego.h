@@ -53,5 +53,6 @@ private:
 	list<SuperficieOcupada> getSuperficiesOcupadasPorJugadores();
 	void hacerInvulnerablesALosJugadores();
 	void hacerVulnerablesALosJugadores();
+	bool hayDestruccionDeTodosLosAviones();
 	bool estoyEnModoPractica;
 };

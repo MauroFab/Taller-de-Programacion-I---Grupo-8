@@ -9,6 +9,7 @@ Mapa::Mapa(ServidorXml* servidorXml){
 	this->cantidadEtapas = servidorXml->getCanEsc();
 	this->idEtapaActual = 0;
 	this->finalizacionAbrupta = false;
+	this->noHayMasAviones = false;
 }
 
 Mapa::~Mapa(){
@@ -42,7 +43,7 @@ void Mapa::avanzarEtapa() {
 }
 
 bool Mapa::seTerminoJuego() {
-	return (this->idEtapaActual == (this->cantidadEtapas-1) || finalizacionAbrupta);
+	return (this->idEtapaActual == (this->cantidadEtapas-1) || this->finalizacionAbrupta || this->noHayMasAviones);
 }
 
 void Mapa::setJuegoFinalizado() {
@@ -52,4 +53,8 @@ void Mapa::setJuegoFinalizado() {
 
 void Mapa::finalizarJuegoPorEvento() {
 	this->finalizacionAbrupta = true;
+}
+
+void Mapa::finalizarJuegoPorQueNoHayAviones() {
+	this->noHayMasAviones = true;
 }

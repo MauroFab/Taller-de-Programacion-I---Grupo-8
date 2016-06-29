@@ -22,6 +22,7 @@ public:
 	bool seTerminoJuego();
 	void setJuegoFinalizado();
 	void finalizarJuegoPorEvento();
+	void finalizarJuegoPorQueNoHayAviones();
 public:
 	EstadoMapa* estado;
 	int altoVentana;
@@ -30,6 +31,7 @@ public:
 	int cantidadEtapas;
 	int idEtapaActual;
 	bool finalizacionAbrupta;
+	bool noHayMasAviones;
 };
 
 #endif //_MAPA_H_
