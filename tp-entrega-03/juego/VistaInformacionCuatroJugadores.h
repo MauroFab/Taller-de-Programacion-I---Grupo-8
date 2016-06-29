@@ -4,6 +4,8 @@
 #include "EstadoJugador.h"
 #include "VistaInformacion.h"
 
+#define CANTIDAD_USUARIOS 4
+
 using namespace std;
 
 class VistaInformacionCuatroJugadores : public VistaInformacion {
@@ -23,5 +25,7 @@ private:
 	Etiqueta* puntos4;
 	Etiqueta* usuarioGanadaor;
 	Etiqueta* puntosGanador;
+	Etiqueta* usuarios[CANTIDAD_USUARIOS];
+	Etiqueta* puntos[CANTIDAD_USUARIOS];
 };
 
