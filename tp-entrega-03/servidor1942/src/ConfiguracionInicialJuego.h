@@ -9,6 +9,7 @@ class ConfiguracionInicialJuego {
 
 public:
 	static ConfiguracionInicialJuego* getInstance();
+	static void liberar();
 	virtual ~ConfiguracionInicialJuego(void);
 
 	void inicializar(ServidorXml* servidorXml);

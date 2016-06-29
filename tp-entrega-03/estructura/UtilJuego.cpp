@@ -14,9 +14,17 @@ UtilJuego::UtilJuego()
 
 UtilJuego::~UtilJuego()
 {
+// no creo que esto sea asi.
+//	if(instance != NULL){
+//        delete instance;
+//    }
+}
+void UtilJuego::liberar(){
+
 	if(instance != NULL){
         delete instance;
     }
+
 }
 int UtilJuego::calcRandom(int desde, int hasta){
 	int rango = hasta - desde + 1;

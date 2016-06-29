@@ -15,6 +15,7 @@ private:
 	UtilJuego();
 public:
 	static UtilJuego* getInstance();
+	static void liberar();
 	virtual ~UtilJuego();
 	//valor entre 0..1
 	double fRandom();
