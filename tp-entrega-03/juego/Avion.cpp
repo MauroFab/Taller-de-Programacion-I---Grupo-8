@@ -19,6 +19,7 @@ Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* 
 	superficieQueOcupo = SuperficieOcupada(0,0,anchoAvion,altoAvion);
 	puntosDeVida = vidaMaximaAvion;
 	this->jugadorAsociado = new ModeloJugador(id, nombreDeUsuario);
+	this->logicaDeMovimiento = new MovimientoComun();
 	soyInvulnerable = false;
 	tengoElArmaMejorada = false;
 }
@@ -29,6 +30,7 @@ Avion::~Avion() {
 		delete (*it);
 	}
 	delete jugadorAsociado;
+	delete logicaDeMovimiento;
 }
 
 void Avion::setPosicion(Posicion pos) {
@@ -131,6 +133,7 @@ void Avion::destruirEnemigosEnPantalla(list<FakeAvionEnemigo*> &avionesEnemigos)
 		}
 	}
 }
+
 void Avion::resolverColisionEntreElAvionYElPowerUp(PowerUp &powerUp, 
 											       list<FakeAvionEnemigo*> &enemigos){
 	//Si nunca fue usado (Los power ups tienen un solo uso)
@@ -161,7 +164,6 @@ void Avion::revisoColisionesConPowerUps(SuperficieOcupada hitbox, list<PowerUp> 
 	}
 }
 
-
 void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo*> &avionesEnemigos,
 										list<PowerUp> &powerUps){
 	//Los movimientos se hacen unidimensionalmente
@@ -183,6 +185,7 @@ void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo*> &avionesEnemigos
 		continuarElRoll();
 	}
 }
+
 void Avion::continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo*> &avionesEnemigos,
 												std::list<PowerUp> &powerUps){
 	std::list<Proyectil*>::iterator it;
@@ -194,16 +197,19 @@ void Avion::continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo*> &av
 }
 
 void Avion::eliminarLosProyectilesQueSalieronDeLaPantalla(){
-		Proyectil* ultimoProyectil = proyectiles.front();
-		if(!ultimoProyectil->estaEnPantalla()){
-			proyectiles.pop_front();
-			delete ultimoProyectil;
-		}
+	Proyectil* ultimoProyectil = proyectiles.front();
+	if(!ultimoProyectil->estaEnPantalla()){
+		proyectiles.pop_front();
+		delete ultimoProyectil;
+	}
 }
-
 
 void Avion::mover(list<FakeAvionEnemigo*> &avionesEnemigos, list<PowerUp> &powerUps) {
 	if(!estoyDestruido()){
+		if (!this->logicaDeMovimiento->hayQueResponderAEventoExterno()) {
+			velocidadX = this->logicaDeMovimiento->getVelocidadX();
+			velocidadY = this->logicaDeMovimiento->getVelocidadY();
+		}
 		continuarMovimientoDelAvion(avionesEnemigos, powerUps);
 		//Avanzo los proyectiles
 		continuarMovimientoDeLosProyectiles(avionesEnemigos, powerUps);
@@ -214,7 +220,6 @@ void Avion::mover(list<FakeAvionEnemigo*> &avionesEnemigos, list<PowerUp> &power
 }
 
 EstadoAvion* Avion::getEstado() {
-	//Paso una cantidad de puntos de vida cualquiera hasta que lo programe
 	int miPosicionEnY;
 	miPosicionEnY = superficieQueOcupo.obtenerPosicion().getPosY();
 	int miPosicionEnX;
@@ -239,40 +244,42 @@ std::list<EstadoProyectil*> Avion::getEstadoProyectiles() {
 }
 
 void Avion::realizarAccionEnBaseA(Evento* evento){
-	switch(evento->getNumeroDeEvento()){
-    case apretadaLaTeclaDeMovimientoHaciaIzquierda  :
-		this->darVelocidadHaciaLaIzquierda();
-       break;
-    case soltadaLaTeclaDeMovimientoHaciaIzquierda   :
-		this->darVelocidadHaciaLaDerecha();
-       break;
-	case apretadaLaTeclaDeMovimientoHaciaDerecha   :
-		this->darVelocidadHaciaLaDerecha();
-       break;
-	case soltadaLaTeclaDeMovimientoHaciaDerecha    :
-		this->darVelocidadHaciaLaIzquierda();
-       break;
-	case apretadaLaTeclaDeMovimientoHaciaArriba   :
-		this->darVelocidadHaciaArriba();
-       break;
-	case soltadaLaTeclaDeMovimientoHaciaArriba  :
-		this->darVelocidadHaciaAbajo();
-       break;
-	case apretadaLaTeclaDeMovimientoHaciaAbajo  :
-		this->darVelocidadHaciaAbajo();
-       break;
-	case soltadaLaTeclaDeMovimientoHaciaAbajo  :
-		this->darVelocidadHaciaArriba();
-       break;
-	case apretadaLaTeclaDeDisparo :
-		this->disparar();
-       break;
-	case apretadaLaTeclaDeRoll  :
-		this->hacerUnRoll();
-       break;
+	if (this->logicaDeMovimiento->hayQueResponderAEventoExterno()) {
+		switch(evento->getNumeroDeEvento()){
+		case apretadaLaTeclaDeMovimientoHaciaIzquierda  :
+			this->darVelocidadHaciaLaIzquierda();
+		   break;
+		case soltadaLaTeclaDeMovimientoHaciaIzquierda   :
+			this->darVelocidadHaciaLaDerecha();
+		   break;
+		case apretadaLaTeclaDeMovimientoHaciaDerecha   :
+			this->darVelocidadHaciaLaDerecha();
+		   break;
+		case soltadaLaTeclaDeMovimientoHaciaDerecha    :
+			this->darVelocidadHaciaLaIzquierda();
+		   break;
+		case apretadaLaTeclaDeMovimientoHaciaArriba   :
+			this->darVelocidadHaciaArriba();
+		   break;
+		case soltadaLaTeclaDeMovimientoHaciaArriba  :
+			this->darVelocidadHaciaAbajo();
+		   break;
+		case apretadaLaTeclaDeMovimientoHaciaAbajo  :
+			this->darVelocidadHaciaAbajo();
+		   break;
+		case soltadaLaTeclaDeMovimientoHaciaAbajo  :
+			this->darVelocidadHaciaArriba();
+		   break;
+		case apretadaLaTeclaDeDisparo :
+			this->disparar();
+		   break;
+		case apretadaLaTeclaDeRoll  :
+			this->hacerUnRoll();
+		   break;
+		}
 	}
 }
-//BUG-000 aca hay un error pues plantea que se suma la misma velocidad en ambas coordenadas
+
 //deltaY <-- (+vel)
 void Avion::darVelocidadHaciaArriba(){
 	velocidadY += velocidad;
@@ -340,4 +347,13 @@ bool Avion::estoyDestruido(){
 
 SuperficieOcupada Avion::getSuperficieOcupada(){
 	return superficieQueOcupo;
+}
+
+void Avion::cambiarMovimiento(Movimiento* movimiento) {
+	delete this->logicaDeMovimiento;
+	this->logicaDeMovimiento = movimiento;
+}
+
+int Avion::getVelocidad() {
+	return this->velocidad;
 }

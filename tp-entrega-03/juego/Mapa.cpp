@@ -58,3 +58,11 @@ void Mapa::finalizarJuegoPorEvento() {
 void Mapa::finalizarJuegoPorQueNoHayAviones() {
 	this->noHayMasAviones = true;
 }
+
+bool Mapa::seEstaLLegandoAlFinalDeLaEtapa() {
+	return (this->cantidadDePixelesQuePasaron + 200 > 2000);
+}
+
+bool Mapa::empezoUnaNuevaEtapa() {
+	return (this->cantidadDePixelesQuePasaron == 0);
+}

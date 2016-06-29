@@ -146,6 +146,9 @@
     <ClCompile Include="src\ModoColaboracion.cpp" />
     <ClCompile Include="src\ModoDeJuego.cpp" />
     <ClCompile Include="src\ModoEquipo.cpp" />
+    <ClCompile Include="src\Movimiento.cpp" />
+    <ClCompile Include="src\MovimientoAterrizaje.cpp" />
+    <ClCompile Include="src\MovimientoComun.cpp" />
     <ClCompile Include="src\PowerUp.cpp" />
     <ClCompile Include="src\ProyectilEnemigo.cpp" />
     <ClCompile Include="src\SuperficieOcupada.cpp" />
@@ -203,6 +206,9 @@
     <ClInclude Include="src\ModoColaboracion.h" />
     <ClInclude Include="src\ModoDeJuego.h" />
     <ClInclude Include="src\ModoEquipo.h" />
+    <ClInclude Include="src\Movimiento.h" />
+    <ClInclude Include="src\MovimientoAterrizaje.h" />
+    <ClInclude Include="src\MovimientoComun.h" />
     <ClInclude Include="src\PowerUp.h" />
     <ClInclude Include="src\ProyectilEnemigo.h" />
     <ClInclude Include="src\SuperficieOcupada.h" />

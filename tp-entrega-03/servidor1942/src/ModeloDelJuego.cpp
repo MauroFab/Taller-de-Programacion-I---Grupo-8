@@ -5,7 +5,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	crearAviones(servidorXml, usuarios);
 	setPosicionInicialListAvion();
 	this->mapa = new Mapa(servidorXml);
-	// Crea un temporizador con 10 segundos
+	// Crea un temporizador con 7 segundos
 	this->temporizadorEtapa = new Temporizador(7);
 	//A partir de acá es una carga media manual de aviones enemigos
 	//Primero armo una formacion
@@ -269,6 +269,25 @@ void ModeloDelJuego::actualizarMovimientos(){
 	if (!this->mapa->seTerminoEtapa()) {
 
 		this->mapa->actualizar();
+
+		if (this->mapa->seEstaLLegandoAlFinalDeLaEtapa()) {
+			for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
+				Avion* avion = this->listAvion[i];
+				Posicion* posicionI = new Posicion(avion->getSuperficieOcupada().obtenerPosicion().getPosX(), avion->getSuperficieOcupada().obtenerPosicion().getPosY());
+				Posicion* posicionF = new Posicion(30 + i*80, 520);
+				int velocidad = avion->getVelocidad();
+				Movimiento* movimiento = new MovimientoAterrizaje(posicionI, posicionF, velocidad);
+				avion->cambiarMovimiento(movimiento);
+			}
+		} else {
+			for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
+				Avion* avion = this->listAvion[i];
+				avion->cambiarMovimiento(new MovimientoComun());
+				if (this->mapa->empezoUnaNuevaEtapa()) {
+					avion->setPosicion(Posicion(50, 240));
+				}
+			}
+		}
 
 		for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 			this->listAvion[i]->mover(avionesEnemigos, powerUps);

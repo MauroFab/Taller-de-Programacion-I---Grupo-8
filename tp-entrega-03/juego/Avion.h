@@ -16,6 +16,9 @@
 #include "../servidor1942/src/FakeAvionEnemigo.h"
 #include "../servidor1942/src/ModeloJugador.h"
 #include "../servidor1942/src/PowerUp.h"
+#include "../servidor1942/src/Movimiento.h"
+#include "../servidor1942/src/MovimientoComun.h"
+#include "../servidor1942/src/MovimientoAterrizaje.h"
 
 class PowerUp;
 
@@ -57,7 +60,7 @@ public:
 
 	void mover(list<FakeAvionEnemigo*> &avionesEnemigos, list<PowerUp> &powerUps);
 
-	
+	void cambiarMovimiento(Movimiento* movimiento);
 
 	EstadoJugador getEstadoJugadorAsociado();
 
@@ -81,6 +84,7 @@ public:
 
 	ModeloJugador* getJugadorAsociado();
 	bool estoyDestruido();
+	int getVelocidad();
 
 private:
 
@@ -126,6 +130,7 @@ private:
 	//Y porque facilita la comunicacion en el protocolo
 	//Entonces un avion tiene un jugadorAsociado, el cual esta jugando con él
 	ModeloJugador* jugadorAsociado;
+	Movimiento* logicaDeMovimiento;
 
 public:
 	BalaView * balaView; //[AGREGACION] NO eliminar

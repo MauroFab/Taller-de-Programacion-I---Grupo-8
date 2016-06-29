@@ -149,7 +149,42 @@
 					<spriteId>barco</spriteId>
 					<posicion>
 						<x>0</x>
-						<y>250</y>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>80</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>160</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>240</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>320</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>400</x>
+						<y>2430</y>
 					</posicion>
 				</elemento>
 			</elementos>
@@ -256,7 +291,42 @@
 					<spriteId>barco</spriteId>
 					<posicion>
 						<x>0</x>
-						<y>250</y>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>80</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>160</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>240</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>320</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>400</x>
+						<y>2430</y>
 					</posicion>
 				</elemento>
 			</elementos>
@@ -363,7 +433,42 @@
 					<spriteId>barco</spriteId>
 					<posicion>
 						<x>0</x>
-						<y>250</y>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>80</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>160</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>240</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>320</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>400</x>
+						<y>2430</y>
 					</posicion>
 				</elemento>
 			</elementos>
@@ -470,7 +575,42 @@
 					<spriteId>barco</spriteId>
 					<posicion>
 						<x>0</x>
-						<y>250</y>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>80</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>160</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>240</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>320</x>
+						<y>2430</y>
+					</posicion>
+				</elemento>
+				<elemento>
+					<spriteId>barco</spriteId>
+					<posicion>
+						<x>400</x>
+						<y>2430</y>
 					</posicion>
 				</elemento>
 			</elementos>

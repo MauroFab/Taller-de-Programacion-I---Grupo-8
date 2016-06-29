@@ -20,6 +20,8 @@ public:
 	bool seTerminoEtapa();
 	void avanzarEtapa();
 	bool seTerminoJuego();
+	bool seEstaLLegandoAlFinalDeLaEtapa();
+	bool empezoUnaNuevaEtapa();
 	void setJuegoFinalizado();
 	void finalizarJuegoPorEvento();
 	void finalizarJuegoPorQueNoHayAviones();
