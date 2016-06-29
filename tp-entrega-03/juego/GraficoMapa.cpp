@@ -40,7 +40,7 @@ void GraficoMapa::configurarElMapaConLaPosicion(int posicion){
 void GraficoMapa::graficarElementos() {
 	std::list<ElementoDelMapa*>::iterator it;
 	for(it=elementosDelMapa.begin(); it!=elementosDelMapa.end(); it++)
-	     (*it)->graficarseSiEstaEnPantalla(altoMapa + cantidadDePixelesQuePasaron, cantidadDePixelesQuePasaron, cantidadDePixelesQuePasaron);
+	     (*it)->graficarseSiEstaEnPantalla(altoMapa + cantidadDePixelesQuePasaron, cantidadDePixelesQuePasaron);
 }
 
 /*--------------------Métodos públicos-----------------------*/

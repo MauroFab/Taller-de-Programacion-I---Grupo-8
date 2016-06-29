@@ -7,7 +7,7 @@ class ElementoDelMapa
 public:
 	ElementoDelMapa(int xInicial, int yInicial, SDL_Renderer* gRenderer, Textura* textura);
 	~ElementoDelMapa(void);
-	void graficarseSiEstaEnPantalla(int yMaxPantalla,int  yMinPantalla, int cantidadDePixeles);
+	void graficarseSiEstaEnPantalla(int yMaxPantalla,int  yMinPantalla);
 	void reiniciar();
 private:
 	bool apareceDesdeAfuera(int yMaxPantalla, int yMinPantalla);
@@ -17,7 +17,6 @@ private:
 	int x;
 	int y;
 	int yInicialParaGraficar;
-	int offset;
 	bool meHanGraficadoAlgunaVez;
 	SDL_Renderer* gRenderer;
 	Textura* textura;
