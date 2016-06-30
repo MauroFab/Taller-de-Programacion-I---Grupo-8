@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Archivos de código fuente">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Archivos de encabezado">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Archivos de recursos">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Parser">
+      <UniqueIdentifier>{22ec1649-efe1-451e-ae10-f4c350590b40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Utils">
+      <UniqueIdentifier>{f2f8c28d-7288-4aec-b7aa-842d554cb5e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Utils">
+      <UniqueIdentifier>{807f6a64-64e8-48d8-9c07-768513f2c317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Parser">
+      <UniqueIdentifier>{41b1d703-7c3b-46e2-9b20-da2faffe1421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Conexion">
+      <UniqueIdentifier>{33f83c3c-cff6-44b7-9ee4-610e4249f20b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Conexion">
+      <UniqueIdentifier>{647045c7-462b-498e-ab70-b89291f371a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Observador">
+      <UniqueIdentifier>{011561b0-fb3b-476c-99fd-6cb2d10ea4ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Observador">
+      <UniqueIdentifier>{13f802fb-74ba-40ba-b0cc-3c6609fb5c55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\VistaJuego">
+      <UniqueIdentifier>{f99dbde3-0140-40da-ba7a-02ca43eb69c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\VistaJuego\Modelo">
+      <UniqueIdentifier>{a8dba11e-d0f9-4771-a2b5-29a91ee35af3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\VistaJuego\Graficadores">
+      <UniqueIdentifier>{1671ec93-e35a-4758-a15d-820560736f25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\VistaJuego">
+      <UniqueIdentifier>{eb98eb7d-a54c-4011-9cbf-752d12dc704a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\VistaJuego\Modelo">
+      <UniqueIdentifier>{5989d33f-0ff2-4154-9610-10c61cdc1766}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\VistaJuego\Graficadores">
+      <UniqueIdentifier>{256c0389-80a2-4ea8-a813-ebdd8f24d327}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\VentanaXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\tinyxml2.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\SpriteXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ParserXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\MensajeXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\FondoXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\EscenarioXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ElementoXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ConexionXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ClienteXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\AvionXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\ServidorXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\StringUtil.cpp">
+      <Filter>Archivos de código fuente\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Log.cpp">
+      <Filter>Archivos de código fuente\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Protocolo.cpp">
+      <Filter>Archivos de código fuente\Conexion</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainCliente.cpp">
+      <Filter>Archivos de código fuente\Conexion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\GraficoMapa.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\GraficoProyectil.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\GraficoAvion.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\ElementoDelMapa.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\EstadoAvion.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\EstadoProyectil.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\Textura.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\FondoInicio.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\observer\Observable.cpp">
+      <Filter>Archivos de código fuente\Observador</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\MensajeSeguro.cpp">
+      <Filter>Archivos de código fuente\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\view\ElementoView.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\model\ElementoModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\model\AvionModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\view\AvionView.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Jugador.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Posicion.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\view\FondoView.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\view\BalaView.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\model\BalaModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\model\FondoModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\evento.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaJuego.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaInicio.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\EstadoJuego.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\EstadoMapa.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\CacheSonido.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\Graficador.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\GraficadorPuntaje.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\TexturaFuente.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\TextField.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\Etiqueta.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\ControladorTeclado.cpp">
+      <Filter>Archivos de código fuente\VistaJuego</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\AvionEnemigoXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xml\PowerUpXml.cpp">
+      <Filter>Archivos de código fuente\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\EstadoJugador.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\GraficadorPuntosVida.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\EstadoPowerUp.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\GraficadorPowerUp.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\view\EscenarioView.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\view\AvionEnemigoView.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\model\AvionEnemigoModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\GraficadorInformacion.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaInformacion.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaInformacionEquipos.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaInformacionUnJugador.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaInformacionDosJugadores.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaInformacionTresJugadores.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaInformacionCuatroJugadores.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaExplosion.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\xml\AvionXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\ClienteXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\ConexionXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\ElementoXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\EscenarioXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\FondoXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\tinyxml2.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\VentanaXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\ServidorXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\SpriteXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\ParserXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\MensajeXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\StringUtil.h">
+      <Filter>Archivos de encabezado\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Log.h">
+      <Filter>Archivos de encabezado\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoAvion.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoProyectil.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficoAvion.h">
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Textura.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Protocolo.h">
+      <Filter>Archivos de encabezado\Conexion</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MainCliente.h">
+      <Filter>Archivos de encabezado\Conexion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\FondoInicio.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\observer\Observable.h">
+      <Filter>Archivos de encabezado\Observador</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\observer\Observador.h">
+      <Filter>Archivos de encabezado\Observador</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\ElementoDelMapa.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\MensajeSeguro.h">
+      <Filter>Archivos de encabezado\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\view\ElementoView.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\model\ElementoModel.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\model\AvionModel.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\view\AvionView.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Jugador.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Posicion.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\view\FondoView.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\view\BalaView.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\model\BalaModel.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\model\FondoModel.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\evento.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaJuego.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaInicio.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoJuego.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficoMapa.h">
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficoProyectil.h">
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoMapa.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\CacheSonido.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Graficador.h">
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficadorPuntaje.h">
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\TextField.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\TexturaFuente.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\Etiqueta.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\ControladorTeclado.h">
+      <Filter>Archivos de encabezado\VistaJuego</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\AvionEnemigoXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml\PowerUpXml.h">
+      <Filter>Archivos de encabezado\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoJugador.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficadorPuntosVida.h">
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\EstadoPowerUp.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficadorPowerUp.h">
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\view\EscenarioView.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\view\AvionEnemigoView.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\model\AvionEnemigoModel.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\GraficadorInformacion.h">
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaInformacion.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaInformacionEquipos.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaInformacionUnJugador.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaInformacionDosJugadores.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaInformacionTresJugadores.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaInformacionCuatroJugadores.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaExplosion.h">
+      <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

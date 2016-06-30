@@ -1,0 +1,19 @@
+Cada frame de la nave chica tiene 19 pixeles de ancho.
+
+Para las colisiones se puede ignorar el primer pixel y el ultimo.
+
+Hay 16 frames para todo el giro.
+
+Proyectiles:
+
+<id>disparo_1</id>
+			<path>disparo_1.bmp</path>
+			<cantidad>1</cantidad>
+			<ancho>7</ancho>
+			<alto>16</alto>
+
+<id>disparo_1</id>
+			<path>disparo_2.bmp</path>
+			<cantidad>1</cantidad>
+			<ancho>30</ancho>
+			<alto>29</alto>

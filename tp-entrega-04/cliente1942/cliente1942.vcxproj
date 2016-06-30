@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DF45355D-97FD-4B39-9C9D-1553B1E12EA4}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>cliente1942</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VCInstallDir)SDL2;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VCInstallDir)SDL2;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>;$(SolutionDir)\SDL2.lib;$(SolutionDir)\SDL2main.lib;$(SolutionDir)\SDL2_image.lib;$(SolutionDir)\SDL2_gfx.lib;$(SolutionDir)\SDL2_ttf.lib;$(SolutionDir)\SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>;$(SolutionDir)\SDL2.lib;$(SolutionDir)\SDL2main.lib;$(SolutionDir)\SDL2_image.lib;$(SolutionDir)\SDL2_gfx.lib;$(SolutionDir)\SDL2_ttf.lib;$(SolutionDir)\SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\evento.cpp" />
+    <ClCompile Include="..\common\Jugador.cpp" />
+    <ClCompile Include="..\common\MensajeSeguro.cpp" />
+    <ClCompile Include="..\common\model\AvionEnemigoModel.cpp" />
+    <ClCompile Include="..\common\model\AvionModel.cpp" />
+    <ClCompile Include="..\common\model\BalaModel.cpp" />
+    <ClCompile Include="..\common\model\ElementoModel.cpp" />
+    <ClCompile Include="..\common\model\FondoModel.cpp" />
+    <ClCompile Include="..\common\observer\Observable.cpp" />
+    <ClCompile Include="..\common\Posicion.cpp" />
+    <ClCompile Include="..\common\view\AvionEnemigoView.cpp" />
+    <ClCompile Include="..\common\view\AvionView.cpp" />
+    <ClCompile Include="..\common\view\BalaView.cpp" />
+    <ClCompile Include="..\common\view\ElementoView.cpp" />
+    <ClCompile Include="..\common\view\EscenarioView.cpp" />
+    <ClCompile Include="..\common\view\FondoView.cpp" />
+    <ClCompile Include="..\common\xml\AvionEnemigoXml.cpp" />
+    <ClCompile Include="..\common\xml\AvionXml.cpp" />
+    <ClCompile Include="..\common\xml\ClienteXml.cpp" />
+    <ClCompile Include="..\common\xml\ConexionXml.cpp" />
+    <ClCompile Include="..\common\xml\ElementoXml.cpp" />
+    <ClCompile Include="..\common\xml\EscenarioXml.cpp" />
+    <ClCompile Include="..\common\xml\FondoXml.cpp" />
+    <ClCompile Include="..\common\Log.cpp" />
+    <ClCompile Include="..\common\Protocolo.cpp" />
+    <ClCompile Include="..\common\xml\PowerUpXml.cpp" />
+    <ClCompile Include="..\common\xml\SpriteXml.cpp" />
+    <ClCompile Include="..\common\StringUtil.cpp" />
+    <ClCompile Include="..\common\xml\VentanaXml.cpp" />
+    <ClCompile Include="..\juego\CacheSonido.cpp" />
+    <ClCompile Include="..\juego\ControladorTeclado.cpp" />
+    <ClCompile Include="..\juego\ElementoDelMapa.cpp" />
+    <ClCompile Include="..\juego\EstadoAvion.cpp" />
+    <ClCompile Include="..\juego\EstadoJuego.cpp" />
+    <ClCompile Include="..\juego\EstadoJugador.cpp" />
+    <ClCompile Include="..\juego\EstadoMapa.cpp" />
+    <ClCompile Include="..\juego\EstadoPowerUp.cpp" />
+    <ClCompile Include="..\juego\EstadoProyectil.cpp" />
+    <ClCompile Include="..\juego\Etiqueta.cpp" />
+    <ClCompile Include="..\juego\FondoInicio.cpp" />
+    <ClCompile Include="..\juego\Graficador.cpp" />
+    <ClCompile Include="..\juego\GraficadorPowerUp.cpp" />
+    <ClCompile Include="..\juego\GraficadorPuntaje.cpp" />
+    <ClCompile Include="..\juego\GraficadorPuntosVida.cpp" />
+    <ClCompile Include="..\juego\GraficadorInformacion.cpp" />
+    <ClCompile Include="..\juego\GraficoAvion.cpp" />
+    <ClCompile Include="..\juego\GraficoProyectil.cpp" />
+    <ClCompile Include="..\juego\GraficoMapa.cpp" />
+    <ClCompile Include="..\juego\TextField.cpp" />
+    <ClCompile Include="..\juego\TexturaFuente.cpp" />
+    <ClCompile Include="..\juego\VistaExplosion.cpp" />
+    <ClCompile Include="..\juego\VistaJuego.cpp" />
+    <ClCompile Include="..\juego\VistaInicio.cpp" />
+    <ClCompile Include="..\juego\VistaInformacion.cpp" />
+    <ClCompile Include="..\juego\VistaInformacionEquipos.cpp" />
+    <ClCompile Include="..\juego\VistaInformacionUnJugador.cpp" />
+    <ClCompile Include="..\juego\VistaInformacionDosJugadores.cpp" />
+    <ClCompile Include="..\juego\VistaInformacionTresJugadores.cpp" />
+    <ClCompile Include="..\juego\VistaInformacionCuatroJugadores.cpp" />
+    <ClCompile Include="..\juego\Textura.cpp" />
+    <ClCompile Include="..\common\xml\MensajeXml.cpp" />
+    <ClCompile Include="..\common\xml\ParserXml.cpp" />
+    <ClCompile Include="..\common\xml\ServidorXml.cpp" />
+    <ClCompile Include="..\common\xml\tinyxml2.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MainCliente.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\evento.h" />
+    <ClInclude Include="..\common\Jugador.h" />
+    <ClInclude Include="..\common\MensajeSeguro.h" />
+    <ClInclude Include="..\common\model\AvionEnemigoModel.h" />
+    <ClInclude Include="..\common\model\AvionModel.h" />
+    <ClInclude Include="..\common\model\BalaModel.h" />
+    <ClInclude Include="..\common\model\ElementoModel.h" />
+    <ClInclude Include="..\common\model\FondoModel.h" />
+    <ClInclude Include="..\common\observer\Observable.h" />
+    <ClInclude Include="..\common\observer\Observador.h" />
+    <ClInclude Include="..\common\Posicion.h" />
+    <ClInclude Include="..\common\view\AvionEnemigoView.h" />
+    <ClInclude Include="..\common\view\AvionView.h" />
+    <ClInclude Include="..\common\view\BalaView.h" />
+    <ClInclude Include="..\common\view\ElementoView.h" />
+    <ClInclude Include="..\common\view\EscenarioView.h" />
+    <ClInclude Include="..\common\view\FondoView.h" />
+    <ClInclude Include="..\common\xml\AvionEnemigoXml.h" />
+    <ClInclude Include="..\common\xml\AvionXml.h" />
+    <ClInclude Include="..\common\xml\ClienteXml.h" />
+    <ClInclude Include="..\common\xml\ConexionXml.h" />
+    <ClInclude Include="..\common\xml\ElementoXml.h" />
+    <ClInclude Include="..\common\xml\EscenarioXml.h" />
+    <ClInclude Include="..\common\xml\FondoXml.h" />
+    <ClInclude Include="..\common\Log.h" />
+    <ClInclude Include="..\common\Protocolo.h" />
+    <ClInclude Include="..\common\xml\PowerUpXml.h" />
+    <ClInclude Include="..\common\xml\SpriteXml.h" />
+    <ClInclude Include="..\common\StringUtil.h" />
+    <ClInclude Include="..\common\xml\VentanaXml.h" />
+    <ClInclude Include="..\juego\CacheSonido.h" />
+    <ClInclude Include="..\juego\ControladorTeclado.h" />
+    <ClInclude Include="..\juego\ElementoDelMapa.h" />
+    <ClInclude Include="..\juego\EstadoAvion.h" />
+    <ClInclude Include="..\juego\EstadoJuego.h" />
+    <ClInclude Include="..\juego\EstadoJugador.h" />
+    <ClInclude Include="..\juego\EstadoMapa.h" />
+    <ClInclude Include="..\juego\EstadoPowerUp.h" />
+    <ClInclude Include="..\juego\EstadoProyectil.h" />
+    <ClInclude Include="..\juego\Etiqueta.h" />
+    <ClInclude Include="..\juego\FondoInicio.h" />
+    <ClInclude Include="..\juego\Graficador.h" />
+    <ClInclude Include="..\juego\GraficadorPowerUp.h" />
+    <ClInclude Include="..\juego\GraficadorPuntaje.h" />
+    <ClInclude Include="..\juego\GraficadorPuntosVida.h" />
+    <ClInclude Include="..\juego\GraficadorInformacion.h" />
+    <ClInclude Include="..\juego\GraficoAvion.h" />
+    <ClInclude Include="..\juego\GraficoProyectil.h" />
+    <ClInclude Include="..\juego\GraficoMapa.h" />
+    <ClInclude Include="..\juego\TextField.h" />
+    <ClInclude Include="..\juego\TexturaFuente.h" />
+    <ClInclude Include="..\juego\VistaExplosion.h" />
+    <ClInclude Include="..\juego\VistaJuego.h" />
+    <ClInclude Include="..\juego\VistaInicio.h" />
+    <ClInclude Include="..\juego\VistaInformacion.h" />
+    <ClInclude Include="..\juego\VistaInformacionEquipos.h" />
+    <ClInclude Include="..\juego\VistaInformacionUnJugador.h" />
+    <ClInclude Include="..\juego\VistaInformacionDosJugadores.h" />
+    <ClInclude Include="..\juego\VistaInformacionTresJugadores.h" />
+    <ClInclude Include="..\juego\VistaInformacionCuatroJugadores.h" />
+    <ClInclude Include="..\juego\Textura.h" />
+    <ClInclude Include="..\common\xml\MensajeXml.h" />
+    <ClInclude Include="..\common\xml\ParserXml.h" />
+    <ClInclude Include="..\common\xml\ServidorXml.h" />
+    <ClInclude Include="..\common\xml\tinyxml2.h" />
+    <ClInclude Include="src\MainCliente.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
