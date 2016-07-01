@@ -29,7 +29,7 @@
 #include "../estructura/NivelHandle.h"
 
 #define PATH_FONDO_INICIO "fondoInicio.bmp"
-#define MAX_AVION_VIEW	4
+#define MAX_AVION_VIEW	10
 #define MAX_ESCENARIO_VIEW 10
 
 using namespace std;

@@ -1,7 +1,7 @@
 <servidor>
-	<cantidadMaximaClientes>1</cantidadMaximaClientes>
+	<cantidadMaximaClientes>6</cantidadMaximaClientes>
 	<puerto>15636</puerto>
-	<modo>practica_colaboracion</modo>
+	<modo>practica_equipo</modo>
 	<ventana>
 		<ancho>480</ancho>
 		<alto>640</alto>
@@ -53,6 +53,20 @@
 		<sprite>
 			<id>avion_4</id>
 			<path>avion_4.bmp</path>
+			<cantidad>7</cantidad>
+			<ancho>40</ancho>
+			<alto>63</alto>
+		</sprite>
+		<sprite>
+			<id>avion_5</id>
+			<path>avion_5.bmp</path>
+			<cantidad>7</cantidad>
+			<ancho>40</ancho>
+			<alto>63</alto>
+		</sprite>
+		<sprite>
+			<id>avion_6</id>
+			<path>avion_6.bmp</path>
 			<cantidad>7</cantidad>
 			<ancho>40</ancho>
 			<alto>63</alto>
@@ -701,16 +715,30 @@
 		</avion>
 		<avion>
 			<velocidadDesplazamiento>5</velocidadDesplazamiento>
-			<velocidadDisparos>6</velocidadDisparos>
+			<velocidadDisparos>5</velocidadDisparos>
 			<avionSpriteId>avion_3</avionSpriteId>
 			<vueltaSpriteId>avion_3</vueltaSpriteId>
 			<disparosSpriteId>disparo_1</disparosSpriteId>
 		</avion>
 		<avion>
 			<velocidadDesplazamiento>5</velocidadDesplazamiento>
-			<velocidadDisparos>6</velocidadDisparos>
+			<velocidadDisparos>5</velocidadDisparos>
 			<avionSpriteId>avion_4</avionSpriteId>
 			<vueltaSpriteId>avion_4</vueltaSpriteId>
+			<disparosSpriteId>disparo_1</disparosSpriteId>
+		</avion>
+		<avion>
+			<velocidadDesplazamiento>5</velocidadDesplazamiento>
+			<velocidadDisparos>5</velocidadDisparos>
+			<avionSpriteId>avion_5</avionSpriteId>
+			<vueltaSpriteId>avion_5</vueltaSpriteId>
+			<disparosSpriteId>disparo_1</disparosSpriteId>
+		</avion>
+		<avion>
+			<velocidadDesplazamiento>5</velocidadDesplazamiento>
+			<velocidadDisparos>5</velocidadDisparos>
+			<avionSpriteId>avion_6</avionSpriteId>
+			<vueltaSpriteId>avion_6</vueltaSpriteId>
 			<disparosSpriteId>disparo_1</disparosSpriteId>
 		</avion>
 	</aviones>

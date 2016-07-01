@@ -10,7 +10,7 @@
 #include "../IGenericaVO.h"
 
 #define MAX_SPRITES	300
-#define MAX_AVIONES	10
+#define MAX_AVIONES	40
 #define MAX_ESCENARIOS 10
 
 #define M_MODO_PRACTICA_COLABORACION	1
