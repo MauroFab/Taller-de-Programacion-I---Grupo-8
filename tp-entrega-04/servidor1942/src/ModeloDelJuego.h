@@ -30,6 +30,7 @@ public:
 	// liberar cuando se termina de usar
 	EstadoJuego* obtenerEstadoDelJuego();
 private:
+	void reiniciarElJuego();
 	void preparoEliNivel(int i, ServidorXml* servidorXml);
 	void preparoElPrimerNivel();
 	void preparoElSegundoNivel();
@@ -55,4 +56,6 @@ private:
 	void hacerVulnerablesALosJugadores();
 	bool hayDestruccionDeTodosLosAviones();
 	bool estoyEnModoPractica;
+	void liberarMemoriaEscenarios();
+	void liberarMemoriaEnemigosDelNivel(int nivel);
 };

@@ -218,6 +218,32 @@ void ModeloDelJuego::crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios*
 	}
 }
 
+void ModeloDelJuego::liberarMemoriaEnemigosDelNivel(int nivel){
+	std::list<FakeAvionEnemigo*> enemigosDeEsteNivel = enemigosDeLosNiveles[nivel];
+	std::list<FakeAvionEnemigo*>::iterator it;
+	for(it = enemigosDeEsteNivel.begin(); it != enemigosDeEsteNivel.end(); it++){
+		delete (*it);
+	}
+}
+void ModeloDelJuego::liberarMemoriaEscenarios(){
+	for(int i = 0; i < servidorXml->getCanEsc(); i++){
+			liberarMemoriaEnemigosDelNivel(i);
+	}
+}
+
+void ModeloDelJuego::reiniciarElJuego(){
+		this->mapa->reiniciar();
+		for (int i = 0; i < cantidadMaximaDeUsuarios; i++) {
+			this->listAvion[i]->reiniciar();
+		}
+
+		liberarMemoriaEscenarios();
+
+		for(int i = 0; i < servidorXml->getCanEsc(); i++){
+			preparoEliNivel(i, this->servidorXml);
+		}
+}
+
 void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento){
 	this->listAvion[idDelJugadorQueMandoElEvento]->realizarAccionEnBaseA(evento);
 	if(evento->getNumeroDeEvento() == apretadaLaTeclaDeCambioDeModo){
@@ -230,14 +256,11 @@ void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQu
 		}
 	} else if (evento->getNumeroDeEvento() == apretadaLaTeclaDeFinalizacionDePartida) {
 		this->mapa->finalizarJuegoPorEvento();
+
 	} else if (evento->getNumeroDeEvento() == apretadaLaTeclaDeReinicio) {
-		this->mapa->reiniciar();
-		for (int i = 0; i < cantidadMaximaDeUsuarios; i++) {
-			this->listAvion[i]->reiniciar();
-		}
-		for(int i = 0; i < servidorXml->getCanEsc(); i++){
-			preparoEliNivel(i, this->servidorXml);
-		}
+
+		reiniciarElJuego();
+
 	}
 }
 
