@@ -75,3 +75,11 @@ void FakeAvionDeFormacion::continuarMovimiento(std::list<SuperficieOcupada> supe
 		}
 	}
 }
+
+FakeAvionDeFormacion::~FakeAvionDeFormacion(){
+	while(!posicionesDelCirculo.empty()){
+		Posicion* posicion = posicionesDelCirculo.front();
+		posicionesDelCirculo.pop_front();
+		delete posicion;
+	}
+}

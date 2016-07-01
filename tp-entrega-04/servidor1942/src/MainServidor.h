@@ -103,14 +103,10 @@ private:
 
 	int clienteQueSolitaElEstado;
 	int posicionDelMapa;
-	//No se deberia usar para nada cuando todo el modelo pase al servidor,
-	//a menos que dejemos el avance del mapa del lado del cliente
-	bool seActualizoLaUltimaPosicionDelMapa;
-
 
 	int puerto;
 	MainServidor();
-
+	bool yaEmpezoElJuego;
 	ServidorXml * servidorXml; //se almancena todo el modelo parseado
 	bool seDebeCerrarElServidor;
 	std::queue<MensajeConIdRecibido*> colaDeMensaje;

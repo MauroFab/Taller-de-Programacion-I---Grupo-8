@@ -183,7 +183,6 @@ void ModeloDelJuego::preparoElSegundoNivel(){
 }
 
 ModeloDelJuego::~ModeloDelJuego(){
-	delete this->avionEnemigoBeta;
 	delete this->mapa;
 	delete this->temporizadorEtapa;
 }
@@ -217,11 +216,32 @@ void ModeloDelJuego::crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios*
 		avionView = new AvionView(avionModel, spriteAvion);
 		this->listAvion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, avionView, balaView, usuarios->getNombreDeUsuarioDeJugador(i));
 	}
-	//---------agregado para TEST de movimiento
-	UtilJuego * utilJ = UtilJuego::getInstance();
-	int pos_x = utilJ->calcRandom(100,400);
-	int pos_y = utilJ->calcRandom(900,1000);
-	this->avionEnemigoBeta = new AvionEnemigo(pos_x,pos_y);
+}
+
+void ModeloDelJuego::liberarMemoriaEnemigosDelNivel(int nivel){
+	std::list<FakeAvionEnemigo*> enemigosDeEsteNivel = enemigosDeLosNiveles[nivel];
+	std::list<FakeAvionEnemigo*>::iterator it;
+	for(it = enemigosDeEsteNivel.begin(); it != enemigosDeEsteNivel.end(); it++){
+		delete (*it);
+	}
+}
+void ModeloDelJuego::liberarMemoriaEscenarios(){
+	for(int i = 0; i < servidorXml->getCanEsc(); i++){
+			liberarMemoriaEnemigosDelNivel(i);
+	}
+}
+
+void ModeloDelJuego::reiniciarElJuego(){
+		this->mapa->reiniciar();
+		for (int i = 0; i < cantidadMaximaDeUsuarios; i++) {
+			this->listAvion[i]->reiniciar();
+		}
+
+		liberarMemoriaEscenarios();
+
+		for(int i = 0; i < servidorXml->getCanEsc(); i++){
+			preparoEliNivel(i, this->servidorXml);
+		}
 }
 
 void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento){
@@ -236,14 +256,11 @@ void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQu
 		}
 	} else if (evento->getNumeroDeEvento() == apretadaLaTeclaDeFinalizacionDePartida) {
 		this->mapa->finalizarJuegoPorEvento();
+
 	} else if (evento->getNumeroDeEvento() == apretadaLaTeclaDeReinicio) {
-		this->mapa->reiniciar();
-		for (int i = 0; i < cantidadMaximaDeUsuarios; i++) {
-			this->listAvion[i]->reiniciar();
-		}
-		for(int i = 0; i < servidorXml->getCanEsc(); i++){
-			preparoEliNivel(i, this->servidorXml);
-		}
+
+		reiniciarElJuego();
+
 	}
 }
 
@@ -348,36 +365,6 @@ void ModeloDelJuego::actualizarMovimientos(){
 			}
 		}
 	}
-
-	/*
-	//---------
-	int pixPasaron = this->mapa->getEstado()->getCantidadDePixeles();
-	int height_ventana = this->mapa->altoVentana;
-	int pos_y_real = height_ventana + pixPasaron;
-//	printf("\npixPasaron=%d,height_ventana=%d",pixPasaron,height_ventana);
-	//indicar si debe graficar o no
-	if (this->avionEnemigoBeta != NULL){
-		int y_avion = this->avionEnemigoBeta->y;
-		int x_avion = this->avionEnemigoBeta->x;
-		if (pos_y_real >= y_avion && !this->avionEnemigoBeta->getVisible()){
-			this->avionEnemigoBeta->setVisible(true);
-			avionesEnemigos.push_back(FakeAvionEnemigo(x_avion,500,68,120,2));
-		}
-		//una vez que se vuelve visible se puede mover
-		if (this->avionEnemigoBeta->getVisible()){
-			y_avion += this->avionEnemigoBeta->velocity.y;
-			this->avionEnemigoBeta->y = y_avion;
-//			printf("\ny_avion=%d",y_avion);
-			list<FakeAvionEnemigo>::iterator it;
-			int i = 0;
-			for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
-				if (i == 1)
-					(*it).continuarMovimiento();
-				i++;
-			}
-		}
-	}*/
-	///---------
 }
 
 EstadoAvion* ModeloDelJuego::getEstadoAvionJugador(int idAvion){

@@ -14,6 +14,7 @@ MainServidor::MainServidor(){
 	this->seDebeCerrarElServidor = true;
 	this->puerto = -1;
 	this->servidorXml = NULL;
+	this->yaEmpezoElJuego = false;
 }
 MainServidor::~MainServidor(){
 	// luego de usarlo se debe borrar
@@ -152,16 +153,6 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 			SDL_UnlockMutex(mutColaDeUsuario[id]);
 			char buffEnvio[MAX_BUFFER];
 			int sizeEnvio = Protocolo::codificar(*stJuego,buffEnvio);
-
-			//Fuera de uso, no hay reinicios por ahora
-			/*
-			if(indicaUnReinicioDelMapa(stAvionXml)) {
-				//para esta operacion de reinicion no debe ejecutarse en forma simultanea
-				SDL_LockMutex(mutColaDeUsuario[id]);
-				recargarServidorXml();
-				SDL_UnlockMutex(mutColaDeUsuario[id]);
-				sizeEnvio += Protocolo::codificar(*(this->servidorXml), buffEnvio + sizeEnvio);
-			}*/
 			delete stJuego;
 			MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
 
@@ -297,22 +288,15 @@ void MainServidor::enviarModeloXmlxConexionAceptadaAl(int idCliente, SOCKET* soc
 	posAEnviar.calculateSizeBytes();
 	offset += Protocolo::codificar(posAEnviar, buffEnvio + offset);
 
-	//NOTA POS ENTREGA 2: el tema de las posiciones del mapa es algo que se vera revisado
-	//Lo relacionado con eso y la reconexion, es algo que cambiara
-	//Estas lineas de codigo no estan totalmente en uso
-
-	//Si no tengo una posicion del mapa que sirva, pido una
 	Posicion posDelMapa;
-	//Si estoy solo yo conectado, no puedo pedirle la posicion del mapa a ningun cliente, asi que
-	//La pongo en 0
-	if(usuarios->cantidadDeUsuarios() == 1 && !seActualizoLaUltimaPosicionDelMapa){
-		posicionDelMapa = 0;
-	}
-	//Espero a tener una posicion del mapa en el juego actual
-	//Si la posicion del mapa ya se uso, ya no sirve para otro cliente, asi que pongo que no esta actualizada
 	//Codifico la posicion y la envio
-	posDelMapa.setPosX(0);
-	posDelMapa.setPosY(posicionDelMapa);
+	if(!this->yaEmpezoElJuego){
+		posDelMapa.setPosY(0);
+	}else{
+		EstadoJuego* estadoJuego = this->modeloJuego->obtenerEstadoDelJuego();
+		posDelMapa.setPosY(estadoJuego->getEstadoDelMapa()->getCantidadDePixeles());
+		delete estadoJuego;
+	}
 	posDelMapa.calculateSizeBytes();
 	offset += Protocolo::codificar(posDelMapa, buffEnvio + offset);
 
@@ -567,6 +551,8 @@ int MainServidor::mainPrincipal(){
 	modeloJuego = new ModeloDelJuego(servidorXml, usuarios);
 
 	avisarATodosLosUsuariosQueComenzoLaPartida();
+
+	yaEmpezoElJuego = true;
 
 	//Bucle principal
 	while(!seDebeCerrarElServidor) {
