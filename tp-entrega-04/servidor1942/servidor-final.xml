@@ -62,14 +62,14 @@
 			<path>avion_5.bmp</path>
 			<cantidad>7</cantidad>
 			<ancho>40</ancho>
-			<alto>63</alto>
+			<alto>80</alto>
 		</sprite>
 		<sprite>
 			<id>avion_6</id>
 			<path>avion_6.bmp</path>
 			<cantidad>7</cantidad>
-			<ancho>40</ancho>
-			<alto>63</alto>
+			<ancho>44</ancho>
+			<alto>83</alto>
 		</sprite>
 		<sprite>
 			<id>disparo_1</id>
