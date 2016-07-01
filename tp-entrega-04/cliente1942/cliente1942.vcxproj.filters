@@ -252,14 +252,14 @@
     <ClCompile Include="..\juego\VistaExplosion.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\model\AvionEnemigoModel.cpp">
-      <Filter>Archivos de código fuente\VistaJuego</Filter>
-    </ClCompile>
     <ClCompile Include="..\juego\VistaInformacionCincoJugadores.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
     </ClCompile>
     <ClCompile Include="..\juego\VistaInformacionSeisJugadores.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\model\AvionEnemigoModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -52,8 +52,7 @@ private:
 	int ventanaAlto;
 	bool jugar; // para avisar que debe de inciar el juego
 
-	//Como no los cargo del xml, los carga a mano con este metodo.
-	void agregarDatosDeAvionesEnemigosHardcodeados();
+	void cargarDatosAvionesEnemigos();
 
 	SDL_Window* gWindow;
 	SDL_Renderer* gRenderer;

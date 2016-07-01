@@ -318,7 +318,7 @@ void VistaJuego::reiniciar(ServidorXml * confServidorXml, int posicionInicialMap
 }
 
 //Como no los cargo del xml, lo cargo desde aca.
-void VistaJuego::agregarDatosDeAvionesEnemigosHardcodeados(){
+void VistaJuego::cargarDatosAvionesEnemigos(){
 	char spriteStr[20] = "nave_mediana";
 	char path[100] = "nave_mediana.bmp";
 
@@ -369,7 +369,7 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 	Graficador::getInstance()->agregarDatosBala(this->balaView);
 	Graficador::getInstance()->agregarDatosMapa(this->listaEscenariosView, this->canEscenariosV, posicionInicialMapa);
 
-	agregarDatosDeAvionesEnemigosHardcodeados();
+	cargarDatosAvionesEnemigos();
 	/*------------------------------------------------------------------*/
 
 	SDL_Event e;
