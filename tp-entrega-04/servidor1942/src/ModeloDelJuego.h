@@ -50,7 +50,6 @@ private:
 	Temporizador* temporizadorEtapa;
 	int cantidadMaximaDeUsuarios;
 	void crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios);
-	AvionEnemigo * avionEnemigoBeta;
 	list<SuperficieOcupada> getSuperficiesOcupadasPorJugadores();
 	void hacerInvulnerablesALosJugadores();
 	void hacerVulnerablesALosJugadores();
