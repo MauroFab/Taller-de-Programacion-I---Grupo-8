@@ -16,6 +16,7 @@ public:
 	VistaInformacionEquipos(SDL_Renderer* renderer);
 	virtual ~VistaInformacionEquipos(void);
 	void mostrar(std::list<EstadoJugador> estadosJugadores);
+	void reiniciar();
 private:
 	Etiqueta* usuario1E1;
 	Etiqueta* usuario2E1;

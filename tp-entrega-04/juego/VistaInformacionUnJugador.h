@@ -12,6 +12,7 @@ public:
 	VistaInformacionUnJugador(SDL_Renderer* renderer);
 	virtual ~VistaInformacionUnJugador(void);
 	void mostrar(std::list<EstadoJugador> estadosJugadores);
+	void reiniciar();
 private:
 	Etiqueta* nombreUsuario;
 	Etiqueta* puntos;

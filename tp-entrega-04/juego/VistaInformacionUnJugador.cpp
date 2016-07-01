@@ -9,6 +9,8 @@ VistaInformacionUnJugador::VistaInformacionUnJugador(SDL_Renderer* renderer) {
 	this->nombreUsuario->setPosicion(130, 170);
 	this->puntos = new Etiqueta(this->renderer, this->font);
 	this->puntos->setPosicion(310, 170);
+
+	this->seHaGraficado = false;
 }
 
 VistaInformacionUnJugador::~VistaInformacionUnJugador(void) {
@@ -19,15 +21,23 @@ VistaInformacionUnJugador::~VistaInformacionUnJugador(void) {
 
 void VistaInformacionUnJugador::mostrar(std::list<EstadoJugador> estadosJugadores) {
 
-	EstadoJugador estado = estadosJugadores.front();
+	if (!this->seHaGraficado) {
+		EstadoJugador estado = estadosJugadores.front();
 
-	string nombre = estado.getNombreUsuario();
-	string puntos = StringUtil::intToString(estado.getPuntajeAcumulado());
+		string nombre = estado.getNombreUsuario();
+		string puntos = StringUtil::intToString(estado.getPuntajeAcumulado());
 
-	this->nombreUsuario->setTexto(nombre);
-	this->puntos->setTexto(puntos);
+		this->nombreUsuario->setTexto(nombre);
+		this->puntos->setTexto(puntos);
+
+		this->seHaGraficado = true;
+	}
 
 	this->fondo->render();
 	this->nombreUsuario->render();
 	this->puntos->render();
+}
+
+void VistaInformacionUnJugador::reiniciar() {
+	this->seHaGraficado = false;
 }

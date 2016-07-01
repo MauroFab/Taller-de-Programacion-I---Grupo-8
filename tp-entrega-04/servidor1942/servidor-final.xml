@@ -1,7 +1,7 @@
 <servidor>
-	<cantidadMaximaClientes>6</cantidadMaximaClientes>
+	<cantidadMaximaClientes>1</cantidadMaximaClientes>
 	<puerto>15636</puerto>
-	<modo>practica_equipo</modo>
+	<modo>practica_colaboracion</modo>
 	<ventana>
 		<ancho>480</ancho>
 		<alto>640</alto>

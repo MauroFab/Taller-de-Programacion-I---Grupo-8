@@ -19,9 +19,11 @@ public:
 	VistaInformacion(void);
 	virtual ~VistaInformacion(void);
 	virtual void mostrar(std::list<EstadoJugador> estadosJugadores);
+	virtual void reiniciar();
 protected:
 	SDL_Renderer* renderer;
 	TTF_Font* font;
 	FondoInicio* fondo;
+	bool seHaGraficado;
 };
 

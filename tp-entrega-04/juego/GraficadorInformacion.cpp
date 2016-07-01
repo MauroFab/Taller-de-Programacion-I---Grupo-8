@@ -25,3 +25,7 @@ void GraficadorInformacion::seleccionarVista(int numeroEquipo, int cantidadJugad
 void GraficadorInformacion::render(std::list<EstadoJugador> estadosJugadores) {
 	this->vistaActual->mostrar(estadosJugadores);
 }
+
+void GraficadorInformacion::reiniciar() {
+	this->vistaActual->reiniciar();
+}

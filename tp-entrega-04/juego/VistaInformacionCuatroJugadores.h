@@ -14,6 +14,7 @@ public:
 	VistaInformacionCuatroJugadores(SDL_Renderer* renderer);
 	virtual ~VistaInformacionCuatroJugadores(void);
 	void mostrar(std::list<EstadoJugador> estadosJugadores);
+	void reiniciar();
 private:
 	Etiqueta* usuario1;
 	Etiqueta* usuario2;
@@ -25,6 +26,7 @@ private:
 	Etiqueta* puntos4;
 	Etiqueta* usuarioGanadaor;
 	Etiqueta* puntosGanador;
+	Etiqueta* puntosTotales;
 	Etiqueta* usuarios[CANTIDAD_USUARIOS_CUATRO];
 	Etiqueta* puntos[CANTIDAD_USUARIOS_CUATRO];
 };

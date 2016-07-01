@@ -53,6 +53,8 @@ VistaInformacionEquipos::VistaInformacionEquipos(SDL_Renderer* renderer) {
 	this->puntos2[0] = this->puntos1E2;
 	this->puntos2[1] = this->puntos2E2;
 	this->puntos2[2] = this->puntos3E2;
+
+	this->seHaGraficado = false;
 }
 
 VistaInformacionEquipos::~VistaInformacionEquipos(void) {
@@ -75,51 +77,55 @@ VistaInformacionEquipos::~VistaInformacionEquipos(void) {
 
 void VistaInformacionEquipos::mostrar(std::list<EstadoJugador> estadosJugadores) {
 
-	EstadoJugador equipoGanador;
-	EstadoJugador jugadores1[CANTIDAD_MAXIMA_POR_EQUIPO];
-	EstadoJugador jugadores2[CANTIDAD_MAXIMA_POR_EQUIPO];
-	int puntaje1, puntaje2 = 0;
 	int e1 = 0;
 	int e2 = 0;
+	
+	if (!this->seHaGraficado) {
+		EstadoJugador equipoGanador;
+		EstadoJugador jugadores1[CANTIDAD_MAXIMA_POR_EQUIPO];
+		EstadoJugador jugadores2[CANTIDAD_MAXIMA_POR_EQUIPO];
+		int puntaje1, puntaje2 = 0;
 
-	std::list<EstadoJugador>::iterator it;
-	// Carga todas las etiquetas con los puntos y nombres de usuario
-	for (it = estadosJugadores.begin(); it != estadosJugadores.end(); it++) {
+		std::list<EstadoJugador>::iterator it;
+		// Carga todas las etiquetas con los puntos y nombres de usuario
+		for (it = estadosJugadores.begin(); it != estadosJugadores.end(); it++) {
 
-		string nombre = (*it).getNombreUsuario();
-		string puntos = StringUtil::intToString((*it).getPuntajeAcumulado());
+			string nombre = (*it).getNombreUsuario();
+			string puntos = StringUtil::intToString((*it).getPuntajeAcumulado());
 
-		if ((*it).getEquipo() == EQUIPO_1) {
-			this->equipoU1[e1]->setTexto(nombre);
-			this->puntos1[e1]->setTexto(puntos);
-			jugadores1[e1] = (*it);
-			e1++;
-		} else if ((*it).getEquipo() == EQUIPO_2) {
-			this->equipoU2[e2]->setTexto(nombre);
-			this->puntos2[e2]->setTexto(puntos);
-			jugadores1[e2] = (*it);
-			e2++;
+			if ((*it).getEquipo() == EQUIPO_1) {
+				this->equipoU1[e1]->setTexto(nombre);
+				this->puntos1[e1]->setTexto(puntos);
+				jugadores1[e1] = (*it);
+				e1++;
+			} else if ((*it).getEquipo() == EQUIPO_2) {
+				this->equipoU2[e2]->setTexto(nombre);
+				this->puntos2[e2]->setTexto(puntos);
+				jugadores1[e2] = (*it);
+				e2++;
+			}
 		}
-	}
-	// Sumo los puntajes de cada jugador para cada equipo
-	// Equipo 1
-	for (int i = 0; i < e1; i++) {
-		puntaje1 =+ jugadores1[i].getPuntajeAcumulado(); 
-	}
-	// Equipo 2
-	for (int i = 0; i < e2; i++) {
-		puntaje2 =+ jugadores2[i].getPuntajeAcumulado(); 
-	}
-	// Decide cual equipo es el ganador
-	if (puntaje1 > puntaje2) {
-		this->equipoGanadaor->setTexto("Equipo 1");
-		this->puntosGanador->setTexto(StringUtil::intToString(puntaje1));
-	} else if (puntaje1 < puntaje2) {
-		this->equipoGanadaor->setTexto("Equipo 2");
-		this->puntosGanador->setTexto(StringUtil::intToString(puntaje1));
-	} else {
-		this->equipoGanadaor->setTexto("Empate");
-		this->puntosGanador->setTexto(StringUtil::intToString(puntaje1));
+		// Sumo los puntajes de cada jugador para cada equipo
+		// Equipo 1
+		for (int i = 0; i < e1; i++) {
+			puntaje1 =+ jugadores1[i].getPuntajeAcumulado(); 
+		}
+		// Equipo 2
+		for (int i = 0; i < e2; i++) {
+			puntaje2 =+ jugadores2[i].getPuntajeAcumulado(); 
+		}
+		// Decide cual equipo es el ganador
+		if (puntaje1 > puntaje2) {
+			this->equipoGanadaor->setTexto("Equipo 1");
+			this->puntosGanador->setTexto(StringUtil::intToString(puntaje1));
+		} else if (puntaje1 < puntaje2) {
+			this->equipoGanadaor->setTexto("Equipo 2");
+			this->puntosGanador->setTexto(StringUtil::intToString(puntaje1));
+		} else {
+			this->equipoGanadaor->setTexto("Empate");
+			this->puntosGanador->setTexto(StringUtil::intToString(puntaje1));
+		}
+		this->seHaGraficado = true;
 	}
 
 	this->fondo->render();
@@ -136,4 +142,8 @@ void VistaInformacionEquipos::mostrar(std::list<EstadoJugador> estadosJugadores)
 
 	this->equipoGanadaor->render();
 	this->puntosGanador->render();
+}
+
+void VistaInformacionEquipos::reiniciar() {
+	this->seHaGraficado = false;
 }

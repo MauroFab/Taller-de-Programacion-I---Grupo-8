@@ -20,6 +20,7 @@ public:
 
 	void seleccionarVista(int numeroEquipo, int cantidadJugadores);
 	void render(std::list<EstadoJugador> estadosJugadores);
+	void reiniciar();
 private:
 	SDL_Renderer* renderer;
 	VistaInformacion* vistas[CANTIDAD_VISTAS];

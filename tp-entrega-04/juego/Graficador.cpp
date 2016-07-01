@@ -15,7 +15,6 @@ Graficador::Graficador() {
 	for (int i = 0;i < MAX_CANTIDAD_ESCENARIOS; i++){
 		this->graficosMapa[i] = NULL;
 	}
-	
 }
 
 Graficador::~Graficador(void) {
@@ -211,6 +210,7 @@ void Graficador::graficarJuego(EstadoJuego* estadoJuego, int idDelJugador){
 			int puntajeDelJugador = buscarPuntajeDelJugadorEn(estadoJuego, idDelJugador);
 			Graficador::getInstance()->graficarPuntaje(puntajeDelJugador);
 			this->graficadorPowerUp->graficarPowerUps(estadoJuego->getEstadoPowerUps());
+			this->graficadorInformacion->reiniciar();
 		}
 	}
 }
