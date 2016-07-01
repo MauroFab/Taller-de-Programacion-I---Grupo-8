@@ -273,8 +273,8 @@ void Avion::realizarAccionEnBaseA(Evento* evento){
 		case apretadaLaTeclaDeMovimientoHaciaAbajo  :
 			this->darVelocidadHaciaAbajo();
 		   break;
-		case soltadaLaTeclaDeMovimientoHaciaAbajo  :{
-			if(velocidadY != 0);
+		case soltadaLaTeclaDeMovimientoHaciaAbajo  :
+			if(velocidadY != 0) {
 				this->darVelocidadHaciaArriba();
 			}
 		   break;
