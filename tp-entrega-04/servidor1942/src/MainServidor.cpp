@@ -167,6 +167,7 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 
 		}else{//Si la cola estaba vacía, permito que los demas threads usen la cola
 			SDL_UnlockMutex(mutColaDeUsuario[id]);
+			SDL_Delay(tiempoEntreVolverARevisarSiLaColaEstaVacia);
 		}
 	}
 	return 0;
@@ -234,6 +235,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 			colaDeMensaje.push(mensajeParaLaColaPrincipal);
 			SDL_UnlockMutex(mutColaPrincipal);
 		}
+		SDL_Delay(tiempoEntreRevisarNuevosEventosUsuario);
 	}
 	*seCerroLaConexion = true;
 	// IMPORTANTE: el socket solo se libera cuando se detiene el server, sino no pueden reutilizarse.
@@ -465,6 +467,7 @@ int MainServidor::recibirConexiones(void*){
 				free(socketConexion);
 			}
 		}
+		SDL_Delay(tiempoEntreRevisarNuevasConexiones);
 	}while(!seDebeCerrarElServidor);
 	for_each (vectorHilos.begin(), vectorHilos.end(), waitThreadSDL);
 	for_each (vectorSockets.begin(), vectorSockets.end(), freeSocketsSDL);
@@ -573,7 +576,7 @@ int MainServidor::mainPrincipal(){
 		
 		//Sin el delay el server va mucho mas rapido que lo que grafica el cliente
 		//Y el avion se teletransporta de una punta a la otra
-		SDL_Delay(10);
+		SDL_Delay(tiempoEntreAvancesDelJuego);
 	}
 	Log::getInstance()->info("Se solicito la detención del Server.");
 	SDL_WaitThread(receptor, NULL);
