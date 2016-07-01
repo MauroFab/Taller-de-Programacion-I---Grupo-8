@@ -38,5 +38,8 @@ private:
 
 	Etiqueta* puntos1[CANTIDAD_MAXIMA_POR_EQUIPO];
 	Etiqueta* puntos2[CANTIDAD_MAXIMA_POR_EQUIPO];
+
+	int cantidadEquipo1;
+	int cantidadEquipo2;
 };
 
