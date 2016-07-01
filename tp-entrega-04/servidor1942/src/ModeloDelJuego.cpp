@@ -407,7 +407,7 @@ EstadoJuego* ModeloDelJuego::obtenerEstadoDelJuego(){
 		estadoPowerUps.push_back((*itP).getEstado());
 	}
 
-	EstadoMapa* estadoMapa = this->mapa->getEstado();
+	EstadoMapa* estadoMapa = this->mapa->createEstado();
 
 	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones, estadoJugadores, estadoPowerUps,
 												estadoMapa);
