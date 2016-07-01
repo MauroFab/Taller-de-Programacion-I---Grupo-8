@@ -12,6 +12,7 @@ public:
 	static const int velocidadAvionMini = 2;
 	FakeAvionDeFormacion(int y, int alturaDeLaQueSale);
 	void continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores);
+	~FakeAvionDeFormacion();
 private:
 	//vienen desde la derecha y desde afuera
 

@@ -15,6 +15,8 @@ FakeAvionEnemigo::FakeAvionEnemigo(int xInicial, int yInicial, int ancho, int al
 	if(rand() % 2 == 1)
 		velocidadX = - velocidadX;
 }
+
+
 bool FakeAvionEnemigo::elijoAlAzarSiDisparo(){
 	double probabilidadDeDisparo = 0.01;
 	int esperanzaPrimerDisparo = static_cast<int> (1/probabilidadDeDisparo);
@@ -124,9 +126,13 @@ void FakeAvionEnemigo::recibeUnImpacto(int idDelJugadorQueLoDanio){
 		idDelQueMeDestruyo = idDelJugadorQueLoDanio;
 }
 FakeAvionEnemigo::~FakeAvionEnemigo(){
-	//Deberia eliminar la superficie, pero esta explotando si lo hago en las pruebas como estan ahora
-
-	//delete superficieOcupada;
+	ProyectilEnemigo* proyectilEnemigo;
+	delete superficieOcupada;
+	while(!proyectiles.empty()){
+		proyectilEnemigo = proyectiles.front();
+		proyectiles.pop_front();
+		delete proyectilEnemigo;
+	}
 }
 
 SuperficieOcupada FakeAvionEnemigo::obtenerSuperficieOcupada(){

@@ -19,7 +19,7 @@ public:
 	//Si no se redefine en las clases que heredan de esta, el avion viene de arriba
 	//Y toma una trayectoria al azar
 	virtual void continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores);
-	~FakeAvionEnemigo();
+	virtual ~FakeAvionEnemigo();
 	
 	virtual EstadoAvion* getEstado(); 
 
