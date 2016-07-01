@@ -6,6 +6,8 @@ GraficadorInformacion::GraficadorInformacion(SDL_Renderer* renderer) {
 	this->vistas[2] = new VistaInformacionDosJugadores(renderer);
 	this->vistas[3] = new VistaInformacionTresJugadores(renderer);
 	this->vistas[4] = new VistaInformacionCuatroJugadores(renderer);
+	this->vistas[5] = new VistaInformacionCincoJugadores(renderer);
+	this->vistas[6] = new VistaInformacionSeisJugadores(renderer);
 }
 
 GraficadorInformacion::~GraficadorInformacion(void) {

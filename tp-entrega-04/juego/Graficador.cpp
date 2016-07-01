@@ -198,6 +198,8 @@ int Graficador::buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id){
 
 void Graficador::graficarJuego(EstadoJuego* estadoJuego, int idDelJugador){
 	
+	this->graficadorInformacion->seleccionarVista(estadoJuego->getEstadoDeLosJugadores().front().getEquipo(), estadoJuego->getEstadoDeLosJugadores().size());
+
 	if (estadoJuego->getEstadoDelMapa()->getCodigoReinicio() == JUEGO_FINALIZADO) {
 		graficarFinalJuego();
 	} else {

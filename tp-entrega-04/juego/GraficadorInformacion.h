@@ -9,8 +9,10 @@
 #include "VistaInformacionDosJugadores.h"
 #include "VistaInformacionTresJugadores.h"
 #include "VistaInformacionCuatroJugadores.h"
+#include "VistaInformacionCincoJugadores.h"
+#include "VistaInformacionSeisJugadores.h"
 
-#define CANTIDAD_VISTAS 4
+#define CANTIDAD_VISTAS 7
 
 class GraficadorInformacion {
 
