@@ -155,18 +155,12 @@ int MainCliente::recibirMensajes(void* ptrSock){
 				//si seguimos conectados
 				int offset = Protocolo::decodificar(bufferEntrada,stJuego);
 				VistaJuego::getInstance()->actualizarEstadoJuego(stJuego);
-				//Un mensaje con id -2 indica que se reinicio el mapa
-				/*
-				if(stAvion->getId() == -2){
-					//se debe recrear el servidor pues el anterior ya no sirve
-					recreateServidorXml();
-					Protocolo::decodificar(bufferEntrada + offset, this->servidorXml);
-					VistaJuego::getInstance()->reiniciar(this->servidorXml, 0);
-				}*/
 			}
 		}
 		else{
-			grabarEnElLogLaDesconexion(len);
+			//cuando salgo del cliente manualmente entraba aca y explotaba
+			//Por eso lo comente
+			//grabarEnElLogLaDesconexion(len);
 			serverDesconectado = true;
 		}
 	}
