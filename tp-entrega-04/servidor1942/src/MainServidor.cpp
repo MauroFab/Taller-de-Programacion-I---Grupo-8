@@ -229,13 +229,14 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 			mensajeParaLaColaPrincipal = new MensajeConIdRecibido;
 			eventoRecibido = new Evento(0);
 			Protocolo::decodificar(bufferEntrada,eventoRecibido);
-			SDL_LockMutex(mutColaPrincipal);
 			mensajeParaLaColaPrincipal->id = id;
 			mensajeParaLaColaPrincipal->evento = eventoRecibido;
+			SDL_LockMutex(mutColaPrincipal);
 			colaDeMensaje.push(mensajeParaLaColaPrincipal);
 			SDL_UnlockMutex(mutColaPrincipal);
+		}else{
+			SDL_Delay(tiempoEntreRevisarNuevosEventosUsuario);
 		}
-		SDL_Delay(tiempoEntreRevisarNuevosEventosUsuario);
 	}
 	*seCerroLaConexion = true;
 	// IMPORTANTE: el socket solo se libera cuando se detiene el server, sino no pueden reutilizarse.
