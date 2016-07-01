@@ -25,6 +25,12 @@ EstadoMapa* Mapa::getEstado() {
 	return this->estado;
 }
 
+EstadoMapa* Mapa::createEstado() {
+	EstadoMapa* nuevoEstado = new EstadoMapa();
+	*nuevoEstado = *(this->estado);
+	return nuevoEstado;
+}
+
 bool Mapa::seTerminoEtapa() {
 	if (this->cantidadDePixelesQuePasaron > this->tamanioMaximoMapa) {
 		this->estado->terminoEtapa();
