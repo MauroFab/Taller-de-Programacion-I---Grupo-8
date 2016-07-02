@@ -6,7 +6,7 @@
 
 #define EQUIPO_1 1
 #define EQUIPO_2 2
-#define CANTIDAD_MAXIMA_POR_EQUIPO 3
+#define CANTIDAD_MAXIMA_POR_EQUIPO 5
 
 using namespace std;
 
@@ -21,15 +21,23 @@ private:
 	Etiqueta* usuario1E1;
 	Etiqueta* usuario2E1;
 	Etiqueta* usuario3E1;
+	Etiqueta* usuario4E1;
+	Etiqueta* usuario5E1;
 	Etiqueta* usuario1E2;
 	Etiqueta* usuario2E2;
 	Etiqueta* usuario3E2;
+	Etiqueta* usuario4E2;
+	Etiqueta* usuario5E2;
 	Etiqueta* puntos1E1;
 	Etiqueta* puntos2E1;
 	Etiqueta* puntos3E1;
+	Etiqueta* puntos4E1;
+	Etiqueta* puntos5E1;
 	Etiqueta* puntos1E2;
 	Etiqueta* puntos2E2;
 	Etiqueta* puntos3E2;
+	Etiqueta* puntos4E2;
+	Etiqueta* puntos5E2;
 	Etiqueta* equipoGanadaor;
 	Etiqueta* puntosGanador;
 	
