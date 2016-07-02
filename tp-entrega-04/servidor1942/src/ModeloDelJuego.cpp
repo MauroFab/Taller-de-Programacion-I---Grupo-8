@@ -308,9 +308,6 @@ void ModeloDelJuego::actualizarMovimientos(){
 			for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 				Avion* avion = this->listAvion[i];
 				avion->cambiarMovimiento(new MovimientoComun());
-				if (this->mapa->empezoUnaNuevaEtapa()) {
-					avion->setPosicion(Posicion(50, 240));
-				}
 			}
 		}
 
@@ -349,6 +346,7 @@ void ModeloDelJuego::actualizarMovimientos(){
 		if (this->mapa->seTerminoEtapa() && !this->mapa->seTerminoJuego()) {
 			// Ahora empieza a mostrarse la informacion durante al menos 10 segundos
 			if (this->temporizadorEtapa->pasoElTiempoEstablecido()){
+				setPosicionInicialListAvion();
 				this->mapa->avanzarEtapa();
 				this->temporizadorEtapa->resetear();
 				this->powerUps = this->powerUpsDeLosNiveles.at(mapa->idEtapaActual);
