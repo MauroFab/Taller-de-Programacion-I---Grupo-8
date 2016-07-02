@@ -37,3 +37,7 @@ std::list<int> ModoDeJuego::getJugadores() {
 	std::list<int> lista;
 	return lista;
 }
+
+bool ModoDeJuego::seHaCompletadoLaConfiguracion() {
+	return NULL;
+}

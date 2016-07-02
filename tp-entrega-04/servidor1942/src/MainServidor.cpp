@@ -474,7 +474,7 @@ int MainServidor::waitTeclasConsola(void*){
 void MainServidor::esperarAQueTodosLosUsuariosEstenConectadosParaContinuar(){
 	bool seHaIniciadoLaPartida = false;
 	while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
-		if(usuarios->elServidorEstaLleno())
+		if(usuarios->elServidorEstaLleno() && ConfiguracionInicialJuego::getInstance()->seHaCompletadoLaConfiguracion())
 			seHaIniciadoLaPartida = true;
 		SDL_Delay(100);
 	}

@@ -19,6 +19,7 @@ public:
 	std::list<int> getJugadoresEquipo(int equipo);
 	std::list<int> getJugadores();
 	int getEquipoDeJugador(int idUsuario);
+	bool seHaCompletadoLaConfiguracion();
 private:
 	bool hayDisponibilidadEquipoUno();
 	bool hayDisponibilidadEquipoDos();

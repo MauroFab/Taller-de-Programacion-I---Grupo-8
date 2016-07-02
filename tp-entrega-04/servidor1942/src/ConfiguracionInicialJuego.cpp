@@ -15,9 +15,11 @@ ConfiguracionInicialJuego* ConfiguracionInicialJuego::getInstance() {
 	}
 	return instance;
 }
+
 void ConfiguracionInicialJuego::liberar(){
-delete instance;
+	delete instance;
 }
+
 void ConfiguracionInicialJuego::inicializar(ServidorXml* servidorXml) {
 
 	int modoDeJuego = servidorXml->getModo();
@@ -72,4 +74,8 @@ std::list<int> ConfiguracionInicialJuego::getJugadores() {
 // Devueve el equipo asociado a un jugador
 int ConfiguracionInicialJuego::getEquipoDeJugador(int idUsuario) {
 	return this->modoDeJuego->getEquipoDeJugador(idUsuario);
+}
+
+bool ConfiguracionInicialJuego::seHaCompletadoLaConfiguracion() {
+	return this->modoDeJuego->seHaCompletadoLaConfiguracion();
 }

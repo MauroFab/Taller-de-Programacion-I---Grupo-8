@@ -22,6 +22,7 @@ public:
 	std::list<int> getJugadoresEquipo(int equipo);
 	std::list<int> getJugadores();
 	int getEquipoDeJugador(int idUsuario);
+	bool seHaCompletadoLaConfiguracion();
 private:
 	ConfiguracionInicialJuego(void);
 	static ConfiguracionInicialJuego* instance;
