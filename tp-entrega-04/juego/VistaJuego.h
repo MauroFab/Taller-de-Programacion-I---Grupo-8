@@ -24,9 +24,9 @@
 #include "../common/view/EscenarioView.h"
 #include "../common/view/AvionEnemigoView.h"
 #include "../common/Jugador.h"
-#include "../estructura/Juego.h"
-#include "../estructura/MenuEscenario.h"
-#include "../estructura/NivelHandle.h"
+//#include "../estructura/Juego.h"
+//#include "../estructura/MenuEscenario.h"
+//#include "../estructura/NivelHandle.h"
 
 #define PATH_FONDO_INICIO "fondoInicio.bmp"
 #define MAX_AVION_VIEW	10
@@ -43,7 +43,7 @@ public:
 	int canEscenariosV;
 	//por ahora solo 1(UNA) bala, pero deberian ser N balas, 1 por avion
 	BalaView * balaView;
-	Juego * juego;
+//	Juego * juego;
 private:
 	ControladorTeclado* controlador;
 	static VistaJuego* instance;

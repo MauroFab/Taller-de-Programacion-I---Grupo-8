@@ -1,6 +1,6 @@
 #pragma once
 #include "FakeAvionEnemigo.h"
-#include "../../estructura/UtilJuego.h"
+//#include "../../estructura/UtilJuego.h"
 
 #define PI 3.14159265
 

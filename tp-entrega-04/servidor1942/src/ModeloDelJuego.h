@@ -6,7 +6,7 @@
 #include "../../common/Temporizador.h"
 #include "../../juego/EstadoJuego.h"
 #include "../../juego/Mapa.h"
-#include "../../estructura/AvionEnemigo.h"
+//#include "../../estructura/AvionEnemigo.h"
 #include "AsignadorDeUsuarios.h"
 #include "FakeAvionBig.h"
 #include "FakeAvionDeFormacion.h"
