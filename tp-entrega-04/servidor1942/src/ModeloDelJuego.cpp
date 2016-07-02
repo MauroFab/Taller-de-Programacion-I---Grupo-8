@@ -288,28 +288,6 @@ bool ModeloDelJuego::hayDestruccionDeTodosLosAviones() {
 	return true;
 }
 
-void ModeloDelJuego::moverLosAvionesHaciaLosPortaaviones(){
-	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
-			Avion* avion = this->listAvion[i];
-			Posicion* posicionI = new Posicion(avion->getSuperficieOcupada().obtenerPosicion().getPosX(), avion->getSuperficieOcupada().obtenerPosicion().getPosY());
-			Posicion* posicionF = new Posicion(30 + i*80, 520);
-			int velocidad = avion->getVelocidad();
-			Movimiento* movimiento = new MovimientoAterrizaje(posicionI, posicionF, velocidad);
-			avion->cambiarMovimiento(movimiento);
-	}
-}
-
-void ModeloDelJuego::continuarElMovimientoNormalDeAviones(){
-	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
-		Avion* avion = this->listAvion[i];
-		avion->cambiarMovimiento(new MovimientoComun());
-		if (this->mapa->empezoUnaNuevaEtapa()) {
-			avion->setPosicion(Posicion(50, 240));
-		}
-	}
-}
-
-
 void ModeloDelJuego::actualizarMovimientos(){
 
 	// Mientras se este en una determinada etapa
@@ -318,9 +296,22 @@ void ModeloDelJuego::actualizarMovimientos(){
 		this->mapa->actualizar();
 
 		if (this->mapa->seEstaLLegandoAlFinalDeLaEtapa()) {
-			moverLosAvionesHaciaLosPortaaviones();
+			for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
+				Avion* avion = this->listAvion[i];
+				Posicion* posicionI = new Posicion(avion->getSuperficieOcupada().obtenerPosicion().getPosX(), avion->getSuperficieOcupada().obtenerPosicion().getPosY());
+				Posicion* posicionF = new Posicion(30 + i*80, 520);
+				int velocidad = avion->getVelocidad();
+				Movimiento* movimiento = new MovimientoAterrizaje(posicionI, posicionF, velocidad);
+				avion->cambiarMovimiento(movimiento);
+			}
 		} else {
-			continuarElMovimientoNormalDeAviones();
+			for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
+				Avion* avion = this->listAvion[i];
+				avion->cambiarMovimiento(new MovimientoComun());
+				if (this->mapa->empezoUnaNuevaEtapa()) {
+					avion->setPosicion(Posicion(50, 240));
+				}
+			}
 		}
 
 		for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
