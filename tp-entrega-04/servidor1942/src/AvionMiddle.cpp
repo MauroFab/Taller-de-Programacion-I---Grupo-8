@@ -1,7 +1,7 @@
-#include "FakeAvionMiddle.h"
+#include "AvionMiddle.h"
 
- FakeAvionMiddle::FakeAvionMiddle(int x,int y) : 
-					FakeAvionEnemigo(x,y,anchoAvionMiddle,altoAvionMiddle,velocidadAvionMiddle){
+ AvionMiddle::AvionMiddle(int x,int y) : 
+					AvionEnemigo(x,y,anchoAvionMiddle,altoAvionMiddle,velocidadAvionMiddle){
 	meMoviAbajoDeLaPantalla = false;
 	id = idAvionMiddle;
 	puntosDeVida = puntosDeVidaMaximoMiddle;

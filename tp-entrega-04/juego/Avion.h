@@ -13,7 +13,7 @@
 #include <list>
 #include "../common/Evento.h"
 #include "../servidor1942/src/SuperficieOcupada.h"
-#include "../servidor1942/src/FakeAvionEnemigo.h"
+#include "../servidor1942/src/AvionEnemigo.h"
 #include "../servidor1942/src/ModeloJugador.h"
 #include "../servidor1942/src/PowerUp.h"
 #include "../servidor1942/src/Movimiento.h"
@@ -58,7 +58,7 @@ public:
 	//Este es uno que valida la colision, y cambia el estado del avion en base a eso
 	//Se puede cambiar al avionEnemigo por una lista de avionesEnemigo posteriormente
 
-	void mover(list<FakeAvionEnemigo*> &avionesEnemigos, list<PowerUp> &powerUps);
+	void mover(list<AvionEnemigo*> &avionesEnemigos, list<PowerUp> &powerUps);
 
 	void cambiarMovimiento(Movimiento* movimiento);
 
@@ -99,9 +99,9 @@ private:
 	void hacerUnRoll();
 
 	void continuarMovimientoDelAvion();
-	void continuarMovimientoDelAvion(list<FakeAvionEnemigo*> &avionesEnemigos,
+	void continuarMovimientoDelAvion(list<AvionEnemigo*> &avionesEnemigos,
 									 list<PowerUp> &powerUps);
-	void continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo*>& avionesEnemigos,
+	void continuarMovimientoDeLosProyectiles(std::list<AvionEnemigo*>& avionesEnemigos,
 											 std::list<PowerUp> &powerUps);
 	void eliminarLosProyectilesQueSalieronDeLaPantalla();
 	int velocidad;
@@ -111,20 +111,20 @@ private:
 
 	void continuarElRoll();
 
-	void revisoColisionesConEnemigos(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos,
+	void revisoColisionesConEnemigos(SuperficieOcupada hitbox, list<AvionEnemigo*> &avionesEnemigos,
 						  list<PowerUp> &powerUps);
 	void revisoColisionesConPowerUps(SuperficieOcupada hitbox, list<PowerUp> &powerUps,
-						  list<FakeAvionEnemigo*> &avionesEnemigos);
-	void resuelvoColisionConEnemigo(FakeAvionEnemigo* enemigo, list<PowerUp> &powerUps);
+						  list<AvionEnemigo*> &avionesEnemigos);
+	void resuelvoColisionConEnemigo(AvionEnemigo* enemigo, list<PowerUp> &powerUps);
 
 	int centroProyectilMejorado;
 	int centroProyectilSinMejora;
 	
-	void destruirEnemigosEnPantalla(list<FakeAvionEnemigo*> &avionesEnemigos);
+	void destruirEnemigosEnPantalla(list<AvionEnemigo*> &avionesEnemigos);
 
 	void resolverColisionEntreElAvionYElPowerUp(PowerUp &powerUp, 
-											    list<FakeAvionEnemigo*> &avionesEnemigos);
-	void revisoColisionesConProyectilesDe(FakeAvionEnemigo* enemigo, SuperficieOcupada& hitbox);
+											    list<AvionEnemigo*> &avionesEnemigos);
+	void revisoColisionesConProyectilesDe(AvionEnemigo* enemigo, SuperficieOcupada& hitbox);
 
 	//No cree una clase jugador completa, y preferi meterla adentro del avion
 	//Esto es porque de esta forma puedo resolver los puntajes cuando colisiono en el mover

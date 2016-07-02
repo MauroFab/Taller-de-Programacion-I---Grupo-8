@@ -88,7 +88,7 @@ void Avion::continuarMovimientoDelAvion(){
 	}
 }
 
-void Avion::resuelvoColisionConEnemigo(FakeAvionEnemigo* enemigo, list<PowerUp> &powerUps){
+void Avion::resuelvoColisionConEnemigo(AvionEnemigo* enemigo, list<PowerUp> &powerUps){
 	if(!soyInvulnerable)
 		this->puntosDeVida--;
 	enemigo->recibeUnImpacto(this->jugadorAsociado->getId());
@@ -100,7 +100,7 @@ void Avion::resuelvoColisionConEnemigo(FakeAvionEnemigo* enemigo, list<PowerUp> 
 	}
 }
 
-void Avion::revisoColisionesConProyectilesDe(FakeAvionEnemigo* avionEnemigo, SuperficieOcupada& hitbox){
+void Avion::revisoColisionesConProyectilesDe(AvionEnemigo* avionEnemigo, SuperficieOcupada& hitbox){
 	std::list<ProyectilEnemigo*>::iterator it;
 	std::list<ProyectilEnemigo*> proyectiles = avionEnemigo->getProyectiles();
 	for(it = proyectiles.begin(); it != proyectiles.end(); it++){
@@ -113,9 +113,9 @@ void Avion::revisoColisionesConProyectilesDe(FakeAvionEnemigo* avionEnemigo, Sup
 	}
 }
 
-void Avion::revisoColisionesConEnemigos(SuperficieOcupada hitbox, list<FakeAvionEnemigo*> &avionesEnemigos,
+void Avion::revisoColisionesConEnemigos(SuperficieOcupada hitbox, list<AvionEnemigo*> &avionesEnemigos,
 							 list<PowerUp> &powerUps){
-	std::list<FakeAvionEnemigo*>::iterator it;
+	std::list<AvionEnemigo*>::iterator it;
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
 		if(hitbox.meSolapoCon((*it)->obtenerSuperficieOcupada()) && !(*it)->estaDestruido()){
 			resuelvoColisionConEnemigo((*it),powerUps);
@@ -124,8 +124,8 @@ void Avion::revisoColisionesConEnemigos(SuperficieOcupada hitbox, list<FakeAvion
 	}
 }
 
-void Avion::destruirEnemigosEnPantalla(list<FakeAvionEnemigo*> &avionesEnemigos){
-	std::list<FakeAvionEnemigo*>::iterator it;
+void Avion::destruirEnemigosEnPantalla(list<AvionEnemigo*> &avionesEnemigos){
+	std::list<AvionEnemigo*>::iterator it;
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
 		if((*it)->estaEnPantalla()){
 			(*it)->destruir(id);
@@ -135,7 +135,7 @@ void Avion::destruirEnemigosEnPantalla(list<FakeAvionEnemigo*> &avionesEnemigos)
 }
 
 void Avion::resolverColisionEntreElAvionYElPowerUp(PowerUp &powerUp, 
-											       list<FakeAvionEnemigo*> &enemigos){
+											       list<AvionEnemigo*> &enemigos){
 	//Si nunca fue usado (Los power ups tienen un solo uso)
 	if(!powerUp.fueUsado()){
 		powerUp.marcarComoUsado();
@@ -153,7 +153,7 @@ void Avion::resolverColisionEntreElAvionYElPowerUp(PowerUp &powerUp,
 }
 
 void Avion::revisoColisionesConPowerUps(SuperficieOcupada hitbox, list<PowerUp> &powerUps, 
-							 list<FakeAvionEnemigo*>& avionesEnemigos){
+							 list<AvionEnemigo*>& avionesEnemigos){
 	std::list<PowerUp>::iterator it;
 	for (it = powerUps.begin(); it != powerUps.end(); it++) {
 		//Si toco al power up
@@ -164,7 +164,7 @@ void Avion::revisoColisionesConPowerUps(SuperficieOcupada hitbox, list<PowerUp> 
 	}
 }
 
-void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo*> &avionesEnemigos,
+void Avion::continuarMovimientoDelAvion(list<AvionEnemigo*> &avionesEnemigos,
 										list<PowerUp> &powerUps){
 	//Los movimientos se hacen unidimensionalmente
 	//Primero en X y luego en Y
@@ -186,7 +186,7 @@ void Avion::continuarMovimientoDelAvion(list<FakeAvionEnemigo*> &avionesEnemigos
 	}
 }
 
-void Avion::continuarMovimientoDeLosProyectiles(std::list<FakeAvionEnemigo*> &avionesEnemigos,
+void Avion::continuarMovimientoDeLosProyectiles(std::list<AvionEnemigo*> &avionesEnemigos,
 												std::list<PowerUp> &powerUps){
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
@@ -204,7 +204,7 @@ void Avion::eliminarLosProyectilesQueSalieronDeLaPantalla(){
 	}
 }
 
-void Avion::mover(list<FakeAvionEnemigo*> &avionesEnemigos, list<PowerUp> &powerUps) {
+void Avion::mover(list<AvionEnemigo*> &avionesEnemigos, list<PowerUp> &powerUps) {
 	if(!estoyDestruido()){
 		if (!this->logicaDeMovimiento->hayQueResponderAEventoExterno()) {
 			velocidadX = this->logicaDeMovimiento->getVelocidadX();

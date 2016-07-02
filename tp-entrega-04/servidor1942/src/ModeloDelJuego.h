@@ -8,11 +8,11 @@
 #include "../../juego/Mapa.h"
 //#include "../../estructura/AvionEnemigo.h"
 #include "AsignadorDeUsuarios.h"
-#include "FakeAvionBig.h"
-#include "FakeAvionDeFormacion.h"
-#include "FakeAvionMiddle.h"
-#include "FakeAvionMini.h"
-#include "FakeFormacionDeEnemigos.h"
+#include "AvionBig.h"
+#include "AvionDeFormacion.h"
+#include "AvionMiddle.h"
+#include "AvionMini.h"
+#include "FormacionDeEnemigos.h"
 #include "ConfiguracionInicialJuego.h"
 #include <vector>
 
@@ -36,12 +36,12 @@ private:
 	void preparoElSegundoNivel();
 	EstadoAvion* getEstadoAvionJugador(int idAvion);
 
-	vector<std::list<FakeFormacionDeEnemigos>> formacionesDeLosNiveles;
-	vector<std::list<FakeAvionEnemigo*>> enemigosDeLosNiveles;
+	vector<std::list<FormacionDeEnemigos>> formacionesDeLosNiveles;
+	vector<std::list<AvionEnemigo*>> enemigosDeLosNiveles;
 	vector<std::list<PowerUp>> powerUpsDeLosNiveles;
 
-	std::list<FakeFormacionDeEnemigos> formaciones;
-	std::list<FakeAvionEnemigo*> avionesEnemigos;
+	std::list<FormacionDeEnemigos> formaciones;
+	std::list<AvionEnemigo*> avionesEnemigos;
 	std::list<PowerUp> powerUps;
 
 	void setPosicionInicialListAvion();

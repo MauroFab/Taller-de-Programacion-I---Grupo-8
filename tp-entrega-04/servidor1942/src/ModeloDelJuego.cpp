@@ -38,8 +38,8 @@ void ModeloDelJuego::hacerVulnerablesALosJugadores(){
 }
 
 void ModeloDelJuego::preparoEliNivel(int i, ServidorXml* servidorXml){
-	std::list<FakeFormacionDeEnemigos> formacionesEnPreparacion;
-	std::list<FakeAvionEnemigo*> avionesEnemigosEnPreparacion;
+	std::list<FormacionDeEnemigos> formacionesEnPreparacion;
+	std::list<AvionEnemigo*> avionesEnemigosEnPreparacion;
 	std::list<PowerUp> powerUpsEnPreparacion;
 
 	//Cargo aviones
@@ -48,18 +48,18 @@ void ModeloDelJuego::preparoEliNivel(int i, ServidorXml* servidorXml){
 		int x = enemigosXml[j]->getPosicion().coorX;
 		int y = enemigosXml[j]->getPosicion().coorY;
 		if(enemigosXml[j]->getTipo() ==  A_TIPO_BIG){
-			avionesEnemigosEnPreparacion.push_back(new FakeAvionBig(x,y));
+			avionesEnemigosEnPreparacion.push_back(new AvionBig(x,y));
 		}else if(enemigosXml[j]->getTipo() ==  A_TIPO_MIDDLE){
-			avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(x,y));
+			avionesEnemigosEnPreparacion.push_back(new AvionMiddle(x,y));
 		}else if(enemigosXml[j]->getTipo() ==  A_TIPO_FORMACION){
 			//Salen de la posicion 500 de alto en el mapa. Son 10 aviones
-			FakeFormacionDeEnemigos formacion(10,500,y);
+			FormacionDeEnemigos formacion(10,500,y);
 			formacionesEnPreparacion.push_front(formacion);
-			avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(300,800));
-			std::list<FakeAvionEnemigo*> avionesDeLaFormacion =  formacion.getAvionesDeLaFormacion();
+			avionesEnemigosEnPreparacion.push_back(new AvionMiddle(300,800));
+			std::list<AvionEnemigo*> avionesDeLaFormacion =  formacion.getAvionesDeLaFormacion();
 			avionesEnemigosEnPreparacion.insert(avionesEnemigosEnPreparacion.end(), avionesDeLaFormacion.begin(), avionesDeLaFormacion.end());
 		}else if(enemigosXml[j]->getTipo() ==  A_TIPO_MINI){
-			avionesEnemigosEnPreparacion.push_back(new FakeAvionMini(x,y));
+			avionesEnemigosEnPreparacion.push_back(new AvionMini(x,y));
 		}
 	}
 	
@@ -90,8 +90,8 @@ void ModeloDelJuego::preparoEliNivel(int i, ServidorXml* servidorXml){
 
 void ModeloDelJuego::preparoElPrimerNivel(){
 
-	 std::list<FakeFormacionDeEnemigos> formacionesEnPreparacion;
-	 std::list<FakeAvionEnemigo*> avionesEnemigosEnPreparacion;
+	 std::list<FormacionDeEnemigos> formacionesEnPreparacion;
+	 std::list<AvionEnemigo*> avionesEnemigosEnPreparacion;
 	 std::list<PowerUp> powerUpsEnPreparacion;
 
 	 //A partir de acá es una carga media manual de aviones enemigos
@@ -101,23 +101,23 @@ void ModeloDelJuego::preparoElPrimerNivel(){
 	 int posicionPantallaSalida = 500;
 
 	 //La formacion crea automaticamente todo los aviones, en un futuro servira para validar la destruccion completa de la misma
-	 FakeFormacionDeEnemigos formacion(cantidadDeAvionesDeLaFormacion,posicionPantallaSalida,posicionEnElMapa);
+	 FormacionDeEnemigos formacion(cantidadDeAvionesDeLaFormacion,posicionPantallaSalida,posicionEnElMapa);
 
 	 //Agrego la formacion a la lista de formaciones, que se usa para chequear los bonus de puntos
 	 formacionesEnPreparacion.push_front(formacion);
-	  avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(300,800));
+	  avionesEnemigosEnPreparacion.push_back(new AvionMiddle(300,800));
 	 //Luego los agrego a los avionesEnemigos del juego, poniendo la lista de aviones de la formacion en la de enemigos del juego
-	 std::list<FakeAvionEnemigo*> avionesDeLaFormacion =  formacion.getAvionesDeLaFormacion();
+	 std::list<AvionEnemigo*> avionesDeLaFormacion =  formacion.getAvionesDeLaFormacion();
 	 avionesEnemigosEnPreparacion.insert(avionesEnemigosEnPreparacion.end(), avionesDeLaFormacion.begin(), avionesDeLaFormacion.end());
 
 	 //Creo un avion mediano, 300 y 800 son las coordenadas iniciales
-	 avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(300,800));
+	 avionesEnemigosEnPreparacion.push_back(new AvionMiddle(300,800));
 	 //Y otro
-	 avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(200,1000));
+	 avionesEnemigosEnPreparacion.push_back(new AvionMiddle(200,1000));
 	  //Y otro
-	 avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(100,1200));
+	 avionesEnemigosEnPreparacion.push_back(new AvionMiddle(100,1200));
 	 //Lo mismo para el grande
-	 avionesEnemigosEnPreparacion.push_back(new FakeAvionBig(300,800));
+	 avionesEnemigosEnPreparacion.push_back(new AvionBig(300,800));
 
 	 //Creo power ups
 	 powerUpsEnPreparacion.push_back(PowerUp(10,1000,500, TIPO_PUNTOS));
@@ -136,8 +136,8 @@ void ModeloDelJuego::preparoElPrimerNivel(){
 
 void ModeloDelJuego::preparoElSegundoNivel(){
 
-	 std::list<FakeFormacionDeEnemigos> formacionesEnPreparacion;
-	 std::list<FakeAvionEnemigo*> avionesEnemigosEnPreparacion;
+	 std::list<FormacionDeEnemigos> formacionesEnPreparacion;
+	 std::list<AvionEnemigo*> avionesEnemigosEnPreparacion;
 	 std::list<PowerUp> powerUpsEnPreparacion;
 
 	 //A partir de acá es una carga media manual de aviones enemigos
@@ -147,23 +147,23 @@ void ModeloDelJuego::preparoElSegundoNivel(){
 	 int posicionPantallaSalida = 500;
 
 	 //La formacion crea automaticamente todo los aviones, en un futuro servira para validar la destruccion completa de la misma
-	 FakeFormacionDeEnemigos formacion(cantidadDeAvionesDeLaFormacion,posicionPantallaSalida,posicionEnElMapa);
+	 FormacionDeEnemigos formacion(cantidadDeAvionesDeLaFormacion,posicionPantallaSalida,posicionEnElMapa);
 
 	 //Agrego la formacion a la lista de formaciones, que se usa para chequear los bonus de puntos
 	 formacionesEnPreparacion.push_front(formacion);
 
 	 //Luego los agrego a los avionesEnemigos del juego, poniendo la lista de aviones de la formacion en la de enemigos del juego
-	 std::list<FakeAvionEnemigo*> avionesDeLaFormacion =  formacion.getAvionesDeLaFormacion();
+	 std::list<AvionEnemigo*> avionesDeLaFormacion =  formacion.getAvionesDeLaFormacion();
 	 avionesEnemigosEnPreparacion.insert(avionesEnemigosEnPreparacion.end(), avionesDeLaFormacion.begin(), avionesDeLaFormacion.end());
 
 	 //Creo un avion mediano, 300 y 800 son las coordenadas iniciales
-	 avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(300,800));
+	 avionesEnemigosEnPreparacion.push_back(new AvionMiddle(300,800));
 	 //Y otro
-	 avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(200,1000));
+	 avionesEnemigosEnPreparacion.push_back(new AvionMiddle(200,1000));
 	  //Y otro
-	 avionesEnemigosEnPreparacion.push_back(new FakeAvionMiddle(100,1200));
+	 avionesEnemigosEnPreparacion.push_back(new AvionMiddle(100,1200));
 	 //Lo mismo para el grande
-	 avionesEnemigosEnPreparacion.push_back(new FakeAvionBig(300,800));
+	 avionesEnemigosEnPreparacion.push_back(new AvionBig(300,800));
 
 	 //Creo power ups
 	 powerUpsEnPreparacion.push_back(PowerUp(10,1000,500, TIPO_PUNTOS));
@@ -213,8 +213,8 @@ void ModeloDelJuego::crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios*
 }
 
 void ModeloDelJuego::liberarMemoriaEnemigosDelNivel(int nivel){
-	std::list<FakeAvionEnemigo*> enemigosDeEsteNivel = enemigosDeLosNiveles[nivel];
-	std::list<FakeAvionEnemigo*>::iterator it;
+	std::list<AvionEnemigo*> enemigosDeEsteNivel = enemigosDeLosNiveles[nivel];
+	std::list<AvionEnemigo*>::iterator it;
 	for(it = enemigosDeEsteNivel.begin(); it != enemigosDeEsteNivel.end(); it++){
 		delete (*it);
 	}
@@ -322,7 +322,7 @@ void ModeloDelJuego::actualizarMovimientos(){
 			(*itP).continuarMovimiento();
 		}
 
-		list<FakeAvionEnemigo*>::iterator it;
+		list<AvionEnemigo*>::iterator it;
 		list<SuperficieOcupada> superficies = getSuperficiesOcupadasPorJugadores();
 		for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
 			(*it)->continuarMovimiento(superficies);
@@ -330,7 +330,7 @@ void ModeloDelJuego::actualizarMovimientos(){
 
 		//Luego de todos los movimientos, chequeo si tengo que bonificar a alguien por destruir
 		//una formacion
-		list<FakeFormacionDeEnemigos>::iterator itF;
+		list<FormacionDeEnemigos>::iterator itF;
 		for (itF = formaciones.begin(); itF != formaciones.end(); itF++) {
 			//Si esa formacion fue destruida por un mismo avion
 			//Y nunca entrego puntos
@@ -377,7 +377,7 @@ EstadoJuego* ModeloDelJuego::obtenerEstadoDelJuego(){
 	}
 
 	//Agrego los avionesEnemigos
-	std::list<FakeAvionEnemigo*>::iterator it;
+	std::list<AvionEnemigo*>::iterator it;
 	for (it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++) {
 		estadoDeAviones.push_back((*it)->getEstado());
 	}

@@ -35,11 +35,11 @@ void Proyectil::mover() {
 
 }
 
-void Proyectil::mover(std::list<FakeAvionEnemigo*> &avionesEnemigos, ModeloJugador* jugadorQueDisparo,
+void Proyectil::mover(std::list<AvionEnemigo*> &avionesEnemigos, ModeloJugador* jugadorQueDisparo,
 					  std::list<PowerUp>& powerUps) {
 	SuperficieOcupada hitbox;
 	hitbox = superficie.desplazarEnYObteniendoHitbox(velocidadY);
-	std::list<FakeAvionEnemigo*>::iterator it;
+	std::list<AvionEnemigo*>::iterator it;
 	for(it = avionesEnemigos.begin(); it != avionesEnemigos.end(); it++){
 		SuperficieOcupada superficieEnemigo;
 		superficieEnemigo = (*it)->obtenerSuperficieOcupada();

@@ -1,19 +1,19 @@
 #pragma once
 
-#include "FakeAvionDeFormacion.h"
+#include "AvionDeFormacion.h"
 #include <list>
 #include "../../juego/Avion.h"
 
 //Cumple 2 funciones, poder crear todos los aviones de una formacion juntos
 //Y luego servira para revisar si toda la formacion fue destruida
-class FakeFormacionDeEnemigos
+class FormacionDeEnemigos
 {
 public:
-	FakeFormacionDeEnemigos(int cantidadDeAvionesEnLaFormacion, 
+	FormacionDeEnemigos(int cantidadDeAvionesEnLaFormacion, 
 							int posicionDeLaPantallaEnLaQueSalen,
 							int posicionDelMapaEnLaQueEmpiezanASalir);
-	~FakeFormacionDeEnemigos(void);
-	list<FakeAvionEnemigo*> getAvionesDeLaFormacion();
+	~FormacionDeEnemigos(void);
+	list<AvionEnemigo*> getAvionesDeLaFormacion();
 
 	bool todosLosAvionesFueronDestruidosPorUnMismoAvion();
 	bool getEntreguePuntos();
@@ -24,6 +24,6 @@ private:
 	bool entreguePuntos;
 	int obtenerIdDelQueDestruyoAlPrimero();
 	static const int distanciaEntreAviones = 15;
-	list<FakeAvionEnemigo*> avionesDeLaFormacion;
+	list<AvionEnemigo*> avionesDeLaFormacion;
 };
 

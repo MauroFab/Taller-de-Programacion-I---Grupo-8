@@ -1,29 +1,29 @@
-#include "FakeFormacionDeEnemigos.h"
+#include "FormacionDeEnemigos.h"
 
 
-FakeFormacionDeEnemigos::FakeFormacionDeEnemigos(int cantidadDeAvionesEnLaFormacion, 
+FormacionDeEnemigos::FormacionDeEnemigos(int cantidadDeAvionesEnLaFormacion, 
 												 int posicionDeLaPantallaEnLaQueSalen,
 											   	 int posicionDelMapaEnLaQueEmpiezanASalir)
 {
 	for(int i = 0; i < cantidadDeAvionesEnLaFormacion; i++){
 		int posicionDesdeLaQueSaleEsteAvion;
-		FakeAvionDeFormacion* esteAvion;
+		AvionDeFormacion* esteAvion;
 		//Voy retrasando la salida para que salgan uno atras del otro
 		posicionDesdeLaQueSaleEsteAvion = posicionDelMapaEnLaQueEmpiezanASalir + 
 										  i*distanciaEntreAviones;
-		esteAvion = new FakeAvionDeFormacion(posicionDesdeLaQueSaleEsteAvion,
+		esteAvion = new AvionDeFormacion(posicionDesdeLaQueSaleEsteAvion,
 															posicionDeLaPantallaEnLaQueSalen);
 		this->avionesDeLaFormacion.push_back(esteAvion);
 	}
 	entreguePuntos = false;
 }
 
-list<FakeAvionEnemigo*> FakeFormacionDeEnemigos::getAvionesDeLaFormacion(){
+list<AvionEnemigo*> FormacionDeEnemigos::getAvionesDeLaFormacion(){
 	return avionesDeLaFormacion;
 }
 
-bool FakeFormacionDeEnemigos::todosLosAvionesFueronDestruidosPorUnMismoAvion(){
-	list<FakeAvionEnemigo*>::iterator it;
+bool FormacionDeEnemigos::todosLosAvionesFueronDestruidosPorUnMismoAvion(){
+	list<AvionEnemigo*>::iterator it;
 	it = avionesDeLaFormacion.begin();
 	bool fueronDestruidosPorElMismo = true;
 	int idDelQueDestruyoAlPrimero;
@@ -41,19 +41,19 @@ bool FakeFormacionDeEnemigos::todosLosAvionesFueronDestruidosPorUnMismoAvion(){
 	return fueronDestruidosPorElMismo;
 }
 
-int FakeFormacionDeEnemigos::obtenerIdDelQueDestruyoAlPrimero(){
+int FormacionDeEnemigos::obtenerIdDelQueDestruyoAlPrimero(){
 	return((avionesDeLaFormacion.front())->getIdDelQueMeDestruyo());
 }
 
-FakeFormacionDeEnemigos::~FakeFormacionDeEnemigos(void)
+FormacionDeEnemigos::~FormacionDeEnemigos(void)
 {
 }
 
-bool FakeFormacionDeEnemigos::getEntreguePuntos(){
+bool FormacionDeEnemigos::getEntreguePuntos(){
 	return entreguePuntos;
 }
 
-void FakeFormacionDeEnemigos::entregarPuntosAlJugadorQueDestruyoLaFormacion(Avion** avion){
+void FormacionDeEnemigos::entregarPuntosAlJugadorQueDestruyoLaFormacion(Avion** avion){
 	int idDelQueLaDestruyo =  obtenerIdDelQueDestruyoAlPrimero();
 	avion[idDelQueLaDestruyo]->getJugadorAsociado()->sumarPuntos(puntosQueDaDerribarLaFormacion);
 	entreguePuntos = true;

@@ -1,12 +1,14 @@
 #pragma once
-#include "fakeavionenemigo.h"
-class FakeAvionMiddle :
-	public FakeAvionEnemigo
+
+#include "AvionEnemigo.h"
+
+class AvionMiddle :
+	public AvionEnemigo
 {
 public:
 	
 	static const int velocidadAvionMiddle = 3;
-	FakeAvionMiddle(int x, int y);
+	AvionMiddle(int x, int y);
 private:
 	static const int puntosDeVidaMaximoMiddle = 5;
 	bool meMoviAbajoDeLaPantalla;

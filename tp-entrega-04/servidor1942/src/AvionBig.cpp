@@ -1,8 +1,7 @@
+#include "AvionBig.h"
 
-#include "FakeAvionBig.h"
-
- FakeAvionBig::FakeAvionBig(int x,int y) : 
-					FakeAvionEnemigo(x,y,anchoAvionBig,altoAvionBig,velocidadAvionBig){
+ AvionBig::AvionBig(int x,int y) : 
+					AvionEnemigo(x,y,anchoAvionBig,altoAvionBig,velocidadAvionBig){
 	meMoviAbajoDeLaPantalla = false;
 	id = idAvionBig;
 	puntosDeVida = puntosDeVidaMaximoBig;
@@ -10,7 +9,7 @@
 	puntosQueOtorgaAlSerDestruido = 1000;
 }
 
-void FakeAvionBig::continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores){
+void AvionBig::continuarMovimiento(std::list<SuperficieOcupada> superficiesAvionesJugadores){
 	if(!estaDestruido()){
 		//Si no entre en la pantalla
 		//Voy bajando con el mapa
@@ -21,7 +20,7 @@ void FakeAvionBig::continuarMovimiento(std::list<SuperficieOcupada> superficiesA
 		//Cuando entro en la pantalla
 		if(superficieOcupada->obtenerPosicion().getPosY() < 640 && !meMoviAbajoDeLaPantalla){
 			//Me muevo por debajo de ella
-			superficieOcupada->moverAPosicionYObteniendoHitbox(-FakeAvionBig::altoAvionBig);
+			superficieOcupada->moverAPosicionYObteniendoHitbox(-AvionBig::altoAvionBig);
 			//Marco que estoy por debajo de ella
 			meMoviAbajoDeLaPantalla = true;
 		}
@@ -42,7 +41,7 @@ void FakeAvionBig::continuarMovimiento(std::list<SuperficieOcupada> superficiesA
 	revisoMemoriaDelProyectilMasNuevo();
 }
 
-void FakeAvionBig::disparar(){
+void AvionBig::disparar(){
 	int posXProyectil1 = superficieOcupada->obtenerPosicionCentro().getPosX();
 	int posYProyectil1 = superficieOcupada->obtenerPosicion().getPosY();
 	int velXProyectil1 = 0;
@@ -64,11 +63,11 @@ void FakeAvionBig::disparar(){
 
 }
 
-bool FakeAvionBig::dejaUnPowerUpAlSerDestruido(){
+bool AvionBig::dejaUnPowerUpAlSerDestruido(){
 	return true;
 }
 
-PowerUp FakeAvionBig::getPowerUpQueDejaAlSerDestruido(){
+PowerUp AvionBig::getPowerUpQueDejaAlSerDestruido(){
 	int x, y;
 	x = superficieOcupada->obtenerPosicion().getPosX() + anchoAvionBig/2;
 	y = superficieOcupada->obtenerPosicion().getPosY() + altoAvionBig/2;
