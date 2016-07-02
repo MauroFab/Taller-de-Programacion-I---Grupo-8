@@ -266,9 +266,10 @@ void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQu
 
 // La posición (0,0) es en la esquina inferior izquierda
 void ModeloDelJuego::setPosicionInicialListAvion(){
-	Posicion posicionInicialParaTodos = Posicion(200,50);
+	Posicion posicionInicial;
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
-		this->listAvion[i]->setPosicion(posicionInicialParaTodos);
+		posicionInicial = Posicion(30 + i*80, 20);
+		this->listAvion[i]->setPosicion(posicionInicial);
 	}
 }
 
