@@ -58,4 +58,6 @@ private:
 	bool estoyEnModoPractica;
 	void liberarMemoriaEscenarios();
 	void liberarMemoriaEnemigosDelNivel(int nivel);
+	void moverLosAvionesHaciaLosPortaaviones();
+	void continuarElMovimientoNormalDeAviones();
 };
