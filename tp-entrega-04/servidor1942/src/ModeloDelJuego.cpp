@@ -8,10 +8,6 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	this->mapa = new Mapa(this->servidorXml);
 	// Crea un temporizador con 7 segundos
 	this->temporizadorEtapa = new Temporizador(7);
-	//A partir de acá es una carga media manual de aviones enemigos
-	//Primero armo una formacion
-	 int cantidadDeAvionesDeLaFormacion = 4;
-	 int posicionEnElMapa = 800;
 	 int posicionPantallaSalida = 500;
 	 int cantidadMaximaDeNiveles = 10;
 	 formacionesDeLosNiveles.resize(cantidadMaximaDeNiveles);
@@ -27,8 +23,6 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	 }else{
 		 estoyEnModoPractica = false;
 	 }
-	 //preparoElPrimerNivel();
-	 //preparoElSegundoNivel();
 }
 
 void ModeloDelJuego::hacerInvulnerablesALosJugadores(){
@@ -236,6 +230,8 @@ void ModeloDelJuego::reiniciarElJuego(){
 		for (int i = 0; i < cantidadMaximaDeUsuarios; i++) {
 			this->listAvion[i]->reiniciar();
 		}
+
+		this->setPosicionInicialListAvion();
 
 		liberarMemoriaEscenarios();
 
