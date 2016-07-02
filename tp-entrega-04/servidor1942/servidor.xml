@@ -500,7 +500,7 @@
 					<spriteId>avion_formacion</spriteId>
 					<posicion>
 						<x>5</x>
-						<y>222</y>
+						<y>1400</y>
 					</posicion>
 				</avionEnemigo>		
 				<avionEnemigo>
@@ -516,7 +516,7 @@
 					<spriteId>avion_mini</spriteId>
 					<posicion>
 						<x>20</x>
-						<y>222</y>
+						<y>1200</y>
 					</posicion>					
 				</avionEnemigo>		
 				<avionEnemigo>
@@ -642,7 +642,7 @@
 					<spriteId>avion_formacion</spriteId>
 					<posicion>
 						<x>5</x>
-						<y>222</y>
+						<y>800</y>
 					</posicion>
 				</avionEnemigo>		
 				<avionEnemigo>

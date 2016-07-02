@@ -8,10 +8,6 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	this->mapa = new Mapa(this->servidorXml);
 	// Crea un temporizador con 7 segundos
 	this->temporizadorEtapa = new Temporizador(7);
-	//A partir de acá es una carga media manual de aviones enemigos
-	//Primero armo una formacion
-	 int cantidadDeAvionesDeLaFormacion = 4;
-	 int posicionEnElMapa = 800;
 	 int posicionPantallaSalida = 500;
 	 int cantidadMaximaDeNiveles = 10;
 	 formacionesDeLosNiveles.resize(cantidadMaximaDeNiveles);
@@ -27,8 +23,6 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	 }else{
 		 estoyEnModoPractica = false;
 	 }
-	 //preparoElPrimerNivel();
-	 //preparoElSegundoNivel();
 }
 
 void ModeloDelJuego::hacerInvulnerablesALosJugadores(){
@@ -237,6 +231,8 @@ void ModeloDelJuego::reiniciarElJuego(){
 			this->listAvion[i]->reiniciar();
 		}
 
+		this->setPosicionInicialListAvion();
+
 		liberarMemoriaEscenarios();
 
 		for(int i = 0; i < servidorXml->getCanEsc(); i++){
@@ -266,9 +262,10 @@ void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQu
 
 // La posición (0,0) es en la esquina inferior izquierda
 void ModeloDelJuego::setPosicionInicialListAvion(){
-	Posicion posicionInicialParaTodos = Posicion(200,50);
+	Posicion posicionInicial;
 	for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
-		this->listAvion[i]->setPosicion(posicionInicialParaTodos);
+		posicionInicial = Posicion(30 + i*80, 20);
+		this->listAvion[i]->setPosicion(posicionInicial);
 	}
 }
 
@@ -308,9 +305,6 @@ void ModeloDelJuego::actualizarMovimientos(){
 			for(int i = 0; i < cantidadMaximaDeUsuarios; i++){
 				Avion* avion = this->listAvion[i];
 				avion->cambiarMovimiento(new MovimientoComun());
-				if (this->mapa->empezoUnaNuevaEtapa()) {
-					avion->setPosicion(Posicion(50, 240));
-				}
 			}
 		}
 
@@ -349,6 +343,7 @@ void ModeloDelJuego::actualizarMovimientos(){
 		if (this->mapa->seTerminoEtapa() && !this->mapa->seTerminoJuego()) {
 			// Ahora empieza a mostrarse la informacion durante al menos 10 segundos
 			if (this->temporizadorEtapa->pasoElTiempoEstablecido()){
+				setPosicionInicialListAvion();
 				this->mapa->avanzarEtapa();
 				this->temporizadorEtapa->resetear();
 				this->powerUps = this->powerUpsDeLosNiveles.at(mapa->idEtapaActual);
