@@ -224,8 +224,15 @@ EstadoAvion* Avion::getEstado() {
 	miPosicionEnY = superficieQueOcupo.obtenerPosicion().getPosY();
 	int miPosicionEnX;
 	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
-	EstadoAvion*  estado =  new EstadoAvion(id, static_cast<int> (frame), puntosDeVida, 
+	EstadoAvion*  estado;
+	if (!this->logicaDeMovimiento->hayQueResponderAEventoExterno()) {
+		// El frame 42 es el avión chiquito
+		estado =  new EstadoAvion(id, 42, puntosDeVida, 
 											miPosicionEnX, miPosicionEnY);
+	} else {
+		estado =  new EstadoAvion(id, static_cast<int> (frame), puntosDeVida, 
+											miPosicionEnX, miPosicionEnY);
+	}
 	std::list<EstadoProyectil*> lista;
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
