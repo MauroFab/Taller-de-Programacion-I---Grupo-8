@@ -32,42 +32,42 @@
 		<sprite>
 			<id>avion_1</id>
 			<path>avion_1.bmp</path>
-			<cantidad>7</cantidad>
+			<cantidad>8</cantidad>
 			<ancho>39</ancho>
 			<alto>68</alto>
 		</sprite>
 		<sprite>
 			<id>avion_2</id>
 			<path>avion_2.bmp</path>
-			<cantidad>7</cantidad>
+			<cantidad>8</cantidad>
 			<ancho>37</ancho>
 			<alto>74</alto>
 		</sprite>
 		<sprite>
 			<id>avion_3</id>
 			<path>avion_3.bmp</path>
-			<cantidad>7</cantidad>
+			<cantidad>8</cantidad>
 			<ancho>39</ancho>
 			<alto>66</alto>
 		</sprite>
 		<sprite>
 			<id>avion_4</id>
 			<path>avion_4.bmp</path>
-			<cantidad>7</cantidad>
+			<cantidad>8</cantidad>
 			<ancho>40</ancho>
 			<alto>63</alto>
 		</sprite>
 		<sprite>
 			<id>avion_5</id>
 			<path>avion_5.bmp</path>
-			<cantidad>7</cantidad>
+			<cantidad>8</cantidad>
 			<ancho>40</ancho>
 			<alto>80</alto>
 		</sprite>
 		<sprite>
 			<id>avion_6</id>
 			<path>avion_6.bmp</path>
-			<cantidad>7</cantidad>
+			<cantidad>8</cantidad>
 			<ancho>44</ancho>
 			<alto>83</alto>
 		</sprite>

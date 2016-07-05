@@ -226,8 +226,8 @@ EstadoAvion* Avion::getEstado() {
 	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
 	EstadoAvion*  estado;
 	if (!this->logicaDeMovimiento->hayQueResponderAEventoExterno()) {
-		// El frame 42 es el avión chiquito
-		estado =  new EstadoAvion(id, 42, puntosDeVida, 
+		// El frame 48 es el avión chiquito
+		estado =  new EstadoAvion(id, 48, puntosDeVida, 
 											miPosicionEnX, miPosicionEnY);
 	} else {
 		estado =  new EstadoAvion(id, static_cast<int> (frame), puntosDeVida, 
