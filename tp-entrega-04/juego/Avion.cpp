@@ -291,6 +291,12 @@ void Avion::realizarAccionEnBaseA(Evento* evento){
 		case apretadaLaTeclaDeRoll  :
 			this->hacerUnRoll();
 		   break;
+		case seHaConectado  :
+			this->frame = 0;
+		break;
+		case seHaDesconectado  :
+			this->frame = 60;
+		break;
 		}
 	}
 }

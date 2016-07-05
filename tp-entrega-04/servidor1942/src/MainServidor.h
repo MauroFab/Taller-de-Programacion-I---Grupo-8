@@ -201,6 +201,8 @@ public:
 	//Por ahora comunica estadoAvionesXml. Deberia comunicar el estado juego
 
 	void comunicarElNuevoEstadoDelJuegoALosClientes();
+	void informarDeLaConexionDelJugadorAlJuego(int id);
+	void informarDeLaDesconexionDelJugadorAlJuego(int id);
 	//Crea los aviones basandose en el servidorXml
 	//Y los pone en aviones, el atributo del mainServidor
 	//En futuros cambios quedaran encapsulados adentro del juego

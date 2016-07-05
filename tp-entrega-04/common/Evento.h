@@ -33,6 +33,9 @@ const int apretadaLaTeclaDeFinalizacionDePartida = 16;
 
 const int apretadaLaTeclaDeCambioDeModo = 17;
 
+const int seHaDesconectado = 18;
+const int seHaConectado = 19;
+
 //Los siguientes se usan solamente para mandar mensajes del servidor al cliente
 //Se podria separar todo en 2 clases de eventos distintos
 const int comienzaLaPartida = -1;

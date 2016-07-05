@@ -193,6 +193,26 @@ void MainServidor::actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvion* est
 	usuarios->setPosicionAUsuario(id, posicion);
 }
 
+void MainServidor::informarDeLaConexionDelJugadorAlJuego(int id){
+	MensajeConIdRecibido* mensajeParaLaColaPrincipal;
+	mensajeParaLaColaPrincipal = new MensajeConIdRecibido;
+	mensajeParaLaColaPrincipal->id = id;
+	mensajeParaLaColaPrincipal->evento = new Evento(seHaConectado);
+	SDL_LockMutex(mutColaPrincipal);
+	colaDeMensaje.push(mensajeParaLaColaPrincipal);
+	SDL_UnlockMutex(mutColaPrincipal);
+}
+
+void MainServidor::informarDeLaDesconexionDelJugadorAlJuego(int id){
+	MensajeConIdRecibido* mensajeParaLaColaPrincipal;
+	mensajeParaLaColaPrincipal = new MensajeConIdRecibido;
+	mensajeParaLaColaPrincipal->id = id;
+	mensajeParaLaColaPrincipal->evento = new Evento(seHaDesconectado);
+	SDL_LockMutex(mutColaPrincipal);
+	colaDeMensaje.push(mensajeParaLaColaPrincipal);
+	SDL_UnlockMutex(mutColaPrincipal);
+}
+
 int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {	
 	char bufferEntrada[MAX_BUFFER];
 	SDL_Thread* threadDeEnvioDeMensajes;
@@ -211,9 +231,10 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 	structParaEnviar->idYPunteroAlSocket = idYPunteroAlSocket;
 	structParaEnviar->seCerroLaConexion = seCerroLaConexion;
 	threadDeEnvioDeMensajes = SDL_CreateThread(MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos, "mensajesParaElCliente", (void*) structParaEnviar);	
+	MensajeConIdRecibido* mensajeParaLaColaPrincipal;
+	informarDeLaConexionDelJugadorAlJuego(id);
 	while (isHayBytes(sizeBytesIn) && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
 		Evento* eventoRecibido;
-		MensajeConIdRecibido* mensajeParaLaColaPrincipal;
 		sizeBytesIn = MensajeSeguro::recibir(socket,bufferEntrada);
 		if (isHayBytes(sizeBytesIn)){
 			//Por temas de lecturas pongo una id de evento 0, luego en el decodificar ira la que corresponde
@@ -229,6 +250,7 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 			SDL_Delay(tiempoEntreRevisarNuevosEventosUsuario);
 		}
 	}
+	informarDeLaDesconexionDelJugadorAlJuego(id);
 	*seCerroLaConexion = true;
 	// IMPORTANTE: el socket solo se libera cuando se detiene el server, sino no pueden reutilizarse.
 	if(seDebeCerrarElServidor){
