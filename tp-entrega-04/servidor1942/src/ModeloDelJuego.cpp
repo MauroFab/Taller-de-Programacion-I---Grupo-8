@@ -9,7 +9,6 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	// Crea un temporizador con 7 segundos
 	this->temporizadorEtapa = new Temporizador(7);
 	int posicionPantallaSalida = 500;
-	int cantidadMaximaDeNiveles = 10;
 	formacionesDeLosNiveles.resize(cantidadMaximaDeNiveles);
 	enemigosDeLosNiveles.resize(cantidadMaximaDeNiveles);
 	powerUpsDeLosNiveles.resize(cantidadMaximaDeNiveles);
