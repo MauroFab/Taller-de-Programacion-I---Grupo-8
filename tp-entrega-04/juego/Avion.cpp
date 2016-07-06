@@ -71,7 +71,7 @@ SuperficieOcupada Avion::actualizarPosicionEnY(){
 }
 
 void Avion::continuarElRoll(){
-	if ((frame / cantDeFotogramas) >= cantDeFotogramas - 1){
+	if ((frame / cantDeFotogramas) >= (cantDeFotogramas - 2)){
 			frame = 0;
 			rollFlag = false;
 	}
