@@ -225,7 +225,7 @@ EstadoAvion* Avion::getEstado() {
 	int miPosicionEnX;
 	miPosicionEnX = superficieQueOcupo.obtenerPosicion().getPosX();
 	EstadoAvion*  estado;
-	if (!this->logicaDeMovimiento->hayQueResponderAEventoExterno()) {
+	if (!this->logicaDeMovimiento->hayQueResponderAEventoExterno() && (this->frame != 60)) {
 		// El frame 48 es el avión chiquito
 		estado =  new EstadoAvion(id, 48, puntosDeVida, 
 											miPosicionEnX, miPosicionEnY);
