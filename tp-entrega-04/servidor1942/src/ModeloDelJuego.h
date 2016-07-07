@@ -30,6 +30,10 @@ public:
 	// liberar cuando se termina de usar
 	EstadoJuego* obtenerEstadoDelJuego();
 private:
+
+	//Modificar si se quieren mas niveles
+	static const int cantidadMaximaDeNiveles = 500;
+
 	void reiniciarElJuego();
 	void preparoEliNivel(int i, ServidorXml* servidorXml);
 	void preparoElPrimerNivel();
