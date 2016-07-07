@@ -11,8 +11,10 @@ public:
 	int velAvion;
 public:
 	AvionModel();
+	AvionModel(const AvionModel& b):id(b.id),velAvion(b.velAvion){};
+	void AvionModel::operator=(const AvionModel &b){this->id=b.id; this->velAvion=b.velAvion;};
 	AvionModel(AvionXml * avionXml);
-	virtual ~AvionModel();
+	~AvionModel();
 };
 
 #endif //_AVIONMODEL_H_

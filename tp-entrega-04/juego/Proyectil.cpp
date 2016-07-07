@@ -1,14 +1,14 @@
 #include "Proyectil.h"
 
-Proyectil::Proyectil(BalaView * balaView, bool mejorado) {
+Proyectil::Proyectil(BalaView& balaView, bool mejorado) {
     velocidadX = 0;
     velocidadY = 0;
 	frame = 0;
 
-	altoFotograma = balaView->spriteXml->getAlto();
-	anchoFotograma = balaView->spriteXml->getAncho();
-	cantDeFotogramas = balaView->spriteXml->getCantidad();
-	velocidad = balaView->balaModel->velBala;
+	altoFotograma = balaView.spriteXml->getAlto();
+	anchoFotograma = balaView.spriteXml->getAncho();
+	cantDeFotogramas = balaView.spriteXml->getCantidad();
+	velocidad = balaView.balaModel.velBala;
 	velocidadY += velocidad;
 	this->mejorado = mejorado;
 	huboUnImpacto = false;

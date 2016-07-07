@@ -1,20 +1,20 @@
 #include "Avion.h"
 
-Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView* avionView, BalaView* balaView, string nombreDeUsuario) {
+Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView& avionView, BalaView& balaView, string nombreDeUsuario) {
 	//Las posicion inicial queda sin definir
 	this->ventanaAncho = ventanaAncho;
 	this->ventanaAlto = ventanaAlto;
-	this->altoAvion = avionView->spriteXml->getAlto();
-	this->anchoAvion = avionView->spriteXml->getAncho();
-	this->velocidad = avionView->avionModel->velAvion;
+	this->altoAvion = avionView.spriteXml->getAlto();
+	this->anchoAvion = avionView.spriteXml->getAncho();
+	this->velocidad = avionView.avionModel.velAvion;
     velocidadX = 0;
     velocidadY = 0;
-	cantDeFotogramas = avionView->spriteXml->getCantidad();
+	cantDeFotogramas = avionView.spriteXml->getCantidad();
 	frame = 0;
 	rollFlag = false;
-	id = avionView->avionModel->id;
+	id = avionView.avionModel.id;
 	this->balaView = balaView;
-	centroProyectilMejorado = balaView->spriteXml->getAncho()/2;
+	centroProyectilMejorado = balaView.spriteXml->getAncho()/2;
 	centroProyectilSinMejora = 3;
 	superficieQueOcupo = SuperficieOcupada(0,0,anchoAvion,altoAvion);
 	puntosDeVida = vidaMaximaAvion;

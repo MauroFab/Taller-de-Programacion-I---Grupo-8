@@ -8,7 +8,7 @@ EstadoMapa::EstadoMapa() {
 	this->mostrarInformacion = false;
 }
 
-EstadoMapa::~EstadoMapa(void) {
+EstadoMapa::~EstadoMapa() {
 }
 
 void EstadoMapa::actualizar(int cantidadPixeles) {

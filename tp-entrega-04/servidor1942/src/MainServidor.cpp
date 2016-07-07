@@ -571,7 +571,7 @@ int MainServidor::mainPrincipal(){
 	esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
 
 	modeloJuego = new ModeloDelJuego(servidorXml, usuarios);
-
+	
 	avisarATodosLosUsuariosQueComenzoLaPartida();
 
 	yaEmpezoElJuego = true;

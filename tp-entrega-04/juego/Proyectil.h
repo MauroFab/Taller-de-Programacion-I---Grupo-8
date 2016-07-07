@@ -30,7 +30,7 @@ private:
 public:
 	static const int ANCHO_PROYECTIL_SIN_MEJORA = 7;
 	static const int ALTO_PROYECTIL_SIN_MEJORA = 16;
-	Proyectil(BalaView * balaView, bool mejorado);
+	Proyectil(BalaView& balaView, bool mejorado);
 	virtual ~Proyectil(void);
 	bool estaEnPantalla();
 	void mover();

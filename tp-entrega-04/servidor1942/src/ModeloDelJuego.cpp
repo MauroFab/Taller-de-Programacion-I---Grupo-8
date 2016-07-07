@@ -2,7 +2,8 @@
 
 ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios){
 	this->cantidadMaximaDeUsuarios = usuarios->getCantidadMaximaDeUsuarios();
-	crearAviones(servidorXml, usuarios);
+	 crearAviones(servidorXml, usuarios);
+	
 	setPosicionInicialListAvion();
 	this->servidorXml = servidorXml;
 	this->mapa = new Mapa(this->servidorXml);
@@ -23,6 +24,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 		}else{
 			estoyEnModoPractica = false;
 		}
+	
 	}
 
 void ModeloDelJuego::hacerInvulnerablesALosJugadores(){
@@ -177,7 +179,7 @@ void ModeloDelJuego::preparoElSegundoNivel(){
 	}
 
 ModeloDelJuego::~ModeloDelJuego(){
-	delete this->mapa;
+	 delete this->mapa;
 	delete this->temporizadorEtapa;
 
 	for (int i = 0; i < cantidadMaximaDeUsuarios; i++) {
@@ -190,7 +192,6 @@ ModeloDelJuego::~ModeloDelJuego(){
 void ModeloDelJuego::crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios){
 	this->listAvion = new Avion*;
 	AvionXml** avionXml;
-	avionXml = servidorXml->getListaAviones();
 	avionXml = servidorXml->getListaAviones();
 	SpriteXml** spriteXml;
 	spriteXml = servidorXml->getListaSprites();
@@ -206,15 +207,15 @@ void ModeloDelJuego::crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios*
 		//Todo lo relacionado a la bala se saca del avion 0
 		//No se usa uno solo para poder liberar la memoria por separado al eliminar el avion
 		spriteBala = SpriteXml::findSpriteById(avionXml[0]->getIdSpBala(),spriteXml,servidorXml->getCanSprs());
-		balaModel = new BalaModel(avionXml[0]);
-		balaView = new BalaView(balaModel, spriteBala);
+		// balaModel = new BalaModel(avionXml[0]);
+		// balaView = new BalaView(BalaModel(avionXml[0]), spriteBala);
 		AvionView* avionView;
 		AvionModel* avionModel;
 		SpriteXml* spriteAvion;
 		spriteAvion = SpriteXml::findSpriteById(avionXml[i]->getIdSpAvion(),spriteXml,servidorXml->getCanSprs());
-		avionModel = new AvionModel(avionXml[i]);
-		avionView = new AvionView(avionModel, spriteAvion);
-		this->listAvion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, avionView, balaView, usuarios->getNombreDeUsuarioDeJugador(i));
+		// avionModel = new AvionModel(avionXml[i]);
+		// avionView = new AvionView(AvionModel(avionXml[i]), spriteAvion);
+		this->listAvion[i] = new Avion(anchoDeLaVentana, altoDeLaVentana, AvionView(AvionModel(avionXml[i]), spriteAvion), BalaView(BalaModel(avionXml[0]), spriteBala), usuarios->getNombreDeUsuarioDeJugador(i));
 		}
 	}
 

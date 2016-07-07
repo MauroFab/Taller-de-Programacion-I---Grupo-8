@@ -17,7 +17,7 @@ private:
 	int cantidadFotogramas;
 
 public:
-	GraficoAvion(SDL_Renderer* renderer, AvionView * avionView);
+	GraficoAvion(SDL_Renderer* renderer, AvionView& avionView);
 	~GraficoAvion(void);
 	SDL_Rect* getCurrentClip(int frame);
 	Textura* getTextura();

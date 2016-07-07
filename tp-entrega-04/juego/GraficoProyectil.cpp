@@ -1,7 +1,7 @@
 #include "GraficoProyectil.h"
 
 GraficoProyectil::GraficoProyectil(SDL_Renderer* renderer, BalaView * balaView){
-	this->id = balaView->balaModel->id;
+	this->id = balaView->balaModel.id;
 	this->textura = new Textura();
 	this->cantidadFotogramas = balaView->spriteXml->getCantidad();
 	this->fotogramas = new SDL_Rect[this->cantidadFotogramas];

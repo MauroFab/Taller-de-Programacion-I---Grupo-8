@@ -50,8 +50,8 @@ void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int venta
 void Graficador::agregarDatosAviones(AvionView* *listaAvionView, int canAvionV) {
 	for(int v = 0; v < canAvionV; v++){
 		AvionView * avionV = listaAvionView[v];
-		GraficoAvion* grafico = new GraficoAvion(renderer, avionV);
-		mapaGraficosAvion.insert(std::pair<int, GraficoAvion*>(avionV->avionModel->id, grafico));
+		GraficoAvion* grafico = new GraficoAvion(renderer, *avionV);
+		mapaGraficosAvion.insert(std::pair<int, GraficoAvion*>(avionV->avionModel.id, grafico));
 	}
 }
 

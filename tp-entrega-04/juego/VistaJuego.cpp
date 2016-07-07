@@ -184,8 +184,8 @@ int VistaJuego::cargarAviones(ServidorXml * confServidorXml){
 		//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
 		SpriteXml * spriteX = SpriteXml::findSpriteById(avionX->getIdSpAvion(),listaS,cantS);
 		if (spriteX != NULL){	//solo en caso de encontrarlo
-			AvionModel * avionModel = new AvionModel(avionX);
-			this->listaAvionView[i] = new AvionView(avionModel,spriteX);
+			// AvionModel * avionModel = new AvionModel(avionX);
+			this->listaAvionView[i] = new AvionView(AvionModel(avionX),spriteX);
 			this->canAvionV++;
 		}
 	}
@@ -267,7 +267,7 @@ int VistaJuego::cargarBala(ServidorXml * confServidorXml){
 	//se obtiene el id del sprite a buscar y luego se obtiene ese sprite
 	SpriteXml * spriteX = SpriteXml::findSpriteById(avionXml_0->getIdSpBala(),listaS,cantS);
 	AvionView * avionV_0 = this->listaAvionView[0];
-	this->balaView = new BalaView(balaModel,spriteX);
+	this->balaView = new BalaView(BalaModel(avionXml_0),spriteX);
 	return 0;
 }
 
@@ -325,9 +325,9 @@ void VistaJuego::cargarDatosAvionesEnemigos(){
 	int idMiddle = 101;
 	SpriteXml* spriteNaveEnemigaMediana = new SpriteXml(idMiddle, spriteStr,path,1,68,120);
 	AvionXml* avionXml = new AvionXml(idMiddle,5,5,idMiddle,spriteStr,5,"asd",3,"zxc");
-	AvionModel* avionModel = new AvionModel(avionXml);
+	// AvionModel* avionModel = new AvionModel(avionXml);
 	AvionView** avionView = new AvionView*;
-	avionView[0] = new AvionView(avionModel,spriteNaveEnemigaMediana);
+	avionView[0] = new AvionView(AvionModel(avionXml),spriteNaveEnemigaMediana);
 	Graficador::getInstance()->agregarDatosAviones(avionView,1);
 
 	char spriteStr2[20] = "nave_grande";
@@ -335,9 +335,9 @@ void VistaJuego::cargarDatosAvionesEnemigos(){
 	int idBig = 100;
 	SpriteXml* spriteNaveEnemigaGrande = new SpriteXml(idBig, spriteStr2,path2,1,118,200);
 	AvionXml* avionXml2 = new AvionXml(idBig,5,5,idBig,spriteStr2,5,"asd",3,"zxc");
-	AvionModel* avionModel2 = new AvionModel(avionXml2);
+	// AvionModel* avionModel2 = new AvionModel(avionXml2);
 	AvionView** avionView2 = new AvionView*;
-	avionView2[0] = new AvionView(avionModel2,spriteNaveEnemigaGrande);
+	avionView2[0] = new AvionView(AvionModel(avionXml2),spriteNaveEnemigaGrande);
 	Graficador::getInstance()->agregarDatosAviones(avionView2,1);
 	
 	char spriteStr3[20] = "nave_chica";
@@ -347,9 +347,9 @@ void VistaJuego::cargarDatosAvionesEnemigos(){
 	SpriteXml* spriteNaveEnemigaChica = new SpriteXml(idMini, spriteStr3,path3,
 														numeroDeFramesDeLaNaveChica,19,16);
 	AvionXml* avionXml3 = new AvionXml(idMini,5,5,idMini,spriteStr3,5,"asd",3,"zxc");
-	AvionModel* avionModel3 = new AvionModel(avionXml3);
+	// AvionModel* avionModel3 = new AvionModel(avionXml3);
 	AvionView** avionView3 = new AvionView*;
-	avionView3[0] = new AvionView(avionModel3,spriteNaveEnemigaChica);
+	avionView3[0] = new AvionView(AvionModel(avionXml3),spriteNaveEnemigaChica);
 	Graficador::getInstance()->agregarDatosAviones(avionView3,1);
 }
 
