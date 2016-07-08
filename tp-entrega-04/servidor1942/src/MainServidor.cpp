@@ -29,9 +29,8 @@ MainServidor::~MainServidor(){
 void MainServidor::liberar(){
 	Log::liberar();
 	ConfiguracionInicialJuego::liberar();
-//	UtilJuego::liberar();
-	delete single;
 }
+
 MainServidor* MainServidor::getInstance(){
 	if(single==NULL){
 		single = new MainServidor();
