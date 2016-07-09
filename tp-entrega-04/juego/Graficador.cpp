@@ -206,6 +206,9 @@ void Graficador::graficarJuego(EstadoJuego* estadoJuego, int idDelJugador){
 		if (estadoJuego->getEstadoDelMapa()->hayQueMostrarInformacion()) {
 			mostrarInformacion(estadoJuego->getEstadoDeLosJugadores());
 		} else {
+			if(estadoJuego->obtenerEvento()->getNumeroDeEvento() == seReiniciaLaPartida){
+				this->reiniciar();
+			}
 			actualizarMapa(estadoJuego->getEstadoDelMapa());
 			graficarMapa();	
 			graficarAviones(estadoJuego->getEstadoDeLosAviones(), idDelJugador);

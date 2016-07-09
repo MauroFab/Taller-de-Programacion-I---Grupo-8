@@ -25,16 +25,16 @@ public:
 	~ModeloDelJuego();
 	void actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento);
 	void actualizarMovimientos();
-	
+
 	//El estado es uno que se aloja dinamicamente, y no afecta al juego
 	// liberar cuando se termina de usar
 	EstadoJuego* obtenerEstadoDelJuego();
 private:
-
+	
 	//Modificar si se quieren mas niveles
 	static const int cantidadMaximaDeNiveles = 500;
-
 	void reiniciarElJuego();
+	bool deboInformarReinicio;
 	void preparoEliNivel(int i, ServidorXml* servidorXml);
 	void preparoElPrimerNivel();
 	void preparoElSegundoNivel();
@@ -62,4 +62,5 @@ private:
 	bool estoyEnModoPractica;
 	void liberarMemoriaEscenarios();
 	void liberarMemoriaEnemigosDelNivel(int nivel);
+	
 };

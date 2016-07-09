@@ -39,6 +39,7 @@ const int seHaConectado = 19;
 //Los siguientes se usan solamente para mandar mensajes del servidor al cliente
 //Se podria separar todo en 2 clases de eventos distintos
 const int comienzaLaPartida = -1;
+const int seReiniciaLaPartida = -2;
 
 class Evento
 {

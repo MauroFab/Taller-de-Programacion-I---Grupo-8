@@ -3,7 +3,7 @@
 ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios){
 	this->cantidadMaximaDeUsuarios = usuarios->getCantidadMaximaDeUsuarios();
 	 crearAviones(servidorXml, usuarios);
-	
+	 this->deboInformarReinicio = false;
 	setPosicionInicialListAvion();
 	this->servidorXml = servidorXml;
 	this->mapa = new Mapa(this->servidorXml);
@@ -242,6 +242,7 @@ void ModeloDelJuego::reiniciarElJuego(){
 
 void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento){
 	this->listAvion[idDelJugadorQueMandoElEvento]->realizarAccionEnBaseA(evento);
+	deboInformarReinicio = false;
 	if(evento->getNumeroDeEvento() == apretadaLaTeclaDeCambioDeModo){
 		if(!estoyEnModoPractica){
 			hacerInvulnerablesALosJugadores();
@@ -254,6 +255,8 @@ void ModeloDelJuego::actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQu
 		this->mapa->finalizarJuegoPorEvento();
 	} else if (evento->getNumeroDeEvento() == apretadaLaTeclaDeReinicio) {
 		reiniciarElJuego();
+		//Se usa para la creacion del estadoDelJuego
+		deboInformarReinicio = true;
 	}
 }
 
@@ -283,7 +286,6 @@ bool ModeloDelJuego::hayDestruccionDeTodosLosAviones() {
 }
 
 void ModeloDelJuego::actualizarMovimientos(){
-
 	// Mientras se este en una determinada etapa
 	if (!this->mapa->seTerminoEtapa()) {
 
@@ -387,9 +389,14 @@ EstadoJuego* ModeloDelJuego::obtenerEstadoDelJuego(){
 	}
 
 	EstadoMapa* estadoMapa = this->mapa->createEstado();
-
-	EstadoJuego* estadoJuego = new EstadoJuego(estadoDeAviones, estadoJugadores, estadoPowerUps,
-		estadoMapa);
+	EstadoJuego* estadoJuego;
+	if(!deboInformarReinicio){
+		estadoJuego = new EstadoJuego(estadoDeAviones, estadoJugadores, estadoPowerUps,
+													estadoMapa);
+	}else{
+		estadoJuego = new EstadoJuego(estadoDeAviones, estadoJugadores, estadoPowerUps,
+													estadoMapa, Evento(seReiniciaLaPartida));
+	}
 
 	return estadoJuego;
 }

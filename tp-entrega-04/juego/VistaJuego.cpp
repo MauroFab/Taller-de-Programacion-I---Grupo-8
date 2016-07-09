@@ -390,11 +390,6 @@ void VistaJuego::ejecutar(ServidorXml * confServidorXml, int posicionInicialMapa
 			}
 			//Notifica al servidor de lo presionado
 			controlador->procesarTeclasPresionadas( e );
-			if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
-				if (e.key.keysym.sym == SDLK_r) {
-					Graficador::getInstance()->reiniciar();
-				}
-			}
 		}
 
 		//Clear screen
