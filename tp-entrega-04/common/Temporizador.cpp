@@ -8,7 +8,7 @@ Temporizador::Temporizador() {
 Temporizador::Temporizador(int segundos) {
 	this->tiempoEstablecido = segundos;
 	this->contadorTiempo = 0;
-	this->baseDeTiempo = 0.007;
+	this->baseDeTiempo = 0.01;
 	this->cantidadIteraciones = segundos/this->baseDeTiempo;
 }
 

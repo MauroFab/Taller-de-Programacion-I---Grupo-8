@@ -2,13 +2,13 @@
 
 ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios){
 	this->cantidadMaximaDeUsuarios = usuarios->getCantidadMaximaDeUsuarios();
-	 crearAviones(servidorXml, usuarios);
-	 this->deboInformarReinicio = false;
+	crearAviones(servidorXml, usuarios);
+	this->deboInformarReinicio = false;
 	setPosicionInicialListAvion();
 	this->servidorXml = servidorXml;
 	this->mapa = new Mapa(this->servidorXml);
 	// Crea un temporizador con 7 segundos
-	this->temporizadorEtapa = new Temporizador(7);
+	this->temporizadorEtapa = new Temporizador(5);
 	int posicionPantallaSalida = 500;
 	formacionesDeLosNiveles.resize(cantidadMaximaDeNiveles);
 	enemigosDeLosNiveles.resize(cantidadMaximaDeNiveles);
@@ -337,8 +337,7 @@ void ModeloDelJuego::actualizarMovimientos(){
 				(*itF).entregarPuntosAlJugadorQueDestruyoLaFormacion(listAvion);
 			}
 		}
-	}
-	else {
+	} else {
 		if (this->mapa->seTerminoEtapa() && !this->mapa->seTerminoJuego()) {
 			// Ahora empieza a mostrarse la informacion durante al menos 10 segundos
 			if (this->temporizadorEtapa->pasoElTiempoEstablecido()){
@@ -355,7 +354,15 @@ void ModeloDelJuego::actualizarMovimientos(){
 			if (this->mapa->seTerminoEtapa() && this->mapa->seTerminoJuego() && !this->temporizadorEtapa->pasoElTiempoEstablecido()) {
 				this->temporizadorEtapa->avanzarTiempo();
 			} else {
-				this->mapa->setJuegoFinalizado();
+				if(!reinicioAlFinalDelJuego){
+					this->mapa->setJuegoFinalizado();
+				}else{
+					reiniciarElJuego();
+					this->temporizadorEtapa->resetear();
+					//Se usa para la creacion del estadoDelJuego
+					deboInformarReinicio = true;
+
+				}
 			}
 		}
 	}

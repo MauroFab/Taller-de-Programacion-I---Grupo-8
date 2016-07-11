@@ -33,6 +33,9 @@ private:
 	
 	//Modificar si se quieren mas niveles
 	static const int cantidadMaximaDeNiveles = 500;
+	//En true el juego se reinicia y nunca termina
+	//En false el juego termina
+	static const bool reinicioAlFinalDelJuego = true;
 	void reiniciarElJuego();
 	bool deboInformarReinicio;
 	void preparoEliNivel(int i, ServidorXml* servidorXml);

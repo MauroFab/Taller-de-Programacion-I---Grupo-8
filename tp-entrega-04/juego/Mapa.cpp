@@ -26,6 +26,7 @@ EstadoMapa* Mapa::getEstado() {
 }
 
 EstadoMapa* Mapa::createEstado() {
+	
 	EstadoMapa* nuevoEstado = new EstadoMapa();
 	*nuevoEstado = *(this->estado);
 	return nuevoEstado;
@@ -78,4 +79,6 @@ void Mapa::reiniciar() {
 	this->idEtapaActual = 0;
 	this->finalizacionAbrupta = false;
 	this->noHayMasAviones = false;
+	this->estado->empezoEtapa();
+	this->estado->actualizar(this->cantidadDePixelesQuePasaron);
 }
