@@ -14,6 +14,10 @@ private:
 public:
 	Posicion();
     Posicion(int x, int y);
+	Posicion(const Posicion& p):x(p.x),y(p.y),
+	sizeBytes(p.sizeBytes){};
+	void Posicion::operator=(const Posicion &p){this->x=p.x; this->y=p.y;
+	this->sizeBytes=p.sizeBytes;};
     virtual ~Posicion();
     int getPosX();
     int getPosY();
