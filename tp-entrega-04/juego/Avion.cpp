@@ -56,7 +56,7 @@ SuperficieOcupada Avion::actualizarPosicionEnX(){
 
 SuperficieOcupada Avion::actualizarPosicionEnY(){
 	SuperficieOcupada hitbox;
-	superficieQueOcupo.desplazarEnYObteniendoHitbox(velocidadY);
+	hitbox = superficieQueOcupo.desplazarEnYObteniendoHitbox(velocidadY);
 	int miPosicionEnY;
 	miPosicionEnY = superficieQueOcupo.obtenerPosicion().getPosY();
 
