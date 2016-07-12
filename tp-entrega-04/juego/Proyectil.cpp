@@ -27,12 +27,11 @@ void Proyectil::setCoordenasDeComienzo(int posX, int posY) {
 }
 
 bool Proyectil::estaEnPantalla() {
-	return (superficie.obtenerPosicion().getPosY() >= - FAKE_2_SCREEN_HEIGHT);
+	return (superficie.obtenerPosicion().getPosY() <= FAKE_2_SCREEN_HEIGHT);
 }
 
 void Proyectil::mover() {
 	superficie.desplazarEnYObteniendoHitbox(velocidadY);
-
 }
 
 void Proyectil::mover(std::list<AvionEnemigo*> &avionesEnemigos, ModeloJugador* jugadorQueDisparo,
