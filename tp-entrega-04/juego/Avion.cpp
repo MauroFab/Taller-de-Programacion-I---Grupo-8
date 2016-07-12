@@ -89,7 +89,7 @@ void Avion::continuarMovimientoDelAvion(){
 }
 
 void Avion::resuelvoColisionConEnemigo(AvionEnemigo* enemigo, list<PowerUp> &powerUps){
-	if(!soyInvulnerable)
+	if(!soyInvulnerable && puntosDeVida > 0)
 		this->puntosDeVida--;
 	enemigo->recibeUnImpacto(this->jugadorAsociado->getId());
 
@@ -106,7 +106,7 @@ void Avion::revisoColisionesConProyectilesDe(AvionEnemigo* avionEnemigo, Superfi
 	for(it = proyectiles.begin(); it != proyectiles.end(); it++){
 		//Si colisiono contra el proyectil y este no estra destruido
 		if((!(*it)->estaDestruido()) && hitbox.meSolapoCon((*it)->getSuperficieOcupada())){
-			if(!this->soyInvulnerable)
+			if(!this->soyInvulnerable && puntosDeVida > 0)
 				this->puntosDeVida--;
 			(*it)->destruir();
 		}
