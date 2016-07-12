@@ -345,7 +345,7 @@ void ModeloDelJuego::actualizarMovimientos(){
 				this->temporizadorEtapa->resetear();
 				this->powerUps = this->powerUpsDeLosNiveles.at(mapa->idEtapaActual);
 				this->avionesEnemigos = this->enemigosDeLosNiveles.at(mapa->idEtapaActual);
-				this->powerUps = this->powerUpsDeLosNiveles.at(mapa->idEtapaActual);
+				this->formaciones = this->formacionesDeLosNiveles.at(mapa->idEtapaActual);
 			} else {
 				this->temporizadorEtapa->avanzarTiempo();
 			}
