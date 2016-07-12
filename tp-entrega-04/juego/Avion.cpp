@@ -389,4 +389,5 @@ void Avion::reiniciar() {
 	this->puntosDeVida = 3;
 	this->jugadorAsociado->reiniciar();
 	this->superficieQueOcupo.moverAPosicion(Posicion(240, 50));
+	this->tengoElArmaMejorada = false;
 }
