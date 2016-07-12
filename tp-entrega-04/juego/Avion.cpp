@@ -390,4 +390,9 @@ void Avion::reiniciar() {
 	this->jugadorAsociado->reiniciar();
 	this->superficieQueOcupo.moverAPosicion(Posicion(240, 50));
 	this->tengoElArmaMejorada = false;
+	while(!proyectiles.empty()){
+		Proyectil* proyectil = proyectiles.front();
+		proyectiles.pop_front();
+		delete proyectil;
+	}
 }
