@@ -1,6 +1,6 @@
 75.42 - Taller de programación
 1er Cuatrimestre de 2016
-Trabajo Practico Nro. 1
+Trabajo Practico Nro. 3
 
 Alumnos:
 
@@ -42,4 +42,4 @@ de la forma
 C:\Program Files\Microsoft Visual Studio 10.0\VC
 
 Luego descomprimir el archivo que contiene el proyecto de Visual studio
-tp-entrega-01.rar
+tp-entrega-04.rar
