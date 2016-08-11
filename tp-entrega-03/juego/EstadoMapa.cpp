@@ -57,12 +57,14 @@ int EstadoMapa::getSizeBytes() {
 	+ sizeof(int)/*idEtapa*/
 	+ sizeof(bool)/*mostrarInformacion*/;
 }
+
 void EstadoMapa::calculateSizeBytes(){
 	this->sizeBytes = sizeof(int)/*cantidadDePixelesQuePasaron*/
 	+ sizeof(int)/*codigoDeReinicio*/
 	+ sizeof(int)/*idEtapa*/
 	+ sizeof(bool)/*mostrarInformacion*/;	
 }
+
 void EstadoMapa::toString(TCadena1000 cadena){
 	sprintf(cadena,"\nEstadoMapa: sizeBytes=%d,cantidadDePixelesQuePasaron=%d,codigoReinicio=%d,idEtapa=%d",
 	sizeBytes,cantidadDePixelesQuePasaron,codigoReinicio,idEtapa);

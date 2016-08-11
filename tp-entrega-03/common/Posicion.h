@@ -3,8 +3,10 @@
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
-using namespace std;
 #include "IGenericaVO.h"
+
+using namespace std;
+
 class Posicion  : public IGenericaVO{
 
 private:

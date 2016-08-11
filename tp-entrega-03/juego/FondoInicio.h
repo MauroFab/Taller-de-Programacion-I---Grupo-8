@@ -15,4 +15,3 @@ public:
 	void render();
 };
 #endif //_FONDOINICIO_H_
-

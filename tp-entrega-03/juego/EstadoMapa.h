@@ -33,4 +33,3 @@ public:
 	void calculateSizeBytes();
 	void toString(TCadena1000 cadena);
 };
-

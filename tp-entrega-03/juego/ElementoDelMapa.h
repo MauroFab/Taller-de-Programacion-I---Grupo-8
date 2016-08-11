@@ -2,8 +2,9 @@
 #ifndef _ELEMENTODELMAPA_H_
 #define _ELEMENTODELMAPA_H_
 #include "Textura.h"
-class ElementoDelMapa
-{
+
+class ElementoDelMapa {
+
 public:
 	ElementoDelMapa(int xInicial, int yInicial, SDL_Renderer* gRenderer, Textura* textura);
 	~ElementoDelMapa(void);

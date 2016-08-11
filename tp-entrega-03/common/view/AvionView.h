@@ -7,16 +7,11 @@
 #include "../model/AvionModel.h"
 #include "../xml/SpriteXml.h"
 
-class AvionView
-{
-//private:	
+class AvionView {
+
 public:
 	AvionModel avionModel;
-	SpriteXml * spriteXml;
-//(agregacion)referencia a la textura
-//	SDL_Texture * textura;
-//(composicion) posicion actual de este elemento
-//	SDL_Rect posicion;		
+	SpriteXml * spriteXml;	
 public:
 	AvionView();
 	AvionView(const AvionView& b):avionModel(b.avionModel),spriteXml(b.spriteXml){};

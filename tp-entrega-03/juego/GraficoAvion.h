@@ -6,10 +6,11 @@
 #include "../common/view/AvionView.h"
 
 //**************************
-//Esto NOO debe estar
 #define FAKE_PATH_AVION_NOT_ENC "avionNoEncontrado.bmp"
 //**************************
+
 class GraficoAvion {
+
 private:
 	SDL_Rect *fotogramas;
 	Textura* textura;

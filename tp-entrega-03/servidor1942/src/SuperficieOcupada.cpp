@@ -1,7 +1,8 @@
 #include "SuperficieOcupada.h"
-SuperficieOcupada::SuperficieOcupada(){
 
+SuperficieOcupada::SuperficieOcupada(){
 }
+
 SuperficieOcupada::SuperficieOcupada(int x, int y, int ancho, int alto){
 	this->x = x;
 	this->y = y;

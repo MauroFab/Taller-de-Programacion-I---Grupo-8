@@ -16,7 +16,6 @@ AvionEnemigo::AvionEnemigo(int xInicial, int yInicial, int ancho, int alto, int 
 		velocidadX = - velocidadX;
 }
 
-
 bool AvionEnemigo::elijoAlAzarSiDisparo(){
 	double probabilidadDeDisparo = 0.01;
 	int esperanzaPrimerDisparo = static_cast<int> (1/probabilidadDeDisparo);

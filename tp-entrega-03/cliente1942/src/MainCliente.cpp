@@ -17,7 +17,6 @@ MainCliente* MainCliente::getInstance(){
 
 MainCliente::MainCliente(){
 	this->conectado = false;
-	// aca deberia de obtener el ip, port y cargar los mensajes en el map
 	this->ip = "";
 	this->port = -1;
 	this->parserx = new ParserXml();
@@ -158,9 +157,6 @@ int MainCliente::recibirMensajes(void* ptrSock){
 			}
 		}
 		else{
-			//cuando salgo del cliente manualmente entraba aca y explotaba
-			//Por eso lo comente
-			//grabarEnElLogLaDesconexion(len);
 			serverDesconectado = true;
 		}
 	}
@@ -216,7 +212,6 @@ int MainCliente::conectarYEjecutar(){
 				int offset = Protocolo::decodificar(bufferEntrada,&mensaXmlRespuestaUsuario);
 				char * respuesta = mensaXmlRespuestaUsuario.getValor();
 				if (strcmp(respuesta,MSJ_CONEX_ACEPT) == 0){
-					//VistaInicio::getInstance()->close();
 					char* idUsuario;
 					Posicion posicion;
 					Posicion posicionMapa;
@@ -350,7 +345,6 @@ int MainCliente::desconectar(){
 
 int MainCliente::salir(){
 	mapMensajes.clear(); // chequear si se liberan los string
-	// liberar la memoria de los mensajes
 	desconectar();
 	return 0;
 }

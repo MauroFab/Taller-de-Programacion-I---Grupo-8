@@ -1,17 +1,8 @@
 #ifndef _POWERUP_H_
 #define _POWERUP_H_
-/*
-Estos define pasaron al estadoPowerUp, asi el cliente los tiene ahi.
-
-#define TIPO_MUERTE		10
-#define TIPO_AMETRALLADORA 11
-#define TIPO_PUNTOS		12
-
-*/
 #define PUNTOS_A		500
 #define PUNTOS_B		1000
 #define PUNTOS_C		1500
-
 
 #include "../../servidor1942/src/SuperficieOcupada.h"
 #include "../../juego/EstadoPowerUp.h"
@@ -21,8 +12,8 @@ Estos define pasaron al estadoPowerUp, asi el cliente los tiene ahi.
    Algunas de las dos cosas me estaban trayendo problemas, y no me funcionaba.
 */
 
-class PowerUp
-{
+class PowerUp {
+
 public:
 	int tipo;
 	int puntos;
@@ -48,7 +39,6 @@ private:
 	//void killEnemigos(Escenario * escenario);
 	//void aumentarBala(AvionJugador * avionJugador);
 	bool usado;
-
 };
 
 #endif //_POWERUP_H_

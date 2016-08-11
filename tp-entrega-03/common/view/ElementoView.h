@@ -7,9 +7,8 @@
 #include "../model/ElementoModel.h"
 #include "../xml/SpriteXml.h"
 
-class ElementoView
-{
-//private:
+class ElementoView {
+
 public:
 	ElementoModel * elementoModel;//(COMPOSICION)
 	SpriteXml * spriteXml;//(AGREGACION)

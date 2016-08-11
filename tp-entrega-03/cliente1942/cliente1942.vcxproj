@@ -227,8 +227,6 @@
     <ClInclude Include="..\common\xml\ServidorXml.h" />
     <ClInclude Include="..\common\xml\tinyxml2.h" />
     <ClInclude Include="src\MainCliente.h" />
-    <ClInclude Include="VistaInformacionCincoJugadores.h" />
-    <ClInclude Include="VistaInformacionSeisJugadores.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

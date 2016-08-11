@@ -6,9 +6,9 @@
 #include <SDL2\SDL_image.h>
 #include "../model/BalaModel.h"
 #include "../xml/SpriteXml.h"
-class BalaView
-{
-//private:
+
+class BalaView {
+
 public:
 	BalaModel balaModel;
 	SpriteXml * spriteXml;

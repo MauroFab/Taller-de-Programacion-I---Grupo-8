@@ -19,11 +19,12 @@ EstadoProyectil::EstadoProyectil(int frame, int posX, int posY, bool estaMejorad
 
 EstadoProyectil::~EstadoProyectil(void) {
 }
+
 void EstadoProyectil::setId(int id){
 	
 }
 int EstadoProyectil::getId(){
-	return -1;//this->id;
+	return -1;
 }
 
 int EstadoProyectil::getSizeBytes(){
@@ -40,6 +41,7 @@ void EstadoProyectil::calculateSizeBytes(){
 void EstadoProyectil::setFrame(int frame) {
 	this->frame = frame;
 }
+
 int EstadoProyectil::getFrame() {
 	return this->frame;
 }

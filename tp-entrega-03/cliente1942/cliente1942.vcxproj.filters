@@ -461,12 +461,6 @@
     <ClInclude Include="..\juego\VistaExplosion.h">
       <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
     </ClInclude>
-    <ClInclude Include="VistaInformacionCincoJugadores.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="VistaInformacionSeisJugadores.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="..\juego\VistaInformacionCincoJugadores.h">
       <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>

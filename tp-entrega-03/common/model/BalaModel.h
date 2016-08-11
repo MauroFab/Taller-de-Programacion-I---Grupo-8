@@ -2,10 +2,10 @@
 #define _BALAMODEL_H_
 /* @autor cbenez
  */
- #include "../xml/AvionXml.h"
-class BalaModel
-{
-//private:
+#include "../xml/AvionXml.h"
+
+class BalaModel {
+
 public:
 	int id;
 	int velBala;

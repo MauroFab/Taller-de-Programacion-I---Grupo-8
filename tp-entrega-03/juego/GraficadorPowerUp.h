@@ -23,8 +23,5 @@ private:
 	//Los cargo de forma fija, otra vez las rutas quedan hardcodeadas.
 	std::map<int,Textura*> mapaTexturasPowerUps;
 	SDL_Renderer* renderer;
-
-	
-
 };
 

@@ -57,4 +57,3 @@ private:
 	FondoInicio* fondos[CANTIDAD_FONDOS];
 	string datos[CANTIDAD_FONDOS];
 };
-

@@ -28,4 +28,3 @@ private:
 	int posX;
 	int posY;
 };
-

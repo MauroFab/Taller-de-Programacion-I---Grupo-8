@@ -190,7 +190,6 @@
     <ClInclude Include="..\juego\EstadoMapa.h" />
     <ClInclude Include="..\juego\Mapa.h" />
     <ClInclude Include="..\juego\Proyectil.h" />
-    <ClInclude Include="AvionParaFormacion.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />
     <ClInclude Include="src\ConfiguracionInicialJuego.h" />
     <ClInclude Include="src\AvionBig.h" />

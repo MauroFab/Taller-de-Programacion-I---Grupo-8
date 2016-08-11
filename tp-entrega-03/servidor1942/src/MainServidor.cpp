@@ -1,14 +1,17 @@
 #include "MainServidor.h"
+
 MainServidor* MainServidor::single = NULL;
 /*-------- Estructuras e inicialización --------*/
 struct IdYPunteroAlSocket {
 	int id;
 	SOCKET* punteroAlSocket;
 };
+
 struct StructDelEnviadorDeMensajes {
 	IdYPunteroAlSocket idYPunteroAlSocket;
 	bool* seCerroLaConexion;
 };
+
 MainServidor::MainServidor(){
 	this->usuarios = NULL;
 	this->seDebeCerrarElServidor = true;
@@ -16,6 +19,7 @@ MainServidor::MainServidor(){
 	this->servidorXml = NULL;
 	this->yaEmpezoElJuego = false;
 }
+
 MainServidor::~MainServidor(){
 	// luego de usarlo se debe borrar
 	if (servidorXml != NULL){
@@ -553,6 +557,7 @@ int MainServidor::mainPrincipal(){
 	mutLogger= SDL_CreateMutex();
 	mutColaDeUsuario = new SDL_mutex*[usuarios->getCantidadMaximaDeUsuarios()];
 	posicionDelMapa = 0;
+
 	for(int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++){
 		mutColaDeUsuario[i] = SDL_CreateMutex();
 	}
@@ -586,15 +591,18 @@ int MainServidor::mainPrincipal(){
 		//Y el avion se teletransporta de una punta a la otra
 		SDL_Delay(tiempoEntreAvancesDelJuego);
 	}
+
 	Log::getInstance()->info("Se solicito la detención del Server.");
 	SDL_WaitThread(receptor, NULL);
 	SDL_WaitThread(consola, NULL);
 	Log::getInstance()->debug("Servidor - Main Principal: esperando que los threads finalicen.");
+
 	for(int i = 0; i < usuarios->getCantidadMaximaDeUsuarios(); i++){
 		SDL_DestroyMutex(mutColaDeUsuario[i]);
 	}
+
 	delete mutColaDeUsuario;
-	//SDL_DestroyMutex(mutColaDeUsuario[i]);
+	
 	SDL_DestroyMutex(mutColaPrincipal);
 	SDL_DestroyMutex(mutLogger);
 	Log::getInstance()->debug("Servidor - Main Principal: se liberaron los recursos.");

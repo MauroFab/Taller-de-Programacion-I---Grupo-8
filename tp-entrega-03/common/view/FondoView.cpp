@@ -24,7 +24,6 @@ FondoView::FondoView(FondoModel * fondoModel,SpriteXml * spriteXml)
 	this->altoFondo = 0;
 }
 
-
 FondoView::~FondoView()
 {
 }

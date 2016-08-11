@@ -16,11 +16,9 @@ VistaExplosion::VistaExplosion(SDL_Renderer* renderer){
 	this->renderer = renderer;
 }
 
-
 VistaExplosion::~VistaExplosion(void){
 
 }
-
 
 void VistaExplosion::graficarExplosion(EstadoAvion* estadoAvion){
 	SDL_Rect fotograma;

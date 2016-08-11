@@ -5,7 +5,9 @@
 #include <stdio.h>
 #include <string.h>
 #include "../common/IGenericaVO.h"
-class EstadoProyectil : public IGenericaVO{
+
+class EstadoProyectil : public IGenericaVO {
+
 private:
 	int sizeBytes;
 	int frame;

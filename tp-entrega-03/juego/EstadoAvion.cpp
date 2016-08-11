@@ -80,23 +80,11 @@ void EstadoAvion::setPuntosDeVida(int puntosDeVida){
 int EstadoAvion::getPuntosDeVida(){
 	return puntosDeVida;
 }
+
 void EstadoAvion::agregarEstadoProyectil(EstadoProyectil* estadoProyectil){
 	this->estadosProyectiles.push_back(estadoProyectil);
 }
-/*
-void EstadoAvion::setEstadoProyectiles(std::list<EstadoProyectil*> lista) {
 
-	std::list<EstadoProyectil*>::iterator it;
-
-	for (it = this->estadosProyectiles.begin(); it != this->estadosProyectiles.end(); it++) {
-		delete (*it);
-	}
-
-	for (it = lista.begin(); it != lista.end(); it++) {
-		this->estadosProyectiles.push_back(*it);
-	}
-}
-*/
 std::list<EstadoProyectil*> EstadoAvion::getEstadosProyectiles(){
 	return this->estadosProyectiles;
 }

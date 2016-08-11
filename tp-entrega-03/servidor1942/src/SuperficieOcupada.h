@@ -3,13 +3,12 @@
 #include <cmath>
 #include "../../common/Posicion.h"
 
-class SuperficieOcupada
-{
+class SuperficieOcupada {
+
 public:
 	//Por ahora toda superficie ocupada es un rectangulo
 	//Sin embargo, nada impide a un objeto tener varios rectangulos para representar la superficie que ocupa. 
 	//Se podría pulir con un patrón composite para armar directamente una superficie que incluya varios rectangulos.
-
 
 	SuperficieOcupada();
 	//Siguiendo con el sistema coordenado usado por el modelo y los graficadores
@@ -41,9 +40,9 @@ public:
 	bool meSolapoCon(SuperficieOcupada otraSuperficieOcupada);
 
 public:
-	
 	int x;
 	int y;
+
 private:
 	int ancho;
 	int alto;

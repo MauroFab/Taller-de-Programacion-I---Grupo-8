@@ -14,8 +14,8 @@ struct Usuario {
 	Posicion* posicion;
 };
 
-class AsignadorDeUsuarios
-{
+class AsignadorDeUsuarios {
+
 public:
 	AsignadorDeUsuarios(int usuariosMaximos);
     ~AsignadorDeUsuarios();

@@ -7,9 +7,8 @@
 #include "../model/FondoModel.h"
 #include "../xml/SpriteXml.h"
 
-class FondoView
-{
-//private:	
+class FondoView {
+
 public:
 	FondoModel * fondoModel;
 	SpriteXml * spriteXml;

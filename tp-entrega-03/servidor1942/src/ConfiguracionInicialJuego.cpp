@@ -71,7 +71,7 @@ std::list<int> ConfiguracionInicialJuego::getJugadores() {
 	return this->modoDeJuego->getJugadores();
 }
 
-// Devueve el equipo asociado a un jugador
+// Devuelve el equipo asociado a un jugador
 int ConfiguracionInicialJuego::getEquipoDeJugador(int idUsuario) {
 	return this->modoDeJuego->getEquipoDeJugador(idUsuario);
 }

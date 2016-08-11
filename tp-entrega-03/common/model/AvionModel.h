@@ -3,9 +3,9 @@
 /* @autor cbenez
  */
 #include "../xml/AvionXml.h"
-class AvionModel
-{
-//private:	
+
+class AvionModel {
+
 public:
 	int id;
 	int velAvion;

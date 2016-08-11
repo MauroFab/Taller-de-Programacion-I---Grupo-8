@@ -4,10 +4,12 @@
 
 #include "EstadoProyectil.h"
 #include <list>
+#include "../common/IGenericaVO.h"
+
 using namespace std;
 
-#include "../common/IGenericaVO.h"
-class EstadoAvion : public IGenericaVO{
+class EstadoAvion : public IGenericaVO {
+
 private:
 
 	int sizeBytes;
@@ -39,7 +41,6 @@ public:
 	int getPuntosDeVida();
 
 	list<EstadoProyectil*> getEstadosProyectiles();
-//	void setEstadoProyectiles(std::list<EstadoProyectil*> lista);
 	void agregarEstadoProyectil(EstadoProyectil* estadoProyectil);
 
 	void toString(TCadena1000 cadena);	

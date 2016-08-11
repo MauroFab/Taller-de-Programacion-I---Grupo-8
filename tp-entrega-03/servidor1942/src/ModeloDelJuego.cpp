@@ -7,7 +7,7 @@ ModeloDelJuego::ModeloDelJuego(ServidorXml* servidorXml, AsignadorDeUsuarios* us
 	setPosicionInicialListAvion();
 	this->servidorXml = servidorXml;
 	this->mapa = new Mapa(this->servidorXml);
-	// Crea un temporizador con 7 segundos
+	// Crea un temporizador con 5 segundos
 	this->temporizadorEtapa = new Temporizador(5);
 	int posicionPantallaSalida = 500;
 	formacionesDeLosNiveles.resize(cantidadMaximaDeNiveles);
@@ -338,7 +338,7 @@ void ModeloDelJuego::actualizarMovimientos(){
 		}
 	} else {
 		if (this->mapa->seTerminoEtapa() && !this->mapa->seTerminoJuego()) {
-			// Ahora empieza a mostrarse la informacion durante al menos 10 segundos
+			// Ahora empieza a mostrarse la informacion durante al menos 5 segundos
 			if (this->temporizadorEtapa->pasoElTiempoEstablecido()){
 				setPosicionInicialListAvion();
 				this->mapa->avanzarEtapa();

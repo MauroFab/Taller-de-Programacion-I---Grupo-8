@@ -5,12 +5,9 @@
 #include "PowerUp.h"
 #include "ProyectilEnemigo.h"
 
-class AvionEnemigo
-{
-public:
-	//Primera version de un avion enemigo, hecha mas para probar colisiones que para armar un avion enemigo.
-	//Por ahora se mueve siempre para abajo desde una posicion inicial.
+class AvionEnemigo {
 
+public:
 	AvionEnemigo(int xInicial, int yInicial, int ancho, int alto, int velocidad);
 
 	//Voy a mirar colisiones solo cuando muevo el avion del jugador (y sus proyectiles), 

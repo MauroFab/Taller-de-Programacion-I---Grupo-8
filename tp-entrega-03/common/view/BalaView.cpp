@@ -10,6 +10,7 @@ BalaView::BalaView()
 	this->posicion.h = 0;
 	this->activa = false;	
 }
+
 BalaView::BalaView(BalaModel& balaModel,SpriteXml *spriteXml){
 	this->balaModel = balaModel; 
 	this->spriteXml = spriteXml; 
@@ -20,11 +21,7 @@ BalaView::BalaView(BalaModel& balaModel,SpriteXml *spriteXml){
 	this->posicion.h = 0;
 	this->activa = false;
 }
+
 BalaView::~BalaView()
 {
-	//solo se libera el model
-	/*if (this->balaModel != NULL){
-		delete this->balaModel;
-	}
-	*/
 }

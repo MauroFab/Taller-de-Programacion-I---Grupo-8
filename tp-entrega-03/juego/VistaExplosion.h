@@ -3,8 +3,9 @@
 #include <map>
 #include "EstadoAvion.h"
 #include "Textura.h"
-class VistaExplosion
-{
+
+class VistaExplosion {
+
 public:
 	VistaExplosion(SDL_Renderer* renderer);
 	~VistaExplosion(void);
@@ -19,4 +20,3 @@ private:
 	Textura* texturaExplosion;
 	SDL_Renderer* renderer;
 };
-

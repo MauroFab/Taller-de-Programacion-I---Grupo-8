@@ -21,7 +21,6 @@
 #define MAX_CADENA	300
 //buffer suficientemente grande para todo el escenario (2Kb de datos)
 #define MAX_BUFFER	5120
-//TODO corregir
 
 #define MSJ_CONEX_ACEPT "Conexion aceptada."
 #define MSJ_SUPERO_MAX	"Conexion rechazada. Cantidad maxima de clientes superada."
@@ -98,7 +97,6 @@ public:
 	static int codificar(EstadoJugador &estadoJugador, char* buffer);
 	static int decodificar(char* buffer, EstadoJugador &estadoJugador);
 
-	//No estan completados
 	static int codificar(EstadoJuego &estadoJuego, char* buffer);
 	//A diferencia de los otros codificar, este crea un nuevo estadoJuego
 	//El puntero que se le manda no debe tener nada

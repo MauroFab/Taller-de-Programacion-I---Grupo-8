@@ -4,9 +4,8 @@
  */
 #include "../xml/ElementoXml.h"
 
-class ElementoModel
-{
-//private:	
+class ElementoModel {
+
 public:
 	TPosicion posicion;
 public:

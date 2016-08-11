@@ -24,4 +24,3 @@ private:
 	Etiqueta* etiqueta;
 	int puntosDeVida;
 };
-

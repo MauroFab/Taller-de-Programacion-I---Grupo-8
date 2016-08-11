@@ -9,11 +9,11 @@
 #include "../servidor1942/src/AvionEnemigo.h"
 #include "../servidor1942/src/ModeloJugador.h"
 //************************
-//esto NOO tiene que estar
-
 #define FAKE_2_SCREEN_HEIGHT 640
 //************************
+
 class Proyectil {
+
 private:
 	int frame;
 	int cantDeFotogramas;

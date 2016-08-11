@@ -12,7 +12,6 @@ AsignadorDeUsuarios::AsignadorDeUsuarios(int usuariosMaximos){
 	}
 }
 
-
 AsignadorDeUsuarios::~AsignadorDeUsuarios(void)
 {
 	for(int i = 0; i<cantidadMaximaDeUsuarios; i++){
@@ -26,6 +25,7 @@ bool AsignadorDeUsuarios::elServidorEstaLleno(void)
 {
 	return (cantidadDeUsuariosActuales >= cantidadMaximaDeUsuarios);
 }
+
 bool AsignadorDeUsuarios::puedoTenerUsuariosNuevos(){
 	int cantidadDeUsuariosQueSeCrearon = 0;
 	for(int i = 0; i< cantidadMaximaDeUsuarios; i++){
@@ -78,6 +78,7 @@ int AsignadorDeUsuarios::reconectar(string nombreUsuario){
 	}
 	return id;
 }
+
 int AsignadorDeUsuarios::obtenerUnaIdLibre(){
 	int i = -1;
 	bool encontreUnaIdLibre = false;
@@ -114,13 +115,13 @@ void AsignadorDeUsuarios::eliminarUsuario(int idUsuario){
 }
 
 void AsignadorDeUsuarios::desconectarUsuario(int idUsuario){
-//	int id;
 	listUsuario[idUsuario].estaConectado = false;
 	cantidadDeUsuariosActuales--;
 	while(!listUsuario[idUsuario].colaDeMensajesDeUsuario->empty()){
 		listUsuario[idUsuario].colaDeMensajesDeUsuario->pop();
 	}
 }
+
 std::queue<EstadoJuego*>* AsignadorDeUsuarios::obtenerColaDeUsuario(int idUsuario){
 	return listUsuario[idUsuario].colaDeMensajesDeUsuario;
 }
