@@ -14,6 +14,7 @@ MainServidor::MainServidor(){
 	this->seDebeCerrarElServidor = true;
 	this->puerto = -1;
 	this->servidorXml = NULL;
+	this->yaEmpezoElJuego = false;
 }
 MainServidor::~MainServidor(){
 	// luego de usarlo se debe borrar
@@ -28,9 +29,8 @@ MainServidor::~MainServidor(){
 void MainServidor::liberar(){
 	Log::liberar();
 	ConfiguracionInicialJuego::liberar();
-	UtilJuego::liberar();
-	delete single;
 }
+
 MainServidor* MainServidor::getInstance(){
 	if(single==NULL){
 		single = new MainServidor();
@@ -152,21 +152,12 @@ int MainServidor::revisarSiHayMensajesParaElClienteYEnviarlos(void* structPointe
 			SDL_UnlockMutex(mutColaDeUsuario[id]);
 			char buffEnvio[MAX_BUFFER];
 			int sizeEnvio = Protocolo::codificar(*stJuego,buffEnvio);
-
-			//Fuera de uso, no hay reinicios por ahora
-			/*
-			if(indicaUnReinicioDelMapa(stAvionXml)) {
-				//para esta operacion de reinicion no debe ejecutarse en forma simultanea
-				SDL_LockMutex(mutColaDeUsuario[id]);
-				recargarServidorXml();
-				SDL_UnlockMutex(mutColaDeUsuario[id]);
-				sizeEnvio += Protocolo::codificar(*(this->servidorXml), buffEnvio + sizeEnvio);
-			}*/
 			delete stJuego;
 			MensajeSeguro::enviar(socket, buffEnvio, sizeEnvio);
 
 		}else{//Si la cola estaba vacía, permito que los demas threads usen la cola
 			SDL_UnlockMutex(mutColaDeUsuario[id]);
+			SDL_Delay(tiempoEntreVolverARevisarSiLaColaEstaVacia);
 		}
 	}
 	return 0;
@@ -201,6 +192,26 @@ void MainServidor::actualizarLaUltimaPosicionDelUsuario(int id, EstadoAvion* est
 	usuarios->setPosicionAUsuario(id, posicion);
 }
 
+void MainServidor::informarDeLaConexionDelJugadorAlJuego(int id){
+	MensajeConIdRecibido* mensajeParaLaColaPrincipal;
+	mensajeParaLaColaPrincipal = new MensajeConIdRecibido;
+	mensajeParaLaColaPrincipal->id = id;
+	mensajeParaLaColaPrincipal->evento = new Evento(seHaConectado);
+	SDL_LockMutex(mutColaPrincipal);
+	colaDeMensaje.push(mensajeParaLaColaPrincipal);
+	SDL_UnlockMutex(mutColaPrincipal);
+}
+
+void MainServidor::informarDeLaDesconexionDelJugadorAlJuego(int id){
+	MensajeConIdRecibido* mensajeParaLaColaPrincipal;
+	mensajeParaLaColaPrincipal = new MensajeConIdRecibido;
+	mensajeParaLaColaPrincipal->id = id;
+	mensajeParaLaColaPrincipal->evento = new Evento(seHaDesconectado);
+	SDL_LockMutex(mutColaPrincipal);
+	colaDeMensaje.push(mensajeParaLaColaPrincipal);
+	SDL_UnlockMutex(mutColaPrincipal);
+}
+
 int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {	
 	char bufferEntrada[MAX_BUFFER];
 	SDL_Thread* threadDeEnvioDeMensajes;
@@ -219,22 +230,26 @@ int MainServidor::atenderCliente(void* idYPunteroAlSocketRecibido) {
 	structParaEnviar->idYPunteroAlSocket = idYPunteroAlSocket;
 	structParaEnviar->seCerroLaConexion = seCerroLaConexion;
 	threadDeEnvioDeMensajes = SDL_CreateThread(MainServidor::fun_revisarSiHayMensajesParaElClienteYEnviarlos, "mensajesParaElCliente", (void*) structParaEnviar);	
+	MensajeConIdRecibido* mensajeParaLaColaPrincipal;
+	informarDeLaConexionDelJugadorAlJuego(id);
 	while (isHayBytes(sizeBytesIn) && !seDebeCerrarElServidor){ //mientras estemos conectados con el otro pc
 		Evento* eventoRecibido;
-		MensajeConIdRecibido* mensajeParaLaColaPrincipal;
 		sizeBytesIn = MensajeSeguro::recibir(socket,bufferEntrada);
 		if (isHayBytes(sizeBytesIn)){
 			//Por temas de lecturas pongo una id de evento 0, luego en el decodificar ira la que corresponde
 			mensajeParaLaColaPrincipal = new MensajeConIdRecibido;
 			eventoRecibido = new Evento(0);
 			Protocolo::decodificar(bufferEntrada,eventoRecibido);
-			SDL_LockMutex(mutColaPrincipal);
 			mensajeParaLaColaPrincipal->id = id;
 			mensajeParaLaColaPrincipal->evento = eventoRecibido;
+			SDL_LockMutex(mutColaPrincipal);
 			colaDeMensaje.push(mensajeParaLaColaPrincipal);
 			SDL_UnlockMutex(mutColaPrincipal);
+		}else{
+			SDL_Delay(tiempoEntreRevisarNuevosEventosUsuario);
 		}
 	}
+	informarDeLaDesconexionDelJugadorAlJuego(id);
 	*seCerroLaConexion = true;
 	// IMPORTANTE: el socket solo se libera cuando se detiene el server, sino no pueden reutilizarse.
 	if(seDebeCerrarElServidor){
@@ -294,22 +309,15 @@ void MainServidor::enviarModeloXmlxConexionAceptadaAl(int idCliente, SOCKET* soc
 	posAEnviar.calculateSizeBytes();
 	offset += Protocolo::codificar(posAEnviar, buffEnvio + offset);
 
-	//NOTA POS ENTREGA 2: el tema de las posiciones del mapa es algo que se vera revisado
-	//Lo relacionado con eso y la reconexion, es algo que cambiara
-	//Estas lineas de codigo no estan totalmente en uso
-
-	//Si no tengo una posicion del mapa que sirva, pido una
 	Posicion posDelMapa;
-	//Si estoy solo yo conectado, no puedo pedirle la posicion del mapa a ningun cliente, asi que
-	//La pongo en 0
-	if(usuarios->cantidadDeUsuarios() == 1 && !seActualizoLaUltimaPosicionDelMapa){
-		posicionDelMapa = 0;
-	}
-	//Espero a tener una posicion del mapa en el juego actual
-	//Si la posicion del mapa ya se uso, ya no sirve para otro cliente, asi que pongo que no esta actualizada
 	//Codifico la posicion y la envio
-	posDelMapa.setPosX(0);
-	posDelMapa.setPosY(posicionDelMapa);
+	if(!this->yaEmpezoElJuego){
+		posDelMapa.setPosY(0);
+	}else{
+		EstadoJuego* estadoJuego = this->modeloJuego->obtenerEstadoDelJuego();
+		posDelMapa.setPosY(estadoJuego->getEstadoDelMapa()->getCantidadDePixeles());
+		delete estadoJuego;
+	}
 	posDelMapa.calculateSizeBytes();
 	offset += Protocolo::codificar(posDelMapa, buffEnvio + offset);
 
@@ -465,6 +473,7 @@ int MainServidor::recibirConexiones(void*){
 				free(socketConexion);
 			}
 		}
+		SDL_Delay(tiempoEntreRevisarNuevasConexiones);
 	}while(!seDebeCerrarElServidor);
 	for_each (vectorHilos.begin(), vectorHilos.end(), waitThreadSDL);
 	for_each (vectorSockets.begin(), vectorSockets.end(), freeSocketsSDL);
@@ -486,7 +495,7 @@ int MainServidor::waitTeclasConsola(void*){
 void MainServidor::esperarAQueTodosLosUsuariosEstenConectadosParaContinuar(){
 	bool seHaIniciadoLaPartida = false;
 	while(!seDebeCerrarElServidor && !seHaIniciadoLaPartida){
-		if(usuarios->elServidorEstaLleno())
+		if(usuarios->elServidorEstaLleno() && ConfiguracionInicialJuego::getInstance()->seHaCompletadoLaConfiguracion())
 			seHaIniciadoLaPartida = true;
 		SDL_Delay(100);
 	}
@@ -561,8 +570,10 @@ int MainServidor::mainPrincipal(){
 	esperarAQueTodosLosUsuariosEstenConectadosParaContinuar();
 
 	modeloJuego = new ModeloDelJuego(servidorXml, usuarios);
-
+	
 	avisarATodosLosUsuariosQueComenzoLaPartida();
+
+	yaEmpezoElJuego = true;
 
 	//Bucle principal
 	while(!seDebeCerrarElServidor) {
@@ -573,7 +584,7 @@ int MainServidor::mainPrincipal(){
 		
 		//Sin el delay el server va mucho mas rapido que lo que grafica el cliente
 		//Y el avion se teletransporta de una punta a la otra
-		SDL_Delay(10);
+		SDL_Delay(tiempoEntreAvancesDelJuego);
 	}
 	Log::getInstance()->info("Se solicito la detención del Server.");
 	SDL_WaitThread(receptor, NULL);

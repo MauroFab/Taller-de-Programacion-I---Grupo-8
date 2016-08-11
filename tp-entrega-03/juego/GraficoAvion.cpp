@@ -1,11 +1,11 @@
 #include "GraficoAvion.h"
 
-GraficoAvion::GraficoAvion(SDL_Renderer* renderer, AvionView * avionView) {	
-	this->id = avionView->avionModel->id;
+GraficoAvion::GraficoAvion(SDL_Renderer* renderer, AvionView& avionView) {	
+	this->id = avionView.avionModel.id;
 	this->textura = new Textura();
-	this->cantidadFotogramas = avionView->spriteXml->getCantidad();
+	this->cantidadFotogramas = avionView.spriteXml->getCantidad();
 	this->fotogramas = new SDL_Rect[this->cantidadFotogramas];
-	char * pathAvion = avionView->spriteXml->getPath();
+	char * pathAvion = avionView.spriteXml->getPath();
 	if( !textura->cargarDeArchivo( pathAvion, renderer ) ) {
 		textura->cargarDeArchivo(FAKE_PATH_AVION_NOT_ENC, renderer);
 		cantidadFotogramas = 1;
@@ -13,10 +13,10 @@ GraficoAvion::GraficoAvion(SDL_Renderer* renderer, AvionView * avionView) {
 		//1 mas para el grisado
 		for(int i=0; i < cantidadFotogramas; i++) {
 			SDL_Rect fotograma;
-			fotograma.x = avionView->spriteXml->getAncho() * i;
+			fotograma.x = avionView.spriteXml->getAncho() * i;
 			fotograma.y = 0;
-			fotograma.w = avionView->spriteXml->getAncho();
-			fotograma.h = avionView->spriteXml->getAlto();
+			fotograma.w = avionView.spriteXml->getAncho();
+			fotograma.h = avionView.spriteXml->getAlto();
 			fotogramas[ i ] = fotograma;
 		}
 	}

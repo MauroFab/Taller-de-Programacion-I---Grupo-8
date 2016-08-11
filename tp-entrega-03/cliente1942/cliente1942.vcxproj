@@ -67,10 +67,14 @@
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,6 +140,8 @@
     <ClCompile Include="..\juego\TextField.cpp" />
     <ClCompile Include="..\juego\TexturaFuente.cpp" />
     <ClCompile Include="..\juego\VistaExplosion.cpp" />
+    <ClCompile Include="..\juego\VistaInformacionCincoJugadores.cpp" />
+    <ClCompile Include="..\juego\VistaInformacionSeisJugadores.cpp" />
     <ClCompile Include="..\juego\VistaJuego.cpp" />
     <ClCompile Include="..\juego\VistaInicio.cpp" />
     <ClCompile Include="..\juego\VistaInformacion.cpp" />
@@ -205,6 +211,8 @@
     <ClInclude Include="..\juego\TextField.h" />
     <ClInclude Include="..\juego\TexturaFuente.h" />
     <ClInclude Include="..\juego\VistaExplosion.h" />
+    <ClInclude Include="..\juego\VistaInformacionCincoJugadores.h" />
+    <ClInclude Include="..\juego\VistaInformacionSeisJugadores.h" />
     <ClInclude Include="..\juego\VistaJuego.h" />
     <ClInclude Include="..\juego\VistaInicio.h" />
     <ClInclude Include="..\juego\VistaInformacion.h" />
@@ -219,6 +227,8 @@
     <ClInclude Include="..\common\xml\ServidorXml.h" />
     <ClInclude Include="..\common\xml\tinyxml2.h" />
     <ClInclude Include="src\MainCliente.h" />
+    <ClInclude Include="VistaInformacionCincoJugadores.h" />
+    <ClInclude Include="VistaInformacionSeisJugadores.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

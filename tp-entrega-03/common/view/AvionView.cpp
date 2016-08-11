@@ -12,7 +12,7 @@ AvionView::AvionView()
 	this->posicion.h = 0;	
 */	
 }
-AvionView::AvionView(AvionModel * avionModel,SpriteXml * spriteXml)
+AvionView::AvionView(AvionModel& avionModel,SpriteXml * spriteXml)
 {
 	this->avionModel = avionModel;
 	this->spriteXml = spriteXml;
@@ -28,7 +28,8 @@ AvionView::AvionView(AvionModel * avionModel,SpriteXml * spriteXml)
 AvionView::~AvionView()
 {
 	//solo se libera el model
-	if (this->avionModel != NULL){
+	/*if (this->avionModel != NULL){
 		delete this->avionModel;
 	}
+	*/
 }

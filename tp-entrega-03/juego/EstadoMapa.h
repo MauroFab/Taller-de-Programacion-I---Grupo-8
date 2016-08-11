@@ -15,6 +15,10 @@ private:
 public:
 	EstadoMapa();
 	virtual ~EstadoMapa(void);
+	EstadoMapa(const EstadoMapa& e):sizeBytes(e.sizeBytes),cantidadDePixelesQuePasaron(e.cantidadDePixelesQuePasaron),
+	codigoReinicio(e.codigoReinicio),idEtapa(e.idEtapa),mostrarInformacion(e.mostrarInformacion){};
+	void EstadoMapa::operator=(const EstadoMapa &e){this->sizeBytes=e.sizeBytes; this->cantidadDePixelesQuePasaron=e.cantidadDePixelesQuePasaron;
+	this->codigoReinicio=e.codigoReinicio;this->idEtapa=e.idEtapa;this->mostrarInformacion=e.mostrarInformacion;};
 	void actualizar(int cantidadPixeles);
 	int getSizeBytes();
 	int getCantidadDePixeles();

@@ -41,3 +41,7 @@ std::list<int> ModoColaboracion::getJugadores() {
 int ModoColaboracion::getEquipoDeJugador(int idUsuario) {
 	return 0;
 }
+
+bool ModoColaboracion::seHaCompletadoLaConfiguracion() {
+	return true;
+}

@@ -33,12 +33,11 @@ bool ModoEquipo::seJuegaPorEquipos() {
 }
 
 bool ModoEquipo::hayDisponibilidad() {
-	if (hayDisponibilidadEquipoUno() && hayDisponibilidadEquipoDos()) {
-		return true;
-	}
-	else {
-		return false;
-	}
+
+	int c = this->equipo1.size() + this->equipo2.size();
+	bool v = c == (this->cantidadClientes-1);
+	bool f = v && (this->equipo1.empty() || this->equipo2.empty());
+	return !f;
 }
 
 void ModoEquipo::asociarUsuarioAEquipo(int idUsuario, char* equipo) {
@@ -51,10 +50,10 @@ void ModoEquipo::asociarUsuarioAEquipo(int idUsuario, char* equipo) {
 }
 
 void ModoEquipo::agregarUsuario(int idUsuario) {
-	if (hayDisponibilidadEquipoUno()) {
+	if (this->equipo1.empty()) {
 		this->equipo1.push_back(idUsuario);
 	}
-	else {
+	else if (this->equipo2.empty()) {
 		this->equipo2.push_back(idUsuario);
 	}
 }
@@ -98,4 +97,8 @@ int ModoEquipo::getEquipoDeJugador(int idUsuario) {
 	for (it = this->equipo2.begin(); it != this->equipo2.end(); it++) {
 		if ((*it) == idUsuario) return 2;
 	}
+}
+
+bool ModoEquipo::seHaCompletadoLaConfiguracion() {
+	return ((this->equipo1.size() + this->equipo2.size()) == this->cantidadClientes);
 }

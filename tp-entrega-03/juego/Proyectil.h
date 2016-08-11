@@ -6,7 +6,7 @@
 #include "EstadoProyectil.h"
 #include "../common/view/BalaView.h"
 #include "../servidor1942/src/SuperficieOcupada.h"
-#include "../servidor1942/src/FakeAvionEnemigo.h"
+#include "../servidor1942/src/AvionEnemigo.h"
 #include "../servidor1942/src/ModeloJugador.h"
 //************************
 //esto NOO tiene que estar
@@ -30,11 +30,11 @@ private:
 public:
 	static const int ANCHO_PROYECTIL_SIN_MEJORA = 7;
 	static const int ALTO_PROYECTIL_SIN_MEJORA = 16;
-	Proyectil(BalaView * balaView, bool mejorado);
+	Proyectil(BalaView& balaView, bool mejorado);
 	virtual ~Proyectil(void);
 	bool estaEnPantalla();
 	void mover();
-	void mover(std::list<FakeAvionEnemigo*> &avionesEnemigos, ModeloJugador* jugadorQueDisparo,
+	void mover(std::list<AvionEnemigo*> &avionesEnemigos, ModeloJugador* jugadorQueDisparo,
 			   std::list<PowerUp> &powerUps);
 	void setCoordenasDeComienzo(int posX, int posY);
 	bool getHuboUnImpacto();

@@ -138,9 +138,6 @@
     <ClCompile Include="..\common\xml\PowerUpXml.cpp">
       <Filter>Archivos de código fuente\Paser</Filter>
     </ClCompile>
-    <ClCompile Include="src\FakeAvionEnemigo.cpp">
-      <Filter>Archivos de código fuente\Juego</Filter>
-    </ClCompile>
     <ClCompile Include="..\juego\EstadoJugador.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
@@ -168,34 +165,10 @@
     <ClCompile Include="src\ModoEquipo.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
-    <ClCompile Include="..\estructura\UtilJuego.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\estructura\AvionEnemigo.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\estructura\ObjetoItem.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FakeAvionBig.cpp">
-      <Filter>Archivos de código fuente\Juego</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FakeAvionMiddle.cpp">
-      <Filter>Archivos de código fuente\Juego</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FakeAvionDeFormacion.cpp">
-      <Filter>Archivos de código fuente\Juego</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FakeFormacionDeEnemigos.cpp">
-      <Filter>Archivos de código fuente\Juego</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\Temporizador.cpp">
       <Filter>Archivos de código fuente\Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\ProyectilEnemigo.cpp">
-      <Filter>Archivos de código fuente\Juego</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FakeAvionMini.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
     <ClCompile Include="src\MovimientoAterrizaje.cpp">
@@ -205,6 +178,24 @@
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
     <ClCompile Include="src\MovimientoComun.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AvionEnemigo.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AvionBig.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AvionMiddle.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AvionMini.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AvionDeFormacion.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FormacionDeEnemigos.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
   </ItemGroup>
@@ -314,9 +305,6 @@
     <ClInclude Include="..\common\xml\PowerUpXml.h">
       <Filter>Archivos de encabezado\Parser</Filter>
     </ClInclude>
-    <ClInclude Include="src\FakeAvionEnemigo.h">
-      <Filter>Archivos de encabezado\Juego</Filter>
-    </ClInclude>
     <ClInclude Include="..\juego\EstadoJugador.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
@@ -344,34 +332,13 @@
     <ClInclude Include="src\ModoEquipo.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
-    <ClInclude Include="..\estructura\UtilJuego.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\estructura\ObjetoItem.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FakeAvionBig.h">
-      <Filter>Archivos de encabezado\Juego</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FakeAvionMiddle.h">
-      <Filter>Archivos de encabezado\Juego</Filter>
-    </ClInclude>
     <ClInclude Include="AvionParaFormacion.h">
       <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FakeAvionDeFormacion.h">
-      <Filter>Archivos de encabezado\Juego</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FakeFormacionDeEnemigos.h">
-      <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Temporizador.h">
       <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
     <ClInclude Include="src\ProyectilEnemigo.h">
-      <Filter>Archivos de encabezado\Juego</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FakeAvionMini.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
     <ClInclude Include="src\MovimientoAterrizaje.h">
@@ -381,6 +348,24 @@
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
     <ClInclude Include="src\MovimientoComun.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AvionEnemigo.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AvionBig.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AvionMiddle.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AvionMini.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AvionDeFormacion.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FormacionDeEnemigos.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
   </ItemGroup>

@@ -24,12 +24,12 @@
 #include "../common/view/EscenarioView.h"
 #include "../common/view/AvionEnemigoView.h"
 #include "../common/Jugador.h"
-#include "../estructura/Juego.h"
-#include "../estructura/MenuEscenario.h"
-#include "../estructura/NivelHandle.h"
+//#include "../estructura/Juego.h"
+//#include "../estructura/MenuEscenario.h"
+//#include "../estructura/NivelHandle.h"
 
 #define PATH_FONDO_INICIO "fondoInicio.bmp"
-#define MAX_AVION_VIEW	4
+#define MAX_AVION_VIEW	10
 #define MAX_ESCENARIO_VIEW 10
 
 using namespace std;
@@ -43,7 +43,7 @@ public:
 	int canEscenariosV;
 	//por ahora solo 1(UNA) bala, pero deberian ser N balas, 1 por avion
 	BalaView * balaView;
-	Juego * juego;
+//	Juego * juego;
 private:
 	ControladorTeclado* controlador;
 	static VistaJuego* instance;
@@ -52,8 +52,7 @@ private:
 	int ventanaAlto;
 	bool jugar; // para avisar que debe de inciar el juego
 
-	//Como no los cargo del xml, los carga a mano con este metodo.
-	void agregarDatosDeAvionesEnemigosHardcodeados();
+	void cargarDatosAvionesEnemigos();
 
 	SDL_Window* gWindow;
 	SDL_Renderer* gRenderer;

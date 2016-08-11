@@ -10,7 +10,7 @@ class BalaView
 {
 //private:
 public:
-	BalaModel * balaModel;
+	BalaModel balaModel;
 	SpriteXml * spriteXml;
 //(agregacion)referencia a la textura
 	SDL_Texture * textura;
@@ -21,7 +21,9 @@ public:
 	
 public:
 	BalaView();
-	BalaView(BalaModel * balaModel,SpriteXml * spriteXml);
+	BalaView(const BalaView& b):balaModel(b.balaModel),spriteXml(b.spriteXml){};
+	void BalaView::operator=(const BalaView &b){this->balaModel=b.balaModel; this->spriteXml=b.spriteXml;};
+	BalaView(BalaModel& balaModel,SpriteXml * spriteXml);
 	virtual ~BalaView();
 };
 

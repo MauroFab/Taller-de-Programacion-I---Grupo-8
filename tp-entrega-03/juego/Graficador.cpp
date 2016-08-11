@@ -15,7 +15,6 @@ Graficador::Graficador() {
 	for (int i = 0;i < MAX_CANTIDAD_ESCENARIOS; i++){
 		this->graficosMapa[i] = NULL;
 	}
-	
 }
 
 Graficador::~Graficador(void) {
@@ -51,8 +50,8 @@ void Graficador::inicializar(SDL_Renderer* renderer, int ventanaAncho, int venta
 void Graficador::agregarDatosAviones(AvionView* *listaAvionView, int canAvionV) {
 	for(int v = 0; v < canAvionV; v++){
 		AvionView * avionV = listaAvionView[v];
-		GraficoAvion* grafico = new GraficoAvion(renderer, avionV);
-		mapaGraficosAvion.insert(std::pair<int, GraficoAvion*>(avionV->avionModel->id, grafico));
+		GraficoAvion* grafico = new GraficoAvion(renderer, *avionV);
+		mapaGraficosAvion.insert(std::pair<int, GraficoAvion*>(avionV->avionModel.id, grafico));
 	}
 }
 
@@ -199,18 +198,24 @@ int Graficador::buscarPuntajeDelJugadorEn(EstadoJuego* estadoJuego, int id){
 
 void Graficador::graficarJuego(EstadoJuego* estadoJuego, int idDelJugador){
 	
+	this->graficadorInformacion->seleccionarVista(estadoJuego->getEstadoDeLosJugadores().front().getEquipo(), estadoJuego->getEstadoDeLosJugadores().size());
+
 	if (estadoJuego->getEstadoDelMapa()->getCodigoReinicio() == JUEGO_FINALIZADO) {
 		graficarFinalJuego();
 	} else {
 		if (estadoJuego->getEstadoDelMapa()->hayQueMostrarInformacion()) {
 			mostrarInformacion(estadoJuego->getEstadoDeLosJugadores());
 		} else {
+			if(estadoJuego->obtenerEvento()->getNumeroDeEvento() == seReiniciaLaPartida){
+				this->reiniciar();
+			}
 			actualizarMapa(estadoJuego->getEstadoDelMapa());
 			graficarMapa();	
 			graficarAviones(estadoJuego->getEstadoDeLosAviones(), idDelJugador);
 			int puntajeDelJugador = buscarPuntajeDelJugadorEn(estadoJuego, idDelJugador);
 			Graficador::getInstance()->graficarPuntaje(puntajeDelJugador);
 			this->graficadorPowerUp->graficarPowerUps(estadoJuego->getEstadoPowerUps());
+			this->graficadorInformacion->reiniciar();
 		}
 	}
 }

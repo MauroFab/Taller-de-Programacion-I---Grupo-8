@@ -25,6 +25,13 @@ EstadoMapa* Mapa::getEstado() {
 	return this->estado;
 }
 
+EstadoMapa* Mapa::createEstado() {
+	
+	EstadoMapa* nuevoEstado = new EstadoMapa();
+	*nuevoEstado = *(this->estado);
+	return nuevoEstado;
+}
+
 bool Mapa::seTerminoEtapa() {
 	if (this->cantidadDePixelesQuePasaron > this->tamanioMaximoMapa) {
 		this->estado->terminoEtapa();
@@ -72,4 +79,6 @@ void Mapa::reiniciar() {
 	this->idEtapaActual = 0;
 	this->finalizacionAbrupta = false;
 	this->noHayMasAviones = false;
+	this->estado->empezoEtapa();
+	this->estado->actualizar(this->cantidadDePixelesQuePasaron);
 }

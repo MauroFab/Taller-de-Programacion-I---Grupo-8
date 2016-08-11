@@ -228,9 +228,6 @@
     <ClCompile Include="..\common\view\AvionEnemigoView.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\model\AvionEnemigoModel.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
     <ClCompile Include="..\juego\GraficadorInformacion.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
     </ClCompile>
@@ -254,6 +251,15 @@
     </ClCompile>
     <ClCompile Include="..\juego\VistaExplosion.cpp">
       <Filter>Archivos de código fuente\VistaJuego\Graficadores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaInformacionCincoJugadores.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\juego\VistaInformacionSeisJugadores.cpp">
+      <Filter>Archivos de código fuente\VistaJuego\Modelo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\model\AvionEnemigoModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -454,6 +460,18 @@
     </ClInclude>
     <ClInclude Include="..\juego\VistaExplosion.h">
       <Filter>Archivos de encabezado\VistaJuego\Graficadores</Filter>
+    </ClInclude>
+    <ClInclude Include="VistaInformacionCincoJugadores.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="VistaInformacionSeisJugadores.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaInformacionCincoJugadores.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\juego\VistaInformacionSeisJugadores.h">
+      <Filter>Archivos de encabezado\VistaJuego\Modelo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

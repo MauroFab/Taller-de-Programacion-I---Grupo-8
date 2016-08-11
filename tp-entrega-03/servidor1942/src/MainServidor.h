@@ -47,6 +47,38 @@ void waitThreadSDL (SDL_Thread* h);
 class MainServidor
 {
 private:
+	/*Parametros del servidor*/
+
+	/*Nota: esta configuracion fue puesta para que ande correctamente en mi pc de escritorio con 4 jugadores. 
+	Los parametros podrían variar un poco de pc a pc.
+	Todos los tiempos estan en ms, y son una cota minima. Subirlos implica una mejora en el rendimiento
+	para el servidor, a costa de lo que este comentado*/
+
+	//Subir este tiempo implica unicamente que se tarde un poco mas en detectar una conexion entrante
+	static const int tiempoEntreRevisarNuevasConexiones = 1000;
+
+	//Subir este tiempo implica que el cliente sentira cierta "demora" entre lo que apreta y lo que le pasa
+	//A su avion. Con 60ms es casi imperceptible
+	static const int tiempoEntreRevisarNuevosEventosUsuario = 60;
+
+	/*Los siguientes dos van a la par, y son los mas sensibles. 
+	
+	Las zonas a las que afectan estan sujetas a cambios para mejorar el funcionamiento.
+	
+	
+	Este es el tiempo entre el cual miro de nuevo si hay estadoJuegos para enviar a los clientes,
+	Subirlo provoca que al cliente no le lleguen suficientes estados para tener una grafica fluida
+	pero le da mas tiempo al thread principal para poner los nuevos estados en la cola de los jugadores.
+	haciendo que vaya mas fluido
+	*/
+	static const int tiempoEntreVolverARevisarSiLaColaEstaVacia = 10;
+
+	/*Este es el tiempo entre el cual avanzo el juego, subirlo hace que los estadoJuego vayan mas lento al cliente,
+	  y retrasa la velocidad a la que va el juego
+	 */
+
+	static const int tiempoEntreAvancesDelJuego = 10;
+
 
 	/*Atributos*/
 
@@ -71,14 +103,10 @@ private:
 
 	int clienteQueSolitaElEstado;
 	int posicionDelMapa;
-	//No se deberia usar para nada cuando todo el modelo pase al servidor,
-	//a menos que dejemos el avance del mapa del lado del cliente
-	bool seActualizoLaUltimaPosicionDelMapa;
-
 
 	int puerto;
 	MainServidor();
-
+	bool yaEmpezoElJuego;
 	ServidorXml * servidorXml; //se almancena todo el modelo parseado
 	bool seDebeCerrarElServidor;
 	std::queue<MensajeConIdRecibido*> colaDeMensaje;
@@ -173,6 +201,8 @@ public:
 	//Por ahora comunica estadoAvionesXml. Deberia comunicar el estado juego
 
 	void comunicarElNuevoEstadoDelJuegoALosClientes();
+	void informarDeLaConexionDelJugadorAlJuego(int id);
+	void informarDeLaDesconexionDelJugadorAlJuego(int id);
 	//Crea los aviones basandose en el servidorXml
 	//Y los pone en aviones, el atributo del mainServidor
 	//En futuros cambios quedaran encapsulados adentro del juego

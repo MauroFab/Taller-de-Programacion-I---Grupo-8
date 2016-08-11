@@ -6,13 +6,13 @@
 #include "../../common/Temporizador.h"
 #include "../../juego/EstadoJuego.h"
 #include "../../juego/Mapa.h"
-#include "../../estructura/AvionEnemigo.h"
+//#include "../../estructura/AvionEnemigo.h"
 #include "AsignadorDeUsuarios.h"
-#include "FakeAvionBig.h"
-#include "FakeAvionDeFormacion.h"
-#include "FakeAvionMiddle.h"
-#include "FakeAvionMini.h"
-#include "FakeFormacionDeEnemigos.h"
+#include "AvionBig.h"
+#include "AvionDeFormacion.h"
+#include "AvionMiddle.h"
+#include "AvionMini.h"
+#include "FormacionDeEnemigos.h"
 #include "ConfiguracionInicialJuego.h"
 #include <vector>
 
@@ -25,22 +25,30 @@ public:
 	~ModeloDelJuego();
 	void actualizarElJuegoEnBaseA(Evento* evento, int idDelJugadorQueMandoElEvento);
 	void actualizarMovimientos();
-	
+
 	//El estado es uno que se aloja dinamicamente, y no afecta al juego
 	// liberar cuando se termina de usar
 	EstadoJuego* obtenerEstadoDelJuego();
 private:
+	
+	//Modificar si se quieren mas niveles
+	static const int cantidadMaximaDeNiveles = 500;
+	//En true el juego se reinicia y nunca termina
+	//En false el juego termina
+	static const bool reinicioAlFinalDelJuego = true;
+	void reiniciarElJuego();
+	bool deboInformarReinicio;
 	void preparoEliNivel(int i, ServidorXml* servidorXml);
 	void preparoElPrimerNivel();
 	void preparoElSegundoNivel();
 	EstadoAvion* getEstadoAvionJugador(int idAvion);
 
-	vector<std::list<FakeFormacionDeEnemigos>> formacionesDeLosNiveles;
-	vector<std::list<FakeAvionEnemigo*>> enemigosDeLosNiveles;
+	vector<std::list<FormacionDeEnemigos>> formacionesDeLosNiveles;
+	vector<std::list<AvionEnemigo*>> enemigosDeLosNiveles;
 	vector<std::list<PowerUp>> powerUpsDeLosNiveles;
 
-	std::list<FakeFormacionDeEnemigos> formaciones;
-	std::list<FakeAvionEnemigo*> avionesEnemigos;
+	std::list<FormacionDeEnemigos> formaciones;
+	std::list<AvionEnemigo*> avionesEnemigos;
 	std::list<PowerUp> powerUps;
 
 	void setPosicionInicialListAvion();
@@ -50,10 +58,12 @@ private:
 	Temporizador* temporizadorEtapa;
 	int cantidadMaximaDeUsuarios;
 	void crearAviones(ServidorXml* servidorXml, AsignadorDeUsuarios* usuarios);
-	AvionEnemigo * avionEnemigoBeta;
 	list<SuperficieOcupada> getSuperficiesOcupadasPorJugadores();
 	void hacerInvulnerablesALosJugadores();
 	void hacerVulnerablesALosJugadores();
 	bool hayDestruccionDeTodosLosAviones();
 	bool estoyEnModoPractica;
+	void liberarMemoriaEscenarios();
+	void liberarMemoriaEnemigosDelNivel(int nivel);
+	
 };

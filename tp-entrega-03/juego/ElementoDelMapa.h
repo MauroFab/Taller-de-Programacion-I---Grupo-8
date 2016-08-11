@@ -10,14 +10,9 @@ public:
 	void graficarseSiEstaEnPantalla(int yMaxPantalla,int  yMinPantalla);
 	void reiniciar();
 private:
-	bool apareceDesdeAfuera(int yMaxPantalla, int yMinPantalla);
 	bool estaEnPantalla(int yMaxPantalla,int  yMinPantalla);
-	bool aparezcoDesdeAfuera;
-	int posicionInicialPantalla;
 	int x;
 	int y;
-	int yInicialParaGraficar;
-	bool meHanGraficadoAlgunaVez;
 	SDL_Renderer* gRenderer;
 	Textura* textura;
 };

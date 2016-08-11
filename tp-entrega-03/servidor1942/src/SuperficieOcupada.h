@@ -15,7 +15,10 @@ public:
 	//Siguiendo con el sistema coordenado usado por el modelo y los graficadores
 	// x, y son la esquina inferior izquierda de la superficie
 	SuperficieOcupada(int x, int y, int ancho, int alto);
-
+	SuperficieOcupada(const SuperficieOcupada& s):x(s.x),y(s.y),
+	ancho(s.ancho),alto(s.alto){};
+	void SuperficieOcupada::operator=(const SuperficieOcupada &s){this->x=s.x; this->y=s.y;
+	this->alto=s.alto; this->ancho=s.ancho;};
 	//La hitbox para chequear colisiones con otras cosas, es una superficie
 	//Que une la superficie inicial y la final
 	//Se suelen hacer rectangulares, por eso permito unicamente mover de a una coordenada a la vez

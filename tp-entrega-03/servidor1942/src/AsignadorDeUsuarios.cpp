@@ -39,7 +39,6 @@ bool AsignadorDeUsuarios::isNombreUsuarioExistente(string nombreDeUsuarioRecibid
 	bool bNombreEnc = false;
 	for(int i = 0; i< cantidadMaximaDeUsuarios; i++){
 		if(listUsuario[i].estaAsignado && !bNombreEnc){
-			printf( "listUsuario[i].nombreDeUsuario %s",listUsuario[i].nombreDeUsuario);
 			bNombreEnc = (listUsuario[i].nombreDeUsuario.compare(nombreDeUsuarioRecibido) == 0);
 		}
 	}

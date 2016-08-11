@@ -19,5 +19,6 @@ public:
 	virtual std::list<int> getJugadoresEquipo(int equipo);
 	virtual std::list<int> getJugadores();
 	virtual int getEquipoDeJugador(int idUsuario) = 0;
+	virtual bool seHaCompletadoLaConfiguracion();
 };
 
