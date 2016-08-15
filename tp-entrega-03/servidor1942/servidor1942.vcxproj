@@ -133,6 +133,7 @@
     <ClCompile Include="..\juego\Mapa.cpp" />
     <ClCompile Include="..\juego\Proyectil.cpp" />
     <ClCompile Include="src\AsignadorDeUsuarios.cpp" />
+    <ClCompile Include="src\AvionSecundario.cpp" />
     <ClCompile Include="src\ConfiguracionInicialJuego.cpp" />
     <ClCompile Include="src\AvionBig.cpp" />
     <ClCompile Include="src\AvionDeFormacion.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="..\juego\Mapa.h" />
     <ClInclude Include="..\juego\Proyectil.h" />
     <ClInclude Include="src\AsignadorDeUsuarios.h" />
+    <ClInclude Include="src\AvionSecundario.h" />
     <ClInclude Include="src\ConfiguracionInicialJuego.h" />
     <ClInclude Include="src\AvionBig.h" />
     <ClInclude Include="src\AvionDeFormacion.h" />

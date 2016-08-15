@@ -35,7 +35,6 @@ SuperficieOcupada AvionEnemigo::obtenerElementoiDeLaLista(int i, std::list<Super
 	return((*it));
 }
 
-
 void AvionEnemigo::ajustarLaNormaDelVector(double &xVector, double &yVector, double norma){
 	double coeficienteParaAjustarElModulo;
 	//Esto sale de plantear que la norma debe ser igual a un numero

@@ -1,16 +1,15 @@
 #ifndef _AVION_H_
 #define _AVION_H_
 
-#include <SDL2\SDL.h>
-#include <SDL2\SDL_image.h>
 #include <stdio.h>
 #include <string>
+#include <list>
+
 #include "Textura.h"
 #include "Proyectil.h"
 #include "EstadoProyectil.h"
 #include "../common/view/AvionView.h"
 #include "../common/Posicion.h"
-#include <list>
 #include "../common/Evento.h"
 #include "../servidor1942/src/SuperficieOcupada.h"
 #include "../servidor1942/src/AvionEnemigo.h"
@@ -19,6 +18,7 @@
 #include "../servidor1942/src/Movimiento.h"
 #include "../servidor1942/src/MovimientoComun.h"
 #include "../servidor1942/src/MovimientoAterrizaje.h"
+#include "../servidor1942/src/AvionSecundario.h"
 
 class PowerUp;
 
@@ -126,12 +126,16 @@ private:
 											    list<AvionEnemigo*> &avionesEnemigos);
 	void revisoColisionesConProyectilesDe(AvionEnemigo* enemigo, SuperficieOcupada& hitbox);
 
+	void agregarAvionesSecundarios();
+
 	//No cree una clase jugador completa, y preferi meterla adentro del avion
 	//Esto es porque de esta forma puedo resolver los puntajes cuando colisiono en el mover
 	//Y porque facilita la comunicacion en el protocolo
 	//Entonces un avion tiene un jugadorAsociado, el cual esta jugando con él
 	ModeloJugador* jugadorAsociado;
 	Movimiento* logicaDeMovimiento;
+	AvionSecundario* avionSecundario1;
+	AvionSecundario* avionSecundario2;
 
 public:
 	BalaView balaView; //[AGREGACION] NO eliminar

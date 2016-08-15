@@ -22,6 +22,9 @@ Avion::Avion(int ventanaAncho, int ventanaAlto, AvionView& avionView, BalaView& 
 	this->logicaDeMovimiento = new MovimientoComun();
 	soyInvulnerable = false;
 	tengoElArmaMejorada = false;
+
+	this->avionSecundario1 = new AvionSecundario(); // Es el avión secundario de la izquierda
+	this->avionSecundario2 = new AvionSecundario(); // Es el avión secundario de la derecha
 }
 
 Avion::~Avion() {
@@ -31,6 +34,8 @@ Avion::~Avion() {
 	}
 	delete jugadorAsociado;
 	delete logicaDeMovimiento;
+	delete avionSecundario1;
+	delete avionSecundario2;
 }
 
 void Avion::setPosicion(Posicion pos) {
@@ -134,21 +139,42 @@ void Avion::destruirEnemigosEnPantalla(list<AvionEnemigo*> &avionesEnemigos){
 	}
 }
 
+void Avion::agregarAvionesSecundarios() {
+
+	if (!this->avionSecundario1->esVisible()) {
+		this->avionSecundario1->hacerVisible();
+		int x = this->superficieQueOcupo.obtenerPosicion().getPosX() - this->avionSecundario1->getAncho();
+		int y = this->superficieQueOcupo.obtenerPosicion().getPosY();
+		this->avionSecundario1->setPosicion(x, y);
+	}
+
+	if (!this->avionSecundario2->esVisible()) {
+		this->avionSecundario2->hacerVisible();
+		int x = this->superficieQueOcupo.obtenerPosicion().getPosX() + this->anchoAvion;
+		int y = this->superficieQueOcupo.obtenerPosicion().getPosY();
+		this->avionSecundario2->setPosicion(x, y);
+	}
+}
+
 void Avion::resolverColisionEntreElAvionYElPowerUp(PowerUp &powerUp, 
 											       list<AvionEnemigo*> &enemigos){
 	//Si nunca fue usado (Los power ups tienen un solo uso)
 	if(!powerUp.fueUsado()){
+
 		powerUp.marcarComoUsado();
-		if(powerUp.esDePuntos()){
+
+		if(powerUp.esDePuntos()) {
 			this->jugadorAsociado->sumarPuntos(powerUp.obtenerPuntosQueOtorga());
 		}
-		if(powerUp.esDeAmetralladora()){
+		if(powerUp.esDeAmetralladora() ){
 			tengoElArmaMejorada = true;
 		}
-		if(powerUp.esDeMuerte()){
+		if(powerUp.esDeMuerte()) {
 			destruirEnemigosEnPantalla(enemigos);
 		}
-		//Aca irian los otros casos de power ups.
+		if(powerUp.esDeAvionesSecundarios()) {
+			agregarAvionesSecundarios();
+		}
 	}
 }
 
@@ -177,6 +203,7 @@ void Avion::continuarMovimientoDelAvion(list<AvionEnemigo*> &avionesEnemigos,
 		revisoColisionesConEnemigos(hitbox,avionesEnemigos, powerUps);
 		//Reviso colisiones con aviones enemigos
 		revisoColisionesConPowerUps(hitbox,powerUps, avionesEnemigos);
+
 		hitbox = actualizarPosicionEnY();
 		revisoColisionesConEnemigos(hitbox,avionesEnemigos, powerUps);
 		revisoColisionesConPowerUps(hitbox,powerUps, avionesEnemigos);
@@ -233,7 +260,7 @@ EstadoAvion* Avion::getEstado() {
 		estado =  new EstadoAvion(id, static_cast<int> (frame), puntosDeVida, 
 											miPosicionEnX, miPosicionEnY);
 	}
-	std::list<EstadoProyectil*> lista;
+	//std::list<EstadoProyectil*> lista;
 	std::list<Proyectil*>::iterator it;
 	for (it = proyectiles.begin(); it != proyectiles.end(); it++) {
 		estado->agregarEstadoProyectil((*it)->createEstado());

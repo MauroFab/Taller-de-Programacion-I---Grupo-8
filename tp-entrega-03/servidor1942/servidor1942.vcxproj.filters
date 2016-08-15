@@ -198,6 +198,9 @@
     <ClCompile Include="src\FormacionDeEnemigos.cpp">
       <Filter>Archivos de código fuente\Juego</Filter>
     </ClCompile>
+    <ClCompile Include="src\AvionSecundario.cpp">
+      <Filter>Archivos de código fuente\Juego</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AsignadorDeUsuarios.h">
@@ -363,6 +366,9 @@
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
     <ClInclude Include="src\FormacionDeEnemigos.h">
+      <Filter>Archivos de encabezado\Juego</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AvionSecundario.h">
       <Filter>Archivos de encabezado\Juego</Filter>
     </ClInclude>
   </ItemGroup>

@@ -25,6 +25,11 @@ bool PowerUp::esDeAmetralladora(){
 bool PowerUp::esDeMuerte(){
 	return (tipo == TIPO_MUERTE);
 }
+
+bool PowerUp::esDeAvionesSecundarios() {
+	return (tipo == TIPO_AVION_SECUNDARIO);
+}
+
 PowerUp::~PowerUp(){
 }
 
